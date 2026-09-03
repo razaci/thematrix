@@ -1537,6 +1537,26 @@ button{min-height:40px;border-radius:8px;border:1px solid #416a4d;background:#0a
 .phoneRing{animation:ringPulse .35s 6 alternate}
 @keyframes ringPulse{from{box-shadow:none}to{box-shadow:inset 0 0 55px rgba(100,255,130,.18)}}
 
+
+/* LINKED PERSISTENT NAV + ACTIVE COCKPIT MENUS */
+body.hideTopMenus #topScreenBank,
+body.hideTopMenus #pilotHud{display:none!important}
+body.hideTopMenus #areaDeck{display:none!important}
+#persistentShipNav button.menuLinked{position:relative}
+#persistentShipNav button.menuLinked:after{
+ content:&quot;HUD&quot;;position:absolute;right:5px;top:3px;font:6px monospace;opacity:.55
+}
+#persistentShipNav button.menuLinked.hudOff:after{content:&quot;HUD OFF&quot;;color:#ff9a77}
+#courseConsole{
+ border:1px solid #6a4826;border-radius:8px;background:rgba(15,6,1,.94);
+ padding:8px;margin-top:7px;font:9px monospace
+}
+#courseConsole h4{margin:0 0 6px;color:#ffd09b}
+.courseTargets{display:grid;grid-template-columns:repeat(2,1fr);gap:5px}
+.courseTargets button{min-height:36px}
+.courseStatus{display:grid;grid-template-columns:1fr auto;gap:4px;padding:3px 0;border-bottom:1px solid rgba(255,157,46,.15)}
+@media(max-width:720px){.courseTargets{grid-template-columns:1fr}}
+
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;div id=&quot;app&quot;&gt;
  &lt;div class=&quot;top&quot;&gt;&lt;div class=&quot;brand&quot;&gt;MATRIX: AFTERIMAGE // SHIP CONSOLE&lt;/div&gt;&lt;div class=&quot;hud&quot;&gt;&lt;span class=&quot;chip&quot; id=&quot;step&quot;&gt;MISSION 1&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;intel&quot;&gt;INTEL 0&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;trace&quot;&gt;TRACE 0%&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
@@ -1593,7 +1613,7 @@ thoughts:[],hex:[],events:[],map:Array.from({length:64},()=&gt;0),clock:0,missio
 relationships:{TANK:50,ROOK:50,IRIS:50,NOX:50},
 director:{hack:0,fight:0,flee:0,distort:0,adapt:0},
 powers:{&#x27;ZERO TRACE&#x27;:1,&#x27;BLINK STEP&#x27;:1,&#x27;MIRROR KEY&#x27;:0,&#x27;GRAVITY BREAK&#x27;:0,&#x27;BULLET CLOCK&#x27;:0,&#x27;FALSE IDENTITY&#x27;:0,&#x27;MEMORY FORK&#x27;:0,&#x27;REALITY ANCHOR&#x27;:1},
-invasion:null,emergency:null,routePath:[],processes:[
+invasion:null,emergency:null,topMenusVisible:true,pendingCourse:null,routePath:[],processes:[
 {name:&#x27;ORACLE-LITE&#x27;,state:&#x27;RUNNING&#x27;,cpu:22},{name:&#x27;ROUTE-MIND&#x27;,state:&#x27;RUNNING&#x27;,cpu:17},
 {name:&#x27;LACUNA&#x27;,state:&#x27;IDLE&#x27;,cpu:5},{name:&#x27;ECHO-SIM&#x27;,state:&#x27;RUNNING&#x27;,cpu:31},
 {name:&#x27;MIRROR-WATCH&#x27;,state:&#x27;RUNNING&#x27;,cpu:19},{name:&#x27;HARDLINE-AI&#x27;,state:&#x27;RUNNING&#x27;,cpu:14}
@@ -1623,7 +1643,7 @@ const D={
  lab:[&#x27;CONSTRUCT LAB&#x27;,&#x27;A safe simulation chamber lets you test rules before using them in the live Matrix.&#x27;]
 };
 const mainActs={
- bridge:[[&#x27;SIGNAL SCAN&#x27;,&#x27;signal&#x27;],[&#x27;COURSE PLOT&#x27;,&#x27;course&#x27;],[&#x27;SENSOR PING&#x27;,&#x27;ping&#x27;],[&#x27;LOCK GHOST TARGET&#x27;,&#x27;ghostlock&#x27;]],
+ bridge:[[&#x27;SIGNAL SCAN&#x27;,&#x27;signal&#x27;],[&#x27;COURSE PLOT&#x27;,&#x27;courseplot&#x27;],[&#x27;SENSOR PING&#x27;,&#x27;ping&#x27;],[&#x27;LOCK GHOST TARGET&#x27;,&#x27;ghostlock&#x27;]],
  operator:[[&#x27;TALK TO TANK&#x27;,&#x27;tank&#x27;],[&#x27;TRACE HARDLINE&#x27;,&#x27;hardline&#x27;],[&#x27;ENTER NEURAL CHALLENGE&#x27;,&#x27;openJackSeq&#x27;],[&#x27;MASK SIGNATURE&#x27;,&#x27;mask&#x27;],[&#x27;NETWORK FABRIC&#x27;,&#x27;netview&#x27;]],
  engineering:[[&#x27;ROUTE POWER&#x27;,&#x27;power&#x27;],[&#x27;COOL REACTOR&#x27;,&#x27;cool&#x27;],[&#x27;REPAIR HULL&#x27;,&#x27;repair&#x27;],[&#x27;OVERCHARGE JACK BUS&#x27;,&#x27;overcharge&#x27;]],
  quarters:[[&#x27;SEARCH BUNK&#x27;,&#x27;photo&#x27;],[&#x27;READ CREW LOG&#x27;,&#x27;log&#x27;],[&#x27;EVIDENCE BOARD&#x27;,&#x27;evidence&#x27;],[&#x27;BUILD MEMORY MAP&#x27;,&#x27;memorymap&#x27;]],
@@ -2268,6 +2288,67 @@ function handleMovieChoice(id){
  if(id===&#x27;callerNode&#x27;){addStoryClue(&#x27;NODE 7 // CONNECTS TO PREVIOUS ITERATIONS&#x27;);s.afterimage++}
  if(id===&#x27;callerDisconnect&#x27;){G.trace=Math.max(0,G.trace-3)}
 }
+
+function toggleTopMenus(force){
+ const off=document.body.classList.contains(&#x27;hideTopMenus&#x27;);
+ const next=(typeof force===&#x27;boolean&#x27;)?!force:!off;
+ document.body.classList.toggle(&#x27;hideTopMenus&#x27;,next);
+ G.net.topMenusVisible=!next;
+ try{renderNav()}catch(e){}
+ setNote(next?&#x27;TOP COCKPIT MENUS OFF&#x27;:&#x27;TOP COCKPIT MENUS ON&#x27;);
+}
+function linkedShipNav(view){
+ const same=G.view===view;
+ if(same){toggleTopMenus();return}
+ G.view=view;
+ document.body.classList.remove(&#x27;hideTopMenus&#x27;);
+ G.net.topMenusVisible=true;
+ try{render();}catch(e){
+   try{renderCinematicArt();renderPilotHud();renderTopScreens();renderActions();renderFeature();renderNav();renderReadout();renderEncounter()}catch(_){}
+ }
+ setNote(String(view).toUpperCase()+&#x27; // COCKPIT LINK ACTIVE&#x27;);
+}
+function courseConsoleMarkup(){
+ const contacts=(G.net.contacts||[]).slice(0,4);
+ const defaults=[
+  {name:&#x27;FRACTURE CITY&#x27;,range:42,type:&#x27;MATRIX&#x27;},
+  {name:&#x27;NODE SEVEN&#x27;,range:66,type:&#x27;HARDLINE&#x27;},
+  {name:&#x27;IMPOSSIBLE ARCHIVE&#x27;,range:81,type:&#x27;ARCHIVE&#x27;},
+  {name:&#x27;GHOST CARRIER&#x27;,range:57,type:&#x27;CONTACT&#x27;}
+ ];
+ const targets=contacts.length?contacts.map(c=&gt;({name:c.name,range:c.range||55,type:c.hot?&#x27;HOSTILE&#x27;:&#x27;CONTACT&#x27;})):defaults;
+ return &#x27;&lt;div id=&quot;courseConsole&quot;&gt;&lt;h4&gt;NAVIGATION // COURSE PLOTTING&lt;/h4&gt;&#x27;+
+  &#x27;&lt;div class=&quot;courseStatus&quot;&gt;&lt;span&gt;CURRENT TARGET&lt;/span&gt;&lt;b&gt;&#x27;+(G.nav.contact||&#x27;NONE&#x27;)+&#x27;&lt;/b&gt;&lt;/div&gt;&#x27;+
+  &#x27;&lt;div class=&quot;courseStatus&quot;&gt;&lt;span&gt;ROUTE LOCK&lt;/span&gt;&lt;b&gt;&#x27;+G.nav.route+&#x27;%&lt;/b&gt;&lt;/div&gt;&#x27;+
+  &#x27;&lt;div class=&quot;courseStatus&quot;&gt;&lt;span&gt;VELOCITY&lt;/span&gt;&lt;b&gt;&#x27;+G.velocity+&#x27;&lt;/b&gt;&lt;/div&gt;&#x27;+
+  &#x27;&lt;div class=&quot;courseStatus&quot;&gt;&lt;span&gt;FUEL&lt;/span&gt;&lt;b&gt;&#x27;+G.fuel+&#x27;%&lt;/b&gt;&lt;/div&gt;&#x27;+
+  &#x27;&lt;div class=&quot;courseTargets&quot;&gt;&#x27;+targets.map((t,i)=&gt;&#x27;&lt;button onclick=&quot;plotCourseTo(\&#x27;&#x27;+String(t.name).replace(/&#x27;/g,&quot;\\&#x27;&quot;)+&#x27;\&#x27;,&#x27;+(t.range||50)+&#x27;,\&#x27;&#x27;+t.type+&#x27;\&#x27;)&quot;&gt;&#x27;+t.name+&#x27; // &#x27;+(t.range||50)+&#x27;&lt;/button&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;+
+  &#x27;&lt;button onclick=&quot;commitCourse()&quot;&gt;COMMIT COURSE&lt;/button&gt; &lt;button onclick=&quot;cancelCourse()&quot;&gt;CLEAR COURSE&lt;/button&gt;&lt;/div&gt;&#x27;;
+}
+function plotCourseTo(name,range,type){
+ G.nav.contact=name;G.nav.range=range;G.nav.route=Math.max(15,Math.min(95,Math.floor((G.hard.strength+G.alloc.sensors+G.targetLock+20)/3)));
+ G.net.pendingCourse={name,range,type,confidence:G.nav.route};
+ G.net.events.push(&#x27;NAV // COURSE SOLUTION &#x27;+name+&#x27; // &#x27;+G.nav.route+&#x27;% confidence&#x27;);
+ setNote(&#x27;COURSE PLOTTED // &#x27;+name+&#x27; // &#x27;+G.nav.route+&#x27;%&#x27;);
+ renderFeature();renderReadout();try{updateLiveScreens()}catch(e){}
+}
+function commitCourse(){
+ const c=G.net.pendingCourse;if(!c){setNote(&#x27;NO COURSE PLOTTED.&#x27;);return}
+ const fuelCost=Math.max(2,Math.floor(c.range/18));
+ if(G.fuel&lt;fuelCost){setNote(&#x27;INSUFFICIENT FUEL FOR COURSE.&#x27;);return}
+ G.fuel=Math.max(0,G.fuel-fuelCost);
+ G.velocity=Math.min(999,G.velocity+Math.max(20,Math.floor(c.range*2.4)));
+ G.nav.route=Math.min(100,G.nav.route+12);
+ G.targetLock=Math.min(100,G.targetLock+10);
+ G.net.events.push(&#x27;NAV // COURSE COMMITTED &#x27;+c.name+&#x27; // FUEL -&#x27;+fuelCost+&#x27; // VEL &#x27;+G.velocity);
+ logEvent(&#x27;&lt;b&gt;NAV:&lt;/b&gt; Course committed to &#x27;+c.name+&#x27;.&#x27;);
+ if(c.type===&#x27;MATRIX&#x27;)G.matrix.exit=Math.min(100,G.matrix.exit+8);
+ if(c.type===&#x27;HARDLINE&#x27;)G.hard.strength=Math.min(100,G.hard.strength+6);
+ if(c.type===&#x27;ARCHIVE&#x27;)G.intel+=2;
+ G.net.pendingCourse=null;
+ renderFeature();renderReadout();try{updateLiveScreens()}catch(e){}
+}
+function cancelCourse(){G.net.pendingCourse=null;G.nav.contact=null;G.nav.route=Math.max(0,G.nav.route-5);setNote(&#x27;COURSE CLEARED.&#x27;);renderFeature();renderReadout()}
 function renderActions(){
  const p=$(&#x27;primary&#x27;);p.innerHTML=&#x27;&#x27;;const u=$(&#x27;utility&#x27;);u.innerHTML=&#x27;&#x27;;
  if(G.view===&#x27;quiz&#x27;){
@@ -2335,6 +2416,8 @@ function renderFeature(){
  if([&#x27;bridge&#x27;,&#x27;operator&#x27;,&#x27;engineering&#x27;,&#x27;quarters&#x27;,&#x27;jack&#x27;,&#x27;matrix&#x27;,&#x27;archive&#x27;,&#x27;lab&#x27;].includes(G.view)){const box=$(&#x27;feature&#x27;);if(box)box.innerHTML+=missionConsoleMarkup();}
 
  if([&#x27;bridge&#x27;,&#x27;operator&#x27;,&#x27;quarters&#x27;,&#x27;jack&#x27;,&#x27;matrix&#x27;,&#x27;archive&#x27;].includes(G.view)){const box=$(&#x27;feature&#x27;);if(box)box.innerHTML+=movieMysteryMarkup();}
+
+ if(G.view===&#x27;bridge&#x27;){const box=$(&#x27;feature&#x27;);if(box)box.innerHTML+=courseConsoleMarkup();}
 
 }
 function renderChallenge(f){
@@ -2412,6 +2495,8 @@ function renderNav(){
  $(&#x27;extras&#x27;).innerHTML=&#x27;&#x27;;
  ex.forEach(x=&gt;nav([x[0],x[1]],$(&#x27;extras&#x27;),x[2]));
  renderPersistentShipNav();
+ const nav=$(&#x27;persistentShipNav&#x27;);if(nav){[...nav.querySelectorAll(&#x27;button&#x27;)].forEach(b=&gt;{b.classList.add(&#x27;menuLinked&#x27;);b.classList.toggle(&#x27;hudOff&#x27;,document.body.classList.contains(&#x27;hideTopMenus&#x27;));});}
+
 }
 function renderPersistentShipNav(){
  const rooms=[[&#x27;bridge&#x27;,&#x27;BRIDGE&#x27;],[&#x27;operator&#x27;,&#x27;TANK&#x27;],[&#x27;engineering&#x27;,&#x27;ENGINEERING&#x27;],[&#x27;quarters&#x27;,&#x27;QUARTERS&#x27;],[&#x27;jack&#x27;,&#x27;JACK BAY&#x27;]];
@@ -2433,6 +2518,8 @@ function goNext(){
 }
 function advance(a){if(G.step&lt;steps.length&amp;&amp;cur()[2]===a)G.step++}
 function act(a){
+ if(a===&#x27;courseplot&#x27;){G.view=&#x27;bridge&#x27;;renderFeature();setNote(&#x27;NAVIGATION CONSOLE READY // SELECT A TARGET&#x27;);return}
+
  if(a===&#x27;openJackSeq&#x27;){G.seqMode=&#x27;jack&#x27;;G.challenge=null;setNote(&#x27;NEURAL JACK CHALLENGE OPEN // FOUR STAGES.&#x27;);return render()}
  if(a===&#x27;openArchiveSeq&#x27;){G.seqMode=&#x27;archive&#x27;;G.challenge=null;setNote(&#x27;ARCHIVE NEURAL LOCK OPEN // SIX STAGES.&#x27;);return render()}
  if(a===&#x27;signal&#x27;)G.scan=100;
