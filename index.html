@@ -253,9 +253,23 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
 .rainReadout{font-family:monospace;color:#d7ffe5;background:#030805;border:1px solid #315a44;border-radius:9px;padding:8px;margin:8px 0;font-size:10px}
 @media(max-width:620px){#rainCanvas{height:260px}.rainControls{grid-template-columns:1fr 1fr}}
 
+
+/* FLOW REPAIR + QUIZ HUB */
+#quizHub{display:none}
+#quizHub.active{display:block}
+.quizHubCard{border:1px solid #3c7355;background:#07130d;border-radius:14px;padding:12px;margin:10px 0}
+.quizGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.quizCard{border:1px solid #456d57;background:#0a1812;border-radius:10px;padding:10px}
+.quizCard button{width:100%;margin-top:6px;border:1px solid #5f8e70;background:#10261a;color:#fff;border-radius:9px;padding:10px;font-weight:800}
+.quizCard button.correctPick{border-color:#ffd84d;background:#2a2308}
+.quizStatus{font-family:monospace;background:#020604;color:#dfffea;border:1px solid #335b46;border-radius:8px;padding:8px;margin:8px 0}
+.flowBtn{width:100%;border:2px solid #ffd84d;background:#ffd84d;color:#161100;border-radius:10px;padding:12px;font-weight:900;margin:8px 0}
+@media(max-width:620px){.quizGrid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body><button class="rainMainBtn" id="rainMainBtn" type="button">MATRIX RAIN</button>
+<button class="rainMainBtn" id="quizMainBtn" type="button">QUIZ HUB</button>
 <div id="startScreen">
  <div class="startPanel">
   <div class="kicker">UNOFFICIAL FAN GAME // MATRIX: AFTERIMAGE</div>
@@ -307,6 +321,17 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
    <button type="button" id="rainScanBtn">SCAN RAIN</button>
    <button type="button" class="primary" id="rainReturnBtn">RETURN TO GAME</button>
   </div>
+ </div>
+</section>
+
+<section id="quizHub">
+ <div class="quizHubCard">
+  <h2>MATRIX TRAINING // QUIZ HUB</h2>
+  <p>This is the safe repeatable section between chapters. Complete a short quiz, earn rewards, then continue the campaign.</p>
+  <div class="quizStatus" id="quizStatus">TRAINING READY</div>
+  <div id="quizContent"></div>
+  <button class="flowBtn" type="button" id="quizContinueBtn">CONTINUE CAMPAIGN</button>
+  <button class="flowBtn" type="button" id="quizReplayBtn">REPLAY QUIZ</button>
  </div>
 </section>
 <section class="stage" id="stageHub">
@@ -445,7 +470,7 @@ shipUpgrades:{stealth:0,construct:0,evidence:0,medical:0},directorCount:0,encoun
 crewStatus:{vesper:'READY',rook:'READY',iris:'READY',nox:'READY'},ngplus:0,secretScore:0,selectedCrew:'rook',entryMethod:'stealth',missionDepth:0,tacticalWins:0,
 ruleChanges:0,extractions:0,deepSearches:0,achievements:{},theories:{},locationStates:{},comboDiscoveries:[],
 missionPrepDone:false,currentThreat:null,
-storyPages:{deck:0,city:0,archive:0,lab:0,core:0},storyPageChoices:{},storyPagesComplete:{deck:false,city:false,archive:false,lab:false,core:false},started:false,rainVisits:0,rainSignal:0,rainDensity:1,rainGlyphSet:0,rainFrozen:false,areaLocks:{deck:false,city:false,archive:false,lab:false,core:false},lockFreq:{},lockCode:{},
+storyPages:{deck:0,city:0,archive:0,lab:0,core:0},storyPageChoices:{},storyPagesComplete:{deck:false,city:false,archive:false,lab:false,core:false},started:false,rainVisits:0,rainSignal:0,rainDensity:1,rainGlyphSet:0,rainFrozen:false,quizUnlocked:true,quizScore:0,quizCompleted:{deck:false,city:false,archive:false,lab:false,core:false},quizReturnStage:0,areaLocks:{deck:false,city:false,archive:false,lab:false,core:false},lockFreq:{},lockCode:{},
 microTasks:{deck:0,city:0,archive:0,lab:0,core:0},activationStep:{deck:0,city:0,archive:0,lab:0,core:0},activationReady:{deck:false,city:false,archive:false,lab:false,core:false},chapterProtocol:{},dyn:{deckPower:84,deckSignal:12,deckThreat:8,cityStability:72,citySweep:18,archiveHeat:0,echoTrust:50,labEntropy:8,labCycles:0,corePressure:0,corePhase:1}};
 let G;
 try{G=Object.assign(structuredClone(fresh),JSON.parse(localStorage.getItem('matrixAfterimage')||'{}'))}catch(e){G=JSON.parse(JSON.stringify(fresh))}
@@ -909,6 +934,92 @@ function beginCampaign(freshStart=false){
 }
 
 
+
+const QUIZZES={
+ deck:[
+  {q:'What frequency unlocked the Signal Deck?',a:['202.2','303.3','404.4'],c:1},
+  {q:'What should you follow if you get lost?',a:['Yellow ADVANCE NEXT','Random buttons','Reset game'],c:0},
+  {q:'What comes after UNLOCK?',a:['MISSION','ACTIVATE','ENDING'],c:1}
+ ],
+ city:[
+  {q:'What is the safest way through a confusing area?',a:['Follow protocol order','Skip everything','Raise Trace'],c:0},
+  {q:'Which step comes before STORY?',a:['PROCEDURE','MISSION','ENDING'],c:0},
+  {q:'What can AUTO-ENTER do?',a:['Delete save','Enter shown activation code','End campaign'],c:1}
+ ],
+ archive:[
+  {q:'What makes an exit meaningful in the story?',a:['Leaving is possible','No choices','No witnesses'],c:0},
+  {q:'Which system confirms area readiness?',a:['GAME PROTOCOL','Rain only','Crew trust only'],c:0},
+  {q:'What should happen after a mission?',a:['Quiz Hub','Loop same room','Lose save'],c:0}
+ ],
+ lab:[
+  {q:'What follows ACTIVATE?',a:['PROCEDURE','ENDING','HUB ONLY'],c:0},
+  {q:'What is the purpose of the Construct?',a:['Program testing','Weather','Shopping'],c:0},
+  {q:'What keeps the game easy to follow?',a:['Same flow each chapter','Different flow every click','Hidden controls'],c:0}
+ ],
+ core:[
+  {q:'What is the final chapter called?',a:['Mirror Core','Rain Market','Signal Deck'],c:0},
+  {q:'Which theme matters in the Core?',a:['Voice and consent','Random luck','Inventory decay'],c:0},
+  {q:'After the final mission, where can you still play?',a:['Quiz Hub','Nowhere','Only reset'],c:0}
+ ]
+};
+let quizState={key:'deck',index:0,correct:0,done:false};
+function openQuizHub(key){
+ const k=key||currentProtocolKey()||'deck';
+ quizState={key:k,index:0,correct:0,done:false};
+ G.quizReturnStage=Math.max(0,Math.min(Number(G.stage)||0,4));
+ $$('.stage').forEach(x=>x.classList.remove('active'));
+ const r=$('#rainChamber');if(r)r.classList.remove('active');
+ const q=$('#quizHub');if(q)q.classList.add('active');
+ renderQuiz();
+ window.scrollTo({top:0,behavior:'smooth'});
+ save();
+}
+function renderQuiz(){
+ const box=$('#quizContent'),st=$('#quizStatus');if(!box||!st)return;
+ const qs=QUIZZES[quizState.key]||QUIZZES.deck;
+ if(quizState.index>=qs.length){
+   quizState.done=true;
+   G.quizCompleted[quizState.key]=true;
+   G.quizScore=(G.quizScore||0)+quizState.correct;
+   G.insight+=quizState.correct;
+   G.code+=quizState.correct*2;
+   st.textContent=`QUIZ COMPLETE // ${quizState.correct}/${qs.length} CORRECT // +${quizState.correct} INSIGHT`;
+   box.innerHTML='<div class="quizCard"><b>TRAINING COMPLETE</b><p>You can continue the campaign now. Quizzes remain replayable.</p></div>';
+   updateHud();save();return;
+ }
+ const item=qs[quizState.index];
+ st.textContent=`QUESTION ${quizState.index+1}/${qs.length} // SCORE ${quizState.correct}`;
+ box.innerHTML=`<div class="quizCard"><b>${item.q}</b><div>${item.a.map((a,i)=>`<button type="button" data-quizpick="${i}">${a}</button>`).join('')}</div></div>`;
+ $$('[data-quizpick]').forEach(b=>b.onclick=()=>answerQuiz(Number(b.dataset.quizpick)));
+}
+function answerQuiz(i){
+ const qs=QUIZZES[quizState.key]||QUIZZES.deck,item=qs[quizState.index];
+ if(i===item.c){quizState.correct++;toast('CORRECT')}else toast('ANSWER SHOWN: '+item.a[item.c]);
+ quizState.index++;
+ renderQuiz();
+}
+function continueFromQuiz(){
+ const q=$('#quizHub');if(q)q.classList.remove('active');
+ const key=quizState.key||currentProtocolKey();
+ const currentIndex=['deck','city','archive','lab','core'].indexOf(key);
+ if(quizState.done && currentIndex>=0 && currentIndex<4 && Number(G.stage)===currentIndex){
+   G.stage=currentIndex+1;
+ } else if(quizState.done && currentIndex===4){
+   G.stage=4;
+ }
+ const st=Math.max(0,Math.min(Number(G.stage)||0,4));
+ if(typeof go==='function')go(st);
+ renderAllAreaSystems();
+ renderAllStoryCheckpoints();
+ updateGuide();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function bindQuizHub(){
+ if($('#quizContinueBtn'))$('#quizContinueBtn').onclick=continueFromQuiz;
+ if($('#quizReplayBtn'))$('#quizReplayBtn').onclick=()=>{quizState={key:quizState.key,index:0,correct:0,done:false};renderQuiz()};
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindQuizHub,{once:true});else bindQuizHub();
+
 let rainRAF=null,rainDrops=[],rainLast=0;
 const rainGlyphSets=[
  '01アイウエオカキクケコABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -967,6 +1078,7 @@ function updateRainReadout(){
 }
 function bindRainControls(){
  if($('#rainMainBtn'))$('#rainMainBtn').onclick=openRainChamber;
+ if($('#quizMainBtn'))$('#quizMainBtn').onclick=()=>openQuizHub(currentProtocolKey());
  if($('#rainReturnBtn'))$('#rainReturnBtn').onclick=closeRainChamber;
  if($('#rainDensityBtn'))$('#rainDensityBtn').onclick=()=>{G.rainDensity=(G.rainDensity%4)+1;updateRainReadout();save()};
  if($('#rainGlyphBtn'))$('#rainGlyphBtn').onclick=()=>{G.rainGlyphSet=((G.rainGlyphSet||0)+1)%rainGlyphSets.length;updateRainReadout();save()};
@@ -1839,6 +1951,8 @@ document.addEventListener('click',e=>{
  // Always allow story controls, yellow guidance, global navigation, sound/reset/hub.
  if(btn.closest('#startScreen') ||
     btn.closest('#rainChamber') ||
+    btn.closest('#quizHub') ||
+    btn.id==='quizMainBtn' ||
     btn.id==='rainMainBtn' ||
     btn.closest('[id^="areaLock_"]') ||
     btn.closest('[id^="areaActivation_"]') ||
@@ -1871,9 +1985,37 @@ document.addEventListener('click',e=>{
 },true);
 
 
+
+function completeCurrentChapter(){
+ const key=currentProtocolKey();
+ // Mark chapter as ready if all standardized steps are done.
+ if(!protocolReady(key)){
+   const pg=protocolGuide(key);
+   toast('FINISH '+pg[0]+' FIRST');
+   protocolScroll(key);
+   return;
+ }
+ // Always route through Quiz Hub first.
+ openQuizHub(key);
+}
+function continueChapterSafe(){
+ const key=currentProtocolKey();
+ const step=protocolStep(key);
+ if(step!=='mission'){
+   const pg=protocolGuide(key);
+   toast(pg[1]);
+   protocolScroll(key);
+   return;
+ }
+ completeCurrentChapter();
+}
+
 function advanceToNextChapter(){
  const cur=Math.max(0,Math.min(Number(G.stage)||0,4));
- if(cur>=4){showHub();return}
+ if(cur>=4){
+   openQuizHub('core');
+   return;
+ }
  G.stage=cur+1;
  save();
  go(G.stage);
