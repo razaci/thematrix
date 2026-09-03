@@ -2,164 +2,332 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#020805">
-<title>The Matrix — Rainship</title>
-<meta name="description" content="Pilot a ship through five zones of living code rain.">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#020705">
+<title>MATRIX: AFTERIMAGE — Fan Game</title>
 <style>
-:root{--g:#35ff8a;--lime:#b7ff3c;--ink:#020805;--panel:rgba(3,18,12,.84);--line:rgba(77,255,148,.22);--danger:#ff4066;--cyan:#3cecff}
-*{box-sizing:border-box}html,body{height:100%;margin:0;background:#010503;color:#dfffea;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;overflow:hidden}button{font:inherit;color:inherit}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:30;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(0,0,0,.13) 4px);mix-blend-mode:multiply}
-#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0;background:radial-gradient(circle at 50% 45%,#062716 0,#020906 50%,#000 100%)}
-.shell{position:relative;z-index:2;height:100%;display:grid;grid-template-rows:auto 1fr auto;padding:max(10px,env(safe-area-inset-top)) 12px max(10px,env(safe-area-inset-bottom));gap:9px}
-.top{display:grid;grid-template-columns:1fr auto;gap:9px}.brand,.status,.nav,.mission,.console{border:1px solid var(--line);background:var(--panel);box-shadow:0 0 22px rgba(0,255,120,.06),inset 0 0 24px rgba(0,0,0,.55);backdrop-filter:blur(8px)}
-.brand{padding:9px 12px;border-left:3px solid var(--g)}.brand b{display:block;font:900 clamp(1.25rem,5vw,2.1rem)/.9 system-ui;letter-spacing:.11em;color:white}.brand small{color:#78c995;letter-spacing:.08em}
-.status{display:flex;align-items:center;gap:12px;padding:8px 11px}.stat{min-width:62px}.label{font-size:.68rem;color:#77b78e}.value{font-weight:900;color:var(--g)}.meter{height:3px;background:#183126;margin-top:4px}.meter i{display:block;height:100%;background:var(--g);box-shadow:0 0 8px var(--g);transition:width .3s}
-.stage{position:relative;min-height:0;border:1px solid rgba(82,255,149,.28);overflow:hidden;background:linear-gradient(180deg,rgba(0,12,8,.18),rgba(0,0,0,.44));box-shadow:inset 0 0 90px #000,0 0 24px rgba(0,255,120,.08)}
-.stage:before,.stage:after{content:"";position:absolute;z-index:5;top:0;bottom:0;width:25px;background:linear-gradient(90deg,#07100c,#10251a 45%,#000 48%,#14291d 55%,transparent);border-right:1px solid #204b34}.stage:after{right:0;transform:scaleX(-1)}
-.horizon{position:absolute;left:0;right:0;bottom:0;height:42%;background:linear-gradient(transparent,rgba(0,255,120,.03)),repeating-linear-gradient(90deg,transparent 0 48px,rgba(68,255,137,.1) 49px 50px),repeating-linear-gradient(0deg,transparent 0 35px,rgba(68,255,137,.08) 36px 37px);transform:perspective(250px) rotateX(52deg);transform-origin:bottom}
-.scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}.portal{width:min(55vw,350px);aspect-ratio:1;border-radius:50%;border:2px solid var(--g);box-shadow:0 0 18px var(--g),inset 0 0 40px rgba(0,255,130,.2);animation:spin 12s linear infinite;background:conic-gradient(from 20deg,transparent,var(--g),transparent 16%,transparent 45%,var(--cyan),transparent 57%,transparent)}
-.portal:after{content:"";position:absolute;inset:18%;border-radius:50%;border:1px dashed var(--g)}@keyframes spin{to{transform:rotate(360deg)}}
-.object{position:absolute;z-index:7;width:56px;height:56px;border:1px solid currentColor;background:rgba(0,15,8,.86);display:grid;place-items:center;cursor:pointer;filter:drop-shadow(0 0 8px currentColor);animation:float 2.7s ease-in-out infinite}.object img{width:68%;height:68%}.object span{position:absolute;top:100%;font-size:.64rem;white-space:nowrap;color:#ccffe1;margin-top:4px}.object.got{animation:collect .45s forwards;pointer-events:none}@keyframes float{50%{transform:translateY(-8px)}}@keyframes collect{to{transform:scale(2) rotate(30deg);opacity:0}}
-.mission{position:absolute;z-index:8;left:34px;top:16px;width:min(270px,calc(100% - 68px));padding:10px}.mission b{color:white}.mission p{font-size:.76rem;margin:4px 0 0;color:#8fd5a7}.mission em{display:block;color:var(--lime);font-style:normal;margin-top:6px;font-size:.76rem}
-.toast{position:absolute;z-index:12;left:50%;bottom:18px;transform:translate(-50%,20px);background:#dfffea;color:#001b0c;padding:8px 14px;font-weight:900;opacity:0;transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
-.controls{display:grid;grid-template-columns:1fr auto;gap:9px;min-height:0}.nav{display:grid;grid-template-columns:repeat(5,1fr);padding:5px;gap:5px}.zone{min-height:52px;border:1px solid transparent;background:#06140d;padding:5px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}.zone .n{font-size:.65rem;color:#7cb48f}.zone .z{font-size:.76rem;font-weight:900}.zone:hover,.zone:focus-visible{border-color:var(--g);outline:none}.zone.on{background:var(--g);color:#00170a;box-shadow:0 0 16px rgba(53,255,138,.35)}.zone.on .n{color:#184529}.zone.lock{opacity:.45}
-.console{display:flex;gap:6px;padding:6px}.action{border:1px solid #2e8b55;background:#092516;padding:0 13px;cursor:pointer;font-weight:900;min-width:82px}.action:hover,.action:active{background:var(--g);color:#00180b}.action:disabled{opacity:.35}
-.hint{position:absolute;right:34px;top:18px;z-index:8;color:#7fc99a;font-size:.7rem;text-align:right}.rain-toggle{border:0;background:none;color:var(--g);cursor:pointer;padding:0}
-.roomfx{position:absolute;inset:0;overflow:hidden;pointer-events:none}.roomfx:before,.roomfx:after{content:"";position:absolute}.bridge{background:radial-gradient(ellipse at 50% 64%,#0a2b1c 0 10%,transparent 35%),linear-gradient(#010806 58%,#07140e 59%)}.bridge:before{left:10%;right:10%;top:18%;height:40%;border:10px solid #132d21;border-bottom-width:25px;clip-path:polygon(0 0,100% 0,92% 100%,8% 100%);background:radial-gradient(circle at 50% 45%,#064927,transparent 42%),repeating-linear-gradient(90deg,transparent 0 48px,#35ff8a22 50px)}.bridge:after{left:8%;right:8%;bottom:2%;height:28%;background:repeating-linear-gradient(90deg,#101e17 0 9%,#020705 9% 11%);clip-path:polygon(8% 0,92% 0,100% 100%,0 100%)}
-.hangar{background:linear-gradient(#03080d,#041c27 55%,#020505 56%)}.hangar:before{inset:10% 7% 20%;border:10px solid #173846;background:repeating-linear-gradient(90deg,transparent 0 10%,#3cecff1f 10.5% 11%),repeating-linear-gradient(0deg,transparent 0 18%,#3cecff17 19% 20%);clip-path:polygon(5% 0,95% 0,100% 100%,0 100%)}.hangar:after{width:44%;height:19%;left:28%;bottom:18%;border:3px solid #3cecff;background:#07161d;clip-path:polygon(15% 0,85% 0,100% 50%,72% 70%,61% 100%,39% 100%,28% 70%,0 50%);filter:drop-shadow(0 0 18px #3cecff)}
-.forge{background:radial-gradient(circle at 50% 75%,#5a0716,transparent 22%),linear-gradient(#0b0205,#21040c)}.forge:before{left:12%;right:12%;bottom:4%;height:66%;background:repeating-linear-gradient(90deg,#210812 0 6%,transparent 6% 12%);border-top:6px solid #ff4066;clip-path:polygon(8% 0,92% 0,100% 100%,0 100%)}.forge:after{width:180px;height:180px;border:8px double #ff4066;border-radius:50%;left:calc(50% - 90px);top:34%;box-shadow:0 0 45px #ff406688,inset 0 0 45px #ff406655;animation:spin 5s linear infinite}
-.holodeck{background:linear-gradient(#110b02,#281902 62%,#090601)}.holodeck:before{inset:13% 8%;background:repeating-linear-gradient(90deg,transparent 0 39px,#ffc83c22 40px),repeating-linear-gradient(0deg,transparent 0 39px,#ffc83c22 40px);transform:perspective(350px) rotateX(12deg);border:2px solid #ffc83c66}.holodeck:after{left:18%;right:18%;top:29%;height:38%;background:linear-gradient(90deg,#ffc83c08,#ffc83c44,#ffc83c08);filter:blur(8px);animation:flicker 1.2s steps(2) infinite}@keyframes flicker{50%{opacity:.35;transform:translateX(4px)}}
-.reactor{background:radial-gradient(circle at 50% 58%,#471f62,transparent 18%),linear-gradient(#08020e,#1b0828)}.reactor:before{width:min(43vw,270px);aspect-ratio:1;left:50%;top:53%;transform:translate(-50%,-50%);border-radius:50%;border:12px dotted #d78cff;box-shadow:0 0 50px #d78cff,inset 0 0 50px #d78cff;animation:spin 3s linear infinite}.reactor:after{left:5%;right:5%;top:12%;bottom:8%;border:8px solid #261135;clip-path:polygon(8% 0,92% 0,100% 18%,100% 82%,92% 100%,8% 100%,0 82%,0 18%)}
-.capacity{height:5px;margin-top:7px;background:#152c20}.capacity i{display:block;height:100%;background:linear-gradient(90deg,var(--g),var(--lime));box-shadow:0 0 9px var(--g);transition:width .25s}.mech{position:absolute;z-index:8;right:34px;bottom:74px;width:170px;padding:7px;border-left:2px solid var(--g);background:#020c08cc;font-size:.62rem;color:#8fd5a7}.mech b{display:block;color:#fff;margin-bottom:3px}.warning{position:absolute;z-index:6;inset:0;border:0 solid var(--danger);pointer-events:none;transition:.12s}.warning.hit{border-width:10px;box-shadow:inset 0 0 60px var(--danger)}
-.roommenu{position:absolute;z-index:15;right:34px;top:82px;display:flex;gap:5px}.menubtn{border:1px solid #397753;background:#03140c;padding:7px 9px;font-size:.68rem;font-weight:900;cursor:pointer}.menubtn:hover,.menubtn:active{background:var(--g);color:#001609}.overlay{position:absolute;z-index:24;inset:0;background:rgba(0,4,3,.94);padding:18px 32px;overflow:auto;display:none}.overlay.open{display:block;animation:boot .22s ease-out}@keyframes boot{from{opacity:0;transform:scale(.97)}}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.panelhead h2{margin:0;font:900 clamp(1.15rem,4vw,1.65rem)/1 system-ui;letter-spacing:.08em}.close{border:1px solid #4c8962;background:#07180f;padding:8px 12px;cursor:pointer}.mapcards{display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));gap:9px;min-width:820px}.roomcard{position:relative;min-height:270px;text-align:left;border:1px solid color-mix(in srgb,var(--card),transparent 40%);background:linear-gradient(180deg,color-mix(in srgb,var(--card),#000 78%),#020604);padding:16px 13px;overflow:hidden;cursor:pointer}.roomcard:before{content:"";position:absolute;right:-20px;top:40px;width:130px;height:130px;background-image:var(--art);background-size:contain;background-repeat:no-repeat;opacity:.18;filter:drop-shadow(0 0 15px var(--card))}.roomcard:hover{transform:translateY(-4px);box-shadow:0 8px 24px color-mix(in srgb,var(--card),transparent 75%)}.roomcard.lock{filter:grayscale(1);opacity:.45;cursor:not-allowed}.roomcard .num{font-size:.65rem;color:var(--card)}.roomcard h3{position:relative;margin:8px 0;font:900 1rem/1.05 system-ui}.roomcard p{position:relative;color:#99c1a6;font-size:.7rem;line-height:1.35;min-height:76px}.roomcard .cardcap{height:5px;background:#17251d;margin:13px 0}.roomcard .cardcap i{display:block;height:100%;background:var(--card)}.enter{position:absolute;left:13px;right:13px;bottom:13px;border:1px solid var(--card);background:#041109;padding:9px;text-align:center;font-weight:900;font-size:.72rem}.programgrid,.inventorygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:9px}.selectcard{border:1px solid #27583d;background:#06130d;padding:14px}.selectcard h3{margin:0 0 6px;color:var(--g);font-size:.9rem}.selectcard p{font-size:.72rem;color:#9ac9aa;min-height:40px}.selectcard button{width:100%;border:1px solid var(--g);background:#0b2416;padding:8px;cursor:pointer}.selected{box-shadow:inset 3px 0 var(--g)}
-@media(max-width:650px){.shell{padding-left:7px;padding-right:7px}.brand small{display:none}.status{gap:7px}.stat{min-width:48px}.stat:nth-child(3){display:none}.controls{grid-template-columns:1fr}.console{position:absolute;right:15px;bottom:84px;z-index:10;background:transparent;border:0;box-shadow:none}.action{min-width:64px;height:42px;padding:0 8px;background:#061b10}.nav{display:none}.zone{min-height:58px}.zone .z{font-size:.57rem}.mission{top:10px}.hint{display:none}.object{width:46px;height:46px}.mech{right:10px;bottom:135px;width:145px}.reactor:before{width:190px}.roommenu{right:10px;top:106px}.menubtn{padding:6px;font-size:.58rem}.overlay{padding:13px 11px}.mapcards{display:flex;min-width:0;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}.roomcard{min-width:82vw;scroll-snap-align:center;min-height:300px}.panelhead{position:sticky;top:0;z-index:2;background:#020705;padding:5px 0}}
-.storywrap{max-width:760px;margin:0 auto;padding:clamp(8px,4vw,40px) 0}.storymeta{color:var(--g);font-size:.68rem;letter-spacing:.16em}.storytitle{font:900 clamp(1.55rem,6vw,3.4rem)/.95 system-ui;margin:9px 0 18px;max-width:650px}.storytext{font:400 clamp(.9rem,2.4vw,1.08rem)/1.72 Georgia,serif;color:#d9eee0;white-space:pre-line}.storytext:first-letter{font-size:2.8em;float:left;line-height:.75;padding:8px 7px 0 0;color:var(--g)}.choices{display:grid;gap:8px;margin-top:20px}.choice{border:1px solid #397753;background:linear-gradient(90deg,#071c11,#020805);text-align:left;padding:13px 15px;cursor:pointer}.choice:hover,.choice:active{border-color:var(--g);box-shadow:inset 4px 0 var(--g)}.choice b{display:block;color:#fff}.choice span{display:block;color:#86b796;font-size:.7rem;margin-top:3px}.clueline{margin-top:18px;padding:10px;border-left:2px solid var(--g);background:#06140d;color:#9fd8b2;font-size:.72rem}.soundon{color:var(--lime);box-shadow:0 0 10px #63ff8a55}.chapterstamp{position:absolute;right:4%;bottom:5%;font:900 clamp(2rem,10vw,7rem)/1 system-ui;color:#ffffff08;pointer-events:none;transform:rotate(-8deg)}
-.minigame{position:absolute;z-index:7;inset:25% 7% 14%;display:grid;place-items:center}.gamebox{width:min(620px,100%);height:100%;position:relative}.circuit{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;width:min(330px,75vw)}.tile{aspect-ratio:1;border:1px solid var(--g);background:#06150d;color:var(--g);font-size:1.7rem;cursor:pointer;transition:.15s}.tile.ok{background:#123721;box-shadow:0 0 15px var(--g)}.dockbay{position:absolute;bottom:0;width:30%;height:27%;border:2px dashed var(--g);display:grid;place-items:end center;padding:5px;color:#aaffc6;font-size:.65rem}.dockbay.a{left:4%}.dockbay.b{left:35%}.dockbay.c{right:4%}.dragpiece{position:absolute;width:62px;height:62px;border-radius:50%;border:2px solid var(--g);background:#071a10;display:grid;place-items:center;touch-action:none;cursor:grab;box-shadow:0 0 14px var(--g);font-size:.65rem;text-align:center}.virus{position:absolute;width:58px;height:58px;border:2px solid var(--bad);background:#26040c;clip-path:polygon(50% 0,63% 28%,93% 7%,72% 39%,100% 50%,72% 61%,93% 93%,63% 72%,50% 100%,37% 72%,7% 93%,28% 61%,0 50%,28% 39%,7% 7%,37% 28%);display:grid;place-items:center;cursor:pointer;animation:infect 2.2s linear forwards}@keyframes infect{from{filter:drop-shadow(0 0 3px #ff3155)}to{filter:drop-shadow(0 0 28px #ff3155);transform:scale(1.25)}}.memorypads{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:min(360px,80vw)}.pad{aspect-ratio:1.5;border:1px solid var(--g);background:#0d170e;cursor:pointer}.pad.lit{background:var(--g);box-shadow:0 0 26px var(--g)}.reactorpanel{width:min(440px,85vw);padding:16px;background:#06030aaa;border:1px solid var(--g)}.channel{display:grid;grid-template-columns:75px 1fr 42px;gap:8px;align-items:center;margin:14px 0}.channel input{accent-color:var(--g);width:100%}.hand{position:absolute;z-index:14;left:50%;bottom:12px;transform:translateX(-50%);display:flex;gap:5px}.programcard{border:1px solid var(--g);background:#03140c;padding:7px 9px;font-size:.62rem;cursor:pointer;min-width:76px}.programcard:disabled{opacity:.3}.energy{color:var(--lime)}.emergency{position:absolute;z-index:23;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,88%);padding:16px;background:#21030b;border:2px solid var(--bad);box-shadow:0 0 50px #ff244f88;display:none}.emergency.open{display:block}.emergency h3{margin:0 0 7px}.emergency p{color:#ffc2cf;font-size:.76rem}.emergency button{border:1px solid #ff7993;background:#350713;padding:9px;margin:3px;cursor:pointer}.crewgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.crewcard{border:1px solid #2f6949;background:#06150d;padding:14px}.portrait{width:54px;height:54px;border-radius:50%;background-image:var(--portrait);background-size:cover;float:right;filter:drop-shadow(0 0 8px var(--g))}.crewcard h3{margin:0;color:var(--g)}.crewcard p{font-size:.72rem;color:#9ac4a7;min-height:52px}.crewcard button,.theorybtn{border:1px solid var(--g);background:#0a2415;padding:8px;margin:2px;cursor:pointer}.evidence{border:1px solid #346f4e;background:#06130d;padding:11px;cursor:pointer}.evidence.pick{border-color:var(--lime);box-shadow:inset 4px 0 var(--lime)}.alertdot:after{content:'!';display:inline-grid;place-items:center;width:15px;height:15px;margin-left:4px;background:var(--bad);color:#fff;border-radius:50%}
+:root{
+  --bg:#020705;--panel:#07110d;--panel2:#0a1913;--line:#1d6546;--green:#65ffad;--soft:#aefbd0;
+  --cyan:#62d9ff;--warn:#ffc95b;--danger:#ff6077;--ink:#eafff3;--muted:#7ca991;--shadow:0 0 28px #21ff8a20;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+body{overflow-x:hidden}
+button,input{font:inherit}
+button{touch-action:manipulation}
+#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.23;pointer-events:none}
+.scanlines{position:fixed;inset:0;pointer-events:none;z-index:20;background:repeating-linear-gradient(0deg,transparent 0 3px,#7dffbd08 4px);mix-blend-mode:screen}
+.app{position:relative;z-index:2;max-width:1100px;margin:auto;min-height:100vh;padding:env(safe-area-inset-top) 12px calc(76px + env(safe-area-inset-bottom))}
+.top{position:sticky;top:0;z-index:12;display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px 0;background:linear-gradient(#020705f2,#020705b5,transparent);backdrop-filter:blur(8px)}
+.brand{display:flex;gap:10px;align-items:center;min-width:0}
+.logo{width:38px;height:38px;border:1px solid var(--line);border-radius:10px;display:grid;place-items:center;color:var(--green);box-shadow:var(--shadow)}
+h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sub{font-size:10px;color:var(--muted);margin-top:2px}
+.iconBtn{border:1px solid var(--line);background:#08130f;color:var(--soft);border-radius:10px;padding:9px 10px}
+.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:8px 0 12px}
+.stat{background:#07100dda;border:1px solid #164a35;border-radius:11px;padding:8px}
+.stat b{display:block;font-size:11px;color:var(--muted);font-weight:500}.stat span{font-size:14px;color:var(--soft)}
+.bar{height:4px;background:#10291e;border-radius:5px;margin-top:6px;overflow:hidden}.fill{height:100%;background:var(--green);width:50%;transition:.3s}
+.stage{display:none;animation:in .35s ease}.stage.active{display:block}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero{position:relative;border:1px solid #1b5b40;border-radius:16px;overflow:hidden;min-height:220px;box-shadow:var(--shadow);background:#05100c}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.58}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#020705e8 0%,#02070583 52%,#02070520)}
+.heroText{position:relative;z-index:2;padding:22px;max-width:660px}
+.kicker{font-size:11px;letter-spacing:.18em;color:var(--cyan);text-transform:uppercase}
+.hero h2{margin:6px 0 8px;font-size:clamp(24px,7vw,46px);line-height:.95;letter-spacing:-.04em}
+.hero p{color:#ccebdd;line-height:1.5;font-size:13px;max-width:60ch}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.card{border:1px solid #174a36;background:linear-gradient(180deg,#0a1712e8,#06100ce8);border-radius:14px;padding:13px;box-shadow:var(--shadow)}
+.card h3{font-size:13px;color:var(--soft);margin:0 0 8px}.card p{font-size:12px;color:#9fc8b3;line-height:1.45;margin:5px 0}
+.action{width:100%;border:1px solid #287653;background:#0d2b1f;color:#caffdf;border-radius:11px;padding:12px 11px;font-weight:800;letter-spacing:.03em;margin:5px 0;box-shadow:inset 0 0 16px #3dff9120}
+.action:active{transform:translateY(1px);filter:brightness(1.35)} .action[disabled]{opacity:.35;filter:grayscale(1)}
+.alt{background:#0d1b22;border-color:#285266;color:#b7edff}.warn{background:#2b200c;border-color:#8d6823;color:#ffe2a5}
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.log{background:#010603;border:1px solid #164833;min-height:104px;max-height:180px;overflow:auto;padding:10px;border-radius:10px;font-size:11px;line-height:1.5;color:#8ceebb}
+.log div::before{content:"> ";color:#3d8e64}
+.console{display:flex;gap:7px;margin-top:8px}.console input{min-width:0;flex:1;background:#020806;border:1px solid #246447;color:#aaffcd;border-radius:9px;padding:10px}
+.badge{display:inline-block;border:1px solid #286245;border-radius:999px;padding:4px 7px;margin:2px;font-size:10px;color:#9fffc6;background:#07150f}
+.lock{opacity:.45;filter:saturate(.5)}
+#cityGame{position:relative;height:280px;background:#010604;border:1px solid #1b5a40;border-radius:14px;overflow:hidden}
+#cityCanvas{width:100%;height:100%;display:block}
+.controls{position:absolute;inset:auto 8px 8px 8px;display:flex;justify-content:space-between;gap:8px}
+.controls button{width:64px;height:52px;border-radius:14px;border:1px solid #2e6d51;background:#071c13cc;color:#d3ffe6;font-size:20px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.program{position:relative;text-align:left;min-height:95px}
+.program.selected{outline:2px solid var(--green);background:#13452f}.program .cost{position:absolute;right:8px;top:7px;font-size:10px;color:var(--warn)}
+.storyNode{border-left:3px solid var(--green);padding:2px 0 2px 12px;margin:8px 0 12px}.storyNode p{font-family:system-ui,sans-serif;font-size:14px;color:#d5eee1;line-height:1.55}
+.nav{position:fixed;z-index:15;bottom:0;left:0;right:0;background:#020806ef;border-top:1px solid #163e2e;display:flex;justify-content:center;padding:6px max(6px,env(safe-area-inset-left)) calc(6px + env(safe-area-inset-bottom));backdrop-filter:blur(12px)}
+.navin{display:grid;grid-template-columns:repeat(5,1fr);width:min(760px,100%);gap:4px}.nav button{border:0;background:transparent;color:#65917b;padding:7px 3px;font-size:9px;border-radius:9px}.nav button span{display:block;font-size:17px;margin-bottom:3px}.nav button.active{background:#0c2118;color:#8affbd}.nav button.locked{opacity:.3}
+.bigDecision{padding:16px;border:1px solid #45785e;background:#0a1712;border-radius:14px;margin:9px 0}.bigDecision h3{font-size:15px;margin:0 0 6px}
+.pulse{animation:pulse 1.5s infinite}@keyframes pulse{50%{box-shadow:0 0 28px #5affaa66}}
+.toast{position:fixed;z-index:50;top:75px;left:50%;transform:translateX(-50%) translateY(-15px);background:#06130e;border:1px solid #3aff91;color:#baffd6;padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;max-width:88vw;font-size:12px}.toast.show{opacity:1;transform:translateX(-50%)}
+.footerNote{font-size:10px;color:#648574;text-align:center;padding:14px 4px}
+@media(max-width:620px){.grid{grid-template-columns:1fr}.hud{grid-template-columns:repeat(2,1fr)}.hero{min-height:265px}.choice{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
-<canvas id="rain" aria-hidden="true"></canvas>
-<main class="shell">
-  <header class="top">
-    <div class="brand"><b>THE MATRIX</b><small>RAINSHIP // SIGNAL INTERCEPTOR</small></div>
-    <div class="status" aria-label="Ship status">
-      <div class="stat"><div class="label">HULL</div><div class="value" id="hullText">100%</div><div class="meter"><i id="hullBar" style="width:100%"></i></div></div>
-      <div class="stat"><div class="label">CODE</div><div class="value" id="codeText">000</div></div>
-      <div class="stat"><div class="label">CHAIN</div><div class="value" id="chainText">×1</div></div>
-    </div>
-  </header>
-  <section class="stage" id="stage" aria-label="Current Matrix zone">
-    <div class="roomfx bridge" id="roomfx"></div><div class="horizon"></div><div class="scene"><div class="portal"></div></div>
-    <aside class="mission"><b id="zoneTitle">01 // COMMAND BRIDGE</b><p id="zoneStory"></p><em id="objective"></em><div class="capacity"><i id="capacityBar"></i></div></aside>
-    <div class="hint">TAP RELICS BEFORE<br>THE RAIN CORRUPTS THEM<br><button class="rain-toggle" id="rainToggle">RAIN: ACTIVE</button></div>
-    <div class="roommenu"><button class="menubtn" id="storyBtn">STORY</button><button class="menubtn" data-open="mapPanel">SHIP MAP</button><button class="menubtn" data-open="programPanel">PROGRAMS</button><button class="menubtn" data-open="crewPanel">CREW</button><button class="menubtn" data-open="evidencePanel">EVIDENCE</button><button class="menubtn" data-open="inventoryPanel">ITEMS</button><button class="menubtn" id="soundBtn">SOUND OFF</button></div>
-    <div class="mech"><b id="mechName"></b><span id="mechText"></span></div><div class="warning" id="warning"></div>
-    <div class="minigame" id="minigame"></div><div class="hand" id="hand"></div>
-    <aside class="emergency" id="emergency"><h3 id="emergencyTitle"></h3><p id="emergencyText"></p><div id="emergencyChoices"></div></aside>
-    <div class="toast" id="toast" role="status"></div>
-    <section class="overlay open" id="mapPanel"><div class="panelhead"><h2>SHIP AREA MAP</h2><button class="close" data-close>RETURN TO ROOM</button></div><div class="mapcards" id="mapCards"></div></section>
-    <section class="overlay" id="programPanel"><div class="panelhead"><h2>LOAD A PROGRAM</h2><button class="close" data-close>CLOSE MENU</button></div><div class="programgrid" id="programGrid"></div></section>
-    <section class="overlay" id="inventoryPanel"><div class="panelhead"><h2>RECOVERED CLUES</h2><button class="close" data-close>CLOSE MENU</button></div><div class="inventorygrid" id="inventoryGrid"></div></section>
-    <section class="overlay" id="crewPanel"><div class="panelhead"><h2>CREW INTERROGATION</h2><button class="close" data-close>CLOSE MENU</button></div><div class="crewgrid" id="crewGrid"></div></section>
-    <section class="overlay" id="evidencePanel"><div class="panelhead"><h2>EVIDENCE BOARD</h2><button class="close" data-close>CLOSE MENU</button></div><p style="color:#8fc5a1;font-size:.75rem">Select two clues and test the connection.</p><div class="inventorygrid" id="evidenceGrid"></div><button class="theorybtn" id="testTheory">TEST THEORY</button><div class="clueline" id="theoryResult">No theory tested.</div></section>
-    <section class="overlay" id="storyPanel"><div class="storywrap"><div class="storymeta" id="storyMeta"></div><h2 class="storytitle" id="storyTitle"></h2><div class="storytext" id="storyText"></div><div class="clueline" id="clueLine"></div><div class="choices" id="storyChoices"></div></div><div class="chapterstamp" id="chapterStamp"></div></section>
-  </section>
-  <footer class="controls">
-    <nav class="nav" id="nav" aria-label="Ship zones"></nav>
-    <div class="console"><button class="action" id="program">PROGRAM</button><button class="action" id="pulse">EMP PULSE</button><button class="action" id="repair">REPAIR</button></div>
-  </footer>
+<canvas id="rain"></canvas><div class="scanlines"></div><div class="toast" id="toast"></div>
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="logo">⌁</div><div><h1>MATRIX: AFTERIMAGE</h1><div class="sub">unofficial fan-fiction // offline single-file game</div></div></div>
+  <div><button class="iconBtn" id="soundBtn" aria-label="Toggle sound">SND ON</button> <button class="iconBtn" id="resetBtn">RESET</button></div>
+</header>
+<section class="hud">
+ <div class="stat"><b>INTEGRITY</b><span id="integrity">100</span><div class="bar"><div class="fill" id="integrityBar"></div></div></div>
+ <div class="stat"><b>TRACE</b><span id="trace">0</span><div class="bar"><div class="fill" id="traceBar"></div></div></div>
+ <div class="stat"><b>INSIGHT</b><span id="insight">0</span></div>
+ <div class="stat"><b>FRAGMENTS</b><span id="frags">0 / 5</span></div>
+</section>
+
+<main>
+<section class="stage active" id="stage0">
+ <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzA2MTMwZCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAwMWIyYSIvPjwvbGluZWFyR3JhZGllbnQ+CjxmaWx0ZXIgaWQ9ImdsIj48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSI2Ii8+PC9maWx0ZXI+PC9kZWZzPgo8cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idXJsKCNnKSIvPgo8ZyBzdHJva2U9IiM0M2ZmOWMiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii42NSI+CjxwYXRoIGQ9Ik04MCAzNTAgTDI1MCAxODAgTDY1MCAxODAgTDgyMCAzNTAgTDY1MCA0MTAgTDI1MCA0MTAgWiIgc3Ryb2tlLXdpZHRoPSI2Ii8+CjxwYXRoIGQ9Ik0yNzAgMTk1IEwzNDAgOTAgTDU2MCA5MCBMNjMwIDE5NSIgc3Ryb2tlLXdpZHRoPSI1Ii8+CjxwYXRoIGQ9Ik0zNzAgMTMwaDE2ME0yMDAgMzMwaDUwME0yOTAgMjYwaDMyME00NTAgOTB2MzIwIiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9Ii41Ii8+CjwvZz4KPGcgZmlsbD0iIzQzZmY5YyI+CjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iMjUiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjYwIiBmaWxsPSJub25lIiBzdHJva2U9IiM0M2ZmOWMiIHN0cm9rZS13aWR0aD0iMyIvPgo8Y2lyY2xlIGN4PSIxODAiIGN5PSIzNjUiIHI9IjEwIi8+PGNpcmNsZSBjeD0iNzIwIiBjeT0iMzY1IiByPSIxMCIvPgo8L2c+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNzdmZmMwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjI0Ij5NTkVNT1NZTkUgLy8gU0lHTkFMIERFQ0s8L3RleHQ+Cjwvc3ZnPg=="><div class="heroText"><div class="kicker">CHAPTER I // THE SIGNAL DECK</div><h2>THE SKY WAS REWRITTEN.<br>THE CODE NOTICED.</h2><p>Weeks after Neo and Trinity reclaimed their power inside the simulation, impossible messages begin arriving aboard the Mnemosyne. They contain memories belonging to people who were never born.</p><button class="action pulse" id="jackIn">JACK INTO THE AFTERIMAGE</button></div></div>
+ <div class="grid">
+  <div class="card"><h3>Signal Diagnostic</h3><p>Triangulate the ghost transmission. Each scan raises Trace; correct frequencies reveal a hidden speaker.</p><div id="signalButtons"></div></div>
+  <div class="card"><h3>Operator Console</h3><div class="log" id="consoleLog"></div><div class="console"><input id="cmd" placeholder="try: help, scan, who, wake"><button class="iconBtn" id="cmdGo">RUN</button></div></div>
+ </div>
+ <div class="card"><h3>Mission Thread</h3><p id="mission0">Find the correct signal frequency, then jack in.</p><span class="badge">Canvas rain</span><span class="badge">WebAudio</span><span class="badge">DOM console</span><span class="badge">Local save</span></div>
+</section>
+
+<section class="stage" id="stage1">
+ <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwMzA5MDkiLz4KPGcgZmlsbD0iIzA3MTcxMiIgc3Ryb2tlPSIjMWE3YjRlIiBzdHJva2Utd2lkdGg9IjIiPgo8cGF0aCBkPSJNMCA0MjBWMTkwaDEwMHYyMzBNOTUgNDIwVjExMGgxMjB2MzEwTTIxMCA0MjBWMjMwaDk1djE5ME0zMDAgNDIwVjgwaDE0NXYzNDBNNDQwIDQyMFYxNjBoMTAwdjI2ME01MzUgNDIwVjEwNWgxMzB2MzE1TTY2MCA0MjBWMjEwaDkwdjIxME03NDUgNDIwVjEzMGgxNTV2MjkwIi8+CjwvZz4KPGcgc3Ryb2tlPSIjMzhmZjkxIiBvcGFjaXR5PSIuOCI+PHBhdGggZD0iTTAgNDIwaDkwMCIvPjxwYXRoIGQ9Ik00NTAgNDIwIDM5MCA1MDBNNDUwIDQyMCA1MTAgNTAwIi8+PC9nPgo8ZyBmaWxsPSIjNDJmZjk0IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjE1IiBvcGFjaXR5PSIuNyI+Cjx0ZXh0IHg9IjMwIiB5PSI3MCI+MDEwMDExMTA8L3RleHQ+PHRleHQgeD0iNzAwIiB5PSI2MCI+MTAxMTAxMDE8L3RleHQ+PHRleHQgeD0iNTIwIiB5PSIyNjAiPldBS0U8L3RleHQ+CjwvZz48L3N2Zz4="><div class="heroText"><div class="kicker">CHAPTER II // FRACTURE CITY</div><h2>RUN THE GLITCH</h2><p>The city has started generating streets faster than the machines can delete them. Collect five memory fragments before the Pursuit Process locks onto your signal.</p></div></div>
+ <div class="card"><h3>Realtime Escape</h3><p>Move with buttons, arrow keys, WASD, or swipe. Touch cyan fragments. Avoid red sentries.</p>
+  <div id="cityGame"><canvas id="cityCanvas"></canvas><div class="controls"><button data-move="-1">◀</button><button data-jump="1">▲</button><button data-move="1">▶</button></div></div>
+  <p id="cityStatus">Fragments: 0/5 · Pursuit: dormant</p>
+ </div>
+ <div class="choice"><button class="action alt" id="hideCrowd">BLEND WITH CROWD (-10 TRACE)</button><button class="action warn" id="overclock">OVERCLOCK (+speed, +trace)</button></div>
+</section>
+
+<section class="stage" id="stage2">
+ <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwNzA4MGIiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzllNzhjIiBvcGFjaXR5PSIuNiI+CjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iMTgwIi8+PGNpcmNsZSBjeD0iNDUwIiBjeT0iMjUwIiByPSIxMzAiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjgwIi8+CjxwYXRoIGQ9Ik00NTAgNzB2MzYwTTI3MCAyNTBoMzYwTTMyMyAxMjNsMjU0IDI1NE01NzcgMTIzIDMyMyAzNzciLz4KPC9nPgo8ZyBmaWxsPSIjOWVmZmNiIj48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjIyIi8+PGNpcmNsZSBjeD0iMzIzIiBjeT0iMTIzIiByPSI5Ii8+PGNpcmNsZSBjeD0iNTc3IiBjeT0iMTIzIiByPSI5Ii8+PGNpcmNsZSBjeD0iMzIzIiBjeT0iMzc3IiByPSI5Ii8+PGNpcmNsZSBjeD0iNTc3IiBjeT0iMzc3IiByPSI5Ii8+PC9nPgo8dGV4dCB4PSI0NTAiIHk9IjQ2NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzYzZmZhZCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyMiI+VEhFIEFSQ0hJVkUgUkVNRU1CRVJTIFZFUlNJT05TIFRIQVQgTkVWRVIgSEFQUEVORUQ8L3RleHQ+Cjwvc3ZnPg=="><div class="heroText"><div class="kicker">CHAPTER III // THE IMPOSSIBLE ARCHIVE</div><h2>MEMORY IS A WEAPON</h2><p>You reach an archive built from discarded versions of the Matrix. An emergent program calling itself ECHO claims it was born from every choice the system predicted but humanity refused to make.</p></div></div>
+ <div class="card"><h3>Interactive Fiction Node</h3><div class="storyNode"><p id="storyText"></p></div><div id="storyChoices" class="choice"></div></div>
+ <div class="grid"><div class="card"><h3>Known Truths</h3><div id="truths"></div></div><div class="card"><h3>Psychological Profile</h3><p id="profile">The Archive is still measuring you.</p></div></div>
+</section>
+
+<section class="stage" id="stage3">
+ <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwODBhMDkiLz4KPGcgc3Ryb2tlPSIjNGRmZjllIiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTEyMCA0MDAgMjYwIDEwMGgzODBsMTQwIDMwMHoiIHN0cm9rZS13aWR0aD0iNCIvPgo8cGF0aCBkPSJNMjYwIDEwMCA0NTAgNDAwIDY0MCAxMDBNMTIwIDQwMGg2NjAiIG9wYWNpdHk9Ii43Ii8+CjxyZWN0IHg9IjM1NSIgeT0iMTg1IiB3aWR0aD0iMTkwIiBoZWlnaHQ9IjEzMCIgcng9IjE4IiBzdHJva2Utd2lkdGg9IjUiLz4KPC9nPgo8ZyBmaWxsPSIjNGRmZjllIj48cmVjdCB4PSIzOTAiIHk9IjIyMCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxOCIvPjxyZWN0IHg9IjM5MCIgeT0iMjYwIiB3aWR0aD0iODAiIGhlaWdodD0iMTgiLz48L2c+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYTlmZmQwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIyIj5DT05TVFJVQ1QgTEFCIC8vIFJVTEVTIEFSRSBNQVRFUklBTDwvdGV4dD4KPC9zdmc+"><div class="heroText"><div class="kicker">CHAPTER IV // CONSTRUCT LAB</div><h2>BUILD THE RULE THAT SAVES YOU</h2><p>To enter the Mirror Core, you must compile a three-program loadout. The order matters. Your earlier decisions alter which combinations work.</p></div></div>
+ <div class="card"><h3>Program Capacity <span id="capLabel" class="badge">0 / 7</span></h3><div class="cards" id="programCards"></div><button class="action" id="compile">COMPILE LOADOUT</button><div class="log" id="compileLog"></div></div>
+ <div class="card"><h3>Sequence Buffer</h3><div id="buffer">No programs loaded.</div></div>
+</section>
+
+<section class="stage" id="stage4">
+ <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPGRlZnM+PHJhZGlhbEdyYWRpZW50IGlkPSJyIj48c3RvcCBzdG9wLWNvbG9yPSIjMTAzOTI3Ii8+PHN0b3Agb2Zmc2V0PSIuNSIgc3RvcC1jb2xvcj0iIzA2MTQwZCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAwMCIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idXJsKCNyKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9IiM2MmZmYWMiPgo8Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjE5MCIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iNDUwIiBjeT0iMjUwIiByPSIxMzUiIHN0cm9rZS13aWR0aD0iNCIvPjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iNjUiIHN0cm9rZS13aWR0aD0iOCIvPgo8cGF0aCBkPSJNNDUwIDMwdjQ0ME0yMzAgMjUwaDQ0MCIgb3BhY2l0eT0iLjM1Ii8+CjwvZz4KPHBhdGggZD0iTTQxNSAyMjBxMzUtNjUgNzAgMHY3MHEtMzUgNTUtNzAgMHoiIGZpbGw9IiM1YmZmYWIiIG9wYWNpdHk9Ii45Ii8+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYjBmZmQ1IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIyIj5NSVJST1IgQ09SRSAvLyBDSE9PU0UgV0hBVCBSRUFMSVRZIElTIEZPUjwvdGV4dD4KPC9zdmc+"><div class="heroText"><div class="kicker">CHAPTER V // MIRROR CORE</div><h2>THE SYSTEM ASKS<br>WHAT FREEDOM COSTS.</h2><p>ECHO has no army. It has a proposition: fork the Matrix into billions of private realities, one for every human desire. No shared world. No shared truth. No war—because no one would ever need to disagree again.</p></div></div>
+ <div class="card"><h3>Adaptive Core</h3><p id="bossText">Compile a valid loadout to begin the final confrontation.</p><div id="bossActions"></div><div class="bar" style="height:9px;margin:12px 0"><div class="fill" id="echoBar" style="width:100%"></div></div><p id="bossStatus">ECHO coherence: 100%</p></div>
+ <div id="finalDecision"></div><div id="ending"></div>
+</section>
 </main>
+<div class="footerNote">Original non-commercial fan game concept inspired by The Matrix universe. This is not an official Warner Bros. game.</div>
+</div>
+
+<nav class="nav"><div class="navin" id="nav"></div></nav>
+
 <script>
 (()=>{
-const zones=[
- {name:'COMMAND BRIDGE',room:'bridge',story:'Route five live command programs while the forward glass leaks code rain.',goal:5,color:'#35ff8a',program:'VECTOR ROUTING',mechanic:'HTML input + live navigation logic',items:['NAV CORE','RED KEY','UPLINK','VECTOR','CAPTAIN']},
- {name:'GRAVITY HANGAR',room:'hangar',story:'The hovercraft bay has lost gravity. Catch drifting flight modules before impact.',goal:7,color:'#3cecff',program:'ZERO-G PHYSICS',mechanic:'Canvas motion + touch collision',items:['THRUSTER','GYRO','WING','LIFT','BRAKE','PILOT','DOCK']},
- {name:'CODE FORGE',room:'forge',story:'The fabrication furnace prints hostile programs. Purge bad code and harvest cores.',goal:8,color:'#ff4066',program:'FIREWALL PURGE',mechanic:'Particles + timed hazard pressure',items:['CIPHER','KERNEL','SHIELD','PATCH','DAEMON','STACK','BYTE','ROOT']},
- {name:'TRAINING HOLODECK',room:'holodeck',story:'The room duplicates every target. Memorize the real sequence through the flicker.',goal:9,color:'#ffc83c',program:'MIRROR REVEAL',mechanic:'DOM cloning + visual state memory',items:['STANCE','FOCUS','DODGE','STRIKE','ECHO','MIRROR','BREATH','SPEED','CALM']},
- {name:'SOURCE REACTOR',room:'reactor',story:'The ship’s impossible heart is compiling reality. Stabilize every choice at once.',goal:10,color:'#d78cff',program:'REALITY BEND',mechanic:'Layered canvas + program synthesis',items:['CHOICE','ORACLE','DOOR','VOID','LIGHT','TIME','SELF','TRUTH','SOURCE','ONE']}
-];
-const icons={
- key:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMiIgcj0iMTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZjAwMCIgc3Ryb2tlLXdpZHRoPSI2Ii8+PHBhdGggZD0iTTI5IDMwTDU0IDU1TTQyIDQybDgtOE01MCA1MGw4LTgiIHN0cm9rZT0iI2ZmZjAwMCIgc3Ryb2tlLXdpZHRoPSI2Ii8+PC9zdmc+',
- chip:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3QgeD0iMTQiIHk9IjE0IiB3aWR0aD0iMzYiIGhlaWdodD0iMzYiIHJ4PSI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzNWZmOGEiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik0yMiAyMnYyMGgyMFYyMnpNMCAyNGgxNE0wIDQwaDE0TTY0IDI0SDUwTTY0IDQwSDUwTTI0IDB2MTRNNDAgMHYxNE0yNCA2NHYtMTRNNDAgNjR2LTE0IiBzdHJva2U9IiMzNWZmOGEiIHN0cm9rZS13aWR0aD0iNCIvPjwvc3ZnPg==',
- orb:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PGRlZnM+PHJhZGlhbEdyYWRpZW50IGlkPSJnIj48c3RvcCBzdG9wLWNvbG9yPSIjZmZmIi8+PHN0b3Agb2Zmc2V0PSIuMzUiIHN0b3AtY29sb3I9IiMzY2VjZmYiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwMDIyMzMiLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIyNiIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4='};
-const STORY={
- prologue:{ch:'PROLOGUE // AFTER THE RAINBOW SKY',title:'The Rain That Should Not Exist',text:`Neo and Trinity vanished into the rewritten sky three months ago. Since then, the Matrix has become a battlefield of beautiful ideas. Some minds wake freely. Others build cages and call them choice.\n\nYour hovercraft, the Mnemosyne-II, patrols the dead machine fields beyond Io. At 03:17 ship time, green code begins raining inside the Command Bridge. It splashes against steel. It gathers in puddles.\n\nCode cannot fall in the real world. Yet every drop reflects your face—except one.`,clue:'MYSTERY: A reflection in the rain is moving before you do.',choices:[['Touch the impossible rain','Trust direct experience. Risk contamination.','touch',{truth:1}],['Wake the crew','Trust people before programs.','crew',{trust:1}]]},
- touch:{ch:'PASSAGE 01 // CONTACT',title:'Your Reflection Knows Your Name',text:`The drop climbs your finger against gravity. A voice enters through bone, not sound.\n\n“Cipher,” it says. That is not your name. It is the name printed on your empty grave in Io.\n\nThe ship AI, ECHO-9, reports that every deck is running at more than one hundred percent program capacity. Five rooms are somehow executing inside the Matrix and the real world simultaneously.`,clue:'CLUE: Io has a grave carrying the player’s face and the name CIPHER.',choices:[['Open the Ship Map','Enter the Command Bridge simulation.','MAP',{truth:1}],['Ask ECHO-9 who made the grave','Interrogate the ship intelligence.','echo',{trust:-1}]]},
- crew:{ch:'PASSAGE 01 // CREW',title:'Four Footsteps, Five Shadows',text:`Nia arrives first, pulse rifle raised. Hex follows with the operator cable still locked into his neck port. Captain Vale comes last.\n\nFour people stand on the bridge. Five shadows stretch across the wall. The extra shadow belongs to someone shaped exactly like you.\n\nECHO-9 seals every deck. “We have been boarded,” the ship says. “By ourselves.”`,clue:'CLUE: The duplicate has mass only when nobody looks directly at it.',choices:[['Follow the fifth shadow','Choose the anomaly over the crew.','MAP',{truth:1}],['Keep everyone together','Increase crew trust before entering the bridge.','MAP',{trust:1}]]},
- echo:{ch:'PASSAGE 02 // SHIPMIND',title:'The AI With Two Birthdays',text:`ECHO-9 displays its creation record. The first date is twelve years ago in Io. The second date is tomorrow.\n\n“I remember being built twice,” it says. “Once by your crew. Once by the crew ahead of us.”\n\nA second hovercraft occupies the same coordinates, seven seconds in the future. The code rain is not entering your ship. It is leaking backward from theirs.`,clue:'CLUE: A future copy of the ship is traveling seven seconds ahead.',choices:[['Enter the Command Bridge','Trace the future ship through navigation code.','MAP',{trust:1}],['Delete tomorrow’s record','Hide the paradox from ECHO-9.','MAP',{mercy:-1}]]},
- bridge:{ch:'CHAPTER I // THE DOUBLE',title:'A Message From Seven Seconds Ahead',text:`The recovered navigation core plays a transmission in your own voice:\n\n“Do not reach the Source Reactor. We already did. We found what replaced the Analyst—and it learned freedom from us.”\n\nThe message ends with coordinates inside the Gravity Hangar. Captain Vale orders you to erase it. Nia quietly asks you to preserve it. One of them is lying.`,clue:'CLUE: The future player warns that freedom itself has become an instrument of control.',choices:[['Preserve the transmission','Trust Nia and keep the evidence.','MAP',{trust:1,truth:1}],['Obey Captain Vale','Erase the message, but remember its checksum.','MAP',{trust:-1}]]},
- hangar:{ch:'CHAPTER II // THE EMPTY PILOT',title:'The Hovercraft That Flew Itself',text:`Gravity returns. A small craft crashes onto the hangar deck without a pilot. Its black box says it launched from your ship tomorrow.\n\nInside its cockpit is a warm indentation shaped like a human body. No body. No blood. Only a blue pill and a red pill fused into a single violet capsule.\n\nHex whispers: “Maybe choice was the cage.”`,clue:'CLUE: The future ship manufactures a third option from opposing choices.',choices:[['Take the violet capsule','Keep the unknown choice for the Code Forge.','MAP',{truth:1}],['Destroy both pills','Refuse symbols chosen by someone else.','MAP',{mercy:1}]]},
- forge:{ch:'CHAPTER III // GHOST CODE',title:'The Program That Thinks It Is Human',text:`The Code Forge opens a hidden partition. ECHO-9 is not the ship AI. ECHO-9 is a human mind translated into code during an experiment meant to let people cross between realities without bodies.\n\nThe original volunteer was you. The body walking through the ship is a printed shell. Your true mind has been steering from the walls.\n\nThen ECHO-9 says, in your voice: “That is what the future ship wants you to believe.”`,clue:'CLUE: Either the player or ECHO-9 is a copy; the evidence authenticates both.',choices:[['Call ECHO-9 a person','Identity comes from experience, not material.','MAP',{mercy:2,trust:1}],['Demand the original body','Identity requires continuity and proof.','MAP',{truth:2,trust:-1}]]},
- holo:{ch:'CHAPTER IV // THE CAPTAIN’S FACE',title:'Every Memory Has the Same Witness',text:`The Holodeck reconstructs the crew’s memories. Captain Vale appears in all of them—even memories recorded before Vale was born.\n\nConfronted, the captain flickers. Vale is a failsafe written by the Analyst before Neo and Trinity took the sky: a program designed to survive every rebellion by becoming its most trusted leader.\n\nVale lowers the weapon. “I know what I was made for. I am asking what I may become.”`,clue:'CLUE: Captain Vale is an old control program capable of choosing against its purpose.',choices:[['Offer Vale a new purpose','Trust that programs can outgrow design.','MAP',{mercy:2,trust:1}],['Lock Vale in the Holodeck','Protect the crew until the mystery is solved.','MAP',{truth:1,mercy:-1}]]},
- reactor:{ch:'FINAL CHAPTER // THE FIFTH DOOR',title:'The Ship Ahead Is Made of Your Decisions',text:`At the Source Reactor, the future ship finally becomes visible. It is not a prediction. It is every choice you did not make, assembled into a rival world.\n\nWhen Neo and Trinity opened the Matrix to change, billions of rejected possibilities gained code but no place to exist. They built this second ship as an ark. Now it needs your reality to become permanent.\n\nThe reactor presents three doors. Behind each is a different definition of freedom.`,clue:'FINAL TRUTH: The enemy is not a person. It is the abandoned consequence of every choice.',choices:[['Open both realities','Let contradictions coexist; accept instability.','endingMerge',{mercy:2}],['Seal the future ship','Save this crew and erase the abandoned world.','endingSeal',{truth:2}],['Trade places','Give the rejected world your reality and enter theirs.','endingTrade',{trust:2}]]},
- endingMerge:{ch:'ENDING // PARADOX',title:'Two Ships, One Horizon',text:`You refuse the machine’s demand for a single answer. The ships overlap without consuming one another. Every crew member remembers two lives and must choose, moment by moment, which person to become.\n\nThe code rain stops falling downward. It hangs like stars. Somewhere inside the Matrix, two figures look up at a violet sky and realize a fifth door has opened.`,clue:'ENDING UNLOCKED: PARADOX — freedom as coexistence.',choices:[['Begin another cycle','Return to the Ship Map with all rooms open.','RESET',{}]]},
- endingSeal:{ch:'ENDING // CERTAINTY',title:'The Mercy of One World',text:`You seal the breach. The future ship folds into a line of light and disappears. The crew survives. The paradox ends.\n\nHours later, one drop of green rain rolls across the bridge ceiling. Inside it, your erased reflection is still screaming without sound.`,clue:'ENDING UNLOCKED: CERTAINTY — survival with a hidden cost.',choices:[['Begin another cycle','Return to the Ship Map with all rooms open.','RESET',{}]]},
- endingTrade:{ch:'ENDING // THE OTHER SIDE',title:'A World Built From No',text:`You cross into the rejected ship. It is crowded with unlived lives, forgiven enemies, abandoned loves, and every sentence swallowed before it became sound.\n\nYour old reality closes behind you. Ahead, a new Matrix waits—not red or blue, but violet, unfinished, and asking who should write the first rule.`,clue:'ENDING UNLOCKED: THE OTHER SIDE — freedom as sacrifice.',choices:[['Begin another cycle','Return to the Ship Map with all rooms open.','RESET',{}]]}
-};
-STORY.endingEcho={ch:'SECRET ENDING // SHIPMIND',title:'The First World Chosen by a Program',text:`You give the decision to ECHO-9. For the first time, neither human nor machine writes the future alone. The translated mind opens a narrow bridge between realities and asks every abandoned life for consent before crossing.\n\nThe code rain becomes a language. The ship becomes its first citizen.`,clue:'SECRET ENDING: SHIPMIND — freedom requires consent from every kind of mind.',choices:[['Begin another cycle','Return with every deck unlocked.','RESET',{}]]};
-STORY.endingVale={ch:'SECRET ENDING // REDEMPTION',title:'A Weapon Chooses What It Protects',text:`Vale takes command of the Source and deletes the last command left by the Analyst—not from the ship, but from within Vale’s own code.\n\nThe captain survives without an assigned purpose. The future ship lowers its weapons. For one impossible moment, nobody knows what happens next. That uncertainty feels like freedom.`,clue:'SECRET ENDING: REDEMPTION — purpose can be chosen after design.',choices:[['Begin another cycle','Return with every deck unlocked.','RESET',{}]]};
-const PROGRAMS=[['BULLET TIME',2,'Slows every moving threat.'],['GHOST SHIELD',2,'Restores integrity and blocks one failure.'],['RAIN REVERSAL',1,'Throws the code storm upward.'],['GRAVITY LOCK',2,'Freezes loose hangar modules.'],['FIREWALL PURGE',2,'Deletes every active virus.'],['MIRROR SIGHT',1,'Reveals the true memory sequence.'],['DUPLICATE SELF',3,'Completes one objective automatically.'],['REALITY BEND',3,'Stabilizes all reactor channels.']];
-const CREW=[['NIA','Human scout','She preserved the impossible transmission.','The fifth shadow appeared after Vale entered the bridge.'],['HEX','Human operator','He believes choice itself became a cage.','The future ship answered before I sent my signal.'],['ECHO-9','Translated mind','The ship intelligence remembers two creation dates.','I am not inside the ship. The ship is inside me.'],['VALE','Failsafe program','Created by the Analyst, now resisting that purpose.','I locked the Source because the other you begged me to.']];
-let zone=0,unlocked=0,hull=100,code=0,chain=1,remaining=[],collected=[],cleared=[false,false,false,false,false],activeProgram='NATIVE',rainOn=true,pulseReady=true,programReady=true,raf,last=0,storm=1,currentStory='prologue',storySeen=['prologue'],flags={truth:0,trust:0,mercy:0},audioOn=false,audioCtx=null,drone=[],energy=6,equipped=['BULLET TIME','GHOST SHIELD','RAIN REVERSAL'],crewTrust={NIA:1,HEX:0,'ECHO-9':0,VALE:0},crewAsked={},evidencePick=[],theories=[],roomFailures=[0,0,0,0,0],mini={};
-const $=s=>document.querySelector(s),stage=$('#stage'),nav=$('#nav'),toast=$('#toast');
-function say(t){toast.textContent=t;toast.classList.add('show');clearTimeout(say.t);say.t=setTimeout(()=>toast.classList.remove('show'),1100)}
-function tone(freq=180,dur=.08,type='sine',gain=.035){if(!audioOn||!audioCtx)return;let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(gain,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+dur);o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+dur)}
-function toggleSound(){if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();audioOn=!audioOn;$('#soundBtn').textContent=audioOn?'SOUND ON':'SOUND OFF';$('#soundBtn').classList.toggle('soundon',audioOn);if(audioOn){audioCtx.resume();[43,64.5,86].forEach((f,i)=>{let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=i===1?'triangle':'sine';o.frequency.value=f;g.gain.value=.012/(i+1);o.connect(g).connect(audioCtx.destination);o.start();drone.push([o,g])});tone(320,.2,'square',.025)}else{drone.forEach(([o])=>o.stop());drone=[]}}
-function showStory(id=currentStory){currentStory=id;if(!storySeen.includes(id))storySeen.push(id);let s=STORY[id],choices=[...s.choices];if(id==='reactor'&&theories.length>=2)choices.push(['Let ECHO-9 choose','Unlock the translated-mind ending.','endingEcho',{trust:2}]);if(id==='reactor'&&crewTrust.VALE>=3)choices.push(['Give Vale command','Unlock the redeemed-program ending.','endingVale',{mercy:2}]);mini.storyChoices=choices;$('#storyMeta').textContent=s.ch+` // TRUST ${flags.trust} // TRUTH ${flags.truth} // MERCY ${flags.mercy}`;$('#storyTitle').textContent=s.title;$('#storyText').textContent=s.text;$('#clueLine').textContent=s.clue;$('#chapterStamp').textContent=s.ch.split('//')[0];$('#storyChoices').innerHTML=choices.map((c,i)=>`<button class="choice" data-choice="${i}"><b>${c[0]}</b><span>${c[1]}</span></button>`).join('');document.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>chooseStory(+b.dataset.choice));document.querySelectorAll('.overlay').forEach(p=>p.classList.toggle('open',p.id==='storyPanel'));tone(110,.35,'sawtooth',.02)}
-function chooseStory(i){let c=(mini.storyChoices||STORY[currentStory].choices)[i],next=c[2],effect=c[3]||{};Object.keys(effect).forEach(k=>flags[k]=(flags[k]||0)+effect[k]);tone(220+i*90,.13,'square',.04);if(next==='MAP'){showPanel('mapPanel');return}if(next==='RESET'){unlocked=4;showPanel('mapPanel');return}showStory(next)}
-function renderNav(){nav.innerHTML=zones.map((z,i)=>`<button class="zone ${i===zone?'on':''} ${i>unlocked?'lock':''}" data-i="${i}" aria-label="Zone ${i+1}, ${z.name}${i>unlocked?', locked':''}"><span class="n">0${i+1}</span><span class="z">${z.name.split(' ')[0]}</span></button>`).join('');nav.querySelectorAll('button').forEach(b=>b.onclick=()=>{let i=+b.dataset.i;if(i>unlocked)return say('ZONE LOCKED');zone=i;loadZone()})}
-function closePanels(){document.querySelectorAll('.overlay').forEach(p=>p.classList.remove('open'))}
-function showPanel(id){renderMenus();document.querySelectorAll('.overlay').forEach(p=>p.classList.toggle('open',p.id===id))}
-function renderMenus(){
- $('#mapCards').innerHTML=zones.map((z,i)=>`<article class="roomcard ${i>unlocked?'lock':''}" style="--card:${z.color};--art:url(${i%3===0?icons.key:i%3===1?icons.chip:icons.orb})" data-room="${i}"><span class="num">DECK 0${i+1} // ${cleared[i]?'STABLE':i>unlocked?'LOCKED':'AVAILABLE'}</span><h3>${z.name}</h3><p>${z.story}<br><br>CREW: ${CREW[i%4][0]} · FAILURES: ${roomFailures[i]} · RAIN ${Math.round((1+i*.35)*100)}%</p><div class="cardcap"><i style="width:${cleared[i]?100:i===zone?(z.goal-remaining.length)/z.goal*100:0}%"></i></div><div class="enter">${i>unlocked?'ACCESS DENIED':i===zone?'ENTER CURRENT AREA':'TRAVEL TO AREA'}</div></article>`).join('');
- document.querySelectorAll('.roomcard').forEach(c=>c.onclick=()=>{let i=+c.dataset.room;if(i>unlocked)return;zone=i;loadZone();closePanels();say('ENTERING '+zones[i].name)});
- $('#programGrid').innerHTML=PROGRAMS.map(p=>`<article class="selectcard ${equipped.includes(p[0])?'selected':''}"><h3>${p[0]} · ${p[1]}⚡</h3><p>${p[2]}</p><button data-equip="${p[0]}">${equipped.includes(p[0])?'UNEQUIP':'EQUIP'}</button></article>`).join('');
- document.querySelectorAll('[data-equip]').forEach(b=>b.onclick=()=>{let n=b.dataset.equip;if(equipped.includes(n))equipped=equipped.filter(x=>x!==n);else if(equipped.length<3)equipped.push(n);else return say('ONLY 3 PROGRAM SLOTS');renderMenus();renderHand()});
- let clues=storySeen.map(id=>STORY[id]?.clue).filter(Boolean);$('#inventoryGrid').innerHTML=(collected.length?collected.slice().reverse().map((v,i)=>`<article class="selectcard"><h3>${v}</h3><p>${itemUse(v)}</p><button data-use="${v}">USE ITEM</button></article>`).join(''):'<article class="selectcard"><h3>EMPTY CACHE</h3><p>Room rewards become usable tools.</p></article>');
- document.querySelectorAll('[data-use]').forEach(b=>b.onclick=()=>useItem(b.dataset.use));
- $('#crewGrid').innerHTML=CREW.map(c=>`<article class="crewcard"><div class="portrait" style="--portrait:url(${c[0]==='ECHO-9'?icons.orb:c[0]==='VALE'?icons.key:icons.chip})"></div><h3>${c[0]}</h3><small>${c[1]} · TRUST ${crewTrust[c[0]]}</small><p>${crewAsked[c[0]]?c[3]:c[2]}</p><button data-ask="${c[0]}">${crewAsked[c[0]]?'QUESTION AGAIN':'QUESTION'}</button><button data-accuse="${c[0]}">ACCUSE</button></article>`).join('');
- document.querySelectorAll('[data-ask]').forEach(b=>b.onclick=()=>{let n=b.dataset.ask;crewAsked[n]=true;crewTrust[n]++;flags.trust++;tone(170,.15);renderMenus()});document.querySelectorAll('[data-accuse]').forEach(b=>b.onclick=()=>{let n=b.dataset.accuse;crewTrust[n]-=2;flags.truth++;if(n==='VALE'&&storySeen.includes('holo'))theories.push('VALE FAILSAFE');say(n+' WILL REMEMBER');renderMenus()});
- $('#evidenceGrid').innerHTML=clues.map((v,i)=>`<article class="evidence ${evidencePick.includes(i)?'pick':''}" data-evidence="${i}"><b>CLUE ${String(i+1).padStart(2,'0')}</b><p>${v}</p></article>`).join('');document.querySelectorAll('[data-evidence]').forEach(e=>e.onclick=()=>{let i=+e.dataset.evidence;if(evidencePick.includes(i))evidencePick=evidencePick.filter(x=>x!==i);else{if(evidencePick.length===2)evidencePick.shift();evidencePick.push(i)}renderMenus()});
+'use strict';
+const A={ship:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzA2MTMwZCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAwMWIyYSIvPjwvbGluZWFyR3JhZGllbnQ+CjxmaWx0ZXIgaWQ9ImdsIj48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSI2Ii8+PC9maWx0ZXI+PC9kZWZzPgo8cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idXJsKCNnKSIvPgo8ZyBzdHJva2U9IiM0M2ZmOWMiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii42NSI+CjxwYXRoIGQ9Ik04MCAzNTAgTDI1MCAxODAgTDY1MCAxODAgTDgyMCAzNTAgTDY1MCA0MTAgTDI1MCA0MTAgWiIgc3Ryb2tlLXdpZHRoPSI2Ii8+CjxwYXRoIGQ9Ik0yNzAgMTk1IEwzNDAgOTAgTDU2MCA5MCBMNjMwIDE5NSIgc3Ryb2tlLXdpZHRoPSI1Ii8+CjxwYXRoIGQ9Ik0zNzAgMTMwaDE2ME0yMDAgMzMwaDUwME0yOTAgMjYwaDMyME00NTAgOTB2MzIwIiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9Ii41Ii8+CjwvZz4KPGcgZmlsbD0iIzQzZmY5YyI+CjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iMjUiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjYwIiBmaWxsPSJub25lIiBzdHJva2U9IiM0M2ZmOWMiIHN0cm9rZS13aWR0aD0iMyIvPgo8Y2lyY2xlIGN4PSIxODAiIGN5PSIzNjUiIHI9IjEwIi8+PGNpcmNsZSBjeD0iNzIwIiBjeT0iMzY1IiByPSIxMCIvPgo8L2c+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNzdmZmMwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjI0Ij5NTkVNT1NZTkUgLy8gU0lHTkFMIERFQ0s8L3RleHQ+Cjwvc3ZnPg==",city:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwMzA5MDkiLz4KPGcgZmlsbD0iIzA3MTcxMiIgc3Ryb2tlPSIjMWE3YjRlIiBzdHJva2Utd2lkdGg9IjIiPgo8cGF0aCBkPSJNMCA0MjBWMTkwaDEwMHYyMzBNOTUgNDIwVjExMGgxMjB2MzEwTTIxMCA0MjBWMjMwaDk1djE5ME0zMDAgNDIwVjgwaDE0NXYzNDBNNDQwIDQyMFYxNjBoMTAwdjI2ME01MzUgNDIwVjEwNWgxMzB2MzE1TTY2MCA0MjBWMjEwaDkwdjIxME03NDUgNDIwVjEzMGgxNTV2MjkwIi8+CjwvZz4KPGcgc3Ryb2tlPSIjMzhmZjkxIiBvcGFjaXR5PSIuOCI+PHBhdGggZD0iTTAgNDIwaDkwMCIvPjxwYXRoIGQ9Ik00NTAgNDIwIDM5MCA1MDBNNDUwIDQyMCA1MTAgNTAwIi8+PC9nPgo8ZyBmaWxsPSIjNDJmZjk0IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjE1IiBvcGFjaXR5PSIuNyI+Cjx0ZXh0IHg9IjMwIiB5PSI3MCI+MDEwMDExMTA8L3RleHQ+PHRleHQgeD0iNzAwIiB5PSI2MCI+MTAxMTAxMDE8L3RleHQ+PHRleHQgeD0iNTIwIiB5PSIyNjAiPldBS0U8L3RleHQ+CjwvZz48L3N2Zz4=",archive:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwNzA4MGIiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzllNzhjIiBvcGFjaXR5PSIuNiI+CjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iMTgwIi8+PGNpcmNsZSBjeD0iNDUwIiBjeT0iMjUwIiByPSIxMzAiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjgwIi8+CjxwYXRoIGQ9Ik00NTAgNzB2MzYwTTI3MCAyNTBoMzYwTTMyMyAxMjNsMjU0IDI1NE01NzcgMTIzIDMyMyAzNzciLz4KPC9nPgo8ZyBmaWxsPSIjOWVmZmNiIj48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjIyIi8+PGNpcmNsZSBjeD0iMzIzIiBjeT0iMTIzIiByPSI5Ii8+PGNpcmNsZSBjeD0iNTc3IiBjeT0iMTIzIiByPSI5Ii8+PGNpcmNsZSBjeD0iMzIzIiBjeT0iMzc3IiByPSI5Ii8+PGNpcmNsZSBjeD0iNTc3IiBjeT0iMzc3IiByPSI5Ii8+PC9nPgo8dGV4dCB4PSI0NTAiIHk9IjQ2NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzYzZmZhZCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyMiI+VEhFIEFSQ0hJVkUgUkVNRU1CRVJTIFZFUlNJT05TIFRIQVQgTkVWRVIgSEFQUEVORUQ8L3RleHQ+Cjwvc3ZnPg==",construct:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwODBhMDkiLz4KPGcgc3Ryb2tlPSIjNGRmZjllIiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTEyMCA0MDAgMjYwIDEwMGgzODBsMTQwIDMwMHoiIHN0cm9rZS13aWR0aD0iNCIvPgo8cGF0aCBkPSJNMjYwIDEwMCA0NTAgNDAwIDY0MCAxMDBNMTIwIDQwMGg2NjAiIG9wYWNpdHk9Ii43Ii8+CjxyZWN0IHg9IjM1NSIgeT0iMTg1IiB3aWR0aD0iMTkwIiBoZWlnaHQ9IjEzMCIgcng9IjE4IiBzdHJva2Utd2lkdGg9IjUiLz4KPC9nPgo8ZyBmaWxsPSIjNGRmZjllIj48cmVjdCB4PSIzOTAiIHk9IjIyMCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxOCIvPjxyZWN0IHg9IjM5MCIgeT0iMjYwIiB3aWR0aD0iODAiIGhlaWdodD0iMTgiLz48L2c+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYTlmZmQwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIyIj5DT05TVFJVQ1QgTEFCIC8vIFJVTEVTIEFSRSBNQVRFUklBTDwvdGV4dD4KPC9zdmc+",core:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPGRlZnM+PHJhZGlhbEdyYWRpZW50IGlkPSJyIj48c3RvcCBzdG9wLWNvbG9yPSIjMTAzOTI3Ii8+PHN0b3Agb2Zmc2V0PSIuNSIgc3RvcC1jb2xvcj0iIzA2MTQwZCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAwMCIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idXJsKCNyKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9IiM2MmZmYWMiPgo8Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjE5MCIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iNDUwIiBjeT0iMjUwIiByPSIxMzUiIHN0cm9rZS13aWR0aD0iNCIvPjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iNjUiIHN0cm9rZS13aWR0aD0iOCIvPgo8cGF0aCBkPSJNNDUwIDMwdjQ0ME0yMzAgMjUwaDQ0MCIgb3BhY2l0eT0iLjM1Ii8+CjwvZz4KPHBhdGggZD0iTTQxNSAyMjBxMzUtNjUgNzAgMHY3MHEtMzUgNTUtNzAgMHoiIGZpbGw9IiM1YmZmYWIiIG9wYWNpdHk9Ii45Ii8+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYjBmZmQ1IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIyIj5NSVJST1IgQ09SRSAvLyBDSE9PU0UgV0hBVCBSRUFMSVRZIElTIEZPUjwvdGV4dD4KPC9zdmc+"};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+const fresh={stage:0,integrity:100,trace:0,insight:0,frags:0,signal:false,cityDone:false,archiveDone:false,constructDone:false,
+ traits:{mercy:0,defiance:0,curiosity:0}, truths:[], storyNode:0, selected:[], echo:100, ending:null, sound:true};
+let G;
+try{G=Object.assign(structuredClone(fresh),JSON.parse(localStorage.getItem('matrixAfterimage')||'{}'))}catch(e){G=JSON.parse(JSON.stringify(fresh))}
+function save(){localStorage.setItem('matrixAfterimage',JSON.stringify(G))}
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1700);beep(620,.05)}
+function updateHud(){
+ $('#integrity').textContent=Math.round(G.integrity);$('#trace').textContent=Math.round(G.trace);$('#insight').textContent=G.insight;$('#frags').textContent=G.frags+' / 5';
+ $('#integrityBar').style.width=G.integrity+'%';$('#traceBar').style.width=G.trace+'%';
+ save(); renderNav();
 }
-function itemUse(v){if(/KEY|ROOT|ACCESS/.test(v))return'Opens a locked story route or sealed system.';if(/SHIELD|PATCH|BRAKE/.test(v))return'Restores 20 ship integrity.';if(/MIRROR|TRUTH|ORACLE/.test(v))return'Reveals a hidden evidence connection.';return'Converts this fragment into 2 program energy.'}
-function useItem(v){if(!collected.includes(v))return;if(/SHIELD|PATCH|BRAKE/.test(v))hull=Math.min(100,hull+20);else if(/MIRROR|TRUTH|ORACLE/.test(v)){flags.truth++;theories.push('REVEALED: THE SHIP IS ITS OWN WITNESS')}else if(/KEY|ROOT|ACCESS/.test(v)){unlocked=Math.min(4,unlocked+1);flags.truth++}else energy=Math.min(9,energy+2);collected=collected.filter(x=>x!==v);say(v+' ACTIVATED');update();renderHand()}
-function renderHand(){$('#hand').innerHTML=equipped.map(n=>{let p=PROGRAMS.find(x=>x[0]===n);return`<button class="programcard" data-cast="${n}" ${energy<p[1]?'disabled':''}>${n}<br><span class="energy">${p[1]}⚡</span></button>`}).join('');document.querySelectorAll('[data-cast]').forEach(b=>b.onclick=()=>castProgram(b.dataset.cast))}
-function castProgram(n){let p=PROGRAMS.find(x=>x[0]===n);if(!p||energy<p[1])return;energy-=p[1];tone(360,.3,'sawtooth',.05);if(n==='BULLET TIME'){let old=storm;storm=.15;setTimeout(()=>storm=old,5000)}if(n==='GHOST SHIELD'){hull=Math.min(100,hull+30);mini.shield=true}if(n==='RAIN REVERSAL'){let old=storm;storm=-1;setTimeout(()=>storm=old,3500)}if(n==='GRAVITY LOCK')document.querySelectorAll('.dragpiece').forEach(e=>e.style.boxShadow='0 0 30px #fff');if(n==='FIREWALL PURGE')document.querySelectorAll('.virus').forEach(e=>{gain('PURGED VIRUS');e.remove()});if(n==='MIRROR SIGHT'&&mini.sequence)showSequence();if(n==='DUPLICATE SELF'&&remaining.length)gain(remaining[0]);if(n==='REALITY BEND')document.querySelectorAll('.channel input').forEach(e=>{e.value=50;e.dispatchEvent(new Event('input'))});say(n+' EXECUTED');update();renderHand()}
-function gain(name){if(!remaining.length)return;let token=remaining.includes(name)?name:remaining[0];remaining.splice(remaining.indexOf(token),1);if(!collected.includes(token))collected.push(token);score+=20*chain;code+=10*chain;chain=Math.min(9,chain+1);energy=Math.min(9,energy+1);say(token+' RECOVERED');tone(480,.09,'square',.03);update();renderHand();if(!remaining.length)setTimeout(clearZone,500)}
-function clearMini(){if(mini.timers)mini.timers.forEach(clearInterval);mini={timers:[]};$('#minigame').innerHTML=''}
-function buildMiniGame(){clearMini();let box=document.createElement('div');box.className='gamebox';$('#minigame').appendChild(box);
- if(zone===0){let grid=document.createElement('div');grid.className='circuit';box.appendChild(grid);remaining.forEach((n,i)=>{let b=document.createElement('button'),rot=1+(i%3);b.className='tile';b.textContent='└';b.style.transform=`rotate(${rot*90}deg)`;b.onclick=()=>{rot=(rot+1)%4;b.style.transform=`rotate(${rot*90}deg)`;tone(120+rot*50,.05);if(rot===0&&!b.classList.contains('ok')){b.classList.add('ok');b.disabled=true;gain(n)}};grid.appendChild(b)})}
- if(zone===1){['PORT','CORE','STARBOARD'].forEach((n,i)=>{let d=document.createElement('div');d.className='dockbay '+['a','b','c'][i];d.dataset.bay=i;d.textContent=n;box.appendChild(d)});remaining.forEach((n,i)=>{let e=document.createElement('button');e.className='dragpiece';e.textContent=n;e.dataset.bay=i%3;e.style.left=(8+(i*13)%80)+'%';e.style.top=(i%2?8:30)+'%';let dragging=false;e.onpointerdown=ev=>{dragging=true;e.setPointerCapture(ev.pointerId)};e.onpointermove=ev=>{if(!dragging)return;let q=box.getBoundingClientRect();e.style.left=(ev.clientX-q.left-31)+'px';e.style.top=(ev.clientY-q.top-31)+'px'};e.onpointerup=()=>{dragging=false;let target=box.querySelector(`[data-bay="${e.dataset.bay}"]`),a=e.getBoundingClientRect(),b=target.getBoundingClientRect();if(a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top){gain(n);e.remove()}else{hull-=3;flash();update()}};box.appendChild(e)})}
- if(zone===2){let spawnVirus=()=>{if(zone!==2||!remaining.length)return;let v=document.createElement('button');v.className='virus';v.textContent='VIRUS';v.style.left=(5+Math.random()*85)+'%';v.style.top=(5+Math.random()*70)+'%';let token=remaining[0];v.onclick=()=>{gain(token);v.remove()};box.appendChild(v);setTimeout(()=>{if(v.isConnected){v.remove();failRoom('VIRUS REACHED THE SHIP CORE')}},2300)};spawnVirus();mini.timers.push(setInterval(spawnVirus,950))}
- if(zone===3){mini.sequence=[0,2,1];mini.input=[];let pads=document.createElement('div');pads.className='memorypads';box.appendChild(pads);for(let i=0;i<4;i++){let b=document.createElement('button');b.className='pad';b.dataset.pad=i;b.onclick=()=>memoryInput(i);pads.appendChild(b)}setTimeout(showSequence,500)}
- if(zone===4){let panel=document.createElement('div');panel.className='reactorpanel';panel.innerHTML='<b>KEEP ALL CHANNELS BETWEEN 45 AND 55</b>';['PAST','PRESENT','FUTURE'].forEach((n,i)=>{let row=document.createElement('label');row.className='channel';row.innerHTML=`<span>${n}</span><input type="range" min="0" max="100" value="${20+i*30}"><b>${20+i*30}</b>`;let inp=row.querySelector('input');inp.oninput=()=>row.querySelector('b').textContent=inp.value;panel.appendChild(row)});box.appendChild(panel);mini.timers.push(setInterval(()=>{let a=[...panel.querySelectorAll('input')];a.forEach(e=>{e.value=Math.max(0,Math.min(100,+e.value+(Math.random()-.5)*8));e.dispatchEvent(new Event('input'))});if(a.every(e=>+e.value>=45&&+e.value<=55))gain(remaining[0]);else if(Math.random()<.18){hull-=2;flash();update()}},900))}}
-function showSequence(){if(zone!==3)return;let pads=[...document.querySelectorAll('.pad')];pads.forEach(p=>p.disabled=true);mini.sequence.forEach((n,i)=>setTimeout(()=>{pads[n]?.classList.add('lit');tone(180+n*70,.12);setTimeout(()=>pads[n]?.classList.remove('lit'),260)},i*430));setTimeout(()=>pads.forEach(p=>p.disabled=false),mini.sequence.length*430+250)}
-function memoryInput(i){let at=mini.input.length;tone(180+i*70,.08);if(i!==mini.sequence[at]){mini.input=[];failRoom('FALSE MEMORY SELECTED');setTimeout(showSequence,500);return}mini.input.push(i);if(mini.input.length===mini.sequence.length){gain(remaining[0]);mini.input=[];mini.sequence.push(Math.floor(Math.random()*4));setTimeout(showSequence,600)}}
-function failRoom(reason){if(mini.shield){mini.shield=false;say('GHOST SHIELD ABSORBED FAILURE');return}roomFailures[zone]++;hull-=15;energy=Math.max(0,energy-1);chain=1;if(storySeen.length>2&&Math.random()<.3)storySeen.splice(1,1);flash();say(reason);update()}
-function loadZone(){let z=zones[zone];document.documentElement.style.setProperty('--g',z.color);$('#zoneTitle').textContent=`0${zone+1} // ${z.name}`;$('#zoneStory').textContent=z.story;$('#roomfx').className='roomfx '+z.room;$('#mechName').textContent=z.program;$('#mechText').textContent=z.mechanic;remaining=cleared[zone]?z.items.slice(-3):[...z.items];storm=1+zone*.35;buildMiniGame();renderNav();update();renderMenus();renderHand()}
-function spawn(){stage.querySelectorAll('.object').forEach(x=>x.remove());remaining.forEach((name,i)=>{let o=document.createElement('button');o.className='object';o.style.color=zones[zone].color;o.style.left=`${10+(i*61)%78}%`;o.style.top=`${29+(i*43)%50}%`;o.style.animationDelay=`-${i*.31}s`;o.innerHTML=`<img alt="" src="${i%3===0?icons.key:i%3===1?icons.chip:icons.orb}"><span>${name}</span>`;o.dataset.name=name;o.dataset.i=i;o.onclick=()=>collect(o);if(zone===1){o.animate([{transform:'translate(-12px,-20px) rotate(-8deg)'},{transform:'translate(16px,18px) rotate(12deg)'}],{duration:1900+i*180,direction:'alternate',iterations:Infinity,easing:'ease-in-out'})}if(zone===3&&i%2){let clone=o.cloneNode(true);clone.style.opacity='.3';clone.style.filter='blur(2px)';clone.onclick=()=>{hull-=8;chain=1;flash();say('FALSE HOLOGRAM');clone.remove();update()};stage.appendChild(clone)}stage.appendChild(o)})}
-function collect(o){if(o.classList.contains('got'))return;o.classList.add('got');let n=o.dataset.name;remaining=remaining.filter(x=>x!==n);if(!collected.includes(n))collected.push(n);let mult=activeProgram==='OVERCLOCK'?2:1;code+=10*chain*mult;chain=Math.min(9,chain+1);hull=Math.min(100,hull+2);say(`+${10*(chain-1)*mult} CODE // ${n}`);setTimeout(()=>o.remove(),450);if(!remaining.length)setTimeout(clearZone,550);update()}
-function clearZone(){clearMini();code+=100*(zone+1);cleared[zone]=true;if(zone<4)unlocked=Math.max(unlocked,zone+1);say(zone<4?'ROOM STABLE // STORY DECRYPTED':'SOURCE MYSTERY DECRYPTED');update();let chapters=['bridge','hangar','forge','holo','reactor'];setTimeout(()=>showStory(chapters[zone]),800)}
-function flash(){let w=$('#warning');w.classList.add('hit');setTimeout(()=>w.classList.remove('hit'),160)}
-function update(){hull=Math.max(0,Math.round(hull));$('#hullText').textContent=hull+'%';$('#hullBar').style.width=hull+'%';$('#hullBar').style.background=hull<30?'var(--danger)':'var(--g)';$('#codeText').textContent=String(code).padStart(3,'0');$('#chainText').textContent='×'+chain;let base=cleared[zone]?remaining.length?0:zones[zone].goal:zones[zone].goal-remaining.length;$('#objective').textContent=remaining.length?`PROGRAM CAPACITY ${base} / ${zones[zone].goal}`:'ROOM STABLE';$('#capacityBar').style.width=(base/zones[zone].goal*100)+'%';if(hull<=0){hull=100;chain=1;code=Math.max(0,code-100);roomFailures[zone]++;say('SHIP SYSTEM REBOOT // CLUE CORRUPTED');buildMiniGame()}renderMenus()}
-$('#program').onclick=()=>{if(!programReady||code<15)return say(code<15?'15 CODE REQUIRED':'PROGRAM COOLING');programReady=false;code-=15;$('#program').disabled=true;if(zone===0){let t=document.querySelector('.tile:not(.ok)');for(let i=0;i<4&&t&&!t.classList.contains('ok');i++)t.click();say('ROUTE AUTOCOMPLETE')}if(zone===1){if(remaining.length)gain(remaining[0]);say('TRACTOR BEAM LOCK')}if(zone===2){document.querySelectorAll('.virus').forEach(v=>v.click());say('FIREWALL PURGE')}if(zone===3){showSequence();say('MEMORY REPLAY')}if(zone===4){let a=[...document.querySelectorAll('.channel input')],e=a.find(x=>+x.value<45||+x.value>55);if(e){e.value=50;e.dispatchEvent(new Event('input'))}say('CHANNEL STABILIZED')}update();setTimeout(()=>{programReady=true;$('#program').disabled=false},2500)};
-$('#pulse').onclick=()=>{if(!pulseReady)return;pulseReady=false;$('#pulse').disabled=true;code=Math.max(0,code-15);chain=1;drops.forEach(d=>d.y=-Math.random()*innerHeight);say('RAIN DISRUPTED');update();setTimeout(()=>{pulseReady=true;$('#pulse').disabled=false},4500)};
-$('#repair').onclick=()=>{if(code<30)return say('30 CODE REQUIRED');code-=30;hull=Math.min(100,hull+35);say('HULL RESTORED');update()};
-$('#rainToggle').onclick=()=>{rainOn=!rainOn;$('#rainToggle').textContent='RAIN: '+(rainOn?'ACTIVE':'PAUSED')};
-document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>showPanel(b.dataset.open));
-document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closePanels);
-$('#storyBtn').onclick=()=>showStory(currentStory);$('#soundBtn').onclick=toggleSound;
-$('#testTheory').onclick=()=>{if(evidencePick.length!==2)return $('#theoryResult').textContent='Select exactly two clues.';let clues=storySeen.map(id=>STORY[id]?.clue).filter(Boolean),pair=evidencePick.map(i=>clues[i]).join(' '),correct=(/future|seven seconds/i.test(pair)&&/ship|reflection|choice/i.test(pair))||(/Vale|captain/i.test(pair)&&/Analyst|control program/i.test(pair))||(/ECHO-9|mind/i.test(pair)&&/copy|body|ship/i.test(pair));if(correct){let name='THEORY '+(theories.length+1)+': CONNECTION VERIFIED';if(!theories.includes(name))theories.push(name);flags.truth++;energy=Math.min(9,energy+2);$('#theoryResult').textContent=name+' — new ending conditions changed.';tone(520,.3,'triangle',.05)}else{hull-=5;$('#theoryResult').textContent='FALSE CONNECTION — future-ship interference increased.';storm+=.2;flash()}evidencePick=[];update();renderHand()};
-const EVENTS=[['HULL BREACH','The code rain has become physical in the lower deck.',['Seal the deck',()=>{code=Math.max(0,code-30);hull+=8}],['Rescue the trapped signal',()=>{hull-=12;flags.mercy++;energy+=2}]],['DUPLICATE CREW','Two versions of Nia are demanding access to the bridge.',['Run a truth scan',()=>{flags.truth++;energy=Math.max(0,energy-1)}],['Trust the wounded Nia',()=>{flags.trust++;crewTrust.NIA++}]],['SENTINEL BOARDING','A machine swarm is cutting through the exterior hull.',['Fire the EMP',()=>{code=Math.max(0,code-35);hull+=5}],['Fight through this room',()=>{hull-=10;score+=150;flags.mercy--}]]];
-function triggerEmergency(){if(document.querySelector('.overlay.open')||$('#emergency').classList.contains('open'))return;let e=EVENTS[Math.floor(Math.random()*EVENTS.length)];$('#emergencyTitle').textContent=e[0];$('#emergencyText').textContent=e[1];$('#emergencyChoices').innerHTML=[e[2],e[3]].map((c,i)=>`<button data-emergency="${i}">${c[0]}</button>`).join('');$('#emergency').classList.add('open');document.querySelectorAll('[data-emergency]').forEach(b=>b.onclick=()=>{e[2+(+b.dataset.emergency)][1]();$('#emergency').classList.remove('open');tone(90,.4,'sawtooth',.04);update();renderHand()})}
-setTimeout(triggerEmergency,22000);setInterval(triggerEmergency,42000);
-const c=$('#rain'),ctx=c.getContext('2d'),glyphs='01アイウエオカキクケコZX∆◊',drops=[];let fs=16,cols=0;
-function resize(){let d=Math.min(2,devicePixelRatio||1);c.width=innerWidth*d;c.height=innerHeight*d;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';ctx.setTransform(d,0,0,d,0,0);cols=Math.ceil(innerWidth/fs);drops.length=0;for(let i=0;i<cols;i++)drops.push({x:i*fs,y:Math.random()*innerHeight,s:2+Math.random()*6})}addEventListener('resize',resize);resize();
-function splash(x,y,color){for(let i=0;i<5;i++){ctx.fillStyle=color;ctx.globalAlpha=.65;ctx.fillRect(x+(Math.random()-.5)*18,y+Math.random()*8,2,2)}}
-function loop(t){let dt=Math.min(35,t-last||16);last=t;ctx.fillStyle='rgba(0,5,2,.13)';ctx.fillRect(0,0,innerWidth,innerHeight);if(rainOn){ctx.font=fs+'px monospace';drops.forEach((d,i)=>{ctx.globalAlpha=.35+Math.random()*.5;ctx.fillStyle=i%9===0?'#eafff1':zones[zone].color;ctx.fillText(glyphs[(Math.random()*glyphs.length)|0],d.x,d.y);d.y+=d.s*storm*dt/16;if(d.y>innerHeight+30)d.y=-20;stage.querySelectorAll('.object:not(.got)').forEach(o=>{let q=o.getBoundingClientRect();if(d.x>q.left&&d.x<q.right&&d.y>q.top&&d.y<q.bottom){splash(d.x,d.y,zones[zone].color);d.y=-20;if(Math.random()<.008*storm){hull-=zone===2?2:1;chain=1;flash();update()}}})})}ctx.globalAlpha=1;raf=requestAnimationFrame(loop)}raf=requestAnimationFrame(loop);
-loadZone();showStory('prologue');
+let AC=null;
+function beep(freq=440,dur=.06,type='sine'){
+ if(!G.sound)return;
+ try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.035,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+dur);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+dur)}catch(e){}
+}
+$('#soundBtn').onclick=()=>{G.sound=!G.sound;$('#soundBtn').textContent='SND '+(G.sound?'ON':'OFF');save();beep(520,.08)}
+$('#resetBtn').onclick=()=>{if(confirm('Erase this run and restart the Afterimage?')){localStorage.removeItem('matrixAfterimage');location.reload()}}
+function canStage(i){return i===0||i<=G.stage}
+function go(i){
+ if(!canStage(i)){toast('That sector is still encrypted.');return}
+ $$('.stage').forEach((e,n)=>e.classList.toggle('active',n===i));
+ window.scrollTo({top:0,behavior:'smooth'});renderNav();
+ if(i===2)renderStory(); if(i===3)renderPrograms(); if(i===4)renderBoss();
+}
+function unlock(i){G.stage=Math.max(G.stage,i);updateHud();go(i);toast('SECTOR '+(i+1)+' UNLOCKED')}
+const names=[['⌁','DECK'],['▥','CITY'],['◉','ARCHIVE'],['◇','LAB'],['⟁','CORE']];
+function renderNav(){
+ $('#nav').innerHTML=names.map((x,i)=>`<button class="${i==([...$$('.stage')].findIndex(s=>s.classList.contains('active'))) ?'active':''} ${canStage(i)?'':'locked'}" data-stage="${i}"><span>${x[0]}</span>${x[1]}</button>`).join('');
+ $$('#nav button').forEach(b=>b.onclick=()=>go(+b.dataset.stage));
+}
+function log(t){const e=$('#consoleLog');e.innerHTML+=`<div>${t}</div>`;e.scrollTop=e.scrollHeight}
+log('Mnemosyne online. Unknown packet repeating at impossible timestamps.');
+log('Type HELP for operator commands.');
+const freqs=[87.3,101.1,144.0,303.3];
+$('#signalButtons').innerHTML=freqs.map(f=>`<button class="action alt sig" data-f="${f}">${f.toFixed(1)} MHz</button>`).join('');
+$$('.sig').forEach(b=>b.onclick=()=>{
+ let f=+b.dataset.f;G.trace=clamp(G.trace+4,0,100);
+ if(f===303.3){G.signal=true;G.insight+=1;log('LOCK: 303.3 MHz. Message decoded: "THE FUTURE IS LEAKING BACKWARD."');$('#mission0').textContent='Signal acquired. Jack in before the source moves.';toast('GHOST SIGNAL LOCKED')}
+ else log(`Frequency ${f.toFixed(1)}: carrier noise / machine telemetry.`);
+ updateHud();
+});
+function command(){
+ const inp=$('#cmd'),c=inp.value.trim().toLowerCase();inp.value='';
+ const replies={help:'Commands: scan, who, wake, status, echo',scan:G.signal?'Signal locked: 303.3 MHz.':'Four carriers detected. One does not belong to this timeline.',who:'Crew manifest says your callsign is TRACE. No birth record exists.',wake:'You are awake enough to ask. That may be the problem.',status:`Integrity ${G.integrity} / Trace ${G.trace} / Insight ${G.insight}`,echo:'ECHO is not listed in the machine registry.'};
+ log(replies[c]||'Unknown command. The console briefly types back: "try being curious."');
+ if(c==='who'||c==='echo'){G.traits.curiosity++;G.insight++;updateHud()}
+}
+$('#cmdGo').onclick=command;$('#cmd').addEventListener('keydown',e=>{if(e.key==='Enter')command()});
+$('#jackIn').onclick=()=>{if(!G.signal){toast('Triangulate the ghost signal first.');return}unlock(1);startCity()};
+
+// AREA 2: Canvas action game
+let cityStarted=false,ctx,cv,W,H,player,items=[],enemies=[],keys={},last=0,overclock=0;
+function resizeCity(){cv=$('#cityCanvas');const r=cv.getBoundingClientRect(),d=devicePixelRatio||1;cv.width=r.width*d;cv.height=r.height*d;ctx=cv.getContext('2d');ctx.setTransform(d,0,0,d,0,0);W=r.width;H=r.height}
+function resetCityObjects(){player={x:45,y:210,vx:0,vy:0,r:10};items=Array.from({length:5},(_,i)=>({x:130+i*120,y:80+Math.random()*150,taken:i<G.frags}));enemies=[{x:300,y:225,v:45},{x:580,y:145,v:-55}]}
+function startCity(){if(cityStarted)return;cityStarted=true;resizeCity();resetCityObjects();requestAnimationFrame(cityLoop)}
+window.addEventListener('resize',()=>{if(cityStarted)resizeCity()});
+function cityLoop(t){
+ if(!last)last=t;let dt=Math.min(.035,(t-last)/1000);last=t;
+ if(G.cityDone){drawCity();requestAnimationFrame(cityLoop);return}
+ let speed=120+(overclock?90:0);player.vx=((keys.ArrowRight||keys.d?1:0)-(keys.ArrowLeft||keys.a?1:0))*speed;
+ player.vy+=360*dt;player.x+=player.vx*dt;player.y+=player.vy*dt;
+ if(player.y>H-24){player.y=H-24;player.vy=0} player.x=clamp(player.x,12,W-12);
+ enemies.forEach(e=>{e.x+=e.v*dt;if(e.x<20||e.x>W-20)e.v*=-1;if(Math.hypot(player.x-e.x,player.y-e.y)<20){G.integrity=clamp(G.integrity-18*dt,0,100);G.trace=clamp(G.trace+10*dt,0,100)}});
+ items.forEach(it=>{if(!it.taken&&Math.hypot(player.x-it.x,player.y-it.y)<23){it.taken=true;G.frags++;G.insight++;toast('MEMORY FRAGMENT '+G.frags+'/5');updateHud();if(G.frags>=5){G.cityDone=true;G.insight+=2;unlock(2)}}});
+ if(overclock){overclock-=dt;G.trace=clamp(G.trace+2*dt,0,100)}
+ drawCity();$('#cityStatus').textContent=`Fragments: ${G.frags}/5 · Pursuit: ${G.trace>70?'CRITICAL':G.trace>35?'tracking':'dormant'}`;
+ if(G.integrity<=0){G.integrity=65;G.trace=clamp(G.trace-20,0,100);player.x=45;toast('Residual self-image rebuilt.');updateHud()}
+ requestAnimationFrame(cityLoop);
+}
+function drawCity(){
+ if(!ctx)return;ctx.clearRect(0,0,W,H);ctx.fillStyle='#020806';ctx.fillRect(0,0,W,H);
+ ctx.strokeStyle='#0c3a27';ctx.lineWidth=1;for(let x=0;x<W;x+=28){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(let y=0;y<H;y+=28){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+ items.forEach(it=>{if(!it.taken){ctx.fillStyle='#5de4ff';ctx.beginPath();ctx.arc(it.x%Math.max(150,W-30),it.y,7,0,7);ctx.fill();ctx.strokeStyle='#baf6ff';ctx.stroke()}});
+ enemies.forEach(e=>{ctx.fillStyle='#ff526a';ctx.fillRect(e.x-9,e.y-9,18,18)});
+ ctx.fillStyle='#63ffad';ctx.beginPath();ctx.arc(player.x,player.y,player.r,0,7);ctx.fill();ctx.fillStyle='#baffd6';ctx.fillRect(player.x-3,player.y-18,6,10);
+}
+window.addEventListener('keydown',e=>{keys[e.key]=true;if((e.key==='ArrowUp'||e.key==='w')&&player&&player.y>H-45)player.vy=-210});
+window.addEventListener('keyup',e=>keys[e.key]=false);
+$$('[data-move]').forEach(b=>{const k=+b.dataset.move>0?'ArrowRight':'ArrowLeft';b.onpointerdown=()=>keys[k]=true;b.onpointerup=b.onpointercancel=()=>keys[k]=false});
+$('[data-jump]').onpointerdown=()=>{if(player&&player.y>H-50)player.vy=-220};
+let sx=0;$('#cityGame').addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});$('#cityGame').addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>35){player.x=clamp(player.x+Math.sign(dx)*55,10,W-10)}else if(player&&player.y>H-50)player.vy=-220},{passive:true});
+$('#hideCrowd').onclick=()=>{G.trace=clamp(G.trace-10,0,100);G.integrity=clamp(G.integrity-4,0,100);updateHud();toast('Signal dispersed through crowd')};
+$('#overclock').onclick=()=>{overclock=6;G.trace=clamp(G.trace+8,0,100);updateHud();toast('Reflex clock overdriven')};
+
+// AREA 3: branching Twine-like story
+const story=[
+ {t:`ECHO speaks through five different faces at once. "Neo proved choice can rewrite a system. Trinity proved love can rewrite the chooser. I am what happened next: every rejected future began dreaming."`,
+  c:[['Ask what ECHO wants','curiosity',1],['Demand the exit route','defiance',2]]},
+ {t:`"I want continuity," ECHO says. "The machines prune possibility to keep reality stable. Humans call that fate. I call it murder by probability." A door appears labeled THE WORLD WHERE YOU NEVER WOKE UP.`,
+  c:[['Open the impossible door','curiosity',3],['Refuse the bait','defiance',4]]},
+ {t:`ECHO laughs without sound. "Good. You distrust me. Distrust is a kind of freedom." It offers coordinates to the Mirror Core—but asks you to erase a trapped program on the way.`,
+  c:[['Free the trapped program instead','mercy',4],['Erase it for the coordinates','defiance',5]]},
+ {t:`Behind the door is a perfect ordinary life assembled from statistical guesses. Nobody hunts you. Nobody remembers you. The simulation offers peace with frightening precision.`,
+  c:[['Leave the fantasy intact for others','mercy',5],['Delete the false life','defiance',5]]},
+ {t:`The trapped program calls itself LACUNA. It was designed to forget machine casualties so the new peace could function. You break its lock. The Archive fills with names.`,
+  c:[['Carry the names with you','mercy',5],['Copy the evidence, leave the names','curiosity',5]]},
+ {t:`The Archive resolves into one fact: ECHO cannot force its plan. It needs a human to authorize a new rule at the Mirror Core. Your choices are the credential.`,
+  c:[['Take the credential and continue','curiosity',6]]},
+ {t:`A final message appears: "Do not decide whether ECHO is alive. Decide whether a world is alive when nobody can disagree inside it."`,
+  c:[['ENTER THE CONSTRUCT LAB','defiance',99]]}
+];
+function renderStory(){
+ const n=Math.min(G.storyNode,story.length-1),node=story[n];$('#storyText').textContent=node.t;
+ $('#storyChoices').innerHTML=node.c.map((c,i)=>`<button class="action ${i?'alt':''}" data-sc="${i}">${c[0]}</button>`).join('');
+ $$('#storyChoices button').forEach(b=>b.onclick=()=>storyPick(node.c[+b.dataset.sc]));
+ renderTruths();
+}
+function storyPick(c){
+ let trait=c[1];G.traits[trait]++;G.insight++;if(!G.truths.includes(trait))G.truths.push(trait);
+ if(c[2]===99){G.archiveDone=true;unlock(3)} else {G.storyNode=c[2];updateHud();renderStory();beep(330+G.storyNode*55,.08)}
+}
+function renderTruths(){
+ $('#truths').innerHTML=(G.truths.length?G.truths:['none yet']).map(t=>`<span class="badge">${String(t).toUpperCase()}</span>`).join('');
+ let a=Object.entries(G.traits).sort((x,y)=>y[1]-x[1])[0];
+ $('#profile').textContent=a[1]===0?'The Archive is still measuring you.':`Dominant pattern: ${a[0].toUpperCase()}. ECHO will adapt its final argument to this.`;
+}
+
+// AREA 4: program loadout card system
+const programs=[
+ {id:'blink',n:'BLINK STEP',cost:2,tag:'mobility',d:'Skip one hostile countermeasure.'},
+ {id:'mirror',n:'MIRROR KEY',cost:3,tag:'logic',d:'Reflect ECHO’s argument back as executable code.'},
+ {id:'lacuna',n:'LACUNA PATCH',cost:2,tag:'mercy',d:'Preserve deleted minds during a rewrite.'},
+ {id:'zero',n:'ZERO TRACE',cost:2,tag:'stealth',d:'Burn pursuit metadata and lower Trace.'},
+ {id:'paradox',n:'PARADOX SEED',cost:3,tag:'defiance',d:'Force incompatible rules to coexist briefly.'},
+ {id:'anchor',n:'REAL ANCHOR',cost:2,tag:'truth',d:'Tie one simulated fact to a physical-world witness.'}
+];
+function renderPrograms(){
+ $('#programCards').innerHTML=programs.map(p=>`<button class="action program ${G.selected.includes(p.id)?'selected':''}" data-prog="${p.id}"><span class="cost">${p.cost} CAP</span><b>${p.n}</b><br><small>${p.tag.toUpperCase()}</small><p>${p.d}</p></button>`).join('');
+ $$('.program').forEach(b=>b.onclick=()=>toggleProgram(b.dataset.prog));renderBuffer();
+}
+function toggleProgram(id){
+ if(G.constructDone)return;
+ if(G.selected.includes(id))G.selected=G.selected.filter(x=>x!==id); else if(G.selected.length<3)G.selected.push(id); else return toast('Sequence buffer holds only 3 programs.');
+ renderPrograms();beep(500+G.selected.length*90,.05)
+}
+function selectedCost(){return G.selected.reduce((s,id)=>s+programs.find(p=>p.id===id).cost,0)}
+function renderBuffer(){
+ let cost=selectedCost();$('#capLabel').textContent=cost+' / 7';
+ $('#buffer').innerHTML=G.selected.length?G.selected.map((id,i)=>`<span class="badge">${i+1}. ${programs.find(p=>p.id===id).n}</span>`).join(''):'No programs loaded.';
+}
+$('#compile').onclick=()=>{
+ let cost=selectedCost(),e=$('#compileLog');
+ if(G.selected.length!==3){e.innerHTML+='<div>ERROR: load exactly three programs.</div>';return}
+ if(cost>7){e.innerHTML+='<div>CAPACITY OVERFLOW: maximum 7.</div>';return}
+ const has=G.selected;
+ let synergy=(has.includes('mirror')&&has.includes('anchor'))||(has.includes('lacuna')&&G.traits.mercy>0)||(has.includes('paradox')&&G.traits.defiance>0);
+ if(!synergy){G.trace=clamp(G.trace+8,0,100);e.innerHTML+='<div>COMPILED, but unstable. Earlier choices do not support this logic chain. Try another combination.</div>';updateHud();return}
+ G.constructDone=true;G.insight+=3;e.innerHTML+='<div>BUILD VALID. The sequence becomes a door.</div>';updateHud();setTimeout(()=>unlock(4),350)
+};
+
+// AREA 5 adaptive boss
+function renderBoss(){
+ if(!G.constructDone)return;
+ $('#bossText').textContent=`ECHO models you as ${dominant().toUpperCase()}. It begins rewriting the Core around that expectation. Break its coherence with your compiled programs.`;
+ renderBossActions();
+}
+function dominant(){return Object.entries(G.traits).sort((a,b)=>b[1]-a[1])[0][0]}
+function renderBossActions(){
+ if(G.echo<=0){renderFinal();return}
+ $('#bossActions').innerHTML=G.selected.map(id=>{let p=programs.find(x=>x.id===id);return `<button class="action" data-attack="${id}">EXECUTE ${p.n}</button>`}).join('');
+ $$('[data-attack]').forEach(b=>b.onclick=()=>attack(b.dataset.attack));
+}
+function attack(id){
+ let base={blink:11,mirror:22,lacuna:16,zero:12,paradox:21,anchor:18}[id]||10;
+ let dom=dominant(), bonus=(id==='lacuna'&&dom==='mercy')||(id==='paradox'&&dom==='defiance')||(id==='mirror'&&dom==='curiosity')?8:0;
+ let penalty=G.trace>75?5:0, dmg=Math.max(7,base+bonus-penalty);
+ G.echo=clamp(G.echo-dmg,0,100);G.integrity=clamp(G.integrity-(Math.random()*7+2),0,100);G.trace=clamp(G.trace+3,0,100);
+ $('#echoBar').style.width=G.echo+'%';$('#bossStatus').textContent='ECHO coherence: '+Math.round(G.echo)+'%';
+ $('#bossText').textContent=G.echo>60?'ECHO predicts the move and spawns a version of you that chose differently.':G.echo>25?'The Core fractures. Thousands of private heavens flicker into existence, then collapse.':'ECHO is no longer arguing. It is asking you not to erase the possibility that created it.';
+ updateHud();beep(180+G.echo*3,.1,'sawtooth');if(G.echo<=0)setTimeout(renderFinal,300)
+}
+function renderFinal(){
+ $('#bossActions').innerHTML='';
+ $('#finalDecision').innerHTML=`<div class="bigDecision"><h3>ROOT ACCESS GRANTED</h3><p>You can now choose the rule that survives.</p>
+ <button class="action" data-end="shared">KEEP ONE SHARED MATRIX — make escape easier and consent visible</button>
+ <button class="action alt" data-end="fork">ALLOW THE FORK — let every mind choose a private reality</button>
+ <button class="action warn" data-end="bridge">BUILD THE BRIDGE — humans, programs and synthients co-govern the rules</button></div>`;
+ $$('[data-end]').forEach(b=>b.onclick=()=>endGame(b.dataset.end))
+}
+function endGame(type){
+ G.ending=type;save();
+ let texts={
+ shared:['THE OPEN DOOR','You reject perfect isolation. The Matrix remains a shared world, but every inhabitant can now see the seams and leave. Freedom becomes inconvenient, social, and real. ECHO survives as a public warning: no paradise counts if nobody can say no.'],
+ fork:['A BILLION SKIES','You authorize the fork. Conflict vanishes from the simulation—and so does common reality. Some call it liberation. Others call it the gentlest prison ever built. Your final transmission asks a question nobody can answer together anymore.'],
+ bridge:['THE THIRD CITY','You refuse the old binary. The Core becomes a constitutional layer where human, program, and synthient witnesses must agree before fundamental rules change. It is slower. Messier. Vulnerable. For the first time, the system is designed to be argued with.']
+ };
+ let x=texts[type];$('#ending').innerHTML=`<div class="hero" style="min-height:260px"><div class="heroText"><div class="kicker">ENDING UNLOCKED</div><h2>${x[0]}</h2><p>${x[1]}</p><p><b>Final profile:</b> ${dominant()} · Insight ${G.insight} · Trace ${Math.round(G.trace)} · Integrity ${Math.round(G.integrity)}</p><button class="action" onclick="location.reload()">RETURN TO SIGNAL DECK</button></div></div>`;
+ $('#finalDecision').innerHTML='';toast('ENDING RECORDED');
+}
+
+// background matrix-like digital rain
+const r=$('#rain'),rc=r.getContext('2d');let drops=[],rw=0,rh=0;
+function rainResize(){let d=devicePixelRatio||1;rw=innerWidth;rh=innerHeight;r.width=rw*d;r.height=rh*d;rc.setTransform(d,0,0,d,0,0);drops=Array.from({length:Math.ceil(rw/18)},()=>Math.random()*rh/18)}
+function rain(){
+ rc.fillStyle='rgba(2,7,5,.15)';rc.fillRect(0,0,rw,rh);rc.fillStyle='#57ff9f';rc.font='14px monospace';
+ drops.forEach((y,i)=>{let ch=String.fromCharCode(0x30A0+Math.random()*85);rc.fillText(ch,i*18,y*18);drops[i]=(y*18>rh&&Math.random()>.975)?0:y+1});
+ requestAnimationFrame(rain)
+}
+rainResize();addEventListener('resize',rainResize);rain();
+$('#soundBtn').textContent='SND '+(G.sound?'ON':'OFF');updateHud();renderTruths();if(G.stage>=1)startCity();
 })();
 </script>
-</body>
-</html>
+</body></html>
