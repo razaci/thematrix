@@ -1380,6 +1380,41 @@ button{min-height:40px;border-radius:8px;border:1px solid #416a4d;background:#0a
 #commandDeck{border-color:#8d5224;background:rgba(12,5,1,.98);color:#ffd0a0}
 @media(max-width:720px){.holoLeft,.holoRight{width:118px;font-size:8px;top:18%;padding:6px}.targetHud{width:150px!important;height:150px!important}#areaDeck{max-width:96%;overflow-x:auto}.holoRow:nth-child(n+6){display:none}}
 
+
+/* AI DATA HEAVEN / HARDLINE NETWORK */
+.netWall{display:grid;grid-template-columns:1.2fr .8fr;gap:7px;margin-top:7px}
+.netPanel{border:1px solid #355e43;border-radius:8px;background:#030805;padding:7px;min-height:120px;overflow:hidden}
+.netPanel h4{margin:0 0 5px;color:#9dffb4;font:10px monospace}
+.packetFlow{height:112px;overflow:hidden;font:9px monospace;line-height:1.25;color:#74ff96;background:#010301;padding:5px;border-radius:5px}
+.packetFlow div{white-space:nowrap;animation:packetFade 3s linear forwards}
+@keyframes packetFade{0%{opacity:0;transform:translateX(-12px)}15%{opacity:1}100%{opacity:.15;transform:translateX(8px)}}
+.nodeGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.node{padding:7px 4px;border:1px solid #2f6a43;border-radius:6px;text-align:center;font:8px monospace;background:#061009}
+.node.hot{box-shadow:0 0 12px rgba(90,255,130,.25);border-color:#79ff9b}
+.aiTicker{font:9px monospace;height:78px;overflow:hidden}
+.aiTicker b{color:#c9ffd6}
+.dataBar{height:6px;background:#122218;border-radius:999px;overflow:hidden;margin:3px 0 6px}
+.dataBar i{display:block;height:100%;background:#7cff9b}
+@media(max-width:720px){.netWall{grid-template-columns:1fr}.packetFlow{height:90px}}
+
+
+/* DATA HEAVEN X10 */
+.dataHeaven{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:7px}
+.dataCard{border:1px solid #315c40;border-radius:8px;background:#020604;padding:7px;min-height:105px;overflow:hidden;box-shadow:inset 0 0 20px rgba(80,255,120,.05)}
+.dataCard h4{margin:0 0 5px;color:#a8ffbb;font:10px monospace}
+.spark{height:34px;display:flex;align-items:flex-end;gap:2px}
+.spark i{display:block;width:4px;background:#7eff9a;opacity:.75}
+.hexstream{font:8px monospace;line-height:1.15;color:#75e996;height:70px;overflow:hidden;word-break:break-all}
+.processList{font:8px monospace;line-height:1.35}
+.processList b{color:#d7ffe0}
+.matrixMap{display:grid;grid-template-columns:repeat(8,1fr);gap:2px}
+.matrixMap i{aspect-ratio:1;border:1px solid #21492f;background:#061009}
+.matrixMap i.hot{background:#194b28;box-shadow:0 0 8px rgba(100,255,140,.35)}
+.matrixMap i.agent{background:#4b1c1c;border-color:#9b4a4a}
+.thinkstream{height:85px;overflow:hidden;font:8px monospace;color:#9efab2}
+.thinkstream div{padding:2px 0;border-bottom:1px solid rgba(70,120,80,.18)}
+@media(max-width:720px){.dataHeaven{grid-template-columns:1fr}}
+
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;div id=&quot;app&quot;&gt;
  &lt;div class=&quot;top&quot;&gt;&lt;div class=&quot;brand&quot;&gt;MATRIX: AFTERIMAGE // SHIP CONSOLE&lt;/div&gt;&lt;div class=&quot;hud&quot;&gt;&lt;span class=&quot;chip&quot; id=&quot;step&quot;&gt;MISSION 1&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;intel&quot;&gt;INTEL 0&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;trace&quot;&gt;TRACE 0%&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
@@ -1403,7 +1438,7 @@ button{min-height:40px;border-radius:8px;border:1px solid #416a4d;background:#0a
    &lt;div class=&quot;rooms&quot; id=&quot;rooms&quot;&gt;&lt;/div&gt;&lt;div class=&quot;extras&quot; id=&quot;extras&quot;&gt;&lt;/div&gt;
    &lt;div class=&quot;readout&quot; id=&quot;readout&quot;&gt;&lt;/div&gt;
   &lt;/div&gt;
-  &lt;div id=&quot;start&quot;&gt;&lt;div class=&quot;startbox&quot;&gt;&lt;div class=&quot;k&quot;&gt;FIVE SHIP AREAS // ONE CLEAR CAMPAIGN&lt;/div&gt;&lt;h2&gt;MATRIX: AFTERIMAGE&lt;/h2&gt;&lt;p&gt;You are seated at the Mnemosyne command console. Move between five ship areas, work the systems, pass quizzes, then jack into the Matrix.&lt;/p&gt;&lt;button id=&quot;startBtn&quot;&gt;START GAME&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;div id=&quot;start&quot;&gt;&lt;div class=&quot;startbox&quot;&gt;&lt;div class=&quot;k&quot;&gt;FIVE SHIP AREAS // ONE CLEAR CAMPAIGN&lt;/div&gt;&lt;h2&gt;MATRIX: AFTERIMAGE&lt;/h2&gt;&lt;p&gt;You are seated at the Mnemosyne command console. Move between five ship areas, work the systems, breach neural challenges, then jack into the Matrix.&lt;/p&gt;&lt;button id=&quot;startBtn&quot;&gt;START GAME&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
  &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&quot;commandDeck&quot;&gt;&lt;/div&gt;&lt;div id=&quot;persistentShipNav&quot;&gt;&lt;/div&gt;
@@ -1415,7 +1450,16 @@ focus:100,heat:0,combo:1,threat:0,turn:0,credits:20,programs:[],inventory:[],enc
 cmd:null,nav:{range:42,contact:null,route:0},hard:{strength:72,nodes:3,masked:false},
 alloc:{engines:20,sensors:20,jack:25,life:20,reserve:15},matrix:{stability:88,exit:64,agents:0},
 missionCycle:0,pilotArea:&#x27;flight&#x27;,fuel:100,velocity:0,targetLock:0,cargo:0,
-areas:{flight:true,contacts:true,missions:true,programs:true,systems:true}};
+areas:{flight:true,contacts:true,missions:true,programs:true,systems:true},
+net:{tick:0,packets:[],nodes:[
+{name:&#x27;NODE-01&#x27;,load:42,state:&#x27;OPEN&#x27;},{name:&#x27;NODE-02&#x27;,load:71,state:&#x27;MASKED&#x27;},{name:&#x27;NODE-03&#x27;,load:18,state:&#x27;OPEN&#x27;},
+{name:&#x27;NODE-04&#x27;,load:83,state:&#x27;HOT&#x27;},{name:&#x27;NODE-05&#x27;,load:37,state:&#x27;OPEN&#x27;},{name:&#x27;NODE-06&#x27;,load:59,state:&#x27;ROUTED&#x27;}],
+aiLoad:34,vector:12,entropy:51,agents:0,modelLoad:41,memoryBus:63,latent:27,tokenRate:18,simulations:4,
+thoughts:[],hex:[],events:[],map:Array.from({length:64},()=&gt;0),processes:[
+{name:&#x27;ORACLE-LITE&#x27;,state:&#x27;RUNNING&#x27;,cpu:22},{name:&#x27;ROUTE-MIND&#x27;,state:&#x27;RUNNING&#x27;,cpu:17},
+{name:&#x27;LACUNA&#x27;,state:&#x27;IDLE&#x27;,cpu:5},{name:&#x27;ECHO-SIM&#x27;,state:&#x27;RUNNING&#x27;,cpu:31},
+{name:&#x27;MIRROR-WATCH&#x27;,state:&#x27;RUNNING&#x27;,cpu:19},{name:&#x27;HARDLINE-AI&#x27;,state:&#x27;RUNNING&#x27;,cpu:14}
+]}};
 const steps=[
  [&#x27;bridge&#x27;,&#x27;SCAN THE IMPOSSIBLE SIGNAL&#x27;,&#x27;signal&#x27;],
  [&#x27;operator&#x27;,&#x27;TALK TO TANK AND TRACE IT&#x27;,&#x27;tank&#x27;],
@@ -1442,7 +1486,7 @@ const D={
 };
 const mainActs={
  bridge:[[&#x27;SIGNAL SCAN&#x27;,&#x27;signal&#x27;],[&#x27;COURSE PLOT&#x27;,&#x27;course&#x27;],[&#x27;SENSOR PING&#x27;,&#x27;ping&#x27;],[&#x27;LOCK GHOST TARGET&#x27;,&#x27;ghostlock&#x27;]],
- operator:[[&#x27;TALK TO TANK&#x27;,&#x27;tank&#x27;],[&#x27;TRACE HARDLINE&#x27;,&#x27;hardline&#x27;],[&#x27;ENTER NEURAL CHALLENGE&#x27;,&#x27;openJackSeq&#x27;],[&#x27;MASK SIGNATURE&#x27;,&#x27;mask&#x27;]],
+ operator:[[&#x27;TALK TO TANK&#x27;,&#x27;tank&#x27;],[&#x27;TRACE HARDLINE&#x27;,&#x27;hardline&#x27;],[&#x27;ENTER NEURAL CHALLENGE&#x27;,&#x27;openJackSeq&#x27;],[&#x27;MASK SIGNATURE&#x27;,&#x27;mask&#x27;],[&#x27;NETWORK FABRIC&#x27;,&#x27;netview&#x27;]],
  engineering:[[&#x27;ROUTE POWER&#x27;,&#x27;power&#x27;],[&#x27;COOL REACTOR&#x27;,&#x27;cool&#x27;],[&#x27;REPAIR HULL&#x27;,&#x27;repair&#x27;],[&#x27;OVERCHARGE JACK BUS&#x27;,&#x27;overcharge&#x27;]],
  quarters:[[&#x27;SEARCH BUNK&#x27;,&#x27;photo&#x27;],[&#x27;READ CREW LOG&#x27;,&#x27;log&#x27;],[&#x27;EVIDENCE BOARD&#x27;,&#x27;evidence&#x27;],[&#x27;BUILD MEMORY MAP&#x27;,&#x27;memorymap&#x27;]],
  jack:[[&#x27;CHECK CABLE&#x27;,&#x27;cable&#x27;],[&#x27;RUN JACK TEST&#x27;,&#x27;jacktest&#x27;],[&#x27;PLUG IN&#x27;,&#x27;plugin&#x27;],[&#x27;LOAD PROGRAMS&#x27;,&#x27;loadprogram&#x27;]],
@@ -1452,6 +1496,7 @@ const mainActs={
 };
 function $(x){return document.getElementById(x)} function cur(){return steps[Math.min(G.step,steps.length-1)]}
 function setNote(t){$(&#x27;note&#x27;).textContent=t}
+setInterval(networkTick,900);
 function startGame(){$(&#x27;start&#x27;).style.display=&#x27;none&#x27;;logEvent(&#x27;&lt;b&gt;MISSION:&lt;/b&gt; Mnemosyne leaves safe space. The future signal is live.&#x27;);render()}
 function render(){
  const d=D[G.view]||D.bridge;
@@ -1590,6 +1635,86 @@ function crossSystemTick(){
  if(G.trace&gt;65){G.hard.strength=Math.max(0,G.hard.strength-7);G.matrix.agents=Math.min(5,G.matrix.agents+1)}
  if(G.heat&gt;75){G.ship.reactor=Math.max(0,G.ship.reactor-4)}
 }
+
+function networkMarkup(){
+ const n=G.net;
+ return &#x27;&lt;div class=&quot;netWall&quot;&gt;&#x27;+
+ &#x27;&lt;div class=&quot;netPanel&quot;&gt;&lt;h4&gt;HARDLINE PACKET STREAM&lt;/h4&gt;&lt;div class=&quot;packetFlow&quot; id=&quot;packetFlow&quot;&gt;&#x27;+n.packets.slice(-9).map(x=&gt;&#x27;&lt;div&gt;&#x27;+x+&#x27;&lt;/div&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;netPanel&quot;&gt;&lt;h4&gt;ROUTING NODES&lt;/h4&gt;&lt;div class=&quot;nodeGrid&quot;&gt;&#x27;+n.nodes.map(x=&gt;&#x27;&lt;div class=&quot;node &#x27;+(x.state===&#x27;HOT&#x27;?&#x27;hot&#x27;:&#x27;&#x27;)+&#x27;&quot;&gt;&#x27;+x.name+&#x27;&lt;br&gt;&#x27;+x.state+&#x27;&lt;br&gt;&#x27;+x.load+&#x27;%&lt;/div&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;netPanel&quot;&gt;&lt;h4&gt;AI PROCESS FABRIC&lt;/h4&gt;&lt;div class=&quot;aiTicker&quot;&gt;&lt;b&gt;Inference load&lt;/b&gt; &#x27;+n.aiLoad+&#x27;%&lt;div class=&quot;dataBar&quot;&gt;&lt;i style=&quot;width:&#x27;+n.aiLoad+&#x27;%&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;b&gt;Vector drift&lt;/b&gt; &#x27;+n.vector+&#x27;%&lt;div class=&quot;dataBar&quot;&gt;&lt;i style=&quot;width:&#x27;+n.vector+&#x27;%&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;b&gt;Entropy&lt;/b&gt; &#x27;+n.entropy+&#x27;%&lt;div class=&quot;dataBar&quot;&gt;&lt;i style=&quot;width:&#x27;+n.entropy+&#x27;%&quot;&gt;&lt;/i&gt;&lt;/div&gt;agent heuristics: &#x27;+n.agents+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;netPanel&quot;&gt;&lt;h4&gt;SYNTHETIC NETWORK&lt;/h4&gt;&lt;div class=&quot;terminal&quot;&gt;mesh: MNEMOSYNE-LATTICE&lt;br&gt;protocol: LACUNA/9&lt;br&gt;identity pool: &#x27;+(120+n.tick%880)+&#x27; synthetic IDs&lt;br&gt;active routes: &#x27;+n.nodes.filter(x=&gt;x.state!==&quot;MASKED&quot;).length+&#x27;&lt;br&gt;hardline integrity: &#x27;+Math.round(G.hard.strength)+&#x27;%&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;/div&gt;&#x27;+dataHeavenMarkup();
+}
+function dataHeavenMarkup(){
+ const n=G.net;
+ return &#x27;&lt;div class=&quot;dataHeaven&quot;&gt;&#x27;+
+ &#x27;&lt;div class=&quot;dataCard&quot;&gt;&lt;h4&gt;DATA HEAVEN CORE&lt;/h4&gt;&lt;div class=&quot;processList&quot;&gt;&#x27;+n.processes.map(p=&gt;&#x27;&lt;div&gt;&lt;b&gt;&#x27;+p.name+&#x27;&lt;/b&gt; // &#x27;+p.state+&#x27; // &#x27;+p.cpu+&#x27;%&lt;/div&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;dataCard&quot;&gt;&lt;h4&gt;MODEL TELEMETRY&lt;/h4&gt;&lt;div class=&quot;terminal&quot;&gt;model load: &#x27;+n.modelLoad+&#x27;%&lt;br&gt;memory bus: &#x27;+n.memoryBus+&#x27;%&lt;br&gt;latent drift: &#x27;+n.latent+&#x27;%&lt;br&gt;token flow: &#x27;+n.tokenRate+&#x27;/s&lt;br&gt;simulations: &#x27;+n.simulations+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;dataCard&quot;&gt;&lt;h4&gt;VECTOR SPACE&lt;/h4&gt;&lt;div class=&quot;spark&quot;&gt;&#x27;+Array.from({length:32},(_,i)=&gt;&#x27;&lt;i style=&quot;height:&#x27;+(8+((n.tick*7+i*13)%28))+&#x27;px&quot;&gt;&lt;/i&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;dataCard&quot;&gt;&lt;h4&gt;HEX FEED&lt;/h4&gt;&lt;div class=&quot;hexstream&quot;&gt;&#x27;+n.hex.slice(-180).join(&#x27; &#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;dataCard&quot;&gt;&lt;h4&gt;MATRIX NODE MAP&lt;/h4&gt;&lt;div class=&quot;matrixMap&quot;&gt;&#x27;+n.map.map((v,i)=&gt;&#x27;&lt;i class=&quot;&#x27;+(v===2?&#x27;agent&#x27;:v===1?&#x27;hot&#x27;:&#x27;&#x27;)+&#x27;&quot;&gt;&lt;/i&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;dataCard&quot;&gt;&lt;h4&gt;AI THOUGHT STREAM&lt;/h4&gt;&lt;div class=&quot;thinkstream&quot;&gt;&#x27;+n.thoughts.slice(-10).map(x=&gt;&#x27;&lt;div&gt;&#x27;+x+&#x27;&lt;/div&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;dataCard&quot;&gt;&lt;h4&gt;EVENT BUS&lt;/h4&gt;&lt;div class=&quot;thinkstream&quot;&gt;&#x27;+n.events.slice(-10).map(x=&gt;&#x27;&lt;div&gt;&#x27;+x+&#x27;&lt;/div&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;dataCard&quot;&gt;&lt;h4&gt;SYNTHETIC POPULATION&lt;/h4&gt;&lt;div class=&quot;terminal&quot;&gt;identities: &#x27;+(500+n.tick*7%9500)+&#x27;&lt;br&gt;active constructs: &#x27;+(12+n.simulations*3)+&#x27;&lt;br&gt;memory echoes: &#x27;+(31+n.tick%240)+&#x27;&lt;br&gt;prediction shards: &#x27;+(71+(n.tick*9)%700)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;/div&gt;&#x27;;
+}
+function networkTick(){
+ const n=G.net;if(!n)return;
+ n.tick++;
+ const src=[&#x27;MNEMOSYNE&#x27;,&#x27;TANK&#x27;,&#x27;NODE-02&#x27;,&#x27;GHOST&#x27;,&#x27;ARCHIVE&#x27;,&#x27;ECHO&#x27;,&#x27;MATRIX&#x27;];
+ const dst=[&#x27;NODE-01&#x27;,&#x27;JACK-CORE&#x27;,&#x27;LACUNA&#x27;,&#x27;EXIT-7&#x27;,&#x27;SENSOR&#x27;,&#x27;NULL&#x27;,&#x27;VECTOR&#x27;];
+ const typ=[&#x27;SYN&#x27;,&#x27;ACK&#x27;,&#x27;DATA&#x27;,&#x27;MASK&#x27;,&#x27;AI&#x27;,&#x27;TRACE&#x27;,&#x27;PING&#x27;];
+ const id=(1000+((n.tick*73)%8999));
+ n.packets.push(&#x27;[&#x27;+typ[n.tick%typ.length]+&#x27;] &#x27;+src[n.tick%src.length]+&#x27; &gt; &#x27;+dst[(n.tick*3)%dst.length]+&#x27; :: &#x27;+id.toString(16).toUpperCase());
+ if(n.packets.length&gt;30)n.packets.shift();
+ n.nodes.forEach((x,i)=&gt;{x.load=Math.max(3,Math.min(97,(x.load + ((n.tick+i*7)%13)-6)));});
+ n.nodes[(n.tick*2)%n.nodes.length].state=(n.tick%5===0?&#x27;HOT&#x27;:(n.tick%3===0?&#x27;MASKED&#x27;:&#x27;ROUTED&#x27;));
+ n.aiLoad=20+((n.tick*11)%68);
+ n.vector=8+((n.tick*17)%74);
+ n.entropy=25+((n.tick*23)%63);
+ n.agents=Math.floor(G.trace/25)+G.matrix.agents;
+ n.modelLoad=28+((n.tick*19)%67);
+ n.memoryBus=35+((n.tick*23)%62);
+ n.latent=10+((n.tick*29)%79);
+ n.tokenRate=8+((n.tick*31)%48);
+ n.simulations=2+((Math.floor(n.tick/5))%9);
+ n.processes.forEach((p,i)=&gt;{p.cpu=5+((n.tick*11+i*17)%47);p.state=(p.cpu&gt;40?&#x27;HOT&#x27;:((n.tick+i)%7===0?&#x27;IDLE&#x27;:&#x27;RUNNING&#x27;));});
+ const thoughts=[
+  &#x27;ORACLE-LITE predicts route instability near &#x27;+dst[n.tick%dst.length],
+  &#x27;ECHO-SIM reconstructs discarded memory &#x27;+id,
+  &#x27;ROUTE-MIND evaluates &#x27;+(3+n.tick%8)+&#x27; escape paths&#x27;,
+  &#x27;MIRROR-WATCH detects semantic drift &#x27;+n.latent+&#x27;%&#x27;,
+  &#x27;HARDLINE-AI masks identity lattice &#x27;+(120+n.tick%880),
+  &#x27;LACUNA compares impossible futures // score &#x27;+(40+n.tick%59),
+  &#x27;MODEL FABRIC reallocates attention to TRACE &#x27;+G.trace
+ ];
+ n.thoughts.push(thoughts[n.tick%thoughts.length]); if(n.thoughts.length&gt;40)n.thoughts.shift();
+ n.events.push(&#x27;T+&#x27;+n.tick+&#x27; // &#x27;+typ[(n.tick+2)%typ.length]+&#x27; // &#x27;+src[(n.tick+1)%src.length]+&#x27; :: &#x27;+dst[(n.tick+4)%dst.length]);
+ if(n.events.length&gt;40)n.events.shift();
+ const hx=((n.tick*2654435761)&gt;&gt;&gt;0).toString(16).toUpperCase().padStart(8,&#x27;0&#x27;);
+ n.hex.push(hx.slice(0,2),hx.slice(2,4),hx.slice(4,6),hx.slice(6,8)); if(n.hex.length&gt;500)n.hex.splice(0,80);
+ n.map=n.map.map(()=&gt;0);
+ for(let i=0;i&lt;9;i++)n.map[(n.tick*3+i*7)%64]=1;
+ for(let i=0;i&lt;Math.min(5,n.agents);i++)n.map[(n.tick*5+i*11+13)%64]=2;
+ if(G.trace&gt;75&amp;&amp;n.tick%4===0){G.matrix.agents=Math.min(5,G.matrix.agents+1);n.events.push(&#x27;ALERT // AGENT PROCESS FORKED&#x27;);}
+ if(G.heat&gt;80&amp;&amp;n.tick%3===0){n.events.push(&#x27;CORE // THERMAL THROTTLE&#x27;);G.ship.reactor=Math.max(0,G.ship.reactor-1);}
+ if(G.hard.strength&lt;35&amp;&amp;n.tick%2===0)n.events.push(&#x27;HARDLINE // PACKET LOSS SPIKE&#x27;);
+ if(G.view===&#x27;operator&#x27;){
+   const f=$(&#x27;feature&#x27;);if(f){const old=f.querySelector(&#x27;.netWall&#x27;);if(old)old.outerHTML=networkMarkup();}
+ }
+ const bank=$(&#x27;topScreenBank&#x27;);
+ if(bank&amp;&amp;bank.children[1]&amp;&amp;bank.children[1].querySelector(&#x27;small&#x27;))bank.children[1].querySelector(&#x27;small&#x27;).textContent=&#x27;HARDLINE // &#x27;+Math.round(G.hard.strength)+&#x27;% // &#x27;+n.nodes.filter(x=&gt;x.state===&#x27;HOT&#x27;).length+&#x27; HOT // &#x27;+n.processes.filter(x=&gt;x.state===&#x27;RUNNING&#x27;).length+&#x27; AI&#x27;;
+ if(bank&amp;&amp;bank.children[3]&amp;&amp;bank.children[3].querySelector(&#x27;small&#x27;))bank.children[3].querySelector(&#x27;small&#x27;).textContent=&#x27;MATRIX // TRACE &#x27;+G.trace+&#x27; // AI &#x27;+n.aiLoad+&#x27;% // TOK &#x27;+n.tokenRate+&#x27;/s // AG &#x27;+n.agents;
+}
+function matrixTelemetryMarkup(){
+ const n=G.net;
+ return &#x27;&lt;div class=&quot;dataHeaven&quot;&gt;&#x27;+
+ &#x27;&lt;div class=&quot;dataCard&quot;&gt;&lt;h4&gt;SIMULATION WEATHER&lt;/h4&gt;&lt;div class=&quot;terminal&quot;&gt;rain density: &#x27;+(40+n.tick%60)+&#x27;%&lt;br&gt;glitch pressure: &#x27;+Math.round((100-G.matrix.stability))+&#x27;%&lt;br&gt;agent forks: &#x27;+G.matrix.agents+&#x27;&lt;br&gt;exit confidence: &#x27;+G.matrix.exit+&#x27;%&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;dataCard&quot;&gt;&lt;h4&gt;REALITY HASH&lt;/h4&gt;&lt;div class=&quot;hexstream&quot;&gt;&#x27;+n.hex.slice(-120).join(&#x27; &#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;dataCard&quot;&gt;&lt;h4&gt;CONSCIOUSNESS BUS&lt;/h4&gt;&lt;div class=&quot;thinkstream&quot;&gt;&#x27;+n.thoughts.slice(-8).map(x=&gt;&#x27;&lt;div&gt;&#x27;+x+&#x27;&lt;/div&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;dataCard&quot;&gt;&lt;h4&gt;TRACE GRAPH&lt;/h4&gt;&lt;div class=&quot;spark&quot;&gt;&#x27;+Array.from({length:28},(_,i)=&gt;&#x27;&lt;i style=&quot;height:&#x27;+(6+((G.trace+i*7+n.tick)%32))+&#x27;px&quot;&gt;&lt;/i&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;/div&gt;&#x27;;
+}
 function renderActions(){
  const p=$(&#x27;primary&#x27;);p.innerHTML=&#x27;&#x27;;const u=$(&#x27;utility&#x27;);u.innerHTML=&#x27;&#x27;;
  if(G.view===&#x27;quiz&#x27;){
@@ -1641,6 +1766,13 @@ function renderFeature(){
  else f.innerHTML=&#x27;&#x27;;
  const sr=$(&#x27;scanRange&#x27;);if(sr)sr.oninput=()=&gt;{G.scan=+sr.value;renderFeature()};
  const pr=$(&#x27;powerRange&#x27;);if(pr)pr.oninput=()=&gt;{G.power=+pr.value;renderFeature()};
+ if(G.view===&#x27;operator&#x27;){
+   const box=$(&#x27;feature&#x27;);
+   if(box)box.innerHTML+=networkMarkup();
+ }
+
+ if(G.view===&#x27;matrix&#x27;){const box=$(&#x27;feature&#x27;);if(box)box.innerHTML+=matrixTelemetryMarkup();}
+
 }
 function renderChallenge(f){
  if(!G.challenge)makeChallenge();
@@ -1671,6 +1803,16 @@ function pushDir(d){
  const exp=expectedRoute();ch.input.push(d);const n=ch.input.length;
  if(ch.input[n-1]!==exp[n-1])return stageFail(&#x27;ROUTE BROKEN&#x27;);
  if(n===exp.length)stageWin();else{ch.time=Math.max(10,ch.time-5);renderFeature()}
+}
+
+function neuralDir(d){
+ const ch=G.challenge;if(!ch)return;
+ const exp=expectedRoute();
+ ch.input.push(d);
+ const idx=ch.input.length-1;
+ if(ch.input[idx]!==exp[idx]){stageFail(&#x27;WRONG SIGNAL&#x27;);return;}
+ if(ch.input.length===exp.length){stageWin();return;}
+ ch.time=Math.max(0,ch.time-5);render();
 }
 function stageFail(reason){
  const ch=G.challenge;if(!ch)return;
@@ -1758,6 +1900,8 @@ function act(a){
  loom:&#x27;Memory Loom reveals rejected predicted lives.&#x27;,proof:&#x27;Contradiction proof assembled.&#x27;,curator:&#x27;Curator stalls between two valid histories.&#x27;,
  anchor:&#x27;Real Anchor created from ship + body + witnesses.&#x27;,paradox:&#x27;Paradox Seed armed.&#x27;,program:&#x27;Program forged: WITNESS CHAIN.&#x27;};
  setNote(M[a]||&#x27;Action complete.&#x27;);advance(a);G.turn++;crossSystemTick();randomPressure();if(G.step&lt;steps.length)G.view=cur()[0];render();
+ if(a===&#x27;netview&#x27;){G.view=&#x27;operator&#x27;;setNote(&#x27;HARDLINE NETWORK FABRIC ACTIVE // LIVE SYNTHETIC DATA STREAM.&#x27;);}
+
 }
 function quiz(i){
  const second=G.done.archive;
