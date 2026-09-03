@@ -1215,7 +1215,7 @@ body.cockpit-only>*:not(#playableCockpit):not(script):not(style){display:none!im
 .bar{height:7px;margin-top:6px;background:#102018;border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;background:#9cebb1}
 .primary,.utility,.rooms,.extras{display:grid;gap:5px;margin-top:6px}.primary{grid-template-columns:repeat(3,1fr)}.utility{grid-template-columns:repeat(3,1fr)}.rooms{grid-template-columns:repeat(5,1fr)}.extras{grid-template-columns:repeat(4,1fr)}
 button{min-height:40px;border-radius:8px;border:1px solid #416a4d;background:#0a1710;color:#fff;font-weight:800;cursor:pointer}button:active{transform:translateY(1px)}button:disabled{opacity:.28}button.on{outline:2px solid var(--g)}
-#next{width:100%;margin-top:7px;min-height:49px;background:var(--y);color:#171100;border:2px solid var(--y);font-size:14px}
+
 .readout{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:6px}.meter{border:1px solid #2f573d;background:#061009;border-radius:8px;padding:5px;text-align:center;font:9px monospace}.meter b{display:block;font-size:12px;color:#fff}
 .feature{margin-top:7px;border:1px solid #2d573b;border-radius:10px;padding:8px;background:#061009}.feature h3{font-size:11px;margin:0 0 5px}.feature p{font:10px monospace;color:#cfe6d4;margin:4px 0}.feature input[type=range]{width:100%}.terminal{height:64px;overflow:auto;background:#010402;border:1px solid #234a31;border-radius:6px;padding:5px;font:9px monospace;color:#84ff9f}
 .quiz{display:grid;gap:5px}.quiz button{width:100%}#note{font:10px monospace;color:#dff6e4;min-height:14px;margin-top:5px}
@@ -1226,7 +1226,7 @@ button{min-height:40px;border-radius:8px;border:1px solid #416a4d;background:#0a
 #topArt{position:absolute;left:50%;top:8px;transform:translateX(-50%);width:min(94%,1100px);height:120px;object-fit:cover;z-index:2;pointer-events:none;opacity:.9}
 #leftArt,#rightArt{position:absolute;top:95px;width:150px;height:58%;object-fit:cover;z-index:2;pointer-events:none;opacity:.72}
 #leftArt{left:0}#rightArt{right:0}
-#helpTip{position:sticky;bottom:58px;width:100%;margin-top:7px;min-height:46px;background:#ffd94a;color:#171100;border:2px solid #ffd94a;font-size:13px;z-index:30;box-shadow:0 -8px 24px rgba(0,0,0,.55)}
+
 #tipBox{display:none;margin-top:6px;padding:8px;border:1px solid #d3b62c;border-radius:9px;background:#1b1603;color:#fff6b0;font:10px monospace}
 #tipBox.show{display:block}
 @media(max-width:720px){#topArt{height:84px;opacity:.75}#leftArt,#rightArt{width:70px;opacity:.38}}
@@ -1264,18 +1264,53 @@ button{min-height:40px;border-radius:8px;border:1px solid #416a4d;background:#0a
  .console{bottom:64px!important}
 }
 
+
+/* DIRECTIONAL SEQUENCE CONSOLES */
+
+
+.dirWrap{display:grid;grid-template-columns:1fr 180px;gap:8px;align-items:center}
+.seqScreen{background:#010402;border:1px solid #2e5a3c;border-radius:8px;padding:8px;font:11px monospace;color:#9dffb4;min-height:98px}
+.seqTarget{font-size:18px;letter-spacing:.22em;color:#fff;margin-top:7px}
+.seqInput{font-size:15px;letter-spacing:.18em;color:#ffd94a;margin-top:7px;min-height:22px}
+.dpad{display:grid;grid-template-columns:repeat(3,54px);grid-template-rows:repeat(3,44px);justify-content:center;gap:4px}
+.dpad button{min-height:44px;font-size:14px}
+.dpad .n{grid-column:2;grid-row:1}.dpad .w{grid-column:1;grid-row:2}.dpad .c{grid-column:2;grid-row:2;background:#111;color:#89ff9f}.dpad .e{grid-column:3;grid-row:2}.dpad .s{grid-column:2;grid-row:3}
+.matrixRain{position:absolute;inset:0;pointer-events:none;display:none;z-index:3;overflow:hidden}
+.matrixRain.on{display:block}
+.matrixRain i{position:absolute;top:-120px;color:#59ff83;font:14px monospace;opacity:.45;animation:fall linear infinite}
+@keyframes fall{to{transform:translateY(120vh)}}
+@media(max-width:720px){.dirWrap{grid-template-columns:1fr}.dpad{grid-template-columns:repeat(3,50px)}}
+
+
+/* INTENSE DYNAMIC GAMEPLAY */
+.combatline{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:6px}
+.combatline span{padding:6px;border:1px solid #345c42;border-radius:8px;background:#071009;text-align:center;font:9px monospace}
+.eventFeed{margin-top:6px;height:70px;overflow:auto;background:#010402;border:1px solid #21492f;border-radius:8px;padding:6px;font:9px monospace;color:#9dffb4}
+.eventFeed b{color:#fff}
+.encounter{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:6px}
+.encounter button{font-size:9px}
+.pulse{animation:pulse .45s ease}
+@keyframes pulse{50%{filter:brightness(1.8)}}
+.damage{animation:damage .35s linear}
+@keyframes damage{25%{transform:translateX(-4px)}50%{transform:translateX(4px)}75%{transform:translateX(-2px)}}
+.console{bottom:64px!important}
+@media(max-width:720px){.combatline,.encounter{grid-template-columns:repeat(2,1fr)}}
+
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;div id=&quot;app&quot;&gt;
  &lt;div class=&quot;top&quot;&gt;&lt;div class=&quot;brand&quot;&gt;MATRIX: AFTERIMAGE // SHIP CONSOLE&lt;/div&gt;&lt;div class=&quot;hud&quot;&gt;&lt;span class=&quot;chip&quot; id=&quot;step&quot;&gt;MISSION 1&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;intel&quot;&gt;INTEL 0&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;trace&quot;&gt;TRACE 0%&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
- &lt;div class=&quot;stage&quot;&gt;&lt;img id=&quot;scene&quot; alt=&quot;&quot;&gt;&lt;img id=&quot;topArt&quot; src=&quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDEyMDAgMTgwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwMzExMDkiLz48c3RvcCBvZmZzZXQ9Ii41IiBzdG9wLWNvbG9yPSIjMGIyNDE0Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDIwODA1Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjE4MCIgZmlsbD0idXJsKCNnKSIvPjxyZWN0IHg9IjIwIiB5PSIyNSIgd2lkdGg9IjI1MCIgaGVpZ2h0PSIxMTAiIHJ4PSIxNiIgZmlsbD0iIzA0MTYwYiIgc3Ryb2tlPSIjNGJkODczIi8+PHJlY3QgeD0iMzAwIiB5PSIyNSIgd2lkdGg9IjI1MCIgaGVpZ2h0PSIxMTAiIHJ4PSIxNiIgZmlsbD0iIzA0MTYwYiIgc3Ryb2tlPSIjNGJkODczIi8+PHJlY3QgeD0iNTgwIiB5PSIyNSIgd2lkdGg9IjI1MCIgaGVpZ2h0PSIxMTAiIHJ4PSIxNiIgZmlsbD0iIzA0MTYwYiIgc3Ryb2tlPSIjNGJkODczIi8+PHJlY3QgeD0iODYwIiB5PSIyNSIgd2lkdGg9IjMyMCIgaGVpZ2h0PSIxMTAiIHJ4PSIxNiIgZmlsbD0iIzA0MTYwYiIgc3Ryb2tlPSIjNGJkODczIi8+CjxnIHN0cm9rZT0iIzY2ZmY4ZSIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzIj48cGF0aCBkPSJNNDUgMTA1IEw4NSA2NSBMMTIwIDkyIEwxNjAgNTIgTDIwNSA5OCBMMjQ1IDcwIi8+PGNpcmNsZSBjeD0iNDI1IiBjeT0iODAiIHI9IjM1Ii8+PHBhdGggZD0iTTM5MCA4MGg3ME00MjUgNDV2NzAiLz48cGF0aCBkPSJNNjEwIDEwOCBxOTAtOTAgMTgwIDAiLz48cGF0aCBkPSJNOTAwIDk1IGg0NSBsMjAtMzUgMzAgNjUgMzAtNDUgMjggMTggaDk1Ii8+PC9nPgo8ZyBmaWxsPSIjYTlmZmMwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjEzIj48dGV4dCB4PSI0MCIgeT0iNTAiPk5BViBBUlJBWTwvdGV4dD48dGV4dCB4PSIzMjAiIHk9IjUwIj5IQVJETElORTwvdGV4dD48dGV4dCB4PSI2MDAiIHk9IjUwIj5TSElQIENPUkU8L3RleHQ+PHRleHQgeD0iODgwIiB5PSI1MCI+TUFUUklYIFRFTEVNRVRSWTwvdGV4dD48L2c+PC9zdmc+&quot; alt=&quot;&quot;&gt;&lt;img id=&quot;leftArt&quot; src=&quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMjAiIGhlaWdodD0iNzAwIiB2aWV3Qm94PSIwIDAgMjIwIDcwMCI+CjxyZWN0IHdpZHRoPSIyMjAiIGhlaWdodD0iNzAwIiBmaWxsPSIjMDIwODA1Ii8+PGcgZmlsbD0iIzA0MTUwYiIgc3Ryb2tlPSIjM2M5ZDU4Ij48cmVjdCB4PSIyMCIgeT0iMzAiIHdpZHRoPSIxODAiIGhlaWdodD0iMTIwIiByeD0iMTQiLz48cmVjdCB4PSIyMCIgeT0iMTc1IiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjEyMCIgcng9IjE0Ii8+PHJlY3QgeD0iMjAiIHk9IjMyMCIgd2lkdGg9IjE4MCIgaGVpZ2h0PSIxNTAiIHJ4PSIxNCIvPjxyZWN0IHg9IjIwIiB5PSI0OTUiIHdpZHRoPSIxODAiIGhlaWdodD0iMTYwIiByeD0iMTQiLz48L2c+CjxnIHN0cm9rZT0iIzY1ZmY4YiIgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTQwIDExNWwzNS00MCAyNSAyMiAzNS01MCA0MCA2NSIvPjxjaXJjbGUgY3g9IjExMCIgY3k9IjIzNSIgcj0iMzgiLz48cGF0aCBkPSJNNTUgMzkwaDExME01NSA0MTBoODBNNTUgNDMwaDEyNSIvPjxwYXRoIGQ9Ik01NSA1NDVxNjAtODAgMTEwIDBxLTU1IDgwLTExMCAweiIvPjwvZz4KPGcgZmlsbD0iI2E0ZmZiYSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMiI+PHRleHQgeD0iMzgiIHk9IjU1Ij5ERUNLPC90ZXh0Pjx0ZXh0IHg9IjM4IiB5PSIyMDAiPkxJTks8L3RleHQ+PHRleHQgeD0iMzgiIHk9IjM0NSI+U1RBVFVTPC90ZXh0Pjx0ZXh0IHg9IjM4IiB5PSI1MjAiPlRSQUNFPC90ZXh0PjwvZz48L3N2Zz4=&quot; alt=&quot;&quot;&gt;&lt;img id=&quot;rightArt&quot; src=&quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMjAiIGhlaWdodD0iNzAwIiB2aWV3Qm94PSIwIDAgMjIwIDcwMCI+CjxyZWN0IHdpZHRoPSIyMjAiIGhlaWdodD0iNzAwIiBmaWxsPSIjMDIwODA1Ii8+PGcgZmlsbD0iIzA0MTUwYiIgc3Ryb2tlPSIjM2M5ZDU4Ij48cmVjdCB4PSIyMCIgeT0iMzAiIHdpZHRoPSIxODAiIGhlaWdodD0iMTYwIiByeD0iMTQiLz48cmVjdCB4PSIyMCIgeT0iMjE1IiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjEwNSIgcng9IjE0Ii8+PHJlY3QgeD0iMjAiIHk9IjM0NSIgd2lkdGg9IjE4MCIgaGVpZ2h0PSIxMzAiIHJ4PSIxNCIvPjxyZWN0IHg9IjIwIiB5PSI1MDAiIHdpZHRoPSIxODAiIGhlaWdodD0iMTUwIiByeD0iMTQiLz48L2c+CjxnIHN0cm9rZT0iIzY1ZmY4YiIgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTQ1IDE0NWgxMzBNNDUgMTIwaDkwTTQ1IDk1aDExNSIvPjxwYXRoIGQ9Ik01NSAyNjVsMzUtMjUgMzUgMTUgMzUtNDUiLz48Y2lyY2xlIGN4PSIxMTAiIGN5PSI0MTAiIHI9IjQyIi8+PHBhdGggZD0iTTExMCAzNjh2ODRNNjggNDEwaDg0Ii8+PHBhdGggZD0iTTUwIDU2MGgxMjBNNTAgNTg1aDkwTTUwIDYxMGgxMzAiLz48L2c+CjxnIGZpbGw9IiNhNGZmYmEiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTIiPjx0ZXh0IHg9IjM4IiB5PSI1OCI+U1lTVEVNPC90ZXh0Pjx0ZXh0IHg9IjM4IiB5PSIyNDAiPlNJR05BTDwvdGV4dD48dGV4dCB4PSIzOCIgeT0iMzcwIj5DT1JFPC90ZXh0Pjx0ZXh0IHg9IjM4IiB5PSI1MjUiPkxPRzwvdGV4dD48L2c+PC9zdmc+&quot; alt=&quot;&quot;&gt;&lt;div class=&quot;overlay&quot;&gt;&lt;/div&gt;
+ &lt;div class=&quot;stage&quot;&gt;&lt;img id=&quot;scene&quot; alt=&quot;&quot;&gt;&lt;div id=&quot;matrixRain&quot; class=&quot;matrixRain&quot;&gt;&lt;/div&gt;&lt;img id=&quot;topArt&quot; src=&quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDEyMDAgMTgwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwMzExMDkiLz48c3RvcCBvZmZzZXQ9Ii41IiBzdG9wLWNvbG9yPSIjMGIyNDE0Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDIwODA1Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjE4MCIgZmlsbD0idXJsKCNnKSIvPjxyZWN0IHg9IjIwIiB5PSIyNSIgd2lkdGg9IjI1MCIgaGVpZ2h0PSIxMTAiIHJ4PSIxNiIgZmlsbD0iIzA0MTYwYiIgc3Ryb2tlPSIjNGJkODczIi8+PHJlY3QgeD0iMzAwIiB5PSIyNSIgd2lkdGg9IjI1MCIgaGVpZ2h0PSIxMTAiIHJ4PSIxNiIgZmlsbD0iIzA0MTYwYiIgc3Ryb2tlPSIjNGJkODczIi8+PHJlY3QgeD0iNTgwIiB5PSIyNSIgd2lkdGg9IjI1MCIgaGVpZ2h0PSIxMTAiIHJ4PSIxNiIgZmlsbD0iIzA0MTYwYiIgc3Ryb2tlPSIjNGJkODczIi8+PHJlY3QgeD0iODYwIiB5PSIyNSIgd2lkdGg9IjMyMCIgaGVpZ2h0PSIxMTAiIHJ4PSIxNiIgZmlsbD0iIzA0MTYwYiIgc3Ryb2tlPSIjNGJkODczIi8+CjxnIHN0cm9rZT0iIzY2ZmY4ZSIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzIj48cGF0aCBkPSJNNDUgMTA1IEw4NSA2NSBMMTIwIDkyIEwxNjAgNTIgTDIwNSA5OCBMMjQ1IDcwIi8+PGNpcmNsZSBjeD0iNDI1IiBjeT0iODAiIHI9IjM1Ii8+PHBhdGggZD0iTTM5MCA4MGg3ME00MjUgNDV2NzAiLz48cGF0aCBkPSJNNjEwIDEwOCBxOTAtOTAgMTgwIDAiLz48cGF0aCBkPSJNOTAwIDk1IGg0NSBsMjAtMzUgMzAgNjUgMzAtNDUgMjggMTggaDk1Ii8+PC9nPgo8ZyBmaWxsPSIjYTlmZmMwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjEzIj48dGV4dCB4PSI0MCIgeT0iNTAiPk5BViBBUlJBWTwvdGV4dD48dGV4dCB4PSIzMjAiIHk9IjUwIj5IQVJETElORTwvdGV4dD48dGV4dCB4PSI2MDAiIHk9IjUwIj5TSElQIENPUkU8L3RleHQ+PHRleHQgeD0iODgwIiB5PSI1MCI+TUFUUklYIFRFTEVNRVRSWTwvdGV4dD48L2c+PC9zdmc+&quot; alt=&quot;&quot;&gt;&lt;img id=&quot;leftArt&quot; src=&quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMjAiIGhlaWdodD0iNzAwIiB2aWV3Qm94PSIwIDAgMjIwIDcwMCI+CjxyZWN0IHdpZHRoPSIyMjAiIGhlaWdodD0iNzAwIiBmaWxsPSIjMDIwODA1Ii8+PGcgZmlsbD0iIzA0MTUwYiIgc3Ryb2tlPSIjM2M5ZDU4Ij48cmVjdCB4PSIyMCIgeT0iMzAiIHdpZHRoPSIxODAiIGhlaWdodD0iMTIwIiByeD0iMTQiLz48cmVjdCB4PSIyMCIgeT0iMTc1IiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjEyMCIgcng9IjE0Ii8+PHJlY3QgeD0iMjAiIHk9IjMyMCIgd2lkdGg9IjE4MCIgaGVpZ2h0PSIxNTAiIHJ4PSIxNCIvPjxyZWN0IHg9IjIwIiB5PSI0OTUiIHdpZHRoPSIxODAiIGhlaWdodD0iMTYwIiByeD0iMTQiLz48L2c+CjxnIHN0cm9rZT0iIzY1ZmY4YiIgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTQwIDExNWwzNS00MCAyNSAyMiAzNS01MCA0MCA2NSIvPjxjaXJjbGUgY3g9IjExMCIgY3k9IjIzNSIgcj0iMzgiLz48cGF0aCBkPSJNNTUgMzkwaDExME01NSA0MTBoODBNNTUgNDMwaDEyNSIvPjxwYXRoIGQ9Ik01NSA1NDVxNjAtODAgMTEwIDBxLTU1IDgwLTExMCAweiIvPjwvZz4KPGcgZmlsbD0iI2E0ZmZiYSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMiI+PHRleHQgeD0iMzgiIHk9IjU1Ij5ERUNLPC90ZXh0Pjx0ZXh0IHg9IjM4IiB5PSIyMDAiPkxJTks8L3RleHQ+PHRleHQgeD0iMzgiIHk9IjM0NSI+U1RBVFVTPC90ZXh0Pjx0ZXh0IHg9IjM4IiB5PSI1MjAiPlRSQUNFPC90ZXh0PjwvZz48L3N2Zz4=&quot; alt=&quot;&quot;&gt;&lt;img id=&quot;rightArt&quot; src=&quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMjAiIGhlaWdodD0iNzAwIiB2aWV3Qm94PSIwIDAgMjIwIDcwMCI+CjxyZWN0IHdpZHRoPSIyMjAiIGhlaWdodD0iNzAwIiBmaWxsPSIjMDIwODA1Ii8+PGcgZmlsbD0iIzA0MTUwYiIgc3Ryb2tlPSIjM2M5ZDU4Ij48cmVjdCB4PSIyMCIgeT0iMzAiIHdpZHRoPSIxODAiIGhlaWdodD0iMTYwIiByeD0iMTQiLz48cmVjdCB4PSIyMCIgeT0iMjE1IiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjEwNSIgcng9IjE0Ii8+PHJlY3QgeD0iMjAiIHk9IjM0NSIgd2lkdGg9IjE4MCIgaGVpZ2h0PSIxMzAiIHJ4PSIxNCIvPjxyZWN0IHg9IjIwIiB5PSI1MDAiIHdpZHRoPSIxODAiIGhlaWdodD0iMTUwIiByeD0iMTQiLz48L2c+CjxnIHN0cm9rZT0iIzY1ZmY4YiIgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTQ1IDE0NWgxMzBNNDUgMTIwaDkwTTQ1IDk1aDExNSIvPjxwYXRoIGQ9Ik01NSAyNjVsMzUtMjUgMzUgMTUgMzUtNDUiLz48Y2lyY2xlIGN4PSIxMTAiIGN5PSI0MTAiIHI9IjQyIi8+PHBhdGggZD0iTTExMCAzNjh2ODRNNjggNDEwaDg0Ii8+PHBhdGggZD0iTTUwIDU2MGgxMjBNNTAgNTg1aDkwTTUwIDYxMGgxMzAiLz48L2c+CjxnIGZpbGw9IiNhNGZmYmEiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTIiPjx0ZXh0IHg9IjM4IiB5PSI1OCI+U1lTVEVNPC90ZXh0Pjx0ZXh0IHg9IjM4IiB5PSIyNDAiPlNJR05BTDwvdGV4dD48dGV4dCB4PSIzOCIgeT0iMzcwIj5DT1JFPC90ZXh0Pjx0ZXh0IHg9IjM4IiB5PSI1MjUiPkxPRzwvdGV4dD48L2c+PC9zdmc+&quot; alt=&quot;&quot;&gt;&lt;div class=&quot;overlay&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;console&quot;&gt;
    &lt;div class=&quot;k&quot; id=&quot;kicker&quot;&gt;&lt;/div&gt;&lt;h1 id=&quot;title&quot;&gt;&lt;/h1&gt;&lt;div class=&quot;story&quot; id=&quot;story&quot;&gt;&lt;/div&gt;
-   &lt;div class=&quot;mission&quot;&gt;&lt;b id=&quot;mission&quot;&gt;MAIN MISSION&lt;/b&gt;&lt;small id=&quot;objective&quot;&gt;&lt;/small&gt;&lt;div class=&quot;bar&quot;&gt;&lt;i id=&quot;bar&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;
+   &lt;div class=&quot;mission&quot;&gt;&lt;b id=&quot;mission&quot;&gt;LIVE OPERATION&lt;/b&gt;&lt;small id=&quot;objective&quot;&gt;&lt;/small&gt;&lt;div class=&quot;bar&quot;&gt;&lt;i id=&quot;bar&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;combatline&quot;&gt;&lt;span id=&quot;threat&quot;&gt;THREAT: LOW&lt;/span&gt;&lt;span id=&quot;focus&quot;&gt;FOCUS 100&lt;/span&gt;&lt;span id=&quot;heat&quot;&gt;HEAT 0&lt;/span&gt;&lt;span id=&quot;combo&quot;&gt;COMBO x1&lt;/span&gt;&lt;/div&gt;
    &lt;div class=&quot;primary&quot; id=&quot;primary&quot;&gt;&lt;/div&gt;&lt;div class=&quot;utility&quot; id=&quot;utility&quot;&gt;&lt;/div&gt;
-   &lt;div class=&quot;feature&quot; id=&quot;feature&quot;&gt;&lt;/div&gt;&lt;div id=&quot;note&quot;&gt;&lt;/div&gt;
+   &lt;div class=&quot;feature&quot; id=&quot;feature&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;encounter&quot; id=&quot;encounter&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;eventFeed&quot; id=&quot;eventFeed&quot;&gt;&lt;b&gt;SHIP:&lt;/b&gt; Mnemosyne systems ready.&lt;/div&gt;
+&lt;div id=&quot;note&quot;&gt;&lt;/div&gt;
    &lt;div class=&quot;rooms&quot; id=&quot;rooms&quot;&gt;&lt;/div&gt;&lt;div class=&quot;extras&quot; id=&quot;extras&quot;&gt;&lt;/div&gt;
-   &lt;div class=&quot;readout&quot; id=&quot;readout&quot;&gt;&lt;/div&gt;&lt;div id=&quot;tipBox&quot;&gt;&lt;/div&gt;&lt;button id=&quot;helpTip&quot;&gt;YELLOW HELP TIP&lt;/button&gt;
-   &lt;button id=&quot;next&quot;&gt;NEXT&lt;/button&gt;
+   &lt;div class=&quot;readout&quot; id=&quot;readout&quot;&gt;&lt;/div&gt;
   &lt;/div&gt;
   &lt;div id=&quot;start&quot;&gt;&lt;div class=&quot;startbox&quot;&gt;&lt;div class=&quot;k&quot;&gt;FIVE SHIP AREAS // ONE CLEAR CAMPAIGN&lt;/div&gt;&lt;h2&gt;MATRIX: AFTERIMAGE&lt;/h2&gt;&lt;p&gt;You are seated at the Mnemosyne command console. Move between five ship areas, work the systems, pass quizzes, then jack into the Matrix.&lt;/p&gt;&lt;button id=&quot;startBtn&quot;&gt;START GAME&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
  &lt;/div&gt;
@@ -1283,18 +1318,19 @@ button{min-height:40px;border-radius:8px;border:1px solid #416a4d;background:#0a
 &lt;div id=&quot;persistentShipNav&quot;&gt;&lt;/div&gt;
 &lt;script&gt;
 const IMG={&quot;bridge&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iIzcxZmY5OSIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3MWZmOTkiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxyZWN0IHg9IjYyIiB5PSI5NSIgd2lkdGg9IjMxMCIgaGVpZ2h0PSIxNzUiIHJ4PSIxOCIgZmlsbD0iIzA0MTAwYSIgc3Ryb2tlPSIjMjc1YzM4Ii8+PHJlY3QgeD0iNjUyIiB5PSI5NSIgd2lkdGg9IjMxMCIgaGVpZ2h0PSIxNzUiIHJ4PSIxOCIgZmlsbD0iIzA0MTAwYSIgc3Ryb2tlPSIjMjc1YzM4Ii8+PGNpcmNsZSBjeD0iNTEyIiBjeT0iMjIwIiByPSI5MiIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjNGJiNTZiIiBzdHJva2Utd2lkdGg9IjMiLz48Y2lyY2xlIGN4PSI1MTIiIGN5PSIyMjAiIHI9IjU4IiBmaWxsPSJub25lIiBzdHJva2U9IiMyZTZmNDQiIHN0cm9rZS13aWR0aD0iMiIvPgo8cGF0aCBkPSJNMCA1MzAgTDE1NSA0NTUgSDg2OSBMMTAyNCA1MzAgVjU3NiBIMFoiIGZpbGw9IiMwMjA1MDQiIHN0cm9rZT0iIzE3M2MyNSIvPgo8dGV4dCB4PSI0MiIgeT0iNDYiIGZpbGw9IiM3MWZmOTkiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMjMiIGZvbnQtd2VpZ2h0PSI3MDAiPkJSSURHRTwvdGV4dD4KPHRleHQgeD0iNDIiIHk9IjcwIiBmaWxsPSIjYjRkOWJkIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjEyIj5OQVZJR0FUSU9OIC8gU0lHTkFMIENPTlRST0w8L3RleHQ+Cjx0ZXh0IHg9IjgxMiIgeT0iNTQ4IiBmaWxsPSIjMzU2ODQ0IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjExIj5NTkVNT1NZTkUgLy8gREVDSyBMSU5LPC90ZXh0Pgo8L3N2Zz4=&quot;, &quot;operator&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iIzcxZmY5OSIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3MWZmOTkiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxyZWN0IHg9IjgyIiB5PSI3OCIgd2lkdGg9Ijg2MCIgaGVpZ2h0PSIyNDUiIHJ4PSIyMiIgZmlsbD0iIzAzMTAwOCIgc3Ryb2tlPSIjMmY2ZjQ1Ii8+PHBhdGggZD0iTTE0MCAyODAgTDI0MCAxMzAgTDM2MCAyNTAgTDQ3MCAxNTAgTDU4NSAyNDUgTDcwMCAxMjUgTDg0MCAyNzUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzRkZjA3ZCIgc3Ryb2tlLXdpZHRoPSI0Ii8+PGcgZmlsbD0iIzBiMjQxNCIgc3Ryb2tlPSIjM2Q5YjVhIj48cmVjdCB4PSIxMzAiIHk9IjM1NSIgd2lkdGg9IjIxMCIgaGVpZ2h0PSIxNDAiIHJ4PSIxNiIvPjxyZWN0IHg9IjQwNyIgeT0iMzU1IiB3aWR0aD0iMjEwIiBoZWlnaHQ9IjE0MCIgcng9IjE2Ii8+PHJlY3QgeD0iNjg0IiB5PSIzNTUiIHdpZHRoPSIyMTAiIGhlaWdodD0iMTQwIiByeD0iMTYiLz48L2c+CjxwYXRoIGQ9Ik0wIDUzMCBMMTU1IDQ1NSBIODY5IEwxMDI0IDUzMCBWNTc2IEgwWiIgZmlsbD0iIzAyMDUwNCIgc3Ryb2tlPSIjMTczYzI1Ii8+Cjx0ZXh0IHg9IjQyIiB5PSI0NiIgZmlsbD0iIzcxZmY5OSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyMyIgZm9udC13ZWlnaHQ9IjcwMCI+T1BFUkFUT1IgUElUPC90ZXh0Pgo8dGV4dCB4PSI0MiIgeT0iNzAiIGZpbGw9IiNiNGQ5YmQiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTIiPlRBTksgLyBIQVJETElORSAvIE1BVFJJWCBUUkFDRTwvdGV4dD4KPHRleHQgeD0iODEyIiB5PSI1NDgiIGZpbGw9IiMzNTY4NDQiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTEiPk1ORU1PU1lORSAvLyBERUNLIExJTks8L3RleHQ+Cjwvc3ZnPg==&quot;, &quot;engineering&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iIzcxZmY5OSIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3MWZmOTkiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxjaXJjbGUgY3g9IjUxMiIgY3k9IjIwOCIgcj0iMTUwIiBmaWxsPSIjMDMxMDA4IiBzdHJva2U9IiMyYjZjNDAiIHN0cm9rZS13aWR0aD0iMyIvPjxjaXJjbGUgY3g9IjUxMiIgY3k9IjIwOCIgcj0iMTEwIiBmaWxsPSJub25lIiBzdHJva2U9IiM0OWQzNmUiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWRhc2hhcnJheT0iMTggMTIiLz48cGF0aCBkPSJNNTEyIDExMCBMNTQ4IDIwNSBMNTEyIDE4NSBMNDc2IDIwNSBaIiBmaWxsPSIjNjdmNThhIi8+PGcgZmlsbD0iIzA2MTQwYiIgc3Ryb2tlPSIjMmY2ZDQyIj48cmVjdCB4PSI5MCIgeT0iMzcwIiB3aWR0aD0iMjUwIiBoZWlnaHQ9IjExNSIgcng9IjE0Ii8+PHJlY3QgeD0iMzg3IiB5PSIzNzAiIHdpZHRoPSIyNTAiIGhlaWdodD0iMTE1IiByeD0iMTQiLz48cmVjdCB4PSI2ODQiIHk9IjM3MCIgd2lkdGg9IjI1MCIgaGVpZ2h0PSIxMTUiIHJ4PSIxNCIvPjwvZz4KPHBhdGggZD0iTTAgNTMwIEwxNTUgNDU1IEg4NjkgTDEwMjQgNTMwIFY1NzYgSDBaIiBmaWxsPSIjMDIwNTA0IiBzdHJva2U9IiMxNzNjMjUiLz4KPHRleHQgeD0iNDIiIHk9IjQ2IiBmaWxsPSIjNzFmZjk5IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIzIiBmb250LXdlaWdodD0iNzAwIj5FTkdJTkVFUklORzwvdGV4dD4KPHRleHQgeD0iNDIiIHk9IjcwIiBmaWxsPSIjYjRkOWJkIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjEyIj5SRUFDVE9SIC8gTElGRSBTVVBQT1JUIC8gUE9XRVIgQlVTPC90ZXh0Pgo8dGV4dCB4PSI4MTIiIHk9IjU0OCIgZmlsbD0iIzM1Njg0NCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSI+TU5FTU9TWU5FIC8vIERFQ0sgTElOSzwvdGV4dD4KPC9zdmc+&quot;, &quot;quarters&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iIzcxZmY5OSIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3MWZmOTkiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxwYXRoIGQ9Ik02MCAxNTUgSDk2NCBWNTIwIEg2MCBaIiBmaWxsPSIjMDQxMDA5IiBzdHJva2U9IiMyZDZjNDAiLz48ZyBmaWxsPSIjMDcxNzBkIiBzdHJva2U9IiMzNzdmNGMiPjxyZWN0IHg9IjEwNSIgeT0iMjAwIiB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI1MCIgcng9IjIwIi8+PHJlY3QgeD0iMzkyIiB5PSIyMDAiIHdpZHRoPSIyNDAiIGhlaWdodD0iMjUwIiByeD0iMjAiLz48cmVjdCB4PSI2NzkiIHk9IjIwMCIgd2lkdGg9IjI0MCIgaGVpZ2h0PSIyNTAiIHJ4PSIyMCIvPjwvZz48ZyBmaWxsPSIjNjlmZjhkIj48Y2lyY2xlIGN4PSIyMjUiIGN5PSIyNTAiIHI9IjE0Ii8+PGNpcmNsZSBjeD0iNTEyIiBjeT0iMjUwIiByPSIxNCIvPjxjaXJjbGUgY3g9Ijc5OSIgY3k9IjI1MCIgcj0iMTQiLz48L2c+CjxwYXRoIGQ9Ik0wIDUzMCBMMTU1IDQ1NSBIODY5IEwxMDI0IDUzMCBWNTc2IEgwWiIgZmlsbD0iIzAyMDUwNCIgc3Ryb2tlPSIjMTczYzI1Ii8+Cjx0ZXh0IHg9IjQyIiB5PSI0NiIgZmlsbD0iIzcxZmY5OSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyMyIgZm9udC13ZWlnaHQ9IjcwMCI+Q1JFVyBRVUFSVEVSUzwvdGV4dD4KPHRleHQgeD0iNDIiIHk9IjcwIiBmaWxsPSIjYjRkOWJkIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjEyIj5FVklERU5DRSAvIE1FTU9SWSAvIFBFUlNPTkFMIEVGRkVDVFM8L3RleHQ+Cjx0ZXh0IHg9IjgxMiIgeT0iNTQ4IiBmaWxsPSIjMzU2ODQ0IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjExIj5NTkVNT1NZTkUgLy8gREVDSyBMSU5LPC90ZXh0Pgo8L3N2Zz4=&quot;, &quot;jack&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iIzcxZmY5OSIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3MWZmOTkiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxlbGxpcHNlIGN4PSI1MTIiIGN5PSIyNjAiIHJ4PSIxODAiIHJ5PSI5NSIgZmlsbD0iIzAzMTAwOCIgc3Ryb2tlPSIjM2Y5YzVhIiBzdHJva2Utd2lkdGg9IjQiLz48ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjYwIiByeD0iMTI1IiByeT0iNjAiIGZpbGw9IiMwNzE4MGQiIHN0cm9rZT0iIzYzZjE4YSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTUxMiAxODAgVjg1IE01MTIgMzM1IFY0NjUgTTM2NSAyNjAgSDEzMCBNNjU5IDI2MCBIODk0IiBzdHJva2U9IiM0YmIzNmEiIHN0cm9rZS13aWR0aD0iNSIvPjxnIGZpbGw9IiMwNjE1MGMiIHN0cm9rZT0iIzM1N2U0YSI+PHJlY3QgeD0iOTAiIHk9IjkwIiB3aWR0aD0iMjQ1IiBoZWlnaHQ9IjExMCIgcng9IjE2Ii8+PHJlY3QgeD0iNjg5IiB5PSI5MCIgd2lkdGg9IjI0NSIgaGVpZ2h0PSIxMTAiIHJ4PSIxNiIvPjxyZWN0IHg9IjkwIiB5PSIzNzAiIHdpZHRoPSIyNDUiIGhlaWdodD0iMTEwIiByeD0iMTYiLz48cmVjdCB4PSI2ODkiIHk9IjM3MCIgd2lkdGg9IjI0NSIgaGVpZ2h0PSIxMTAiIHJ4PSIxNiIvPjwvZz4KPHBhdGggZD0iTTAgNTMwIEwxNTUgNDU1IEg4NjkgTDEwMjQgNTMwIFY1NzYgSDBaIiBmaWxsPSIjMDIwNTA0IiBzdHJva2U9IiMxNzNjMjUiLz4KPHRleHQgeD0iNDIiIHk9IjQ2IiBmaWxsPSIjNzFmZjk5IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIzIiBmb250LXdlaWdodD0iNzAwIj5KQUNLIEJBWTwvdGV4dD4KPHRleHQgeD0iNDIiIHk9IjcwIiBmaWxsPSIjYjRkOWJkIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjEyIj5ORVVSQUwgTElOSyAvIENPTlNUUlVDVCBBQ0NFU1M8L3RleHQ+Cjx0ZXh0IHg9IjgxMiIgeT0iNTQ4IiBmaWxsPSIjMzU2ODQ0IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjExIj5NTkVNT1NZTkUgLy8gREVDSyBMSU5LPC90ZXh0Pgo8L3N2Zz4=&quot;, &quot;matrix&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iIzM5ZmY3MyIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMzOWZmNzMiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxyZWN0IHg9IjgyIiB5PSI3OCIgd2lkdGg9Ijg2MCIgaGVpZ2h0PSIyNDUiIHJ4PSIyMiIgZmlsbD0iIzAzMTAwOCIgc3Ryb2tlPSIjMmY2ZjQ1Ii8+PHBhdGggZD0iTTE0MCAyODAgTDI0MCAxMzAgTDM2MCAyNTAgTDQ3MCAxNTAgTDU4NSAyNDUgTDcwMCAxMjUgTDg0MCAyNzUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzRkZjA3ZCIgc3Ryb2tlLXdpZHRoPSI0Ii8+PGcgZmlsbD0iIzBiMjQxNCIgc3Ryb2tlPSIjM2Q5YjVhIj48cmVjdCB4PSIxMzAiIHk9IjM1NSIgd2lkdGg9IjIxMCIgaGVpZ2h0PSIxNDAiIHJ4PSIxNiIvPjxyZWN0IHg9IjQwNyIgeT0iMzU1IiB3aWR0aD0iMjEwIiBoZWlnaHQ9IjE0MCIgcng9IjE2Ii8+PHJlY3QgeD0iNjg0IiB5PSIzNTUiIHdpZHRoPSIyMTAiIGhlaWdodD0iMTQwIiByeD0iMTYiLz48L2c+CjxwYXRoIGQ9Ik0wIDUzMCBMMTU1IDQ1NSBIODY5IEwxMDI0IDUzMCBWNTc2IEgwWiIgZmlsbD0iIzAyMDUwNCIgc3Ryb2tlPSIjMTczYzI1Ii8+Cjx0ZXh0IHg9IjQyIiB5PSI0NiIgZmlsbD0iIzM5ZmY3MyIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyMyIgZm9udC13ZWlnaHQ9IjcwMCI+RlJBQ1RVUkUgQ0lUWTwvdGV4dD4KPHRleHQgeD0iNDIiIHk9IjcwIiBmaWxsPSIjYjRkOWJkIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjEyIj5NQVRSSVggU0VTU0lPTiAvLyBMSVZFPC90ZXh0Pgo8dGV4dCB4PSI4MTIiIHk9IjU0OCIgZmlsbD0iIzM1Njg0NCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSI+TU5FTU9TWU5FIC8vIERFQ0sgTElOSzwvdGV4dD4KPC9zdmc+&quot;, &quot;archive&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iI2MwZmY3NSIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNjMGZmNzUiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxwYXRoIGQ9Ik02MCAxNTUgSDk2NCBWNTIwIEg2MCBaIiBmaWxsPSIjMDQxMDA5IiBzdHJva2U9IiMyZDZjNDAiLz48ZyBmaWxsPSIjMDcxNzBkIiBzdHJva2U9IiMzNzdmNGMiPjxyZWN0IHg9IjEwNSIgeT0iMjAwIiB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI1MCIgcng9IjIwIi8+PHJlY3QgeD0iMzkyIiB5PSIyMDAiIHdpZHRoPSIyNDAiIGhlaWdodD0iMjUwIiByeD0iMjAiLz48cmVjdCB4PSI2NzkiIHk9IjIwMCIgd2lkdGg9IjI0MCIgaGVpZ2h0PSIyNTAiIHJ4PSIyMCIvPjwvZz48ZyBmaWxsPSIjNjlmZjhkIj48Y2lyY2xlIGN4PSIyMjUiIGN5PSIyNTAiIHI9IjE0Ii8+PGNpcmNsZSBjeD0iNTEyIiBjeT0iMjUwIiByPSIxNCIvPjxjaXJjbGUgY3g9Ijc5OSIgY3k9IjI1MCIgcj0iMTQiLz48L2c+CjxwYXRoIGQ9Ik0wIDUzMCBMMTU1IDQ1NSBIODY5IEwxMDI0IDUzMCBWNTc2IEgwWiIgZmlsbD0iIzAyMDUwNCIgc3Ryb2tlPSIjMTczYzI1Ii8+Cjx0ZXh0IHg9IjQyIiB5PSI0NiIgZmlsbD0iI2MwZmY3NSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyMyIgZm9udC13ZWlnaHQ9IjcwMCI+SU1QT1NTSUJMRSBBUkNISVZFPC90ZXh0Pgo8dGV4dCB4PSI0MiIgeT0iNzAiIGZpbGw9IiNiNGQ5YmQiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTIiPkVDSE8gTUVNT1JZIFZBVUxUPC90ZXh0Pgo8dGV4dCB4PSI4MTIiIHk9IjU0OCIgZmlsbD0iIzM1Njg0NCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSI+TU5FTU9TWU5FIC8vIERFQ0sgTElOSzwvdGV4dD4KPC9zdmc+&quot;, &quot;lab&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iIzg2ZmZlMCIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM4NmZmZTAiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxjaXJjbGUgY3g9IjUxMiIgY3k9IjIwOCIgcj0iMTUwIiBmaWxsPSIjMDMxMDA4IiBzdHJva2U9IiMyYjZjNDAiIHN0cm9rZS13aWR0aD0iMyIvPjxjaXJjbGUgY3g9IjUxMiIgY3k9IjIwOCIgcj0iMTEwIiBmaWxsPSJub25lIiBzdHJva2U9IiM0OWQzNmUiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWRhc2hhcnJheT0iMTggMTIiLz48cGF0aCBkPSJNNTEyIDExMCBMNTQ4IDIwNSBMNTEyIDE4NSBMNDc2IDIwNSBaIiBmaWxsPSIjNjdmNThhIi8+PGcgZmlsbD0iIzA2MTQwYiIgc3Ryb2tlPSIjMmY2ZDQyIj48cmVjdCB4PSI5MCIgeT0iMzcwIiB3aWR0aD0iMjUwIiBoZWlnaHQ9IjExNSIgcng9IjE0Ii8+PHJlY3QgeD0iMzg3IiB5PSIzNzAiIHdpZHRoPSIyNTAiIGhlaWdodD0iMTE1IiByeD0iMTQiLz48cmVjdCB4PSI2ODQiIHk9IjM3MCIgd2lkdGg9IjI1MCIgaGVpZ2h0PSIxMTUiIHJ4PSIxNCIvPjwvZz4KPHBhdGggZD0iTTAgNTMwIEwxNTUgNDU1IEg4NjkgTDEwMjQgNTMwIFY1NzYgSDBaIiBmaWxsPSIjMDIwNTA0IiBzdHJva2U9IiMxNzNjMjUiLz4KPHRleHQgeD0iNDIiIHk9IjQ2IiBmaWxsPSIjODZmZmUwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIzIiBmb250LXdlaWdodD0iNzAwIj5DT05TVFJVQ1QgTEFCPC90ZXh0Pgo8dGV4dCB4PSI0MiIgeT0iNzAiIGZpbGw9IiNiNGQ5YmQiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTIiPlJVTEUgVEVTVElORyAvIFBST0dSQU0gRk9SR0U8L3RleHQ+Cjx0ZXh0IHg9IjgxMiIgeT0iNTQ4IiBmaWxsPSIjMzU2ODQ0IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjExIj5NTkVNT1NZTkUgLy8gREVDSyBMSU5LPC90ZXh0Pgo8L3N2Zz4=&quot;};
-const G={step:0,view:&#x27;bridge&#x27;,intel:0,trace:0,quiz1:false,quiz2:false,done:{},ship:{hull:100,reactor:96,life:99,sensors:92},scan:0,power:35,trust:0,archive:false,lab:false};
+const G={step:0,view:&#x27;bridge&#x27;,intel:0,trace:0,quiz1:false,quiz2:false,done:{},ship:{hull:100,reactor:96,life:99,sensors:92},scan:0,power:35,trust:0,archive:false,lab:false,seqInput:[],seqMode:&#x27;&#x27;,seqSolved:{},
+focus:100,heat:0,combo:1,threat:0,turn:0,credits:20,programs:[],inventory:[],encounter:null,alarm:false};
 const steps=[
  [&#x27;bridge&#x27;,&#x27;SCAN THE IMPOSSIBLE SIGNAL&#x27;,&#x27;signal&#x27;],
  [&#x27;operator&#x27;,&#x27;TALK TO TANK AND TRACE IT&#x27;,&#x27;tank&#x27;],
  [&#x27;engineering&#x27;,&#x27;ROUTE 80% POWER TO JACK BAY&#x27;,&#x27;power&#x27;],
  [&#x27;quarters&#x27;,&#x27;FIND THE FUTURE PHOTO&#x27;,&#x27;photo&#x27;],
- [&#x27;quiz&#x27;,&#x27;PASS THE JACK-IN QUIZ&#x27;,&#x27;quiz1&#x27;],
+ [&#x27;operator&#x27;,&#x27;ALIGN THE JACK ROUTE&#x27;,&#x27;seqJack&#x27;],
  [&#x27;jack&#x27;,&#x27;PLUG INTO THE MATRIX&#x27;,&#x27;plugin&#x27;],
  [&#x27;matrix&#x27;,&#x27;SCAN FRACTURE CITY&#x27;,&#x27;scan&#x27;],
  [&#x27;matrix&#x27;,&#x27;FIND THE ARCHIVE DOOR&#x27;,&#x27;archive&#x27;],
  [&#x27;archive&#x27;,&#x27;BUILD THE CONTRADICTION PROOF&#x27;,&#x27;proof&#x27;],
- [&#x27;quiz&#x27;,&#x27;PASS THE ARCHIVE QUIZ&#x27;,&#x27;quiz2&#x27;],
+ [&#x27;archive&#x27;,&#x27;SEQUENCE THE ARCHIVE LOCK&#x27;,&#x27;seqArchive&#x27;],
  [&#x27;lab&#x27;,&#x27;CREATE A REAL ANCHOR&#x27;,&#x27;anchor&#x27;]
 ];
 const D={
@@ -1309,25 +1345,30 @@ const D={
  lab:[&#x27;CONSTRUCT LAB&#x27;,&#x27;A safe simulation chamber lets you test rules before using them in the live Matrix.&#x27;]
 };
 const mainActs={
- bridge:[[&#x27;SIGNAL SCAN&#x27;,&#x27;signal&#x27;],[&#x27;COURSE PLOT&#x27;,&#x27;course&#x27;],[&#x27;SENSOR PING&#x27;,&#x27;ping&#x27;]],
- operator:[[&#x27;TALK TO TANK&#x27;,&#x27;tank&#x27;],[&#x27;TRACE HARDLINE&#x27;,&#x27;hardline&#x27;],[&#x27;DECODE PACKET&#x27;,&#x27;decode&#x27;]],
- engineering:[[&#x27;ROUTE POWER&#x27;,&#x27;power&#x27;],[&#x27;COOL REACTOR&#x27;,&#x27;cool&#x27;],[&#x27;REPAIR HULL&#x27;,&#x27;repair&#x27;]],
- quarters:[[&#x27;SEARCH BUNK&#x27;,&#x27;photo&#x27;],[&#x27;READ CREW LOG&#x27;,&#x27;log&#x27;],[&#x27;EVIDENCE BOARD&#x27;,&#x27;evidence&#x27;]],
- jack:[[&#x27;CHECK CABLE&#x27;,&#x27;cable&#x27;],[&#x27;RUN JACK TEST&#x27;,&#x27;jacktest&#x27;],[&#x27;PLUG IN&#x27;,&#x27;plugin&#x27;]],
- matrix:[[&#x27;SCAN STREET&#x27;,&#x27;scan&#x27;],[&#x27;QUESTION RESIDENT&#x27;,&#x27;resident&#x27;],[&#x27;FIND ARCHIVE&#x27;,&#x27;archive&#x27;]],
- archive:[[&#x27;MEMORY LOOM&#x27;,&#x27;loom&#x27;],[&#x27;BUILD PROOF&#x27;,&#x27;proof&#x27;],[&#x27;DECEIVE CURATOR&#x27;,&#x27;curator&#x27;]],
+ bridge:[[&#x27;SIGNAL SCAN&#x27;,&#x27;signal&#x27;],[&#x27;COURSE PLOT&#x27;,&#x27;course&#x27;],[&#x27;SENSOR PING&#x27;,&#x27;ping&#x27;],[&#x27;LOCK GHOST TARGET&#x27;,&#x27;ghostlock&#x27;]],
+ operator:[[&#x27;TALK TO TANK&#x27;,&#x27;tank&#x27;],[&#x27;TRACE HARDLINE&#x27;,&#x27;hardline&#x27;],[&#x27;OPEN ROUTE SEQUENCER&#x27;,&#x27;openJackSeq&#x27;],[&#x27;MASK SIGNATURE&#x27;,&#x27;mask&#x27;]],
+ engineering:[[&#x27;ROUTE POWER&#x27;,&#x27;power&#x27;],[&#x27;COOL REACTOR&#x27;,&#x27;cool&#x27;],[&#x27;REPAIR HULL&#x27;,&#x27;repair&#x27;],[&#x27;OVERCHARGE JACK BUS&#x27;,&#x27;overcharge&#x27;]],
+ quarters:[[&#x27;SEARCH BUNK&#x27;,&#x27;photo&#x27;],[&#x27;READ CREW LOG&#x27;,&#x27;log&#x27;],[&#x27;EVIDENCE BOARD&#x27;,&#x27;evidence&#x27;],[&#x27;BUILD MEMORY MAP&#x27;,&#x27;memorymap&#x27;]],
+ jack:[[&#x27;CHECK CABLE&#x27;,&#x27;cable&#x27;],[&#x27;RUN JACK TEST&#x27;,&#x27;jacktest&#x27;],[&#x27;PLUG IN&#x27;,&#x27;plugin&#x27;],[&#x27;LOAD PROGRAMS&#x27;,&#x27;loadprogram&#x27;]],
+ matrix:[[&#x27;SCAN STREET&#x27;,&#x27;scan&#x27;],[&#x27;QUESTION RESIDENT&#x27;,&#x27;resident&#x27;],[&#x27;FIND ARCHIVE&#x27;,&#x27;archive&#x27;],[&#x27;BEND REALITY&#x27;,&#x27;bend&#x27;]],
+ archive:[[&#x27;MEMORY LOOM&#x27;,&#x27;loom&#x27;],[&#x27;BUILD PROOF&#x27;,&#x27;proof&#x27;],[&#x27;OPEN ARCHIVE SEQUENCER&#x27;,&#x27;openArchiveSeq&#x27;]],
  lab:[[&#x27;REAL ANCHOR&#x27;,&#x27;anchor&#x27;],[&#x27;PARADOX SEED&#x27;,&#x27;paradox&#x27;],[&#x27;PROGRAM FORGE&#x27;,&#x27;program&#x27;]]
 };
 function $(x){return document.getElementById(x)} function cur(){return steps[Math.min(G.step,steps.length-1)]}
 function setNote(t){$(&#x27;note&#x27;).textContent=t}
-function startGame(){$(&#x27;start&#x27;).style.display=&#x27;none&#x27;;render()}
+function startGame(){$(&#x27;start&#x27;).style.display=&#x27;none&#x27;;logEvent(&#x27;&lt;b&gt;MISSION:&lt;/b&gt; Mnemosyne leaves safe space. The future signal is live.&#x27;);render()}
 function render(){
  const d=D[G.view]||D.bridge;
  $(&#x27;scene&#x27;).src=IMG[G.view]||IMG.bridge;$(&#x27;kicker&#x27;).textContent=([&#x27;matrix&#x27;,&#x27;archive&#x27;,&#x27;lab&#x27;].includes(G.view)?&#x27;MATRIX LINK // &#x27;:&#x27;MNEMOSYNE // &#x27;)+d[0];$(&#x27;title&#x27;).textContent=d[0];$(&#x27;story&#x27;).textContent=d[1];
  $(&#x27;objective&#x27;).textContent=G.step&lt;steps.length?&#x27;OBJECTIVE: &#x27;+cur()[1]:&#x27;MAIN CHAPTER COMPLETE // FREE EXPLORATION&#x27;;
- $(&#x27;bar&#x27;).style.width=Math.min(100,G.step/steps.length*100)+&#x27;%&#x27;;$(&#x27;step&#x27;).textContent=&#x27;MISSION &#x27;+Math.min(G.step+1,steps.length)+&#x27;/&#x27;+steps.length;$(&#x27;intel&#x27;).textContent=&#x27;INTEL &#x27;+G.intel;$(&#x27;trace&#x27;).textContent=&#x27;TRACE &#x27;+G.trace+&#x27;%&#x27;;
- renderActions();renderFeature();renderNav();renderReadout();
- $(&#x27;next&#x27;).textContent=G.step&lt;steps.length?&#x27;NEXT: &#x27;+cur()[1]:&#x27;NEXT: FREE EXPLORE&#x27;;$(&#x27;next&#x27;).onclick=goNext;
+ $(&#x27;bar&#x27;).style.width=Math.min(100,G.step/steps.length*100)+&#x27;%&#x27;;$(&#x27;step&#x27;).textContent=&#x27;MISSION &#x27;+Math.min(G.step+1,steps.length)+&#x27;/&#x27;+steps.length;
+ $(&#x27;intel&#x27;).textContent=&#x27;INTEL &#x27;+G.intel;$(&#x27;trace&#x27;).textContent=&#x27;TRACE &#x27;+G.trace+&#x27;%&#x27;;
+ $(&#x27;threat&#x27;).textContent=&#x27;THREAT: &#x27;+([&#x27;LOW&#x27;,&#x27;GUARDED&#x27;,&#x27;HIGH&#x27;,&#x27;CRITICAL&#x27;][Math.min(3,G.threat)]||&#x27;LOW&#x27;);
+ $(&#x27;focus&#x27;).textContent=&#x27;FOCUS &#x27;+G.focus;
+ $(&#x27;heat&#x27;).textContent=&#x27;HEAT &#x27;+G.heat;
+ $(&#x27;combo&#x27;).textContent=&#x27;COMBO x&#x27;+G.combo;
+ renderActions();renderFeature();renderNav();renderReadout();renderEncounter();
+ 
 }
 function renderActions(){
  const p=$(&#x27;primary&#x27;);p.innerHTML=&#x27;&#x27;;const u=$(&#x27;utility&#x27;);u.innerHTML=&#x27;&#x27;;
@@ -1340,22 +1381,89 @@ function renderActions(){
  }
  (mainActs[G.view]||[]).forEach((x,i)=&gt;{const b=document.createElement(&#x27;button&#x27;);b.textContent=x[0]+(G.done[x[1]]?&#x27; ✓&#x27;:&#x27;&#x27;);b.onclick=()=&gt;act(x[1]);(i&lt;2?p:u).appendChild(b)})
 }
+
+function seqConfig(){
+ if(G.seqMode===&#x27;jack&#x27;)return {label:&#x27;JACK ROUTE ALIGNMENT&#x27;,target:[&#x27;N&#x27;,&#x27;E&#x27;,&#x27;S&#x27;,&#x27;W&#x27;,&#x27;N&#x27;],unlock:&#x27;quiz1&#x27;};
+ if(G.seqMode===&#x27;archive&#x27;)return {label:&#x27;ARCHIVE LOCK SEQUENCE&#x27;,target:[&#x27;W&#x27;,&#x27;N&#x27;,&#x27;E&#x27;,&#x27;E&#x27;,&#x27;S&#x27;,&#x27;W&#x27;],unlock:&#x27;quiz2&#x27;};
+ return null;
+}
 function renderFeature(){
  const f=$(&#x27;feature&#x27;);
+ $(&#x27;matrixRain&#x27;).className=&#x27;matrixRain&#x27;+(G.view===&#x27;matrix&#x27;?&#x27; on&#x27;:&#x27;&#x27;);
  if(G.view===&#x27;bridge&#x27;)f.innerHTML=&#x27;&lt;h3&gt;SIGNAL SCOPE&lt;/h3&gt;&lt;p&gt;Scan lock: &#x27;+G.scan+&#x27;%&lt;/p&gt;&lt;input id=&quot;scanRange&quot; type=&quot;range&quot; min=&quot;0&quot; max=&quot;100&quot; value=&quot;&#x27;+G.scan+&#x27;&quot;&gt;&lt;div class=&quot;terminal&quot;&gt;carrier://afterimage&lt;br&gt;checksum: FUTURE-KEY&lt;br&gt;origin: unresolved&lt;/div&gt;&#x27;;
- else if(G.view===&#x27;operator&#x27;)f.innerHTML=&#x27;&lt;h3&gt;TANK // LIVE TRACE&lt;/h3&gt;&lt;div class=&quot;terminal&quot;&gt;TANK&amp;gt; route tree loaded&lt;br&gt;TANK&amp;gt; dead hardlines: 17&lt;br&gt;TANK&amp;gt; active echo: &#x27;+(G.done.tank?&#x27;LOCKED&#x27;:&#x27;SEARCHING&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+ else if(G.view===&#x27;operator&#x27;&amp;&amp;G.seqMode===&#x27;jack&#x27;)renderSequence(f);
+ else if(G.view===&#x27;archive&#x27;&amp;&amp;G.seqMode===&#x27;archive&#x27;)renderSequence(f);
+ else if(G.view===&#x27;operator&#x27;)f.innerHTML=&#x27;&lt;h3&gt;TANK // LIVE TRACE&lt;/h3&gt;&lt;div class=&quot;terminal&quot;&gt;TANK&amp;gt; route tree loaded&lt;br&gt;TANK&amp;gt; dead hardlines: 17&lt;br&gt;TANK&amp;gt; jack-route sequencer: &#x27;+(G.seqSolved.jack?&#x27;ALIGNED&#x27;:&#x27;READY&#x27;)+&#x27;&lt;/div&gt;&#x27;;
  else if(G.view===&#x27;engineering&#x27;)f.innerHTML=&#x27;&lt;h3&gt;JACK POWER BUS&lt;/h3&gt;&lt;p&gt;Power routed: &#x27;+G.power+&#x27;%&lt;/p&gt;&lt;input id=&quot;powerRange&quot; type=&quot;range&quot; min=&quot;0&quot; max=&quot;100&quot; value=&quot;&#x27;+G.power+&#x27;&quot;&gt;&lt;p&gt;Set to 80% or higher, then press ROUTE POWER.&lt;/p&gt;&#x27;;
  else if(G.view===&#x27;quarters&#x27;)f.innerHTML=&#x27;&lt;h3&gt;EVIDENCE TERMINAL&lt;/h3&gt;&lt;div class=&quot;terminal&quot;&gt;BUNK 06: unassigned&lt;br&gt;photo timestamp: +3 years&lt;br&gt;transit token: AFTERIMAGE&lt;br&gt;crew trust: &#x27;+G.trust+&#x27;&lt;/div&gt;&#x27;;
- else if(G.view===&#x27;jack&#x27;)f.innerHTML=&#x27;&lt;h3&gt;NEURAL LINK&lt;/h3&gt;&lt;p&gt;Cable: &#x27;+(G.done.cable?&#x27;GREEN&#x27;:&#x27;UNCHECKED&#x27;)+&#x27; // Matrix access: &#x27;+(G.quiz1?&#x27;AUTHORIZED&#x27;:&#x27;LOCKED&#x27;)+&#x27;&lt;/p&gt;&#x27;;
- else if(G.view===&#x27;matrix&#x27;)f.innerHTML=&#x27;&lt;h3&gt;LIVE MATRIX TELEMETRY&lt;/h3&gt;&lt;div class=&quot;terminal&quot;&gt;district age: 11 hours&lt;br&gt;resident memory age: 14 years&lt;br&gt;agent process: dormant&lt;br&gt;trace: &#x27;+G.trace+&#x27;%&lt;/div&gt;&#x27;;
- else if(G.view===&#x27;archive&#x27;)f.innerHTML=&#x27;&lt;h3&gt;ECHO MEMORY INDEX&lt;/h3&gt;&lt;div class=&quot;terminal&quot;&gt;predicted lives: 1,048,576&lt;br&gt;retained witnesses: 3&lt;br&gt;contradictions: &#x27;+(G.done.proof?&#x27;STABLE&#x27;:&#x27;UNRESOLVED&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+ else if(G.view===&#x27;jack&#x27;)f.innerHTML=&#x27;&lt;h3&gt;NEURAL LINK / LOADOUT&lt;/h3&gt;&lt;p&gt;Cable: &#x27;+(G.done.cable?&#x27;GREEN&#x27;:&#x27;UNCHECKED&#x27;)+&#x27; // Route alignment: &#x27;+(G.quiz1?&#x27;AUTHORIZED&#x27;:&#x27;LOCKED&#x27;)+&#x27;&lt;/p&gt;&lt;div class=&quot;terminal&quot;&gt;chair 01: READY&lt;br&gt;hardline: &#x27;+(G.done.hardline?&#x27;LOCKED&#x27;:&#x27;SEARCHING&#x27;)+&#x27;&lt;br&gt;jack power: &#x27;+G.power+&#x27;%&lt;br&gt;programs: &#x27;+(G.programs.length?G.programs.join(&#x27; / &#x27;):&#x27;NONE&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+ else if(G.view===&#x27;matrix&#x27;)f.innerHTML=&#x27;&lt;h3&gt;LIVE MATRIX TELEMETRY&lt;/h3&gt;&lt;div class=&quot;terminal&quot;&gt;district age: 11 hours&lt;br&gt;resident memory age: 14 years&lt;br&gt;agent process: &#x27;+(G.encounter||&#x27;dormant&#x27;)+&#x27;&lt;br&gt;trace: &#x27;+G.trace+&#x27;%&lt;br&gt;focus: &#x27;+G.focus+&#x27;&lt;br&gt;heat: &#x27;+G.heat+&#x27;&lt;/div&gt;&#x27;;
+ else if(G.view===&#x27;archive&#x27;)f.innerHTML=&#x27;&lt;h3&gt;ECHO MEMORY INDEX&lt;/h3&gt;&lt;div class=&quot;terminal&quot;&gt;predicted lives: 1,048,576&lt;br&gt;retained witnesses: 3&lt;br&gt;archive sequencer: &#x27;+(G.seqSolved.archive?&#x27;OPEN&#x27;:&#x27;LOCKED&#x27;)+&#x27;&lt;/div&gt;&#x27;;
  else if(G.view===&#x27;lab&#x27;)f.innerHTML=&#x27;&lt;h3&gt;RULE TEST BENCH&lt;/h3&gt;&lt;p&gt;gravity = 1.0 // rain = enabled // witness chain = &#x27;+(G.done.anchor?&#x27;ACTIVE&#x27;:&#x27;OFFLINE&#x27;)+&#x27;&lt;/p&gt;&#x27;;
  else f.innerHTML=&#x27;&#x27;;
  const sr=$(&#x27;scanRange&#x27;);if(sr)sr.oninput=()=&gt;{G.scan=+sr.value;renderFeature()};
  const pr=$(&#x27;powerRange&#x27;);if(pr)pr.oninput=()=&gt;{G.power=+pr.value;renderFeature()};
 }
+function renderSequence(f){
+ const c=seqConfig(); if(!c)return;
+ f.innerHTML=&#x27;&lt;div class=&quot;dirWrap&quot;&gt;&lt;div class=&quot;seqScreen&quot;&gt;&lt;b&gt;&#x27;+c.label+&#x27;&lt;/b&gt;&lt;div&gt;MEMORIZE / MATCH ROUTE&lt;/div&gt;&lt;div class=&quot;seqTarget&quot;&gt;&#x27;+c.target.join(&#x27;  &#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;seqInput&quot;&gt;&#x27;+(G.seqInput.length?G.seqInput.join(&#x27;  &#x27;):&#x27;INPUT: --&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;dpad&quot;&gt;&lt;button class=&quot;n&quot; data-dir=&quot;N&quot;&gt;N&lt;/button&gt;&lt;button class=&quot;w&quot; data-dir=&quot;W&quot;&gt;W&lt;/button&gt;&lt;button class=&quot;c&quot; id=&quot;clearSeq&quot;&gt;CLR&lt;/button&gt;&lt;button class=&quot;e&quot; data-dir=&quot;E&quot;&gt;E&lt;/button&gt;&lt;button class=&quot;s&quot; data-dir=&quot;S&quot;&gt;S&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;&#x27;;
+ f.querySelectorAll(&#x27;[data-dir]&#x27;).forEach(b=&gt;b.onclick=()=&gt;pushDir(b.dataset.dir));
+ $(&#x27;clearSeq&#x27;).onclick=()=&gt;{G.seqInput=[];renderFeature()};
+}
+function pushDir(d){
+ const c=seqConfig(); if(!c)return;
+ G.seqInput.push(d);
+ const n=G.seqInput.length;
+ if(G.seqInput[n-1]!==c.target[n-1]){
+   setNote(&#x27;SEQUENCE BROKEN // ROUTE RESET.&#x27;);
+   G.trace=Math.min(100,G.trace+4);G.seqInput=[];return renderFeature();
+ }
+ if(n===c.target.length){
+   if(G.seqMode===&#x27;jack&#x27;){G.quiz1=true;G.seqSolved.jack=true;setNote(&#x27;JACK ROUTE ALIGNED // MATRIX ACCESS AUTHORIZED.&#x27;);advance(&#x27;seqJack&#x27;);G.view=&#x27;jack&#x27;}
+   else {G.quiz2=true;G.seqSolved.archive=true;setNote(&#x27;ARCHIVE LOCK OPEN // CONSTRUCT LAB ROUTE AUTHORIZED.&#x27;);advance(&#x27;seqArchive&#x27;);G.lab=true}
+   G.seqInput=[];G.seqMode=&#x27;&#x27;;G.intel+=2;G.combo=Math.min(6,G.combo+1);G.turn++;randomPressure();render();
+ }else renderFeature();
+}
+
+function logEvent(t){
+ const feed=$(&#x27;eventFeed&#x27;);
+ feed.innerHTML=&#x27;&lt;div&gt;&#x27;+t+&#x27;&lt;/div&gt;&#x27;+feed.innerHTML;
+}
+function setEncounter(type){
+ G.encounter=type;G.threat=Math.min(3,G.threat+1);G.alarm=true;logEvent(&#x27;&lt;b&gt;ALERT:&lt;/b&gt; &#x27;+type+&#x27; detected.&#x27;);
+ render();
+}
+function renderEncounter(){
+ const box=$(&#x27;encounter&#x27;);box.innerHTML=&#x27;&#x27;;
+ if(!G.encounter)return;
+ const acts=[
+  [&#x27;PROGRAM ATTACK&#x27;,&#x27;attack&#x27;],[&#x27;DECEIVE&#x27;,&#x27;deceive&#x27;],[&#x27;HACK ENVIRONMENT&#x27;,&#x27;hack&#x27;],[&#x27;ESCAPE&#x27;,&#x27;escape&#x27;]
+ ];
+ acts.forEach(x=&gt;{const b=document.createElement(&#x27;button&#x27;);b.textContent=x[0];b.onclick=()=&gt;combat(x[1]);box.appendChild(b)});
+}
+function combat(a){
+ if(!G.encounter)return;
+ G.turn++;G.focus=Math.max(0,G.focus-8);G.heat=Math.min(100,G.heat+6);
+ let success=false;
+ if(a===&#x27;attack&#x27;)success=(G.done.program||G.programs.length)&gt;0 || G.combo&gt;=2;
+ if(a===&#x27;deceive&#x27;)success=G.trust&gt;=1 || G.intel&gt;=5;
+ if(a===&#x27;hack&#x27;)success=G.done.paradox || G.power&gt;=80;
+ if(a===&#x27;escape&#x27;)success=G.done.hardline || G.trace&lt;40;
+ if(success){
+   G.combo=Math.min(6,G.combo+1);G.credits+=4;G.intel++;logEvent(&#x27;&lt;b&gt;SUCCESS:&lt;/b&gt; &#x27;+a.toUpperCase()+&#x27; broke the &#x27;+G.encounter+&#x27; encounter.&#x27;);
+   G.encounter=null;G.threat=Math.max(0,G.threat-1);G.alarm=false;
+ }else{
+   G.combo=1;G.ship.hull=Math.max(0,G.ship.hull-4);G.trace=Math.min(100,G.trace+7);logEvent(&#x27;&lt;b&gt;FAIL:&lt;/b&gt; &#x27;+a.toUpperCase()+&#x27; failed. Hull and trace worsened.&#x27;);
+   const c=$(&#x27;app&#x27;);c.classList.add(&#x27;damage&#x27;);setTimeout(()=&gt;c.classList.remove(&#x27;damage&#x27;),350);
+ }
+ render();
+}
+function randomPressure(){
+ if(G.view===&#x27;matrix&#x27; &amp;&amp; !G.encounter &amp;&amp; Math.random()&lt;.28)setEncounter([&#x27;AGENT PROCESS&#x27;,&#x27;MIRROR HUNTER&#x27;,&#x27;NULL MAN&#x27;,&#x27;CURATOR DRONE&#x27;][G.turn%4]);
+ if(G.view===&#x27;engineering&#x27; &amp;&amp; G.ship.reactor&lt;75 &amp;&amp; Math.random()&lt;.35){G.ship.hull=Math.max(0,G.ship.hull-3);logEvent(&#x27;&lt;b&gt;ENGINEERING:&lt;/b&gt; reactor instability damaged the hull.&#x27;)}
+}
 function renderNav(){
- const ex=[[&#x27;quiz&#x27;,&#x27;QUIZ&#x27;,true],[&#x27;matrix&#x27;,&#x27;MATRIX&#x27;,G.quiz1],[&#x27;archive&#x27;,&#x27;ARCHIVE&#x27;,G.archive],[&#x27;lab&#x27;,&#x27;LAB&#x27;,G.lab]];
+ const ex=[[&#x27;matrix&#x27;,&#x27;MATRIX&#x27;,G.quiz1],[&#x27;archive&#x27;,&#x27;ARCHIVE&#x27;,G.archive],[&#x27;lab&#x27;,&#x27;LAB&#x27;,G.lab]];
  $(&#x27;rooms&#x27;).innerHTML=&#x27;&#x27;;
  $(&#x27;extras&#x27;).innerHTML=&#x27;&#x27;;
  ex.forEach(x=&gt;nav([x[0],x[1]],$(&#x27;extras&#x27;),x[2]));
@@ -1381,7 +1489,16 @@ function goNext(){
 }
 function advance(a){if(G.step&lt;steps.length&amp;&amp;cur()[2]===a)G.step++}
 function act(a){
+ if(a===&#x27;openJackSeq&#x27;){G.seqMode=&#x27;jack&#x27;;G.seqInput=[];setNote(&#x27;JACK ROUTE SEQUENCER OPEN. MATCH THE PATTERN.&#x27;);return render()}
+ if(a===&#x27;openArchiveSeq&#x27;){G.seqMode=&#x27;archive&#x27;;G.seqInput=[];setNote(&#x27;ARCHIVE SEQUENCER OPEN. MATCH THE PATTERN.&#x27;);return render()}
  if(a===&#x27;signal&#x27;)G.scan=100;
+ if(a===&#x27;ghostlock&#x27;){G.intel+=2;G.trace=Math.min(100,G.trace+3);logEvent(&#x27;&lt;b&gt;BRIDGE:&lt;/b&gt; ghost carrier locked as a moving target.&#x27;)}
+ if(a===&#x27;mask&#x27;){G.trace=Math.max(0,G.trace-15);G.focus=Math.max(0,G.focus-4);logEvent(&#x27;&lt;b&gt;TANK:&lt;/b&gt; signature masked across dead relays.&#x27;)}
+ if(a===&#x27;overcharge&#x27;){G.power=Math.min(100,G.power+15);G.ship.reactor=Math.max(0,G.ship.reactor-5);G.heat=Math.min(100,G.heat+10);logEvent(&#x27;&lt;b&gt;ENGINEERING:&lt;/b&gt; jack bus overcharged. Reactor stress increased.&#x27;)}
+ if(a===&#x27;memorymap&#x27;){G.intel+=3;G.trust++;G.done.memorymap=true;logEvent(&#x27;&lt;b&gt;QUARTERS:&lt;/b&gt; memory map links the photo, signal and transit card.&#x27;)}
+ if(a===&#x27;loadprogram&#x27;){G.programs=[&#x27;ZERO TRACE&#x27;,&#x27;BLINK STEP&#x27;,&#x27;MIRROR KEY&#x27;];G.done.program=true;logEvent(&#x27;&lt;b&gt;JACK BAY:&lt;/b&gt; programs loaded: ZERO TRACE / BLINK STEP / MIRROR KEY.&#x27;)}
+ if(a===&#x27;bend&#x27;){G.focus=Math.max(0,G.focus-10);G.heat=Math.min(100,G.heat+12);G.done.paradox=true;logEvent(&#x27;&lt;b&gt;MATRIX:&lt;/b&gt; local reality rule bent for one encounter.&#x27;)}
+
  if(a===&#x27;tank&#x27;)G.trust++;
  if(a===&#x27;power&#x27;&amp;&amp;G.power&lt;80){setNote(&#x27;ROUTE AT LEAST 80% POWER FIRST.&#x27;);return render()}
  if(a===&#x27;plugin&#x27;&amp;&amp;!G.quiz1){G.view=&#x27;quiz&#x27;;setNote(&#x27;QUIZ REQUIRED BEFORE JACK-IN.&#x27;);return render()}
@@ -1398,9 +1515,10 @@ function act(a){
  photo:&#x27;Future photo recovered from the unassigned bunk.&#x27;,log:&#x27;Crew log mentions a city nobody has visited.&#x27;,evidence:&#x27;Evidence board updated.&#x27;,
  cable:&#x27;Neural cable tested green.&#x27;,jacktest:&#x27;Simulated entry and emergency return both pass.&#x27;,plugin:&#x27;Jack-in successful. Fracture City loaded.&#x27;,
  scan:&#x27;City scan complete: code is newer than its memories.&#x27;,resident:&#x27;Resident recognizes you from an impossible photograph.&#x27;,archive:&#x27;Archive door found and unlocked.&#x27;,
+ ghostlock:&#x27;Ghost carrier locked.&#x27;,mask:&#x27;Trace signature masked.&#x27;,overcharge:&#x27;Jack bus overcharged.&#x27;,memorymap:&#x27;Memory map assembled.&#x27;,loadprogram:&#x27;Programs loaded into jack profile.&#x27;,bend:&#x27;Reality bent locally.&#x27;,
  loom:&#x27;Memory Loom reveals rejected predicted lives.&#x27;,proof:&#x27;Contradiction proof assembled.&#x27;,curator:&#x27;Curator stalls between two valid histories.&#x27;,
  anchor:&#x27;Real Anchor created from ship + body + witnesses.&#x27;,paradox:&#x27;Paradox Seed armed.&#x27;,program:&#x27;Program forged: WITNESS CHAIN.&#x27;};
- setNote(M[a]||&#x27;Action complete.&#x27;);advance(a);if(G.step&lt;steps.length)G.view=cur()[0];render();
+ setNote(M[a]||&#x27;Action complete.&#x27;);advance(a);G.turn++;randomPressure();if(G.step&lt;steps.length)G.view=cur()[0];render();
 }
 function quiz(i){
  const second=G.done.archive;
@@ -1408,25 +1526,22 @@ function quiz(i){
  else setNote(&#x27;TRY AGAIN // The mission clue is visible in the current chapter.&#x27;);
 }
 
-function guideText(){
- if(G.step&gt;=steps.length)return &#x27;MAIN STORY COMPLETE // Explore any unlocked room. Bridge reviews signals, Tank handles hardlines, Engineering maintains the ship, Quarters holds evidence, Jack Bay controls Matrix entry.&#x27;;
- const [room,label,a]=cur();
- const names={bridge:&#x27;BRIDGE&#x27;,operator:&#x27;TANK / OPERATOR PIT&#x27;,engineering:&#x27;ENGINEERING&#x27;,quarters:&#x27;CREW QUARTERS&#x27;,jack:&#x27;JACK BAY&#x27;,quiz:&#x27;QUIZ STATION&#x27;,matrix:&#x27;FRACTURE CITY&#x27;,archive:&#x27;IMPOSSIBLE ARCHIVE&#x27;,lab:&#x27;CONSTRUCT LAB&#x27;};
- let extra=&#x27;&#x27;;
- if(a===&#x27;power&#x27;&amp;&amp;G.power&lt;80)extra=&#x27; Move the JACK POWER BUS slider to at least 80%, then press ROUTE POWER.&#x27;;
- else if(a===&#x27;quiz1&#x27;||a===&#x27;quiz2&#x27;)extra=&#x27; Choose the correct answer in the quiz area.&#x27;;
- else if(a===&#x27;plugin&#x27;&amp;&amp;!G.quiz1)extra=&#x27; The quiz must be passed before PLUG IN will work.&#x27;;
- else extra=&#x27; Press the matching dark action button, or press the yellow NEXT button to perform the required step automatically.&#x27;;
- return &#x27;GO TO &#x27;+(names[room]||room.toUpperCase())+&#x27; // &#x27;+label+&#x27;.&#x27;+extra;
-}
-function showHelpTip(){
- const box=$(&#x27;tipBox&#x27;);
- box.textContent=guideText();
- box.classList.toggle(&#x27;show&#x27;);
- $(&#x27;helpTip&#x27;).textContent=box.classList.contains(&#x27;show&#x27;)?&#x27;HIDE HELP TIP&#x27;:&#x27;YELLOW HELP TIP&#x27;;
+
+
+function buildMatrixRain(){
+ const box=$(&#x27;matrixRain&#x27;); if(!box||box.children.length)return;
+ const chars=&#x27;01010101ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘ&#x27;;
+ for(let i=0;i&lt;38;i++){
+   const el=document.createElement(&#x27;i&#x27;);
+   el.style.left=(i*2.7)+&#x27;%&#x27;;
+   el.style.animationDuration=(2.5+(i%7)*.55)+&#x27;s&#x27;;
+   el.style.animationDelay=(-i*.31)+&#x27;s&#x27;;
+   el.textContent=Array.from({length:9},(_,j)=&gt;chars[(i+j*3)%chars.length]).join(&#x27;\n&#x27;);
+   box.appendChild(el);
+ }
 }
 
-$(&#x27;helpTip&#x27;).onclick=showHelpTip;
+buildMatrixRain();
 $(&#x27;startBtn&#x27;).onclick=startGame;render();
 &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
 
