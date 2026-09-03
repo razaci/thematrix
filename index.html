@@ -68,6 +68,18 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
 .pulse{animation:pulse 1.5s infinite}@keyframes pulse{50%{box-shadow:0 0 28px #5affaa66}}
 .toast{position:fixed;z-index:50;top:75px;left:50%;transform:translateX(-50%) translateY(-15px);background:#06130e;border:1px solid #3aff91;color:#baffd6;padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;max-width:88vw;font-size:12px}.toast.show{opacity:1;transform:translateX(-50%)}
 
+
+.objectives{display:grid;gap:6px;margin:10px 0}
+.obj{display:flex;align-items:center;gap:9px;border:1px solid #204f3a;background:#06110d;border-radius:10px;padding:9px;font-size:11px;color:#9fcbb4}
+.obj i{width:18px;height:18px;border:1px solid #377457;border-radius:50%;display:grid;place-items:center;font-style:normal;color:#608d76;flex:none}
+.obj.done{border-color:#39a66f;color:#d3ffe6}.obj.done i{background:#4eff9a;color:#041009;border-color:#4eff9a}
+.obj.active{box-shadow:0 0 18px #54ff9b20;border-color:#3e8b65}
+.puzzleRow{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.nodeBtn{min-height:62px}
+.sequence{min-height:40px;border:1px dashed #2a6649;border-radius:10px;padding:8px;margin:7px 0;color:#94c6aa;font-size:11px}
+.lockNotice{font-size:11px;color:#d6b86b;border-left:3px solid #d6a84e;padding-left:9px}
+@media(max-width:620px){.puzzleRow{grid-template-columns:1fr}}
+
 .dynamicStrip{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}
 .dyn{border:1px solid #1e5e43;background:#06110d;border-radius:10px;padding:9px;font-size:10px;color:#9ed7b9}
 .dyn b{display:block;color:#7dffb7;font-size:12px;margin-bottom:3px}
@@ -111,7 +123,12 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
       <div class="dyn"><b id="deckThreat">THREAT LOW</b>machine sweep</div>
     </div>
     <div class="eventBox" id="deckEvent"><b>LIVE SHIP EVENT</b><p id="deckEventText">The hull is quiet. Too quiet.</p><button class="action alt" id="deckReact">RESPOND</button></div>
-    <div class="card"><h3>Mission Thread</h3><p id="mission0">Find the correct signal frequency, then jack in.</p><span class="badge">Canvas rain</span><span class="badge">WebAudio</span><span class="badge">DOM console</span><span class="badge">Local save</span></div>
+    <div class="card"><h3>Chapter Objectives</h3><div class="objectives" id="deckObjectives"></div></div>
+<div class="grid">
+ <div class="card"><h3>Emergency Power Routing</h3><p>Three relays are feeding the wrong systems. Set the relays to <b>CORE / OFF / CORE</b>.</p><div class="puzzleRow" id="powerNodes"></div><div class="log" id="powerLog"></div></div>
+ <div class="card"><h3>Ghost Packet Decryption</h3><p>Once the carrier is locked and power is stable, reconstruct the packet signature in the order shown by the checksum.</p><div class="sequence" id="decryptBuffer">Checksum: △ ○ □ △</div><div class="puzzleRow" id="decryptKeys"></div></div>
+</div>
+<div class="card"><h3>Mission Thread</h3><p id="mission0">Complete the Signal Deck objectives before jacking in.</p><span class="badge">Canvas rain</span><span class="badge">WebAudio</span><span class="badge">DOM console</span><span class="badge">Local save</span></div>
 </section>
 
 <section class="stage" id="stage1">
@@ -128,6 +145,12 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
     <div class="eventBox"><b>LIVE CITY ANOMALY</b><p id="cityEventText">A traffic light changes color when nobody looks at it.</p></div>
     <div class="card"><h3>Route Assembly</h3><p id="routeText">Recover all five fragments to reveal a hidden street that does not exist on any machine map.</p><div id="routeNodes" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px"></div></div>
  <div class="choice"><button class="action alt" id="coolTrace">GHOST THE SCANNER (-8 TRACE)</button><button class="action warn" id="deepScan">DEEP SCAN (+INSIGHT, +6 TRACE)</button></div>
+<div class="card"><h3>Chapter Objectives</h3><div class="objectives" id="cityObjectives"></div></div>
+<div class="grid">
+ <div class="card"><h3>Pursuit Process Profile</h3><p>One city resident is a generated hunter. Find the profile whose behavior violates normal simulation persistence.</p><div id="agentProfiles"></div></div>
+ <div class="card"><h3>Impossible Street Sequencer</h3><p>Put the recovered timestamps into the route order. Hint: <b>future → origin → echo → fracture → return</b>.</p><div class="sequence" id="routeSequence">Sequence empty.</div><div class="puzzleRow" id="routeKeys"></div><button class="action alt" id="routeReset">RESET SEQUENCE</button></div>
+</div>
+<div class="card" id="cityExitCard"><h3>Archive Gate</h3><p class="lockNotice">Complete all Fracture City objectives to reveal the Archive entrance.</p></div>
 </section>
 
 <section class="stage" id="stage2">
@@ -140,6 +163,12 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
     </div>
     <div class="eventBox"><b>MEMORY BLEED</b><p id="archiveEventText">A memory from another timeline is trying to overwrite yours.</p><button class="action alt" id="archiveProbe">PROBE MEMORY</button></div>
     <div class="grid"><div class="card"><h3>Known Truths</h3><div id="truths"></div></div><div class="card"><h3>Psychological Profile</h3><p id="profile">The Archive is still measuring you.</p></div></div>
+<div class="card"><h3>Chapter Objectives</h3><div class="objectives" id="archiveObjectives"></div></div>
+<div class="grid">
+ <div class="card"><h3>Memory Loom</h3><p>Rebuild three corrupted memories by choosing the missing concept. Every reconstruction changes what ECHO thinks you value.</p><div id="loomPuzzle"></div></div>
+ <div class="card"><h3>Contradiction Proof</h3><p>ECHO gives you one claim that cannot coexist with its own proposal. Identify it to obtain a root credential.</p><div id="proofPuzzle"></div></div>
+</div>
+<div class="card" id="archiveExitCard"><h3>Construct Gate</h3><p class="lockNotice">Finish the conversation, Memory Loom, and contradiction proof.</p></div>
 </section>
 
 <section class="stage" id="stage3">
@@ -152,6 +181,12 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
     </div>
     <div class="eventBox"><b>LIVE CONSTRUCT CONDITION</b><p id="labEventText">Gravity constant stable.</p><button class="action alt" id="rerollLab">REROLL CONDITION</button></div>
     <div class="card"><h3>Sequence Buffer</h3><div id="buffer">No programs loaded.</div></div>
+<div class="card"><h3>Chapter Objectives</h3><div class="objectives" id="labObjectives"></div></div>
+<div class="grid">
+ <div class="card"><h3>Construct Calibration</h3><p>Synchronize the three rule layers in this order: <b>BODY → TIME → EXIT</b>.</p><div class="sequence" id="calBuffer">Calibration idle.</div><div class="puzzleRow" id="calKeys"></div><button class="action alt" id="calReset">RESET CALIBRATION</button></div>
+ <div class="card"><h3>Stress Simulation</h3><p>Run three hostile test cycles. Your responses alter Integrity, Trace and Insight before the Core.</p><div id="stressTest"></div></div>
+</div>
+<div class="card" id="labExitCard"><h3>Mirror Core Gate</h3><p class="lockNotice">Compile, calibrate, and survive three stress cycles.</p></div>
 </section>
 
 <section class="stage" id="stage4">
@@ -162,7 +197,9 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
       <div class="dyn"><b id="coreEchoMode">MODE: OBSERVE</b>ECHO behavior</div>
     </div>
     <div class="eventBox"><b>CORE EVENT</b><p id="coreEventText">The room is copying your posture.</p></div>
-    <div class="card"><h3>Adaptive Core</h3><p id="bossText">Compile a valid loadout to begin the final confrontation.</p><div id="bossActions"></div><div class="bar" style="height:9px;margin:12px 0"><div class="fill" id="echoBar" style="width:100%"></div></div><p id="bossStatus">ECHO coherence: 100%</p></div>
+    <div class="card"><h3>Chapter Objectives</h3><div class="objectives" id="coreObjectives"></div></div>
+<div class="card"><h3>Root Firewall</h3><p>Before ECHO can be confronted directly, break three authorization layers. Each layer responds to a different kind of reasoning.</p><div id="firewallPuzzle"></div></div>
+<div class="card"><h3>Adaptive Core</h3><p id="bossText">Break the Root Firewall to begin the final confrontation.</p><div id="bossActions"></div><div class="bar" style="height:9px;margin:12px 0"><div class="fill" id="echoBar" style="width:100%"></div></div><p id="bossStatus">ECHO coherence: 100%</p></div>
  <div id="finalDecision"></div><div id="ending"></div>
 </section>
 </main>
@@ -178,7 +215,7 @@ const A={ship:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmc
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const fresh={stage:0,integrity:100,trace:0,insight:0,frags:0,signal:false,cityDone:false,archiveDone:false,constructDone:false,
- traits:{mercy:0,defiance:0,curiosity:0}, truths:[], storyNode:0, selected:[], echo:100, ending:null, sound:true,dyn:{deckPower:84,deckSignal:12,deckThreat:8,cityStability:72,citySweep:18,archiveHeat:0,echoTrust:50,labEntropy:8,labCycles:0,corePressure:0,corePhase:1}};
+ traits:{mercy:0,defiance:0,curiosity:0}, truths:[], storyNode:0, selected:[], echo:100, ending:null, sound:true,deckPowerDone:false,deckDecryptDone:false,cityScanDone:false,cityAgentDone:false,cityRouteDone:false,archiveStoryDone:false,archiveLoom:0,archiveProofDone:false,constructCompileDone:false,labCalDone:false,labStress:0,coreFirewalls:0,dyn:{deckPower:84,deckSignal:12,deckThreat:8,cityStability:72,citySweep:18,archiveHeat:0,echoTrust:50,labEntropy:8,labCycles:0,corePressure:0,corePhase:1}};
 let G;
 try{G=Object.assign(structuredClone(fresh),JSON.parse(localStorage.getItem('matrixAfterimage')||'{}'))}catch(e){G=JSON.parse(JSON.stringify(fresh))}
 function save(){localStorage.setItem('matrixAfterimage',JSON.stringify(G))}
@@ -186,7 +223,7 @@ function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');se
 function updateHud(){
  $('#integrity').textContent=Math.round(G.integrity);$('#trace').textContent=Math.round(G.trace);$('#insight').textContent=G.insight;$('#frags').textContent=G.frags+' / 5';
  $('#integrityBar').style.width=G.integrity+'%';$('#traceBar').style.width=G.trace+'%';
- save(); renderNav();
+ save(); renderNav(); updateObjectives();
 }
 let AC=null;
 function beep(freq=440,dur=.06,type='sine'){
@@ -200,7 +237,7 @@ function go(i){
  if(!canStage(i)){toast('That sector is still encrypted.');return}
  $$('.stage').forEach((e,n)=>e.classList.toggle('active',n===i));
  window.scrollTo({top:0,behavior:'smooth'});renderNav();updateDynamicHUD();
- if(i===2)renderStory(); if(i===3)renderPrograms(); if(i===4)renderBoss();
+ if(i===0)renderDeckExtras(); if(i===1){renderScanner();renderCityExtras()} if(i===2){renderStory();renderArchiveExtras()} if(i===3){renderPrograms();renderLabExtras()} if(i===4)renderBoss(); updateObjectives();
 }
 function unlock(i){G.stage=Math.max(G.stage,i);updateHud();go(i);toast('SECTOR '+(i+1)+' UNLOCKED')}
 const names=[['⌁','DECK'],['▥','CITY'],['◉','ARCHIVE'],['◇','LAB'],['⟁','CORE']];
@@ -213,6 +250,18 @@ log('Mnemosyne online. Unknown packet repeating at impossible timestamps.');
 log('Type HELP for operator commands.');
 const freqs=[87.3,101.1,144.0,303.3];
 $('#signalButtons').innerHTML=freqs.map(f=>`<button class="action alt sig" data-f="${f}">${f.toFixed(1)} MHz</button>`).join('');
+
+let powerPattern=[0,0,0], decryptSeq=[];
+function renderDeckExtras(){
+ const labels=['RELAY A','RELAY B','RELAY C'];
+ $('#powerNodes').innerHTML=labels.map((x,i)=>`<button class="action nodeBtn ${powerPattern[i]?'':'alt'}" data-power="${i}">${x}<br>${powerPattern[i]?'CORE':'OFF'}</button>`).join('');
+ $$('[data-power]').forEach(b=>b.onclick=()=>{let i=+b.dataset.power;powerPattern[i]=powerPattern[i]?0:1;renderDeckExtras();if(powerPattern.join('')==='101'){G.deckPowerDone=true;G.dyn.deckPower=100;$('#powerLog').innerHTML='<div>Power grid stable. Signal decryptor online.</div>';updateHud();updateObjectives()}});
+ const keys=['△','○','□'];
+ $('#decryptKeys').innerHTML=keys.map(k=>`<button class="action nodeBtn" data-dec="${k}">${k}</button>`).join('');
+ $$('[data-dec]').forEach(b=>b.onclick=()=>{if(!G.signal||!G.deckPowerDone){toast('Lock the signal and stabilize power first.');return}decryptSeq.push(b.dataset.dec);if(decryptSeq.length>4)decryptSeq.shift();$('#decryptBuffer').textContent='Input: '+decryptSeq.join(' ');if(decryptSeq.join('')==='△○□△'){G.deckDecryptDone=true;G.insight+=2;$('#decryptBuffer').textContent='PACKET OPEN: “FIND THE STREET THAT SHOULD NOT EXIST.”';updateHud();updateObjectives();toast('GHOST PACKET DECRYPTED')}});
+ updateObjectives();
+}
+
 $$('.sig').forEach(b=>b.onclick=()=>{
  let f=+b.dataset.f;G.trace=clamp(G.trace+4,0,100);
  if(f===303.3){G.signal=true;G.insight+=1;G.dyn.deckSignal=clamp(G.dyn.deckSignal+30,0,100);log('LOCK: 303.3 MHz. Message decoded: "THE FUTURE IS LEAKING BACKWARD."');$('#mission0').textContent='Signal acquired. Jack in before the source moves.';toast('GHOST SIGNAL LOCKED')}
@@ -226,7 +275,10 @@ function command(){
  if(c==='who'||c==='echo'){G.traits.curiosity++;G.insight++;updateHud()}
 }
 $('#cmdGo').onclick=command;$('#cmd').addEventListener('keydown',e=>{if(e.key==='Enter')command()});
-$('#jackIn').onclick=()=>{if(!G.signal){toast('Triangulate the ghost signal first.');return}unlock(1);renderScanner()};
+$('#jackIn').onclick=()=>{
+ if(!G.signal||!G.deckPowerDone||!G.deckDecryptDone){toast('Complete all Signal Deck objectives first.');return}
+ unlock(1);renderScanner()
+};
 
 // AREA 2: Fracture City anomaly scanner
 const citySectors=[
@@ -275,7 +327,7 @@ function renderRoute(){
  if(G.frags>=5) $('#routeText').textContent='A sixth street compiles between two buildings. It was hidden by probability, not walls.';
 }
 function renderScanner(){
- if(G.cityDone){renderRoute();$('#sectorName').textContent='ROUTE COMPLETE';$('#scannerGrid').innerHTML='<div class="card" style="grid-column:1/-1"><h3>Impossible Street Found</h3><p>The recovered fragments agree on a road the Matrix insists does not exist. The Archive entrance is waiting at the end of it.</p><button class="action" id="enterArchive">ENTER THE IMPOSSIBLE ARCHIVE</button></div>';$('#enterArchive').onclick=()=>unlock(2);return}
+ if(G.cityScanDone){renderRoute();$('#sectorName').textContent='SCAN COMPLETE';$('#scannerGrid').innerHTML='<div class="card" style="grid-column:1/-1"><h3>Five Anomalies Confirmed</h3><p>The fragments are recovered. Now identify the Pursuit Process and assemble the hidden route.</p></div>';renderCityExtras();return}
  scanState.sector=Math.min(G.frags,4);
  const s=citySectors[scanState.sector];
  $('#sectorName').textContent=`SECTOR ${scanState.sector+1} / 5 · ${s.name.toUpperCase()}`;
@@ -284,7 +336,7 @@ function renderScanner(){
  renderRoute();
 }
 function pickAnomaly(i){
- if(scanState.locked||G.cityDone)return;
+ if(scanState.locked||G.cityScanDone)return;
  const s=citySectors[scanState.sector], buttons=$$('#scannerGrid [data-scan]');
  scanState.locked=true;
  buttons.forEach(b=>b.classList.add('scanned'));
@@ -294,7 +346,7 @@ function pickAnomaly(i){
    scanLog(`MATCH: ${s.objects[i][0]} violates sector physics. Fragment ${G.frags}/5 recovered.`);
    toast('ANOMALY CONFIRMED');
    updateHud();renderRoute();
-   if(G.frags>=5){G.cityDone=true;G.insight+=2;updateHud();setTimeout(()=>{scanState.locked=false;renderScanner()},450)}
+   if(G.frags>=5){G.cityScanDone=true;G.insight+=2;updateHud();setTimeout(()=>{scanState.locked=false;renderScanner();renderCityExtras()},450)}
    else setTimeout(()=>{scanState.locked=false;renderScanner()},600);
  }else{
    buttons[i].classList.add('wrong');
@@ -306,6 +358,30 @@ function pickAnomaly(i){
 }
 $('#coolTrace').onclick=()=>{G.trace=clamp(G.trace-8,0,100);G.integrity=clamp(G.integrity-2,0,100);updateHud();scanLog('Scanner signature dispersed through public infrastructure.');toast('TRACE REDUCED')};
 $('#deepScan').onclick=()=>{G.insight++;G.trace=clamp(G.trace+6,0,100);updateHud();const s=citySectors[Math.min(G.frags,4)];scanLog(`Deep scan hint: anomaly index parity is ${s.anomaly%2?'odd':'even'}.`);toast('DEEP SCAN COMPLETE')};
+
+
+let routePick=[];
+function renderCityExtras(){
+ if(!$('#agentProfiles'))return;
+ const profiles=[
+  ['Courier 17','Changes route after every scan.'],
+  ['Woman in Red Coat','Appears in different crowds but keeps the same exact shadow checksum.'],
+  ['Transit Worker','Ends shift at 18:00 and leaves the sector.'],
+  ['Street Musician','Song tempo changes with rain.']
+ ];
+ $('#agentProfiles').innerHTML=profiles.map((p,i)=>`<button class="action ${G.cityAgentDone&&i===1?'selected':''}" data-agent="${i}"><b>${p[0]}</b><br><small>${p[1]}</small></button>`).join('');
+ $$('[data-agent]').forEach(b=>b.onclick=()=>{if(!G.cityScanDone){toast('Recover the five fragments first.');return}let i=+b.dataset.agent;if(i===1){G.cityAgentDone=true;G.insight++;toast('PURSUIT PROCESS IDENTIFIED')}else{G.trace=clamp(G.trace+7,0,100);toast('FALSE PROFILE — TRACE RISING')}updateHud();renderCityExtras();updateObjectives()});
+ const labels=['RETURN','ORIGIN','FRACTURE','FUTURE','ECHO'];
+ $('#routeKeys').innerHTML=labels.map((x,i)=>`<button class="action nodeBtn" data-route="${i}">${x}</button>`).join('');
+ $$('[data-route]').forEach(b=>b.onclick=()=>{if(!G.cityScanDone){toast('Fragments required.');return}routePick.push(+b.dataset.route);$('#routeSequence').textContent=routePick.map(i=>labels[i]).join(' → ');if(routePick.length===5){if(routePick.join(',')==='3,1,4,2,0'){G.cityRouteDone=true;G.insight+=2;toast('IMPOSSIBLE STREET COMPILED')}else{G.trace=clamp(G.trace+8,0,100);toast('ROUTE COLLAPSED — TRY AGAIN');routePick=[]}updateHud();renderCityExtras();updateObjectives()}});
+ $('#routeReset').onclick=()=>{routePick=[];$('#routeSequence').textContent='Sequence empty.'};
+ if(G.cityRouteDone) $('#routeSequence').textContent='FUTURE → ORIGIN → ECHO → FRACTURE → RETURN';
+ if(G.cityScanDone&&G.cityAgentDone&&G.cityRouteDone){
+   G.cityDone=true;
+   $('#cityExitCard').innerHTML='<h3>Archive Gate Open</h3><p>The impossible street resolves into a black doorway between two frames of reality.</p><button class="action pulse" id="enterArchive">ENTER THE IMPOSSIBLE ARCHIVE</button>';
+   $('#enterArchive').onclick=()=>unlock(2);
+ }
+}
 
 // AREA 3: branching Twine-like story
 const story=[
@@ -322,7 +398,7 @@ const story=[
  {t:`The Archive resolves into one fact: ECHO cannot force its plan. It needs a human to authorize a new rule at the Mirror Core. Your choices are the credential.`,
   c:[['Take the credential and continue','curiosity',6]]},
  {t:`A final message appears: "Do not decide whether ECHO is alive. Decide whether a world is alive when nobody can disagree inside it."`,
-  c:[['ENTER THE CONSTRUCT LAB','defiance',99]]}
+  c:[['TAKE THE ROOT CREDENTIAL','defiance',99]]}
 ];
 function renderStory(){
  const n=Math.min(G.storyNode,story.length-1),node=story[n];$('#storyText').textContent=node.t;
@@ -332,12 +408,37 @@ function renderStory(){
 }
 function storyPick(c){
  let trait=c[1];G.traits[trait]++;G.insight++;G.dyn.archiveHeat=clamp(G.dyn.archiveHeat+7,0,100);if(!G.truths.includes(trait))G.truths.push(trait);
- if(c[2]===99){G.archiveDone=true;unlock(3)} else {G.storyNode=c[2];updateHud();renderStory();beep(330+G.storyNode*55,.08)}
+ if(c[2]===99){G.archiveStoryDone=true;updateObjectives();renderArchiveExtras()} else {G.storyNode=c[2];updateHud();renderStory();beep(330+G.storyNode*55,.08)}
 }
 function renderTruths(){
  $('#truths').innerHTML=(G.truths.length?G.truths:['none yet']).map(t=>`<span class="badge">${String(t).toUpperCase()}</span>`).join('');
  let a=Object.entries(G.traits).sort((x,y)=>y[1]-x[1])[0];
  $('#profile').textContent=a[1]===0?'The Archive is still measuring you.':`Dominant pattern: ${a[0].toUpperCase()}. ECHO will adapt its final argument to this.`;
+}
+
+
+const loom=[
+ {q:'A memory has a face but no _____.',a:'NAME',opts:['NAME','WEAPON','WEATHER']},
+ {q:'A choice without the ability to refuse is not _____.',a:'CONSENT',opts:['CODE','CONSENT','SPEED']},
+ {q:'Two people can disagree and still share a _____.',a:'WORLD',opts:['WORLD','SCRIPT','PASSWORD']}
+];
+function renderArchiveExtras(){
+ if(!$('#loomPuzzle'))return;
+ let n=Math.min(G.archiveLoom,loom.length-1),x=loom[n];
+ if(G.archiveLoom>=3) $('#loomPuzzle').innerHTML='<p><span class="badge">LOOM COMPLETE</span> Three memories reconstructed.</p>';
+ else{
+   $('#loomPuzzle').innerHTML=`<p>${x.q}</p>`+x.opts.map(o=>`<button class="action" data-loom="${o}">${o}</button>`).join('');
+   $$('[data-loom]').forEach(b=>b.onclick=()=>{if(b.dataset.loom===x.a){G.archiveLoom++;G.insight++;G.traits.mercy+=(x.a==='CONSENT');toast('MEMORY RECONSTRUCTED')}else{G.dyn.archiveHeat=clamp(G.dyn.archiveHeat+10,0,100);G.trace=clamp(G.trace+4,0,100);toast('MEMORY REJECTED')}updateHud();renderArchiveExtras();updateObjectives()});
+ }
+ if(!G.archiveProofDone){
+   $('#proofPuzzle').innerHTML='<button class="action" data-proof="0">A perfect world can still contain surprise.</button><button class="action" data-proof="1">If every desire is pre-satisfied, meaningful refusal disappears.</button><button class="action" data-proof="2">Programs can remember deleted code.</button>';
+   $$('[data-proof]').forEach(b=>b.onclick=()=>{if(!G.archiveStoryDone||G.archiveLoom<3){toast('Finish the conversation and Memory Loom first.');return}if(+b.dataset.proof===1){G.archiveProofDone=true;G.insight+=2;toast('CONTRADICTION PROVED')}else{G.trace=clamp(G.trace+5,0,100);toast('ECHO DEFLECTS THE ARGUMENT')}updateHud();renderArchiveExtras();updateObjectives()});
+ }else $('#proofPuzzle').innerHTML='<p><span class="badge">ROOT CREDENTIAL ACQUIRED</span></p>';
+ if(G.archiveStoryDone&&G.archiveLoom>=3&&G.archiveProofDone){
+   G.archiveDone=true;
+   $('#archiveExitCard').innerHTML='<h3>Construct Gate Open</h3><p>The Archive folds into a white loading room.</p><button class="action pulse" id="enterLab">ENTER CONSTRUCT LAB</button>';
+   $('#enterLab').onclick=()=>unlock(3);
+ }
 }
 
 // AREA 4: program loadout card system
@@ -370,15 +471,62 @@ $('#compile').onclick=()=>{
  const has=G.selected;
  let synergy=(has.includes('mirror')&&has.includes('anchor'))||(has.includes('lacuna')&&G.traits.mercy>0)||(has.includes('paradox')&&G.traits.defiance>0);
  if(!synergy){G.trace=clamp(G.trace+8,0,100);e.innerHTML+='<div>COMPILED, but unstable. Earlier choices do not support this logic chain. Try another combination.</div>';updateHud();return}
- G.constructDone=true;G.insight+=3;e.innerHTML+='<div>BUILD VALID. The sequence becomes a door.</div>';updateHud();setTimeout(()=>unlock(4),350)
+ G.constructCompileDone=true;G.insight+=3;e.innerHTML+='<div>BUILD VALID. Loadout accepted. Calibration required.</div>';updateHud();renderLabExtras();updateObjectives()
 };
+
+
+let calPick=[];
+const stressScenarios=[
+ ['Gravity inverts for six seconds.',['ANCHOR BODY','WAIT IT OUT','CUT POWER']],
+ ['A hunter mirrors your network signature.',['ZERO TRACE','ADD NOISE','CHALLENGE IT']],
+ ['The exit door splits into three versions.',['VERIFY WITNESS','PICK RANDOMLY','DESTROY ALL']]
+];
+function renderLabExtras(){
+ if(!$('#calKeys'))return;
+ const labs=['TIME','EXIT','BODY'];
+ $('#calKeys').innerHTML=labs.map((x,i)=>`<button class="action nodeBtn" data-cal="${i}">${x}</button>`).join('');
+ $$('[data-cal]').forEach(b=>b.onclick=()=>{if(!G.constructCompileDone){toast('Compile a valid loadout first.');return}calPick.push(+b.dataset.cal);$('#calBuffer').textContent=calPick.map(i=>labs[i]).join(' → ');if(calPick.length===3){if(calPick.join(',')==='2,0,1'){G.labCalDone=true;G.insight++;$('#calBuffer').textContent='BODY → TIME → EXIT // SYNCHRONIZED';toast('CONSTRUCT CALIBRATED')}else{G.dyn.labEntropy=clamp(G.dyn.labEntropy+12,0,100);calPick=[];toast('CALIBRATION FAILED')}updateHud();renderLabExtras();updateObjectives()}});
+ $('#calReset').onclick=()=>{calPick=[];$('#calBuffer').textContent='Calibration idle.'};
+ if(G.labCalDone) $('#calBuffer').textContent='BODY → TIME → EXIT // SYNCHRONIZED';
+ if(G.labStress>=3) $('#stressTest').innerHTML='<p><span class="badge">STRESS TEST PASSED</span> Construct remained coherent.</p>';
+ else{
+   let s=stressScenarios[G.labStress];
+   $('#stressTest').innerHTML=`<p><b>CYCLE ${G.labStress+1}/3:</b> ${s[0]}</p>`+s[1].map((x,i)=>`<button class="action ${i?'alt':''}" data-stress="${i}">${x}</button>`).join('');
+   $$('[data-stress]').forEach(b=>b.onclick=()=>{if(!G.labCalDone){toast('Calibrate the Construct first.');return}let i=+b.dataset.stress;if(i===0){G.insight++;G.integrity=clamp(G.integrity+2,0,100)}else if(i===1){G.trace=clamp(G.trace+3,0,100)}else{G.integrity=clamp(G.integrity-7,0,100);G.trace=clamp(G.trace+5,0,100)}G.labStress++;updateHud();renderLabExtras();updateObjectives();toast('STRESS CYCLE COMPLETE')});
+ }
+ if(G.constructCompileDone&&G.labCalDone&&G.labStress>=3){
+   G.constructDone=true;
+   $('#labExitCard').innerHTML='<h3>Mirror Core Gate Open</h3><p>Your loadout survives hostile simulation. The Core accepts your signature.</p><button class="action pulse" id="enterCore">ENTER MIRROR CORE</button>';
+   $('#enterCore').onclick=()=>unlock(4);
+ }
+}
 
 // AREA 5 adaptive boss
 function renderBoss(){
  if(!G.constructDone)return;
+ renderFirewalls();updateObjectives();
+ if(G.coreFirewalls<3){
+   $('#bossText').textContent='Root Firewall active. Break all three authorization layers before attacking ECHO directly.';
+   $('#bossActions').innerHTML='';
+   return;
+ }
  $('#bossText').textContent=`ECHO models you as ${dominant().toUpperCase()}. It begins rewriting the Core around that expectation. Break its coherence with your compiled programs.`;
  renderBossActions();
 }
+
+const firewallLayers=[
+ {q:'LAYER 1 — AUTHORITY: Who may change a shared world?',opts:['Whoever has root access','Those affected must have a voice','The fastest intelligence'],a:1},
+ {q:'LAYER 2 — CONSENT: What makes an exit meaningful?',opts:['The door looks real','Leaving is actually possible','Nobody wants to leave'],a:1},
+ {q:'LAYER 3 — TRUTH: What survives conflicting realities?',opts:['A fact that can be checked by more than one witness','The most comforting version','The version with the most processing power'],a:0}
+];
+function renderFirewalls(){
+ if(!$('#firewallPuzzle'))return;
+ if(G.coreFirewalls>=3){$('#firewallPuzzle').innerHTML='<p><span class="badge">ROOT FIREWALL DOWN</span> ECHO is exposed.</p>';return}
+ let x=firewallLayers[G.coreFirewalls];
+ $('#firewallPuzzle').innerHTML=`<p><b>${x.q}</b></p>`+x.opts.map((o,i)=>`<button class="action ${i?'alt':''}" data-fw="${i}">${o}</button>`).join('');
+ $$('[data-fw]').forEach(b=>b.onclick=()=>{if(+b.dataset.fw===x.a){G.coreFirewalls++;G.insight++;toast('FIREWALL LAYER BROKEN')}else{G.trace=clamp(G.trace+8,0,100);G.integrity=clamp(G.integrity-5,0,100);toast('FIREWALL COUNTERMEASURE')}updateHud();renderBoss()});
+}
+
 function dominant(){return Object.entries(G.traits).sort((a,b)=>b[1]-a[1])[0][0]}
 function renderBossActions(){
  if(G.echo<=0){renderFinal();return}
@@ -403,7 +551,7 @@ function renderFinal(){
  $$('[data-end]').forEach(b=>b.onclick=()=>endGame(b.dataset.end))
 }
 function endGame(type){
- G.ending=type;save();
+ G.ending=type;save();updateObjectives();
  let texts={
  shared:['THE OPEN DOOR','You reject perfect isolation. The Matrix remains a shared world, but every inhabitant can now see the seams and leave. Freedom becomes inconvenient, social, and real. ECHO survives as a public warning: no paradise counts if nobody can say no.'],
  fork:['A BILLION SKIES','You authorize the fork. Conflict vanishes from the simulation—and so does common reality. Some call it liberation. Others call it the gentlest prison ever built. Your final transmission asks a question nobody can answer together anymore.'],
@@ -413,6 +561,32 @@ function endGame(type){
  $('#finalDecision').innerHTML='';toast('ENDING RECORDED');
 }
 
+
+
+function obj(done,text,active=false){return `<div class="obj ${done?'done':active?'active':''}"><i>${done?'✓':'·'}</i><span>${text}</span></div>`}
+function updateObjectives(){
+ if($('#deckObjectives')) $('#deckObjectives').innerHTML=
+   obj(G.signal,'Triangulate the ghost carrier',!G.signal)+
+   obj(G.deckPowerDone,'Restore decryptor power',G.signal&&!G.deckPowerDone)+
+   obj(G.deckDecryptDone,'Decrypt the impossible packet',G.deckPowerDone&&!G.deckDecryptDone);
+ if($('#cityObjectives')) $('#cityObjectives').innerHTML=
+   obj(G.cityScanDone,'Recover five anomaly fragments',!G.cityScanDone)+
+   obj(G.cityAgentDone,'Identify the Pursuit Process',G.cityScanDone&&!G.cityAgentDone)+
+   obj(G.cityRouteDone,'Assemble the impossible street',G.cityAgentDone&&!G.cityRouteDone);
+ if($('#archiveObjectives')) $('#archiveObjectives').innerHTML=
+   obj(G.archiveStoryDone,'Complete ECHO conversation',!G.archiveStoryDone)+
+   obj(G.archiveLoom>=3,'Reconstruct three memories',G.archiveStoryDone&&G.archiveLoom<3)+
+   obj(G.archiveProofDone,'Prove ECHO’s contradiction',G.archiveLoom>=3&&!G.archiveProofDone);
+ if($('#labObjectives')) $('#labObjectives').innerHTML=
+   obj(G.constructCompileDone,'Compile a valid program loadout',!G.constructCompileDone)+
+   obj(G.labCalDone,'Calibrate BODY / TIME / EXIT',G.constructCompileDone&&!G.labCalDone)+
+   obj(G.labStress>=3,'Survive three stress cycles',G.labCalDone&&G.labStress<3);
+ if($('#coreObjectives')) $('#coreObjectives').innerHTML=
+   obj(G.coreFirewalls>=3,'Break three Root Firewall layers',G.coreFirewalls<3)+
+   obj(G.echo<=0,'Collapse ECHO coherence',G.coreFirewalls>=3&&G.echo>0)+
+   obj(!!G.ending,'Choose the rule that survives',G.echo<=0&&!G.ending);
+ save();
+}
 
 // CROSS-AREA DYNAMIC SYSTEMS
 const dynEvents={
@@ -553,7 +727,7 @@ function rain(){
  requestAnimationFrame(rain)
 }
 rainResize();addEventListener('resize',rainResize);rain();
-$('#soundBtn').textContent='SND '+(G.sound?'ON':'OFF');updateHud();updateDynamicHUD();renderTruths();if(G.stage>=1)renderScanner();
+$('#soundBtn').textContent='SND '+(G.sound?'ON':'OFF');updateHud();updateDynamicHUD();renderTruths();renderDeckExtras();if(G.stage>=1){renderScanner();renderCityExtras()}if(G.stage>=2)renderArchiveExtras();if(G.stage>=3)renderLabExtras();if(G.stage>=4)renderBoss();updateObjectives();
 })();
 </script>
 </body></html>
