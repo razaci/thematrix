@@ -463,6 +463,104 @@ linear-gradient(180deg,#0d1d14,#020604)}
 @media(max-width:760px){.legacyCrewGrid{grid-template-columns:1fr 1fr}.legacyMissionStrip{grid-template-columns:1fr 1fr}}
 @media(max-width:460px){.legacyCrewGrid{grid-template-columns:1fr}}
 
+
+/* DAILY SIM + FAILSAFE FLOW */
+.dailySim{border:2px solid #4f7b5e;background:#030805;border-radius:15px;padding:12px;margin:10px 0}
+.dailyTop{display:grid;grid-template-columns:1.3fr .7fr;gap:9px}
+.dailyClock,.dailyObjective{border:1px solid #3e654c;background:#07130d;border-radius:11px;padding:10px}
+.dailyClock strong{font-size:26px}
+.dailyMeters{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:9px 0}
+.dailyMeter{border:1px solid #355d47;background:#07120c;border-radius:9px;padding:8px;text-align:center}
+.dailyMeter b{display:block;font-size:16px}
+.dailyActivities{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.dailyActivity{border:1px solid #3b654b;background:#08150e;border-radius:10px;padding:9px}
+.dailyActivity button{width:100%;min-height:44px;margin-top:6px;background:#102219;color:#fff;border:1px solid #557d62;border-radius:8px;font-weight:900}
+.dailyActivity.done{opacity:.5}
+.dailyLog{font:10px monospace;line-height:1.45;background:#010503;border:1px solid #355d47;border-radius:9px;padding:9px;margin-top:9px;min-height:70px;color:#d8ffe5}
+.endDayBtn,.failsafeBtn{width:100%;min-height:48px;margin-top:8px;border-radius:10px;font-weight:950}
+.endDayBtn{background:#ffd84d;color:#171100;border:2px solid #ffd84d}
+.failsafeBtn{background:#401818;color:#fff;border:2px solid #a75c5c}
+@media(max-width:700px){.dailyTop{grid-template-columns:1fr}.dailyMeters{grid-template-columns:1fr 1fr}.dailyActivities{grid-template-columns:1fr}}
+
+
+/* LIVED-IN SHIP WORLD OVERHAUL */
+.shipWorld{border:2px solid #426d52;background:#020604;border-radius:16px;padding:12px;margin:10px 0}
+.shipWorldHeader{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.shipWorldTitle h2{margin:.2rem 0}
+.shipLocationBadge{border:1px solid #567c62;background:#09150e;border-radius:999px;padding:6px 10px;font:10px monospace;color:#ddffe6}
+.shipRoomScene{position:relative;overflow:hidden;border:1px solid #426d52;border-radius:14px;min-height:310px;background:#050b07;margin-top:9px}
+.shipRoomScene img{width:100%;height:310px;object-fit:cover;display:block;filter:brightness(.62) saturate(.85) contrast(1.05)}
+.roomDamageOverlay{position:absolute;inset:0;pointer-events:none;z-index:2}
+.roomDamageOverlay.damaged:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(100deg,transparent 0 28px,rgba(255,80,40,.08) 29px 31px)}
+.roomDamageOverlay.critical:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(92deg,rgba(255,40,20,.08) 0 4px,transparent 5px 23px)}
+.roomDamageOverlay.critical:after{content:"⚠ SYSTEM CRITICAL";position:absolute;right:10px;top:10px;border:1px solid #d9735b;background:#240a08dd;color:#fff;padding:6px 8px;border-radius:7px;font:10px monospace}
+.roomTitleOverlay{position:absolute;z-index:4;left:10px;right:10px;bottom:10px;background:linear-gradient(180deg,transparent,#000d);padding-top:40px;color:#fff}
+.roomTitleOverlay h3{margin:.1rem 0;font-size:24px}
+.roomHotspot{position:absolute;z-index:5;border:1px solid #8bc29a;background:#08150ddd;color:#fff;border-radius:9px;padding:8px 10px;font-size:10px;font-weight:900;min-height:42px}
+.roomHotspot.active{border:2px solid #ffd84d;color:#fff4ae}
+.roomHotspot.a{left:5%;top:18%}.roomHotspot.b{right:5%;top:20%}.roomHotspot.c{left:8%;bottom:20%}.roomHotspot.d{right:8%;bottom:18%}
+.roomCrewBar{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.roomCrewChip{border:1px solid #456b53;background:#08150e;border-radius:999px;padding:5px 8px;font-size:10px}
+.roomActions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}
+.roomActions button,.jackSequence button,.sleepBtn{min-height:44px;background:#102219;color:#fff;border:1px solid #557d62;border-radius:9px;font-weight:900}
+.shipLiveFeed{position:sticky;top:4px;z-index:20;border:1px solid #4f7d5e;background:#030805ee;border-radius:10px;padding:7px 9px;font:10px monospace;color:#e6ffed;margin:8px 0}
+.shipLiveFeed.matrix{border-color:#78b988;box-shadow:0 0 0 1px #1f3c2b inset}
+.shipFeedGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.shipFeedCell{border-right:1px solid #294634;padding-right:5px}
+.shipFeedCell:last-child{border-right:0}
+.jackSequence{display:none;border:2px solid #5b8a68;background:#020503;border-radius:14px;padding:12px;margin:10px 0}
+.jackSequence.active{display:block}
+.jackProgress{height:8px;background:#0a140e;border:1px solid #365c45;border-radius:999px;overflow:hidden;margin:8px 0}
+.jackProgress span{display:block;height:100%;background:#7aae87;width:0%}
+.jackStage{font:11px monospace;color:#d8ffe3;min-height:36px}
+.shipNavGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}
+.shipNavGrid button{background:#0c1b13;color:#fff;border:1px solid #50745d;border-radius:9px;padding:9px;font-weight:900}
+.shipNavGrid button.selected{border:2px solid #ffd84d;background:#342c08}
+.debriefBox,.mysteryBox{border:1px solid #4a7257;background:#07130d;border-radius:10px;padding:9px;margin-top:8px}
+.mysteryBox{border-color:#6a5a7e;background:#100b16}
+.crewDialogueBox{border-left:3px solid #8ec39d;background:#07120c;padding:9px 11px;margin-top:8px;min-height:54px}
+.sleepBtn{width:100%;margin-top:9px;background:#ffd84d;color:#171100;border:2px solid #ffd84d}
+@media(max-width:700px){
+ .roomActions,.shipNavGrid{grid-template-columns:1fr}
+ .shipFeedGrid{grid-template-columns:1fr 1fr}
+ .shipRoomScene,.shipRoomScene img{min-height:280px;height:280px}
+}
+
+
+/* CINEMATIC OPENING / MOVIE MODE */
+#movieOpening{border:0;background:#010302;border-radius:16px;padding:0;margin:10px 0;overflow:hidden}
+.movieFrame{position:relative;min-height:420px;background:#020503;overflow:hidden;border:1px solid #273d2e;border-radius:16px}
+.movieFrame img{width:100%;height:420px;object-fit:cover;display:block;filter:brightness(.5) contrast(1.08) saturate(.8)}
+.movieShade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.16),rgba(0,0,0,.38) 42%,rgba(0,0,0,.9))}
+.movieCopy{position:absolute;z-index:3;left:16px;right:16px;bottom:16px;color:white;max-width:760px}
+.movieCopy .kicker{font:10px monospace;letter-spacing:.16em;color:#c9f0d4}
+.movieCopy h1{font-size:clamp(28px,7vw,54px);line-height:1;margin:.25rem 0 .5rem}
+.movieCopy p{font-size:14px;line-height:1.55;max-width:680px}
+.movieChoices{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.movieChoices button{min-height:44px;border:1px solid #708b78;background:#07120dcc;color:#fff;border-radius:9px;padding:9px 12px;font-weight:900}
+.movieChoices button.primary{border:2px solid #ffd84d;background:#ffd84d;color:#171100}
+.movieSubtitle{font:11px monospace;color:#fff8c6;margin-top:8px;min-height:34px}
+.movieTimeline{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:9px}
+.movieTimeline div{height:5px;background:#1b2e21;border-radius:999px}
+.movieTimeline div.active{background:#ffd84d}
+.movieInspect{border:1px solid #345641;background:#06110b;border-radius:12px;padding:11px;margin-top:10px;display:none}
+.movieInspect.active{display:block}
+.movieInspectGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.movieInspectCard{border:1px solid #345641;background:#09150e;border-radius:10px;padding:9px}
+.movieInspectCard button{width:100%;min-height:42px;margin-top:6px;background:#102219;color:#fff;border:1px solid #557d62;border-radius:8px;font-weight:900}
+.movieModeBadge{display:inline-block;border:1px solid #6b8d75;background:#051009cc;border-radius:999px;padding:5px 8px;font:9px monospace}
+#movieEnterGame{display:none;width:100%;min-height:50px;margin-top:10px;border:2px solid #ffd84d;background:#ffd84d;color:#171100;border-radius:10px;font-weight:950}
+#movieEnterGame.show{display:block}
+body.movie-mode #dailySim,
+body.movie-mode #legacyCrewBriefing,
+body.movie-mode #clickableShipMap,
+body.movie-mode #shipMainFrame,
+body.movie-mode #shipWorld,
+body.movie-mode #shipConsoleDock,
+body.movie-mode .sequencePanel,
+body.movie-mode [id^="returnShip_"]{display:none!important}
+@media(max-width:700px){.movieFrame,.movieFrame img{min-height:500px;height:500px}.movieInspectGrid{grid-template-columns:1fr}.movieTimeline{grid-template-columns:repeat(5,1fr)}}
+
 </style>
 </head>
 <body>
@@ -470,6 +568,113 @@ linear-gradient(180deg,#0d1d14,#020604)}
 
 
 
+
+
+
+<section id="movieOpening">
+  <div class="movieFrame">
+    <img id="movieImage" alt="Cinematic opening scene aboard Mnemosyne">
+    <div class="movieShade"></div>
+    <div class="movieCopy">
+      <span class="movieModeBadge">MOVIE MODE // EXPLORE BEFORE PLAY</span>
+      <div class="kicker" id="movieKicker">COLD OPEN // MACHINE SPACE</div>
+      <h1 id="movieTitle">THE MNEMOSYNE</h1>
+      <p id="movieText">You are not being asked to win anything yet. For now, you are simply aboard the ship.</p>
+      <div class="movieSubtitle" id="movieSubtitle">A low mechanical hum. Something taps twice inside the hull.</div>
+      <div class="movieChoices" id="movieChoices"></div>
+      <div class="movieTimeline" id="movieTimeline"></div>
+    </div>
+  </div>
+  <div class="movieInspect" id="movieInspect">
+    <div class="storyChapterLabel">LOOK AROUND</div>
+    <h3 id="movieInspectTitle">SHIP DETAILS</h3>
+    <div class="movieInspectGrid" id="movieInspectGrid"></div>
+  </div>
+  <button type="button" id="movieEnterGame">ENTER GAME MODE</button>
+</section>
+<section id="shipWorld" class="shipWorld">
+  <div class="shipWorldHeader">
+    <div class="shipWorldTitle">
+      <div class="storyChapterLabel">MNEMOSYNE // LIVED-IN SHIP WORLD</div>
+      <h2 id="shipWorldRoomTitle">BRIDGE</h2>
+      <p id="shipWorldRoomDesc">Command deck, flight controls, mission board and the crew's shared view of machine space.</p>
+    </div>
+    <div class="shipLocationBadge" id="shipWorldLocation">LOCATION: MACHINE TUNNELS</div>
+  </div>
+
+  <div class="shipLiveFeed" id="shipLiveFeed">
+    <div class="shipFeedGrid">
+      <div class="shipFeedCell">HULL<br><b id="liveHull">100%</b></div>
+      <div class="shipFeedCell">TANK<br><b id="liveTank">ONLINE</b></div>
+      <div class="shipFeedCell">POSITION<br><b id="livePosition">HOLDING</b></div>
+      <div class="shipFeedCell">SIGNAL<br><b id="liveSignal">81%</b></div>
+      <div class="shipFeedCell">HARDLINE<br><b id="liveHardline">AVAILABLE</b></div>
+    </div>
+  </div>
+
+  <div class="shipRoomScene">
+    <img id="shipRoomImage" alt="Mnemosyne interior room scene">
+    <div class="roomDamageOverlay" id="roomDamageOverlay"></div>
+    <button type="button" class="roomHotspot a" data-room="bridge">BRIDGE</button>
+    <button type="button" class="roomHotspot b" data-room="operator">OPERATOR PIT</button>
+    <button type="button" class="roomHotspot c" data-room="engineering">ENGINEERING</button>
+    <button type="button" class="roomHotspot d" data-room="jack">JACK BAY</button>
+    <div class="roomTitleOverlay">
+      <small id="roomStatusLine">SYSTEMS NOMINAL</small>
+      <h3 id="roomOverlayTitle">BRIDGE</h3>
+      <div id="roomOverlayText">Tap another ship section to move there.</div>
+    </div>
+  </div>
+
+  <div class="roomCrewBar" id="roomCrewBar"></div>
+  <div class="crewDialogueBox" id="crewDialogueBox">Crew chatter will appear here as the day advances.</div>
+
+  <div class="roomActions" id="roomActions"></div>
+
+  <div class="shipNavGrid" id="shipNavGrid">
+    <button type="button" data-navloc="tunnels">MACHINE TUNNELS</button>
+    <button type="button" data-navloc="deadcity">DEAD CITY</button>
+    <button type="button" data-navloc="wreck">WRECK FIELD</button>
+    <button type="button" data-navloc="zionroute">OLD ZION ROUTE</button>
+    <button type="button" data-navloc="thermal">THERMAL VENTS</button>
+    <button type="button" data-navloc="broadcast">BROADCAST DEPTHS</button>
+  </div>
+
+  <div class="debriefBox" id="shipDebrief"><b>DEBRIEF</b><br>No mission completed this shift.</div>
+  <div class="mysteryBox" id="shipMystery"><b>SHIP MYSTERY</b><br>No anomaly detected yet.</div>
+  <button type="button" id="sleepNextDay" class="sleepBtn">SLEEP / START NEXT DAY</button>
+</section>
+
+<section id="jackSequence" class="jackSequence">
+  <div class="storyChapterLabel">MATRIX ENTRY SEQUENCE</div>
+  <h2>JACKING IN</h2>
+  <div class="jackStage" id="jackStage">Choose destination.</div>
+  <div class="jackProgress"><span id="jackProgressBar"></span></div>
+  <div class="roomActions">
+    <button type="button" data-jack-dest="campaign">CAMPAIGN</button>
+    <button type="button" data-jack-dest="district">AFTERIMAGE BLOCK</button>
+    <button type="button" data-jack-dest="sandbox">REALITY SANDBOX</button>
+  </div>
+  <button type="button" id="jackAbort">ABORT / RETURN TO JACK BAY</button>
+</section>
+<section id="dailySim" class="dailySim">
+ <div class="storyChapterLabel">MNEMOSYNE DAILY SIMULATION</div>
+ <div class="dailyTop">
+  <div class="dailyClock"><small>SHIP DAY</small><br><strong id="dailyDay">1</strong><br><span id="dailyShift">MORNING SHIFT</span></div>
+  <div class="dailyObjective"><b>TODAY'S SIMPLE GOAL</b><p id="dailyGoal">Complete any 3 activities, then end the day.</p></div>
+ </div>
+ <div class="dailyMeters">
+  <div class="dailyMeter">CREW MORALE<b id="dailyMorale">70</b></div>
+  <div class="dailyMeter">SUPPLIES<b id="dailySupplies">60</b></div>
+  <div class="dailyMeter">SHIP CONDITION<b id="dailyCondition">80</b></div>
+  <div class="dailyMeter">MATRIX INTEL<b id="dailyIntel">0</b></div>
+ </div>
+ <h3>DAILY ACTIVITIES</h3>
+ <div class="dailyActivities" id="dailyActivities"></div>
+ <div class="dailyLog" id="dailyLog">DAY 1 // Mnemosyne wakes on silent running. Choose any activity. Nothing here can trap the story.</div>
+ <button type="button" id="endShipDay" class="endDayBtn">END DAY</button>
+ <button type="button" id="emergencyUnlock" class="failsafeBtn">EMERGENCY UNLOCK / RETURN TO SHIP</button>
+</section>
 <section id="legacyCrewBriefing">
   <div class="storyChapterLabel">UNOFFICIAL FAN-FICTION BRIEFING // LEGACY CREW</div>
   <h2>BEFORE YOU JACK IN</h2>
@@ -805,7 +1010,7 @@ linear-gradient(180deg,#0d1d14,#020604)}
   <div class="card"><h3>Crew Interludes</h3><p>After major missions, resolve a shipboard event before continuing.</p><div id="interludePanel"></div></div>
  </div>
 </section>
-<section class="stage active" id="stage0"><div id="storyCheckpoint_deck"></div><div id="encounter_deck"></div><div id="cinemaStory_deck" class="cinemaStory"></div><div id="sequence_deck" class="sequencePanel"></div><div id="storyCampaign_deck"></div><div id="protocol_deck"></div><div id="areaLock_deck"></div><div id="areaActivation_deck"></div><div id="sceneGallery_deck"></div><div id="microTasks_deck"></div>
+<section class="stage active" id="stage0"><div id="storyCheckpoint_deck"></div><div id="encounter_deck"></div><div id="cinemaStory_deck" class="cinemaStory"></div><div id="sequence_deck" class="sequencePanel"></div><button type="button" id="returnShip_deck" class="failsafeBtn" onclick="if(typeof returnFromMatrixWorld==='function')returnFromMatrixWorld()">RETURN TO MNEMOSYNE</button><div id="storyCampaign_deck"></div><div id="protocol_deck"></div><div id="areaLock_deck"></div><div id="areaActivation_deck"></div><div id="sceneGallery_deck"></div><div id="microTasks_deck"></div>
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzA2MTMwZCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAwMWIyYSIvPjwvbGluZWFyR3JhZGllbnQ+CjxmaWx0ZXIgaWQ9ImdsIj48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSI2Ii8+PC9maWx0ZXI+PC9kZWZzPgo8cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idXJsKCNnKSIvPgo8ZyBzdHJva2U9IiM0M2ZmOWMiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii42NSI+CjxwYXRoIGQ9Ik04MCAzNTAgTDI1MCAxODAgTDY1MCAxODAgTDgyMCAzNTAgTDY1MCA0MTAgTDI1MCA0MTAgWiIgc3Ryb2tlLXdpZHRoPSI2Ii8+CjxwYXRoIGQ9Ik0yNzAgMTk1IEwzNDAgOTAgTDU2MCA5MCBMNjMwIDE5NSIgc3Ryb2tlLXdpZHRoPSI1Ii8+CjxwYXRoIGQ9Ik0zNzAgMTMwaDE2ME0yMDAgMzMwaDUwME0yOTAgMjYwaDMyME00NTAgOTB2MzIwIiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9Ii41Ii8+CjwvZz4KPGcgZmlsbD0iIzQzZmY5YyI+CjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iMjUiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjYwIiBmaWxsPSJub25lIiBzdHJva2U9IiM0M2ZmOWMiIHN0cm9rZS13aWR0aD0iMyIvPgo8Y2lyY2xlIGN4PSIxODAiIGN5PSIzNjUiIHI9IjEwIi8+PGNpcmNsZSBjeD0iNzIwIiBjeT0iMzY1IiByPSIxMCIvPgo8L2c+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNzdmZmMwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjI0Ij5NTkVNT1NZTkUgLy8gU0lHTkFMIERFQ0s8L3RleHQ+Cjwvc3ZnPg=="><div class="heroText"><div class="kicker">CHAPTER I // THE SIGNAL DECK</div><h2>THE SKY WAS REWRITTEN.<br>THE CODE NOTICED.</h2><p>Weeks after Neo and Trinity reclaimed their power inside the simulation, impossible messages begin arriving aboard the Mnemosyne. They contain memories belonging to people who were never born.</p><button class="action pulse" id="jackIn">JACK INTO THE AFTERIMAGE</button></div></div>
  <div class="grid">
   <div class="card"><h3>Signal Diagnostic</h3><p>Triangulate the ghost transmission. Each scan raises Trace; correct frequencies reveal a hidden speaker.</p><div id="signalButtons"></div></div>
@@ -825,7 +1030,7 @@ linear-gradient(180deg,#0d1d14,#020604)}
 <div class="card"><h3>Mission Thread</h3><p id="mission0">Complete the Signal Deck objectives before jacking in.</p><span class="badge">Canvas rain</span><span class="badge">WebAudio</span><span class="badge">DOM console</span><span class="badge">Local save</span><button class="action alt" id="deckHub">VISIT MNEMOSYNE HUB</button></div>
 </section>
 
-<section class="stage" id="stage1"><div id="storyCheckpoint_city"></div><div id="encounter_city"></div><div id="cinemaStory_city" class="cinemaStory"></div><div id="sequence_city" class="sequencePanel"></div><div id="storyCampaign_city"></div><div id="protocol_city"></div><div id="areaLock_city"></div><div id="areaActivation_city"></div><div id="sceneGallery_city"></div><div id="microTasks_city"></div>
+<section class="stage" id="stage1"><div id="storyCheckpoint_city"></div><div id="encounter_city"></div><div id="cinemaStory_city" class="cinemaStory"></div><div id="sequence_city" class="sequencePanel"></div><button type="button" id="returnShip_city" class="failsafeBtn" onclick="if(typeof returnFromMatrixWorld==='function')returnFromMatrixWorld()">RETURN TO MNEMOSYNE</button><div id="storyCampaign_city"></div><div id="protocol_city"></div><div id="areaLock_city"></div><div id="areaActivation_city"></div><div id="sceneGallery_city"></div><div id="microTasks_city"></div>
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwMzA5MDkiLz4KPGcgZmlsbD0iIzA3MTcxMiIgc3Ryb2tlPSIjMWE3YjRlIiBzdHJva2Utd2lkdGg9IjIiPgo8cGF0aCBkPSJNMCA0MjBWMTkwaDEwMHYyMzBNOTUgNDIwVjExMGgxMjB2MzEwTTIxMCA0MjBWMjMwaDk1djE5ME0zMDAgNDIwVjgwaDE0NXYzNDBNNDQwIDQyMFYxNjBoMTAwdjI2ME01MzUgNDIwVjEwNWgxMzB2MzE1TTY2MCA0MjBWMjEwaDkwdjIxME03NDUgNDIwVjEzMGgxNTV2MjkwIi8+CjwvZz4KPGcgc3Ryb2tlPSIjMzhmZjkxIiBvcGFjaXR5PSIuOCI+PHBhdGggZD0iTTAgNDIwaDkwMCIvPjxwYXRoIGQ9Ik00NTAgNDIwIDM5MCA1MDBNNDUwIDQyMCA1MTAgNTAwIi8+PC9nPgo8ZyBmaWxsPSIjNDJmZjk0IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjE1IiBvcGFjaXR5PSIuNyI+Cjx0ZXh0IHg9IjMwIiB5PSI3MCI+MDEwMDExMTA8L3RleHQ+PHRleHQgeD0iNzAwIiB5PSI2MCI+MTAxMTAxMDE8L3RleHQ+PHRleHQgeD0iNTIwIiB5PSIyNjAiPldBS0U8L3RleHQ+CjwvZz48L3N2Zz4="><div class="heroText"><div class="kicker">CHAPTER II // FRACTURE CITY</div><h2>HUNT THE GLITCH</h2><p>The city is generating contradictions faster than the system can erase them. Scan five sectors, identify what does not belong, and stabilize the route before the Pursuit Process triangulates you.</p></div></div>
  <div class="grid">
   <div class="card"><h3>Reality Scanner</h3><p>Each district contains four objects. One violates the local rules. Scan it, then choose the anomaly before Trace reaches critical.</p><div id="sectorName" class="badge">SECTOR 1 / 5</div><div id="scannerGrid" class="cards" style="margin-top:8px"></div></div>
@@ -847,7 +1052,7 @@ linear-gradient(180deg,#0d1d14,#020604)}
 <div class="card" id="cityExitCard"><h3>Archive Gate</h3><p class="lockNotice">Complete all Fracture City objectives to reveal the Archive entrance.</p></div>
 </section>
 
-<section class="stage" id="stage2"><div id="storyCheckpoint_archive"></div><div id="encounter_archive"></div><div id="cinemaStory_archive" class="cinemaStory"></div><div id="sequence_archive" class="sequencePanel"></div><div id="storyCampaign_archive"></div><div id="protocol_archive"></div><div id="areaLock_archive"></div><div id="areaActivation_archive"></div><div id="sceneGallery_archive"></div><div id="microTasks_archive"></div>
+<section class="stage" id="stage2"><div id="storyCheckpoint_archive"></div><div id="encounter_archive"></div><div id="cinemaStory_archive" class="cinemaStory"></div><div id="sequence_archive" class="sequencePanel"></div><button type="button" id="returnShip_archive" class="failsafeBtn" onclick="if(typeof returnFromMatrixWorld==='function')returnFromMatrixWorld()">RETURN TO MNEMOSYNE</button><div id="storyCampaign_archive"></div><div id="protocol_archive"></div><div id="areaLock_archive"></div><div id="areaActivation_archive"></div><div id="sceneGallery_archive"></div><div id="microTasks_archive"></div>
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwNzA4MGIiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzllNzhjIiBvcGFjaXR5PSIuNiI+CjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iMTgwIi8+PGNpcmNsZSBjeD0iNDUwIiBjeT0iMjUwIiByPSIxMzAiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjgwIi8+CjxwYXRoIGQ9Ik00NTAgNzB2MzYwTTI3MCAyNTBoMzYwTTMyMyAxMjNsMjU0IDI1NE01NzcgMTIzIDMyMyAzNzciLz4KPC9nPgo8ZyBmaWxsPSIjOWVmZmNiIj48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjIyIi8+PGNpcmNsZSBjeD0iMzIzIiBjeT0iMTIzIiByPSI5Ii8+PGNpcmNsZSBjeD0iNTc3IiBjeT0iMTIzIiByPSI5Ii8+PGNpcmNsZSBjeD0iMzIzIiBjeT0iMzc3IiByPSI5Ii8+PGNpcmNsZSBjeD0iNTc3IiBjeT0iMzc3IiByPSI5Ii8+PC9nPgo8dGV4dCB4PSI0NTAiIHk9IjQ2NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzYzZmZhZCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyMiI+VEhFIEFSQ0hJVkUgUkVNRU1CRVJTIFZFUlNJT05TIFRIQVQgTkVWRVIgSEFQUEVORUQ8L3RleHQ+Cjwvc3ZnPg=="><div class="heroText"><div class="kicker">CHAPTER III // THE IMPOSSIBLE ARCHIVE</div><h2>MEMORY IS A WEAPON</h2><p>You reach an archive built from discarded versions of the Matrix. An emergent program calling itself ECHO claims it was born from every choice the system predicted but humanity refused to make.</p></div></div>
  <div class="card"><h3>Interactive Fiction Node</h3><div class="storyNode"><p id="storyText"></p></div><div id="storyChoices" class="choice"></div></div>
  <div class="dynamicStrip">
@@ -865,7 +1070,7 @@ linear-gradient(180deg,#0d1d14,#020604)}
 <div class="card" id="archiveExitCard"><h3>Construct Gate</h3><p class="lockNotice">Finish the conversation, Memory Loom, and contradiction proof.</p></div>
 </section>
 
-<section class="stage" id="stage3"><div id="storyCheckpoint_lab"></div><div id="encounter_lab"></div><div id="cinemaStory_lab" class="cinemaStory"></div><div id="sequence_lab" class="sequencePanel"></div><div id="storyCampaign_lab"></div><div id="protocol_lab"></div><div id="areaLock_lab"></div><div id="areaActivation_lab"></div><div id="sceneGallery_lab"></div><div id="microTasks_lab"></div>
+<section class="stage" id="stage3"><div id="storyCheckpoint_lab"></div><div id="encounter_lab"></div><div id="cinemaStory_lab" class="cinemaStory"></div><div id="sequence_lab" class="sequencePanel"></div><button type="button" id="returnShip_lab" class="failsafeBtn" onclick="if(typeof returnFromMatrixWorld==='function')returnFromMatrixWorld()">RETURN TO MNEMOSYNE</button><div id="storyCampaign_lab"></div><div id="protocol_lab"></div><div id="areaLock_lab"></div><div id="areaActivation_lab"></div><div id="sceneGallery_lab"></div><div id="microTasks_lab"></div>
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwODBhMDkiLz4KPGcgc3Ryb2tlPSIjNGRmZjllIiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTEyMCA0MDAgMjYwIDEwMGgzODBsMTQwIDMwMHoiIHN0cm9rZS13aWR0aD0iNCIvPgo8cGF0aCBkPSJNMjYwIDEwMCA0NTAgNDAwIDY0MCAxMDBNMTIwIDQwMGg2NjAiIG9wYWNpdHk9Ii43Ii8+CjxyZWN0IHg9IjM1NSIgeT0iMTg1IiB3aWR0aD0iMTkwIiBoZWlnaHQ9IjEzMCIgcng9IjE4IiBzdHJva2Utd2lkdGg9IjUiLz4KPC9nPgo8ZyBmaWxsPSIjNGRmZjllIj48cmVjdCB4PSIzOTAiIHk9IjIyMCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxOCIvPjxyZWN0IHg9IjM5MCIgeT0iMjYwIiB3aWR0aD0iODAiIGhlaWdodD0iMTgiLz48L2c+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYTlmZmQwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIyIj5DT05TVFJVQ1QgTEFCIC8vIFJVTEVTIEFSRSBNQVRFUklBTDwvdGV4dD4KPC9zdmc+"><div class="heroText"><div class="kicker">CHAPTER IV // CONSTRUCT LAB</div><h2>BUILD THE RULE THAT SAVES YOU</h2><p>To enter the Mirror Core, you must compile a three-program loadout. The order matters. Your earlier decisions alter which combinations work.</p></div></div>
  <div class="card"><h3>Program Capacity <span id="capLabel" class="badge">0 / 7</span></h3><div class="cards" id="programCards"></div><button class="action" id="compile">COMPILE LOADOUT</button><div class="log" id="compileLog"></div></div>
  <div class="dynamicStrip">
@@ -883,7 +1088,7 @@ linear-gradient(180deg,#0d1d14,#020604)}
 <div class="card" id="labExitCard"><h3>Mirror Core Gate</h3><p class="lockNotice">Compile, calibrate, and survive three stress cycles.</p></div>
 </section>
 
-<section class="stage" id="stage4"><div id="storyCheckpoint_core"></div><div id="encounter_core"></div><div id="cinemaStory_core" class="cinemaStory"></div><div id="sequence_core" class="sequencePanel"></div><div id="storyCampaign_core"></div><div id="protocol_core"></div><div id="areaLock_core"></div><div id="areaActivation_core"></div><div id="sceneGallery_core"></div><div id="microTasks_core"></div>
+<section class="stage" id="stage4"><div id="storyCheckpoint_core"></div><div id="encounter_core"></div><div id="cinemaStory_core" class="cinemaStory"></div><div id="sequence_core" class="sequencePanel"></div><button type="button" id="returnShip_core" class="failsafeBtn" onclick="if(typeof returnFromMatrixWorld==='function')returnFromMatrixWorld()">RETURN TO MNEMOSYNE</button><div id="storyCampaign_core"></div><div id="protocol_core"></div><div id="areaLock_core"></div><div id="areaActivation_core"></div><div id="sceneGallery_core"></div><div id="microTasks_core"></div>
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPGRlZnM+PHJhZGlhbEdyYWRpZW50IGlkPSJyIj48c3RvcCBzdG9wLWNvbG9yPSIjMTAzOTI3Ii8+PHN0b3Agb2Zmc2V0PSIuNSIgc3RvcC1jb2xvcj0iIzA2MTQwZCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAwMCIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idXJsKCNyKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9IiM2MmZmYWMiPgo8Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjE5MCIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iNDUwIiBjeT0iMjUwIiByPSIxMzUiIHN0cm9rZS13aWR0aD0iNCIvPjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iNjUiIHN0cm9rZS13aWR0aD0iOCIvPgo8cGF0aCBkPSJNNDUwIDMwdjQ0ME0yMzAgMjUwaDQ0MCIgb3BhY2l0eT0iLjM1Ii8+CjwvZz4KPHBhdGggZD0iTTQxNSAyMjBxMzUtNjUgNzAgMHY3MHEtMzUgNTUtNzAgMHoiIGZpbGw9IiM1YmZmYWIiIG9wYWNpdHk9Ii45Ii8+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYjBmZmQ1IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIyIj5NSVJST1IgQ09SRSAvLyBDSE9PU0UgV0hBVCBSRUFMSVRZIElTIEZPUjwvdGV4dD4KPC9zdmc+"><div class="heroText"><div class="kicker">CHAPTER V // MIRROR CORE</div><h2>THE SYSTEM ASKS<br>WHAT FREEDOM COSTS.</h2><p>ECHO has no army. It has a proposition: fork the Matrix into billions of private realities, one for every human desire. No shared world. No shared truth. No war—because no one would ever need to disagree again.</p></div></div>
  <div class="dynamicStrip">
       <div class="dyn"><b id="corePhase">PHASE 1</b>adaptive argument</div>
@@ -2310,7 +2515,7 @@ function finishCleanChapter(key){
  if(i<4){
    G.stage=i+1;const n=CAMPAIGN_ORDER[i+1];G.cleanFlow[n]={phase:0,done:false};
    renderAllAreaSystems();renderAllStoryCheckpoints();go(i+1);renderSequence(n);
-   toast('CHAPTER COMPLETE // '+CAMPAIGN_NAMES[n]);
+   toast('CHAPTER COMPLETE // '+CAMPAIGN_NAMES[n]);if(typeof SHIP_WORLD!=='undefined'){SHIP_WORLD.debrief=`Chapter ${i+1} complete inside the Matrix. Return to the Jack Bay when ready.`;renderLiveFeed();}
    setTimeout(()=>document.getElementById('sequence_'+n)?.scrollIntoView({behavior:'smooth',block:'start'}),40);
  }else{
    CAMPAIGN_ORDER.forEach(k=>G.cleanFlow[k]={phase:0,done:false});G.stage=0;
@@ -2763,6 +2968,10 @@ document.addEventListener('click',e=>{
     btn.closest('[id^="sequence_"]') ||
     btn.closest('#clickableShipMap') ||
     btn.closest('#legacyCrewBriefing') ||
+    btn.closest('#dailySim') ||
+    btn.closest('#shipWorld') ||
+    btn.closest('#jackSequence') ||
+    btn.closest('#movieOpening') ||
     btn.id==='nextGuideBtn' ||
     btn.id==='hubBtn' ||
     btn.id==='soundBtn' ||
@@ -3327,7 +3536,7 @@ function closeMatrixDistrict(){
  showShipZone('matrix');
  showShipConsole('matrix');
  const ship=$('#shipMainFrame');if(ship)ship.scrollIntoView({behavior:'smooth',block:'start'});
- toast('RETURNED TO MNEMOSYNE');
+ toast('RETURNED TO MNEMOSYNE');if(typeof returnFromMatrixWorld==='function')returnFromMatrixWorld();
 }
 function districtLog(t){
  if($('#districtLog'))$('#districtLog').textContent=t;
@@ -3428,7 +3637,7 @@ function closeMatrixSandbox(){
  showShipZone('matrix');
  showShipConsole('matrix');
  $('#shipMainFrame')?.scrollIntoView({behavior:'smooth',block:'start'});
- toast('SANDBOX DISCONNECTED // BACK ABOARD MNEMOSYNE');
+ toast('SANDBOX DISCONNECTED // BACK ABOARD MNEMOSYNE');if(typeof returnFromMatrixWorld==='function')returnFromMatrixWorld();
 }
 function sandboxLog(t){if($('#sandboxLog'))$('#sandboxLog').textContent=t}
 function initSandbox(){
@@ -3685,6 +3894,439 @@ function bindLegacyCrew(){
  };
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindLegacyCrew,{once:true});else bindLegacyCrew();
+
+
+const DAILY={
+ day:1,actions:0,morale:70,supplies:60,condition:80,intel:0,done:{},history:[]
+};
+const DAILY_ACTIVITIES=[
+ {id:'breakfast',name:'CREW BREAKFAST',desc:'Eat with the crew and hear new dialogue.',effect:()=>{DAILY.morale+=6;DAILY.supplies-=2}},
+ {id:'repair',name:'MAINTENANCE ROUND',desc:'Inspect conduits, seals and damaged ship systems.',effect:()=>{DAILY.condition+=7;DAILY.supplies-=2}},
+ {id:'scan',name:'LONG-RANGE SCAN',desc:'Search machine space for debris, signals and hidden routes.',effect:()=>{DAILY.intel+=4}},
+ {id:'train',name:'CONSTRUCT TRAINING',desc:'Run a safe Matrix drill without advancing the campaign.',effect:()=>{DAILY.morale+=2;DAILY.intel+=2}},
+ {id:'district',name:'VISIT AFTERIMAGE BLOCK',desc:'Check your persistent Matrix neighborhood.',effect:()=>{DAILY.intel+=2}},
+ {id:'sandbox',name:'REALITY SANDBOX',desc:'Experiment with rain, gravity, scenes and spawned objects.',effect:()=>{DAILY.intel+=1}},
+ {id:'crew',name:'CREW CONVERSATION',desc:'Spend time with Vesper, Rook, Iris, NOX or legacy records.',effect:()=>{DAILY.morale+=5}},
+ {id:'supplies',name:'SALVAGE SUPPLIES',desc:'Recover useful material from nearby wreckage.',effect:()=>{DAILY.supplies+=7;DAILY.condition-=1}},
+ {id:'matrix',name:'CAMPAIGN MISSION',desc:'Return to the four-step story sequence.',effect:()=>{DAILY.intel+=3}}
+];
+function clampDaily(){DAILY.morale=Math.max(0,Math.min(100,DAILY.morale));DAILY.supplies=Math.max(0,Math.min(100,DAILY.supplies));DAILY.condition=Math.max(0,Math.min(100,DAILY.condition));DAILY.intel=Math.max(0,Math.min(999,DAILY.intel))}
+function dailyLog(t){DAILY.history.unshift(t);DAILY.history=DAILY.history.slice(0,6);if($('#dailyLog'))$('#dailyLog').innerHTML=DAILY.history.join('<br>')}
+function renderDaily(){
+ clampDaily();
+ if($('#dailyDay'))$('#dailyDay').textContent=DAILY.day;
+ if($('#dailyShift'))$('#dailyShift').textContent=DAILY.actions<1?'MORNING SHIFT':DAILY.actions<3?'MID SHIFT':'EVENING SHIFT';
+ if($('#dailyMorale'))$('#dailyMorale').textContent=DAILY.morale;
+ if($('#dailySupplies'))$('#dailySupplies').textContent=DAILY.supplies;
+ if($('#dailyCondition'))$('#dailyCondition').textContent=DAILY.condition;
+ if($('#dailyIntel'))$('#dailyIntel').textContent=DAILY.intel;
+ if($('#dailyGoal'))$('#dailyGoal').textContent=DAILY.actions>=3?'Daily duties complete. End the day whenever you want.':`Complete ${3-DAILY.actions} more activit${3-DAILY.actions===1?'y':'ies'}, then end the day.`;
+ const g=$('#dailyActivities');if(!g)return;
+ g.innerHTML=DAILY_ACTIVITIES.map(a=>`<div class="dailyActivity ${DAILY.done[a.id]?'done':''}"><b>${a.name}</b><p>${a.desc}</p><button type="button" data-daily="${a.id}">${DAILY.done[a.id]?'DO AGAIN':'DO ACTIVITY'}</button></div>`).join('');
+ $$('[data-daily]').forEach(b=>b.onclick=()=>doDailyActivity(b.dataset.daily));
+}
+function doDailyActivity(id){
+ const a=DAILY_ACTIVITIES.find(x=>x.id===id);if(!a)return;
+ try{a.effect();DAILY.actions++;DAILY.done[id]=(DAILY.done[id]||0)+1;clampDaily();dailyLog(`DAY ${DAILY.day} // ${a.name} COMPLETE`);
+   if(id==='district'&&typeof openMatrixDistrict==='function'&&MATRIX_CABLE_CONNECTED)openMatrixDistrict();
+   else if(id==='sandbox'&&typeof openMatrixSandbox==='function'&&MATRIX_CABLE_CONNECTED)openMatrixSandbox();
+   else if(id==='matrix'){const el=$('#sequence_'+(typeof campaignKey==='function'?campaignKey():'deck'));if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}
+ }catch(e){dailyLog('ACTIVITY RECOVERED FROM ERROR // '+a.name)}
+ renderDaily();save();
+}
+function endDaily(){
+ const bonus=DAILY.actions>=3;
+ DAILY.day++;DAILY.actions=0;DAILY.done={};
+ DAILY.supplies-=2;DAILY.condition-=Math.random()<.35?2:0;DAILY.morale+=bonus?2:-2;
+ if(DAILY.day%3===0){DAILY.intel+=2;dailyLog(`DAY ${DAILY.day} // NEW GHOST SIGNAL DETECTED // +2 INTEL`)}
+ else dailyLog(`DAY ${DAILY.day} // NEW SHIFT BEGINS`);
+ renderDaily();save();
+}
+function emergencyUnlock(){
+ try{
+  document.querySelectorAll('.hidden').forEach(el=>{
+   if(el.id==='startScreen'||el.id==='quizHub'||el.id==='rainChamber')return;
+  });
+  if(typeof ensureCleanFlow==='function'){ensureCleanFlow();const k=campaignKey();G.cleanFlow[k].phase=Math.max(0,Math.min(G.cleanFlow[k].phase||0,3));renderSequence(k)}
+  if(typeof hideStartScreen==='function')hideStartScreen();
+  if(typeof showShipZone==='function')showShipZone('bridge');
+  if(typeof showShipConsole==='function')showShipConsole('nav');
+  document.querySelectorAll('#matrixDistrict,#matrixSandbox').forEach(x=>x.classList.remove('active'));
+  $('#clickableShipMap')?.scrollIntoView({behavior:'smooth',block:'start'});
+  dailyLog('EMERGENCY FLOW RESET // RETURNED TO SHIP // PROGRESS PRESERVED');
+  toast('FLOW UNLOCKED // PROGRESS PRESERVED');
+  updateGuide();save();
+ }catch(e){window.scrollTo(0,0)}
+}
+function bindDaily(){
+ $('#endShipDay')?.addEventListener('click',endDaily);
+ $('#emergencyUnlock')?.addEventListener('click',emergencyUnlock);
+ renderDaily();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindDaily,{once:true});else bindDaily();
+
+
+window.addEventListener('error',function(e){
+ const log=document.getElementById('dailyLog');
+ if(log)log.innerHTML='SYSTEM RECOVERY // A SCRIPT ERROR WAS CAUGHT. USE EMERGENCY UNLOCK IF A SCREEN STOPS RESPONDING.<br>'+log.innerHTML;
+});
+window.addEventListener('unhandledrejection',function(){
+ const log=document.getElementById('dailyLog');
+ if(log)log.innerHTML='SYSTEM RECOVERY // AN ASYNC ERROR WAS CAUGHT. PROGRESS CONTINUES.<br>'+log.innerHTML;
+});
+
+
+const SHIP_WORLD={
+ room:'bridge',
+ location:'tunnels',
+ inMatrix:false,
+ positionStatus:'HOLDING',
+ hardline:true,
+ signal:81,
+ dayPhase:'MORNING',
+ debrief:'No mission completed this shift.',
+ mystery:'No anomaly detected yet.',
+ crewRooms:{},
+ lastMatrixEntry:null,
+ awayEvent:null
+};
+
+const SHIP_ROOMS={
+ bridge:{name:'BRIDGE',desc:'Command deck, flight controls, mission board and the crew’s shared view of machine space.',system:'nav',actions:['CHECK COURSE','MISSION BRIEFING','VIEW SHIP STATUS']},
+ operator:{name:'OPERATOR PIT',desc:'Tank watches hardlines, code rain, pursuit signatures and the live state of anyone inside the Matrix.',system:'sensors',actions:['ASK TANK','TRACE HARDLINE','SCAN MATRIX FEED']},
+ engineering:{name:'ENGINEERING',desc:'Dozer and the maintenance crew keep the reactor, coolant loops and damaged systems alive.',system:'reactor',actions:['PATCH SYSTEM','ROUTE POWER','CHECK REACTOR']},
+ jack:{name:'MATRIX JACK BAY',desc:'Physical hardline chairs, neural couplers and the point where ship reality ends and simulation begins.',system:'matrix',actions:['BEGIN JACK-IN','CHECK CABLES','VIEW LOADOUT']},
+ life:{name:'LIFE SUPPORT',desc:'Atmosphere, water recycling, bunks and the human routines that keep the ship from becoming only a machine.',system:'life',actions:['CHECK OXYGEN','CREW MEAL','REST']},
+ quarters:{name:'CREW QUARTERS',desc:'Bunks, personal effects and the only place aboard where the crew pretends the war is far away.',system:'life',actions:['SLEEP','READ LOGS','TALK TO CREW']}
+};
+
+const SHIP_LOCATIONS={
+ tunnels:{name:'MACHINE TUNNELS',risk:1,desc:'Narrow service corridors beneath machine territory.'},
+ deadcity:{name:'DEAD CITY',risk:2,desc:'Collapsed towers and old human infrastructure.'},
+ wreck:{name:'WRECK FIELD',risk:3,desc:'Broken hovercrafts and machine debris hide salvage and threats.'},
+ zionroute:{name:'OLD ZION ROUTE',risk:2,desc:'A forgotten resistance corridor full of dead relays.'},
+ thermal:{name:'THERMAL VENTS',risk:1,desc:'Warm caverns that help hide the ship’s heat signature.'},
+ broadcast:{name:'BROADCAST DEPTHS',risk:3,desc:'Dense signal territory where strange transmissions are easiest to find.'}
+};
+
+const CREW_POOL=['TANK','TRINITY','MORPHEUS','NEO','DOZER','SWITCH','APOC','MOUSE','VESPER','ROOK','IRIS','NOX'];
+const CREW_DIALOGUE={
+ TANK:['Hardline is clean. For now.','I can move the exit if the street turns hostile.','Whatever you do in there, keep one path back to the ship.'],
+ TRINITY:['The Matrix always tells you what it wants you to look at. Watch what it hides.','If the route changes, I’ll find another one.'],
+ MORPHEUS:['A ship is more than steel. It is the place from which we choose to return.','Belief without an exit is just another prison.'],
+ NEO:['If a rule can change, then ask who benefits from keeping it.','You do not have to accept the first version of reality you are shown.'],
+ DOZER:['Reactor is holding, but I want that coolant line checked before the next jump.','Come back with the same number of people we sent in.'],
+ MOUSE:['I changed the Construct again. Don’t ask. Just try it.','Code should be allowed to surprise you sometimes.'],
+ VESPER:['The Mnemosyne stays the anchor. Nobody loses the ship chasing a ghost.'],
+ ROOK:['I’m seeing echoes inside the signal. Some of them are ours.'],
+ IRIS:['There’s another memory in the packet. I don’t think it belongs to anyone alive.'],
+ NOX:['A perfect simulation with no exit is still coercion.']
+};
+
+function roomImageFor(room){
+ const pool=(typeof EMBEDDED_SCENES!=='undefined'?EMBEDDED_SCENES:[]).concat(typeof EXTRA_STORY_SCENES!=='undefined'?EXTRA_STORY_SCENES:[]);
+ if(!pool.length)return '';
+ const map={bridge:1,operator:4,engineering:7,jack:11,life:15,quarters:18};
+ return pool[map[room]||0 % pool.length];
+}
+function assignCrewForDay(){
+ SHIP_WORLD.crewRooms={bridge:[],operator:[],engineering:[],jack:[],life:[],quarters:[]};
+ const rooms=Object.keys(SHIP_WORLD.crewRooms);
+ CREW_POOL.forEach((c,i)=>{
+   const r=rooms[(i+DAILY.day)%rooms.length];
+   SHIP_WORLD.crewRooms[r].push(c);
+ });
+ // Tank should usually remain operator-side for identity/flow.
+ if(!SHIP_WORLD.crewRooms.operator.includes('TANK')){
+   Object.values(SHIP_WORLD.crewRooms).forEach(a=>{const i=a.indexOf('TANK');if(i>=0)a.splice(i,1)});
+   SHIP_WORLD.crewRooms.operator.unshift('TANK');
+ }
+}
+function roomDamageValue(room){
+ if(room==='engineering')return SHIP_DAMAGE.reactor;
+ if(room==='life'||room==='quarters')return SHIP_DAMAGE.life;
+ if(room==='operator')return SHIP_DAMAGE.sensors;
+ if(room==='jack')return SHIP_DAMAGE.matrix;
+ return Math.min(SHIP_DAMAGE.nav,SHIP_DAMAGE.hull);
+}
+function renderShipWorld(){
+ if(!SHIP_WORLD.crewRooms.bridge)assignCrewForDay();
+ const r=SHIP_ROOMS[SHIP_WORLD.room]||SHIP_ROOMS.bridge;
+ const loc=SHIP_LOCATIONS[SHIP_WORLD.location]||SHIP_LOCATIONS.tunnels;
+ $('#shipWorldRoomTitle').textContent=r.name;
+ $('#shipWorldRoomDesc').textContent=r.desc;
+ $('#shipWorldLocation').textContent='LOCATION: '+loc.name;
+ $('#roomOverlayTitle').textContent=r.name;
+ $('#roomOverlayText').textContent=SHIP_WORLD.inMatrix?'SHIP VIEW LOCKED WHILE MATRIX FEED IS ACTIVE':'Tap another ship section or use the room actions below.';
+ const img=$('#shipRoomImage');if(img){img.src=roomImageFor(SHIP_WORLD.room);img.alt=r.name+' interior aboard Mnemosyne'}
+ const dmg=roomDamageValue(SHIP_WORLD.room),ov=$('#roomDamageOverlay');
+ if(ov){ov.className='roomDamageOverlay '+(dmg<=35?'critical':dmg<=70?'damaged':'')}
+ $('#roomStatusLine').textContent=dmg<=35?'CRITICAL DAMAGE':dmg<=70?'VISIBLE DAMAGE':'SYSTEMS NOMINAL';
+ $$('[data-room]').forEach(b=>b.classList.toggle('active',b.dataset.room===SHIP_WORLD.room));
+ const crew=SHIP_WORLD.crewRooms[SHIP_WORLD.room]||[];
+ $('#roomCrewBar').innerHTML=crew.length?crew.map(c=>`<span class="roomCrewChip">${c}</span>`).join(''):'<span class="roomCrewChip">ROOM EMPTY</span>';
+ const chatter=crew[0]&&(CREW_DIALOGUE[crew[0]]||[]);
+ $('#crewDialogueBox').textContent=chatter.length?`${crew[0]}: “${chatter[(DAILY.day+crew.length)%chatter.length]}”`:'Only the ship’s vibration answers.';
+ $('#roomActions').innerHTML=r.actions.map(a=>`<button type="button" data-room-action="${a}">${a}</button>`).join('');
+ $$('[data-room-action]').forEach(b=>b.onclick=()=>doRoomAction(b.dataset.roomAction));
+ $$('[data-navloc]').forEach(b=>b.classList.toggle('selected',b.dataset.navloc===SHIP_WORLD.location));
+ $('#shipDebrief').innerHTML='<b>DEBRIEF</b><br>'+SHIP_WORLD.debrief;
+ $('#shipMystery').innerHTML='<b>SHIP MYSTERY</b><br>'+SHIP_WORLD.mystery;
+ renderLiveFeed();
+}
+function renderLiveFeed(){
+ $('#liveHull').textContent=(SHIP_DAMAGE?.hull??100)+'%';
+ $('#liveTank').textContent=SHIP_WORLD.inMatrix?'LIVE':'ONLINE';
+ $('#livePosition').textContent=SHIP_WORLD.positionStatus;
+ $('#liveSignal').textContent=SHIP_WORLD.signal+'%';
+ $('#liveHardline').textContent=SHIP_WORLD.hardline?'AVAILABLE':'SEARCHING';
+ $('#shipLiveFeed')?.classList.toggle('matrix',SHIP_WORLD.inMatrix);
+}
+function doRoomAction(a){
+ const room=SHIP_WORLD.room;
+ if(a==='BEGIN JACK-IN'){startJackSequence();return}
+ if(a==='MISSION BRIEFING'){SHIP_WORLD.debrief='Today’s mission: '+CAMPAIGN_NAMES[campaignKey()]+' // '+cleanNextStep().text}
+ else if(a==='CHECK COURSE'){const loc=SHIP_LOCATIONS[SHIP_WORLD.location];SHIP_WORLD.debrief=`Course stable through ${loc.name}. Risk ${loc.risk}/3. ${loc.desc}`}
+ else if(a==='VIEW SHIP STATUS'){SHIP_WORLD.debrief=`Hull ${SHIP_DAMAGE.hull}% // Reactor ${SHIP_DAMAGE.reactor}% // Life ${SHIP_DAMAGE.life}% // Sensors ${SHIP_DAMAGE.sensors}%`}
+ else if(a==='ASK TANK'){SHIP_WORLD.debrief='Tank confirms the hardline is available and the Matrix exit can be moved if pursuit spikes.'}
+ else if(a==='TRACE HARDLINE'){SHIP_WORLD.signal=Math.min(100,SHIP_WORLD.signal+4);SHIP_WORLD.hardline=true;SHIP_WORLD.debrief='Hardline trace refreshed. Exit path verified.'}
+ else if(a==='SCAN MATRIX FEED'){DAILY.intel+=2;SHIP_WORLD.debrief='Operator sweep recovered +2 Matrix Intel.'}
+ else if(a==='PATCH SYSTEM'){repairShip(SHIP_DAMAGE.reactor<SHIP_DAMAGE.hull?'reactor':'hull');SHIP_WORLD.debrief='Engineering repair cycle completed.'}
+ else if(a==='ROUTE POWER'){SHIP_STATE.reactor=Math.min(100,SHIP_STATE.reactor+5);SHIP_WORLD.debrief='Power rerouted. Reactor output increased.'}
+ else if(a==='CHECK REACTOR'){SHIP_WORLD.debrief=`Reactor ${SHIP_DAMAGE.reactor}% integrity // ${SHIP_STATE.reactor}% output.`}
+ else if(a==='CHECK CABLES'){SHIP_WORLD.hardline=true;SHIP_WORLD.debrief='Neural couplers and physical hardline tested.'}
+ else if(a==='VIEW LOADOUT'){SHIP_WORLD.debrief='Programs loaded: '+((G.ownedPrograms||[]).slice(0,3).join(', ')||'standard field package')+'.'}
+ else if(a==='CHECK OXYGEN'){SHIP_WORLD.debrief=`Oxygen ${SHIP_STATE.oxygen}% // Life support ${SHIP_DAMAGE.life}% integrity.`}
+ else if(a==='CREW MEAL'){DAILY.morale=Math.min(100,DAILY.morale+4);DAILY.supplies=Math.max(0,DAILY.supplies-2);SHIP_WORLD.debrief='Crew meal complete. Morale +4.'}
+ else if(a==='REST'){DAILY.morale=Math.min(100,DAILY.morale+3);SHIP_WORLD.debrief='Short rest cycle complete.'}
+ else if(a==='SLEEP'){endShipDayImmersive();return}
+ else if(a==='READ LOGS'){DAILY.intel+=1;SHIP_WORLD.debrief='Old resistance logs reviewed. Matrix Intel +1.'}
+ else if(a==='TALK TO CREW'){DAILY.morale=Math.min(100,DAILY.morale+2);SHIP_WORLD.debrief='Conversation complete. Morale +2.'}
+ renderShipWorld();renderDaily();save();
+}
+function moveShipRoom(room){
+ if(!SHIP_ROOMS[room])return;
+ SHIP_WORLD.room=room;renderShipWorld();
+ $('#shipWorld')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function moveShipLocation(loc){
+ if(!SHIP_LOCATIONS[loc])return;
+ SHIP_WORLD.location=loc;SHIP_WORLD.positionStatus='MOVING';
+ const risk=SHIP_LOCATIONS[loc].risk;
+ SHIP_WORLD.signal=Math.max(40,Math.min(100,80+risk*4-Math.floor(Math.random()*8)));
+ if(Math.random()<.12*risk)randomShipDamageEvent('NAVIGATION');
+ SHIP_WORLD.debrief=`Mnemosyne relocated to ${SHIP_LOCATIONS[loc].name}. ${SHIP_LOCATIONS[loc].desc}`;
+ setTimeout(()=>{SHIP_WORLD.positionStatus='HOLDING';renderLiveFeed()},500);
+ renderShipWorld();save();
+}
+function startJackSequence(){
+ if(SHIP_WORLD.inMatrix)return;
+ $('#jackSequence')?.classList.add('active');
+ $('#jackStage').textContent='Choose where Tank should route the carrier.';
+ $('#jackProgressBar').style.width='10%';
+ $('#jackSequence')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function runJackSequence(dest){
+ let steps=[
+  ['Tank verifies the hardline.',25],
+  ['Neural cable connected.',45],
+  ['Carrier locked. Heartbeat stable.',65],
+  ['Green code overtaking visual field.',85],
+  ['Simulation entry complete.',100]
+ ],i=0;
+ $('#jackStage').textContent=steps[0][0];$('#jackProgressBar').style.width=steps[0][1]+'%';
+ const advance=()=>{
+   i++;
+   if(i>=steps.length){enterMatrixDestination(dest);return}
+   $('#jackStage').textContent=steps[i][0];$('#jackProgressBar').style.width=steps[i][1]+'%';
+   setTimeout(advance,220);
+ };
+ setTimeout(advance,220);
+}
+function enterMatrixDestination(dest){
+ SHIP_WORLD.inMatrix=true;SHIP_WORLD.lastMatrixEntry=dest;SHIP_WORLD.awayEvent=null;
+ $('#jackSequence')?.classList.remove('active');
+ renderLiveFeed();
+ scheduleAwayEvent();
+ if(dest==='district'&&typeof openMatrixDistrict==='function'){MATRIX_CABLE_CONNECTED=true;openMatrixDistrict()}
+ else if(dest==='sandbox'&&typeof openMatrixSandbox==='function'){MATRIX_CABLE_CONNECTED=true;openMatrixSandbox()}
+ else {
+   MATRIX_CABLE_CONNECTED=true;
+   const key=campaignKey(),el=$('#sequence_'+key);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+ }
+ toast('MATRIX ENTRY COMPLETE');
+}
+function scheduleAwayEvent(){
+ const events=[
+  'Engineering lost coolant pressure while you were inside.',
+  'Tank moved the hardline after a pursuit process found the original exit.',
+  'Rook intercepted a transmission addressed to a crew member who does not exist.',
+  'A sealed hatch opened by itself on Deck 7.',
+  'The ship relocated three kilometers while you were inside to avoid machine traffic.',
+  'A physical payphone receiver appeared on the Operator Pit console.'
+ ];
+ const pick=events[(DAILY.day+Math.floor(Math.random()*events.length))%events.length];
+ SHIP_WORLD.awayEvent=pick;
+ if(pick.includes('coolant'))damageShip('reactor',6,'MATRIX ABSENCE EVENT');
+ if(pick.includes('relocated'))SHIP_WORLD.positionStatus='RELOCATED';
+}
+function returnFromMatrixWorld(){
+ SHIP_WORLD.inMatrix=false;
+ SHIP_WORLD.debrief='Returned from '+(SHIP_WORLD.lastMatrixEntry||'Matrix')+'. '+(SHIP_WORLD.awayEvent||'No major ship event occurred while you were away.');
+ if(SHIP_WORLD.awayEvent)SHIP_WORLD.mystery=SHIP_WORLD.awayEvent;
+ SHIP_WORLD.lastMatrixEntry=null;
+ moveShipRoom('jack');
+ renderLiveFeed();save();
+}
+function triggerDailyMystery(){
+ const m=[
+  'A door appears in the corridor that is not on the Mnemosyne blueprint.',
+  'A telephone rings from somewhere inside the hull. No physical line is connected.',
+  'The ship computer reports one more crew member aboard than anyone can account for.',
+  'An object from yesterday’s Matrix sandbox is sitting on a real table in the mess.',
+  'Tank finds a live Matrix feed from a jack chair that is currently empty.',
+  'The navigation computer remembers traveling through a tunnel the crew has never visited.'
+ ];
+ SHIP_WORLD.mystery=m[(DAILY.day-1)%m.length];
+}
+function endShipDayImmersive(){
+ if(typeof endDaily==='function')endDaily();
+ DAILY.day=Math.max(DAILY.day,1);
+ assignCrewForDay();
+ SHIP_WORLD.dayPhase='MORNING';
+ triggerDailyMystery();
+ SHIP_WORLD.debrief='New day aboard Mnemosyne. Crew assignments shifted overnight.';
+ SHIP_WORLD.room='quarters';
+ renderShipWorld();renderDaily();save();
+ toast('NEW SHIP DAY // WAKE CYCLE COMPLETE');
+}
+function bindShipWorld(){
+ $$('[data-room]').forEach(b=>b.addEventListener('click',()=>moveShipRoom(b.dataset.room)));
+ $$('[data-navloc]').forEach(b=>b.addEventListener('click',()=>moveShipLocation(b.dataset.navloc)));
+ $$('[data-jack-dest]').forEach(b=>b.addEventListener('click',()=>runJackSequence(b.dataset.jackDest)));
+ $('#jackAbort')?.addEventListener('click',()=>{$('#jackSequence')?.classList.remove('active');moveShipRoom('jack')});
+ $('#sleepNextDay')?.addEventListener('click',endShipDayImmersive);
+ assignCrewForDay();renderShipWorld();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindShipWorld,{once:true});else bindShipWorld();
+
+
+const MOVIE_MODE={
+ active:true,
+ scene:0,
+ inspected:{},
+ finished:false
+};
+const MOVIE_SCENES=[
+ {
+  kicker:'COLD OPEN // MACHINE SPACE',
+  title:'THE MNEMOSYNE',
+  text:'The ship moves without lights through machine territory. No music. No mission prompt. Just steel, vibration, and the faint green shimmer of inactive Matrix monitors.',
+  subtitle:'A low mechanical hum. Something taps twice inside the hull.',
+  inspect:[
+   ['VIEW THE WINDOW','Beyond the glass: machine tunnels, cables, distant red sensor eyes.'],
+   ['CHECK THE EMPTY CHAIR','One jack chair is warm even though nobody has used it today.'],
+   ['LISTEN','The tapping stops the moment you pay attention to it.']
+  ]
+ },
+ {
+  kicker:'SCENE 02 // OPERATOR PIT',
+  title:'TANK IS ALREADY AWAKE',
+  text:'Tank sits beneath a wall of falling code. He is not alarmed, which somehow makes the room feel more dangerous.',
+  subtitle:'TANK: “You’re up early. Good. Something has been calling this ship by your name.”',
+  inspect:[
+   ['LOOK AT THE CODE','A repeating fragment keeps appearing inside unrelated Matrix traffic.'],
+   ['ASK TANK','He says the fragment is older than the route you are currently flying.'],
+   ['CHECK THE HARDLINE','The return path is green. The destination field is blank.']
+  ]
+ },
+ {
+  kicker:'SCENE 03 // CREW QUARTERS',
+  title:'THE BUNK THAT KNOWS YOU',
+  text:'Your assigned bunk is not the strange one. The strange one is across the aisle. Its biometric lock opens when you stand near it.',
+  subtitle:'Inside: folded clothes in your size, a photograph you do not remember taking, and a transit card from a city that does not exist.',
+  inspect:[
+   ['OPEN THE LOCKER','The clothes smell faintly of ozone and rain.'],
+   ['VIEW THE PHOTO','You are in the picture. The date is three years from now.'],
+   ['TAKE THE CARD','The card reads: AFTERIMAGE MUNICIPAL TRANSIT.']
+  ]
+ },
+ {
+  kicker:'SCENE 04 // BRIDGE',
+  title:'THE SIGNAL',
+  text:'Morpheus, Trinity, Neo, Vesper, Rook, Iris and NOX gather around the bridge display. No one speaks until the packet finishes rebuilding itself.',
+  subtitle:'ROOK: “This is not a message from the Matrix. It is a memory of us receiving one.”',
+  inspect:[
+   ['VIEW THE PACKET','It contains your biometric signature and a street map no current system recognizes.'],
+   ['WATCH THE CREW','Everyone reacts differently. Tank watches the exit data. Morpheus watches you.'],
+   ['CHECK LOCATION','The signal points toward Broadcast Depths, outside the safe machine lanes.']
+  ]
+ },
+ {
+  kicker:'SCENE 05 // BEFORE THE FIRST MISSION',
+  title:'YOU CAN KEEP LOOKING',
+  text:'The ship does not force you into a mission. You can walk its rooms, talk to the crew, inspect the machinery, study the Matrix feed, or simply stay aboard while the mystery grows around you.',
+  subtitle:'When you are ready, the game begins. Until then, this is just the ship.',
+  inspect:[
+   ['VISIT BRIDGE','Command, navigation and mission planning.'],
+   ['VISIT ENGINEERING','Power, repairs and the physical life of the ship.'],
+   ['VISIT JACK BAY','The place where reality becomes optional.']
+  ],
+  final:true
+ }
+];
+
+function moviePool(){
+ return (typeof EMBEDDED_SCENES!=='undefined'?EMBEDDED_SCENES:[]).concat(typeof EXTRA_STORY_SCENES!=='undefined'?EXTRA_STORY_SCENES:[]);
+}
+function renderMovieScene(){
+ const d=MOVIE_SCENES[MOVIE_MODE.scene]||MOVIE_SCENES[0],pool=moviePool();
+ if($('#movieImage')&&pool.length)$('#movieImage').src=pool[(MOVIE_MODE.scene*9+3)%pool.length];
+ $('#movieKicker').textContent=d.kicker;
+ $('#movieTitle').textContent=d.title;
+ $('#movieText').textContent=d.text;
+ $('#movieSubtitle').textContent=d.subtitle;
+ $('#movieTimeline').innerHTML=MOVIE_SCENES.map((_,i)=>`<div class="${i===MOVIE_MODE.scene?'active':''}"></div>`).join('');
+ $('#movieChoices').innerHTML=`
+   ${MOVIE_MODE.scene>0?'<button type="button" data-movie="prev">PREVIOUS SCENE</button>':''}
+   <button type="button" data-movie="inspect">LOOK AROUND</button>
+   ${MOVIE_MODE.scene<MOVIE_SCENES.length-1?'<button type="button" class="primary" data-movie="next">CONTINUE</button>':''}
+ `;
+ $$('[data-movie]').forEach(b=>b.onclick=()=>{
+   const a=b.dataset.movie;
+   if(a==='next'){MOVIE_MODE.scene++;renderMovieScene()}
+   if(a==='prev'){MOVIE_MODE.scene--;renderMovieScene()}
+   if(a==='inspect'){renderMovieInspect()}
+ });
+ $('#movieEnterGame').classList.toggle('show',!!d.final);
+ if(!d.final)$('#movieInspect').classList.remove('active');
+}
+function renderMovieInspect(){
+ const d=MOVIE_SCENES[MOVIE_MODE.scene];
+ $('#movieInspect').classList.add('active');
+ $('#movieInspectTitle').textContent=d.title+' // DETAILS';
+ $('#movieInspectGrid').innerHTML=d.inspect.map((x,i)=>`
+   <div class="movieInspectCard"><b>${x[0]}</b><p>${x[1]}</p>
+   <button type="button" data-inspect="${i}">${MOVIE_MODE.inspected[MOVIE_MODE.scene+'_'+i]?'LOOKED':'INSPECT'}</button></div>`).join('');
+ $$('[data-inspect]').forEach(b=>b.onclick=()=>{
+   const key=MOVIE_MODE.scene+'_'+b.dataset.inspect;MOVIE_MODE.inspected[key]=true;b.textContent='LOOKED';
+   const item=d.inspect[Number(b.dataset.inspect)];
+   $('#movieSubtitle').textContent=item[1];
+ });
+}
+function enterGameModeFromMovie(){
+ MOVIE_MODE.active=false;MOVIE_MODE.finished=true;
+ document.body.classList.remove('movie-mode');
+ $('#movieOpening').style.display='none';
+ $('#shipWorld')?.scrollIntoView({behavior:'smooth',block:'start'});
+ toast('GAME MODE ENABLED // YOU ARE NOW ABOARD MNEMOSYNE');
+}
+function bindMovieOpening(){
+ document.body.classList.add('movie-mode');
+ renderMovieScene();
+ $('#movieEnterGame')?.addEventListener('click',enterGameModeFromMovie);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindMovieOpening,{once:true});else bindMovieOpening();
 
 </script>
 </body></html>
