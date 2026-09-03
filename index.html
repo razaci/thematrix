@@ -1584,6 +1584,44 @@ body.topBankOff #topScreenBank{display:none!important}
  .topMissionGrid{grid-template-columns:1fr}
 }
 
+
+/* LORE-RICH BOTTOM ACTION CARDS */
+.actionLoreGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:7px}
+.actionLoreCard{border:1px solid #31583d;border-radius:9px;background:rgba(2,8,5,.94);overflow:hidden}
+.actionLoreCard img{width:100%;height:72px;object-fit:cover;display:block;border-bottom:1px solid #31583d}
+.actionLoreBody{padding:7px;font:9px/1.35 monospace}
+.actionLoreBody b{color:#b9ffc8}
+.actionLoreMeta{margin-top:4px;color:#8cc49a;font-size:8px}
+.actionLoreCard button{width:100%;margin-top:6px;min-height:34px}
+@media(max-width:720px){.actionLoreGrid{grid-template-columns:1fr}}
+
+
+/* DEEP NESTED CONSOLE STACK */
+#deepConsole{
+ position:fixed;left:50%;top:92px;transform:translateX(-50%);
+ width:min(980px,95vw);max-height:64vh;overflow:auto;z-index:26000;
+ background:rgba(2,7,4,.985);border:1px solid #4e7e59;border-radius:10px;
+ padding:9px;display:none;pointer-events:auto
+}
+#deepConsole.on{display:block}
+.deepHead{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-bottom:7px}
+.deepHead .crumb{font:9px monospace;color:#baffc7;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.deepGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.deepCard{border:1px solid #31583d;border-radius:8px;background:#020805;padding:8px;font:9px monospace}
+.deepCard h4{margin:0 0 6px;color:#b9ffc8}
+.deepCard button{width:100%;margin:3px 0;min-height:36px}
+.routeNodes{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.routeNodes button.sel{outline:1px solid #a4ffb7}
+.routeTrack{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin-top:7px}
+.routeSeg{height:20px;border:1px solid #31583d;background:#061109}
+.routeSeg.hot{background:#301008;border-color:#92533b}
+.routeSeg.good{background:#0b2814;border-color:#4c8658}
+@media(max-width:720px){
+ #deepConsole{top:88px;max-height:66vh}
+ .deepGrid{grid-template-columns:1fr}
+ .routeNodes{grid-template-columns:repeat(2,1fr)}
+}
+
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;div id=&quot;app&quot;&gt;
  &lt;div class=&quot;top&quot;&gt;&lt;div class=&quot;brand&quot;&gt;MATRIX: AFTERIMAGE // SHIP CONSOLE&lt;/div&gt;&lt;div class=&quot;hud&quot;&gt;&lt;span class=&quot;chip&quot; id=&quot;step&quot;&gt;MISSION 1&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;intel&quot;&gt;INTEL 0&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;trace&quot;&gt;TRACE 0%&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
@@ -1640,7 +1678,7 @@ thoughts:[],hex:[],events:[],map:Array.from({length:64},()=&gt;0),clock:0,missio
 relationships:{TANK:50,ROOK:50,IRIS:50,NOX:50},
 director:{hack:0,fight:0,flee:0,distort:0,adapt:0},
 powers:{&#x27;ZERO TRACE&#x27;:1,&#x27;BLINK STEP&#x27;:1,&#x27;MIRROR KEY&#x27;:0,&#x27;GRAVITY BREAK&#x27;:0,&#x27;BULLET CLOCK&#x27;:0,&#x27;FALSE IDENTITY&#x27;:0,&#x27;MEMORY FORK&#x27;:0,&#x27;REALITY ANCHOR&#x27;:1},
-invasion:null,emergency:null,topMenusVisible:true,topBankVisible:true,activeTopConsole:null,pendingCourse:null,routePath:[],processes:[
+invasion:null,emergency:null,topMenusVisible:true,topBankVisible:true,activeTopConsole:null,deepConsole:{screen:null,stack:[],target:null,routeMode:&#x27;BALANCED&#x27;,hazardScan:0,waypoints:[]},pendingCourse:null,routePath:[],processes:[
 {name:&#x27;ORACLE-LITE&#x27;,state:&#x27;RUNNING&#x27;,cpu:22},{name:&#x27;ROUTE-MIND&#x27;,state:&#x27;RUNNING&#x27;,cpu:17},
 {name:&#x27;LACUNA&#x27;,state:&#x27;IDLE&#x27;,cpu:5},{name:&#x27;ECHO-SIM&#x27;,state:&#x27;RUNNING&#x27;,cpu:31},
 {name:&#x27;MIRROR-WATCH&#x27;,state:&#x27;RUNNING&#x27;,cpu:19},{name:&#x27;HARDLINE-AI&#x27;,state:&#x27;RUNNING&#x27;,cpu:14}
@@ -1730,6 +1768,8 @@ function renderPilotHud(){
  Dk.innerHTML=&#x27;&#x27;;areas.forEach(x=&gt;{const b=document.createElement(&#x27;button&#x27;);b.textContent=x[1];b.className=G.pilotArea===x[0]?&#x27;on&#x27;:&#x27;&#x27;;b.onclick=()=&gt;{G.pilotArea=x[0];pilotAreaAction(x[0])};Dk.appendChild(b)});
  A.innerHTML=&#x27;&#x27;;
  pilotButtons().forEach(x=&gt;{const b=document.createElement(&#x27;button&#x27;);b.textContent=x[0];b.onclick=()=&gt;pilotCommand(x[1]);A.appendChild(b)});
+ const pa=$(&#x27;pilotActions&#x27;);if(pa)pa.innerHTML+=pilotLoreMarkup();
+
 }
 function hrow(a,b){return &#x27;&lt;div class=&quot;holoRow&quot;&gt;&lt;span&gt;&#x27;+a+&#x27;&lt;/span&gt;&lt;b&gt;&#x27;+b+&#x27;&lt;/b&gt;&lt;/div&gt;&#x27;}
 function pilotButtons(){
@@ -2156,7 +2196,7 @@ function cinematicMarkup(){
  &#x27;&lt;div class=&quot;relationships&quot;&gt;&#x27;+Object.entries(n.relationships).map(x=&gt;&#x27;&lt;span&gt;&#x27;+x[0]+&#x27; &#x27;+x[1]+&#x27;&lt;/span&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;+
  &#x27;&lt;div class=&quot;matrixPowerGrid&quot;&gt;&#x27;+Object.entries(n.powers).map(x=&gt;&#x27;&lt;div class=&quot;matrixPower&quot;&gt;&lt;b&gt;&#x27;+x[0]+&#x27;&lt;/b&gt;&lt;br&gt;&#x27;+(x[1]?&#x27;READY&#x27;:&#x27;LOCKED&#x27;)+(x[1]?&#x27;&lt;br&gt;&lt;button onclick=&quot;usePower(\&#x27;&#x27;+x[0]+&#x27;\&#x27;)&quot;&gt;EXECUTE&lt;/button&gt;&#x27;:&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;+
  (n.invasion?&#x27;&lt;div class=&quot;missionCard&quot;&gt;&lt;b&gt;AGENT INVASION&lt;/b&gt;&lt;br&gt;NODE &#x27;+(n.invasion.node+1)+&#x27; // &#x27;+n.invasion.progress+&#x27;%&lt;br&gt;&lt;button onclick=&quot;purgeInvasion()&quot;&gt;PURGE PROCESS&lt;/button&gt;&lt;/div&gt;&#x27;:&#x27;&#x27;)+
- (n.emergency?&#x27;&lt;div class=&quot;missionCard&quot;&gt;&lt;b&gt;SHIP EMERGENCY&lt;/b&gt;&lt;br&gt;&#x27;+n.emergency+&#x27;&lt;br&gt;&lt;button onclick=&quot;resolveEmergency()&quot;&gt;STABILIZE&lt;/button&gt;&lt;/div&gt;&#x27;:&#x27;&#x27;)+
+ (n.emergency?&#x27;&lt;div class=&quot;missionCard&quot;&gt;&lt;b&gt;SHIP EMERGENCY&lt;/b&gt;&lt;br&gt;&#x27;+n.emergency+&#x27;&lt;br&gt;&lt;button onclick=&quot;openDeepConsole(&amp;quot;SYSTEM_HOME&amp;quot;)&quot;&gt;OPEN FULL SYSTEMS&lt;/button&gt;&lt;button onclick=&quot;resolveEmergency()&quot;&gt;STABILIZE&lt;/button&gt;&lt;/div&gt;&#x27;:&#x27;&#x27;)+
  &#x27;&lt;button onclick=&quot;startCampaign()&quot;&gt;PLAY CINEMATIC CAMPAIGN&lt;/button&gt;&#x27;;
 }
 
@@ -2350,7 +2390,7 @@ function courseConsoleMarkup(){
   &#x27;&lt;div class=&quot;courseStatus&quot;&gt;&lt;span&gt;VELOCITY&lt;/span&gt;&lt;b&gt;&#x27;+G.velocity+&#x27;&lt;/b&gt;&lt;/div&gt;&#x27;+
   &#x27;&lt;div class=&quot;courseStatus&quot;&gt;&lt;span&gt;FUEL&lt;/span&gt;&lt;b&gt;&#x27;+G.fuel+&#x27;%&lt;/b&gt;&lt;/div&gt;&#x27;+
   &#x27;&lt;div class=&quot;courseTargets&quot;&gt;&#x27;+targets.map((t,i)=&gt;&#x27;&lt;button onclick=&quot;plotCourseTo(\&#x27;&#x27;+String(t.name).replace(/&#x27;/g,&quot;\\&#x27;&quot;)+&#x27;\&#x27;,&#x27;+(t.range||50)+&#x27;,\&#x27;&#x27;+t.type+&#x27;\&#x27;)&quot;&gt;&#x27;+t.name+&#x27; // &#x27;+(t.range||50)+&#x27;&lt;/button&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;+
-  &#x27;&lt;button onclick=&quot;commitCourse()&quot;&gt;COMMIT COURSE&lt;/button&gt; &lt;button onclick=&quot;cancelCourse()&quot;&gt;CLEAR COURSE&lt;/button&gt;&lt;/div&gt;&#x27;;
+  &#x27;&lt;button onclick=&quot;openDeepConsole(&amp;quot;COURSE_HOME&amp;quot;)&quot;&gt;OPEN FULL NAVIGATION&lt;/button&gt;&lt;button onclick=&quot;commitCourse()&quot;&gt;COMMIT COURSE&lt;/button&gt; &lt;button onclick=&quot;cancelCourse()&quot;&gt;CLEAR COURSE&lt;/button&gt;&lt;/div&gt;&#x27;;
 }
 function plotCourseTo(name,range,type){
  G.nav.contact=name;G.nav.range=range;G.nav.route=Math.max(15,Math.min(95,Math.floor((G.hard.strength+G.alloc.sensors+G.targetLock+20)/3)));
@@ -2411,7 +2451,7 @@ function topMissionConsoleMarkup(type){
    title=&#x27;HARDLINE // MISSION NETWORK&#x27;;
    body=&#x27;&lt;div class=&quot;topMissionGrid&quot;&gt;&#x27;+
     card(&#x27;NETWORK STATUS&#x27;,kv(&#x27;STRENGTH&#x27;,G.hard.strength+&#x27;%&#x27;)+kv(&#x27;TRACE&#x27;,G.trace+&#x27;%&#x27;)+kv(&#x27;NODES&#x27;,G.hard.nodes||G.net.nodes.length)+
-      &#x27;&lt;button onclick=&quot;routeNode(6)&quot;&gt;ROUTE NODE 7&lt;/button&gt; &lt;button onclick=&quot;purgeInvasion()&quot;&gt;PURGE AGENT&lt;/button&gt;&#x27;)+
+      &#x27;&lt;button onclick=&quot;openDeepConsole(&amp;quot;HARDLINE_HOME&amp;quot;)&quot;&gt;OPEN FULL HARDLINE&lt;/button&gt;&lt;button onclick=&quot;routeNode(6)&quot;&gt;ROUTE NODE 7&lt;/button&gt; &lt;button onclick=&quot;purgeInvasion()&quot;&gt;PURGE AGENT&lt;/button&gt;&#x27;)+
     card(&#x27;MISSION PACKETS&#x27;,&#x27;&lt;div class=&quot;consoleLog&quot;&gt;&#x27;+(n.packets||[]).slice(-12).reverse().join(&#x27;\n&#x27;)+&#x27;&lt;/div&gt;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
  }
  if(type===&#x27;core&#x27;){
@@ -2431,6 +2471,220 @@ function topMissionConsoleMarkup(type){
  return &#x27;&lt;div class=&quot;topMissionHead&quot;&gt;&lt;b&gt;&#x27;+title+&#x27;&lt;/b&gt;&lt;button onclick=&quot;closeTopMissionPanel()&quot;&gt;X&lt;/button&gt;&lt;/div&gt;&#x27;+body;
 }
 function card(title,html){return &#x27;&lt;div class=&quot;topMissionCard&quot;&gt;&lt;h4&gt;&#x27;+title+&#x27;&lt;/h4&gt;&#x27;+html+&#x27;&lt;/div&gt;&#x27;}
+const ACTION_ART={&quot;FLIGHT&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKcpjwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+RkxJR0hUPC90ZXh0PgogICAgPHRleHQgeD0iNTgiIHk9IjUzIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjgiIGZpbGw9IiM3Y2FlODgiPk1ORU1PU1lORSBTWVNURU08L3RleHQ+CiAgICA8L3N2Zz4=&quot;, &quot;THRUST&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKGkTwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+VEhSVVNUPC90ZXh0PgogICAgPHRleHQgeD0iNTgiIHk9IjUzIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjgiIGZpbGw9IiM3Y2FlODgiPk1ORU1PU1lORSBTWVNURU08L3RleHQ+CiAgICA8L3N2Zz4=&quot;, &quot;BRAKE&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKWoDwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+QlJBS0U8L3RleHQ+CiAgICA8dGV4dCB4PSI1OCIgeT0iNTMiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iOCIgZmlsbD0iIzdjYWU4OCI+TU5FTU9TWU5FIFNZU1RFTTwvdGV4dD4KICAgIDwvc3ZnPg==&quot;, &quot;SCAN&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKXiTwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+U0NBTjwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSI1MyIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSI4IiBmaWxsPSIjN2NhZTg4Ij5NTkVNT1NZTkUgU1lTVEVNPC90ZXh0PgogICAgPC9zdmc+&quot;, &quot;LOCK&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKXjjwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+TE9DSzwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSI1MyIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSI4IiBmaWxsPSIjN2NhZTg4Ij5NTkVNT1NZTkUgU1lTVEVNPC90ZXh0PgogICAgPC9zdmc+&quot;, &quot;CONTACTS&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKMgTwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+Q09OVEFDVFM8L3RleHQ+CiAgICA8dGV4dCB4PSI1OCIgeT0iNTMiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iOCIgZmlsbD0iIzdjYWU4OCI+TU5FTU9TWU5FIFNZU1RFTTwvdGV4dD4KICAgIDwvc3ZnPg==&quot;, &quot;CYCLE&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKGuzwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+Q1lDTEU8L3RleHQ+CiAgICA8dGV4dCB4PSI1OCIgeT0iNTMiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iOCIgZmlsbD0iIzdjYWU4OCI+TU5FTU9TWU5FIFNZU1RFTTwvdGV4dD4KICAgIDwvc3ZnPg==&quot;, &quot;TRACE&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKIvzwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+VFJBQ0U8L3RleHQ+CiAgICA8dGV4dCB4PSI1OCIgeT0iNTMiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iOCIgZmlsbD0iIzdjYWU4OCI+TU5FTU9TWU5FIFNZU1RFTTwvdGV4dD4KICAgIDwvc3ZnPg==&quot;, &quot;INTERCEPT&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKclTwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+SU5URVJDRVBUPC90ZXh0PgogICAgPHRleHQgeD0iNTgiIHk9IjUzIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjgiIGZpbGw9IiM3Y2FlODgiPk1ORU1PU1lORSBTWVNURU08L3RleHQ+CiAgICA8L3N2Zz4=&quot;, &quot;EVADE&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKGrzwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+RVZBREU8L3RleHQ+CiAgICA8dGV4dCB4PSI1OCIgeT0iNTMiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iOCIgZmlsbD0iIzdjYWU4OCI+TU5FTU9TWU5FIFNZU1RFTTwvdGV4dD4KICAgIDwvc3ZnPg==&quot;, &quot;MISSIONS&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKXhjwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+TUlTU0lPTlM8L3RleHQ+CiAgICA8dGV4dCB4PSI1OCIgeT0iNTMiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iOCIgZmlsbD0iIzdjYWU4OCI+TU5FTU9TWU5FIFNZU1RFTTwvdGV4dD4KICAgIDwvc3ZnPg==&quot;, &quot;NEW SIGNAL&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKMgTwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+TkVXIFNJR05BTDwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSI1MyIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSI4IiBmaWxsPSIjN2NhZTg4Ij5NTkVNT1NZTkUgU1lTVEVNPC90ZXh0PgogICAgPC9zdmc+&quot;, &quot;ANALYZE&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPs6jPC90ZXh0PgogICAgPHRleHQgeD0iNTgiIHk9IjM2IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjExIiBmaWxsPSIjZDlmZmUyIj5BTkFMWVpFPC90ZXh0PgogICAgPHRleHQgeD0iNTgiIHk9IjUzIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjgiIGZpbGw9IiM3Y2FlODgiPk1ORU1PU1lORSBTWVNURU08L3RleHQ+CiAgICA8L3N2Zz4=&quot;, &quot;COMMIT&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKckzwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+Q09NTUlUPC90ZXh0PgogICAgPHRleHQgeD0iNTgiIHk9IjUzIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjgiIGZpbGw9IiM3Y2FlODgiPk1ORU1PU1lORSBTWVNURU08L3RleHQ+CiAgICA8L3N2Zz4=&quot;, &quot;ABORT&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPsOXPC90ZXh0PgogICAgPHRleHQgeD0iNTgiIHk9IjM2IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjExIiBmaWxsPSIjZDlmZmUyIj5BQk9SVDwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSI1MyIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSI4IiBmaWxsPSIjN2NhZTg4Ij5NTkVNT1NZTkUgU1lTVEVNPC90ZXh0PgogICAgPC9zdmc+&quot;, &quot;PROGRAMS&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKMmDwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+UFJPR1JBTVM8L3RleHQ+CiAgICA8dGV4dCB4PSI1OCIgeT0iNTMiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iOCIgZmlsbD0iIzdjYWU4OCI+TU5FTU9TWU5FIFNZU1RFTTwvdGV4dD4KICAgIDwvc3ZnPg==&quot;, &quot;LOAD&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKsoTwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+TE9BRDwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSI1MyIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSI4IiBmaWxsPSIjN2NhZTg4Ij5NTkVNT1NZTkUgU1lTVEVNPC90ZXh0PgogICAgPC9zdmc+&quot;, &quot;MASK&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKXqzwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+TUFTSzwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSI1MyIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSI4IiBmaWxsPSIjN2NhZTg4Ij5NTkVNT1NZTkUgU1lTVEVNPC90ZXh0PgogICAgPC9zdmc+&quot;, &quot;ANCHOR&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKakzwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+QU5DSE9SPC90ZXh0PgogICAgPHRleHQgeD0iNTgiIHk9IjUzIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjgiIGZpbGw9IiM3Y2FlODgiPk1ORU1PU1lORSBTWVNURU08L3RleHQ+CiAgICA8L3N2Zz4=&quot;, &quot;PURGE&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKcozwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+UFVSR0U8L3RleHQ+CiAgICA8dGV4dCB4PSI1OCIgeT0iNTMiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iOCIgZmlsbD0iIzdjYWU4OCI+TU5FTU9TWU5FIFNZU1RFTTwvdGV4dD4KICAgIDwvc3ZnPg==&quot;, &quot;SYSTEMS&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKamTwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+U1lTVEVNUzwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSI1MyIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSI4IiBmaWxsPSIjN2NhZTg4Ij5NTkVNT1NZTkUgU1lTVEVNPC90ZXh0PgogICAgPC9zdmc+&quot;, &quot;CORE&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKXiTwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+Q09SRTwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSI1MyIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSI4IiBmaWxsPSIjN2NhZTg4Ij5NTkVNT1NZTkUgU1lTVEVNPC90ZXh0PgogICAgPC9zdmc+&quot;, &quot;HARDLINE&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKMgTwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+SEFSRExJTkU8L3RleHQ+CiAgICA8dGV4dCB4PSI1OCIgeT0iNTMiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iOCIgZmlsbD0iIzdjYWU4OCI+TU5FTU9TWU5FIFNZU1RFTTwvdGV4dD4KICAgIDwvc3ZnPg==&quot;, &quot;REPAIR&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKcmjwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+UkVQQUlSPC90ZXh0PgogICAgPHRleHQgeD0iNTgiIHk9IjUzIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjgiIGZpbGw9IiM3Y2FlODgiPk1ORU1PU1lORSBTWVNURU08L3RleHQ+CiAgICA8L3N2Zz4=&quot;, &quot;COOL&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHZpZXdCb3g9IjAgMCAxODAgODQiPgogICAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwNTExMDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMDI1MTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iODQiIHJ4PSIxMCIgZmlsbD0idXJsKCNnKSIgc3Ryb2tlPSIjMzk3NjRiIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIxOCIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjN2NmZjliIi8+CiAgICA8dGV4dCB4PSIyOCIgeT0iNDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNiYWZmYzciPuKdhDwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSIzNiIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSIgZmlsbD0iI2Q5ZmZlMiI+Q09PTDwvdGV4dD4KICAgIDx0ZXh0IHg9IjU4IiB5PSI1MyIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSI4IiBmaWxsPSIjN2NhZTg4Ij5NTkVNT1NZTkUgU1lTVEVNPC90ZXh0PgogICAgPC9zdmc+&quot;};
+
+const ACTION_LORE={
+ &#x27;FLIGHT&#x27;:&#x27;The Mnemosyne does not steer like a normal ship. It rides probability windows between machine patrol lanes and unstable hardline shadows.&#x27;,
+ &#x27;THRUST&#x27;:&#x27;Push reactor output into forward vectoring. More speed means more heat, more fuel burn, and less time for hostile contacts to react.&#x27;,
+ &#x27;BRAKE&#x27;:&#x27;Dump velocity through counter-thrust. Safer for docking and scan resolution, but it leaves the ship exposed longer.&#x27;,
+ &#x27;SCAN&#x27;:&#x27;Sweep for ghost carriers, machine signatures, hardline bleed, and impossible transmissions that should not exist in realspace.&#x27;,
+ &#x27;LOCK&#x27;:&#x27;Build a firing-quality sensor solution on a contact. The stronger the lock, the more accurate route prediction and interception becomes.&#x27;,
+ &#x27;CONTACTS&#x27;:&#x27;Every light on the scope could be a machine, a human ship, a false echo, or something the Matrix predicted before it happened.&#x27;,
+ &#x27;CYCLE&#x27;:&#x27;Rotate through nearby signatures and make the navigation computer decide which contact matters most.&#x27;,
+ &#x27;TRACE&#x27;:&#x27;Follow a contact signal backward through its route history. Useful, dangerous, and exactly how Agents sometimes notice you.&#x27;,
+ &#x27;INTERCEPT&#x27;:&#x27;Commit to crossing a contact’s vector. Success can reveal data, missions, or salvage. Failure raises threat.&#x27;,
+ &#x27;EVADE&#x27;:&#x27;Break line-of-sight and throw the ship into a less predictable route. Costs fuel but can lower immediate pressure.&#x27;,
+ &#x27;MISSIONS&#x27;:&#x27;Operations are generated from live contacts, crew discoveries, Matrix anomalies, and story events aboard Mnemosyne.&#x27;,
+ &#x27;NEW SIGNAL&#x27;:&#x27;Pull a fresh operation from the signal pool: rescue, breach, machine contact, archive theft, or something stranger.&#x27;,
+ &#x27;ANALYZE&#x27;:&#x27;Let Nox and the ship AI score mission risk, probable rewards, trace exposure, and route confidence.&#x27;,
+ &#x27;COMMIT&#x27;:&#x27;Accept the operation. Crew, course plotting, and live mission systems begin contributing to the objective immediately.&#x27;,
+ &#x27;ABORT&#x27;:&#x27;Break off before the mission consumes more resources. Safer now, but abandoned signals can return later in worse form.&#x27;,
+ &#x27;PROGRAMS&#x27;:&#x27;Loaded Matrix routines are reality tools disguised as software: masks, anchors, route ghosts, and memory manipulation.&#x27;,
+ &#x27;LOAD&#x27;:&#x27;Load an available routine into the active Matrix stack so it can be executed during encounters or anomalies.&#x27;,
+ &#x27;MASK&#x27;:&#x27;Reduce how recognizable your signature is to the Matrix and hostile process watchers.&#x27;,
+ &#x27;ANCHOR&#x27;:&#x27;Force local rules to remain stable around you. Useful when Fracture City starts rewriting itself.&#x27;,
+ &#x27;PURGE&#x27;:&#x27;Delete hostile code, corrupted memory fragments, or Agent residue from the current program stack.&#x27;,
+ &#x27;SYSTEMS&#x27;:&#x27;The ship is a living balance of reactor, sensors, hardline, jack power, life support, cooling, and damage control.&#x27;,
+ &#x27;CORE&#x27;:&#x27;Inspect and rebalance reactor output. Every other system is borrowing power from this one.&#x27;,
+ &#x27;HARDLINE&#x27;:&#x27;Tune connection strength, packet stability, and emergency exits between Mnemosyne and the Matrix.&#x27;,
+ &#x27;REPAIR&#x27;:&#x27;Send engineering resources to restore hull, reactor, or damaged subsystems.&#x27;,
+ &#x27;COOL&#x27;:&#x27;Dump heat from overloaded systems before reactor throttling or thermal cascade begins.&#x27;
+};
+function actionEffectText(name){
+ const m={
+ &#x27;THRUST&#x27;:&#x27;VEL &#x27;+G.velocity+&#x27; // FUEL &#x27;+G.fuel+&#x27;% // HEAT &#x27;+G.heat+&#x27;%&#x27;,
+ &#x27;BRAKE&#x27;:&#x27;VEL &#x27;+G.velocity+&#x27; // CONTROL STABLE&#x27;,
+ &#x27;SCAN&#x27;:&#x27;CONTACTS &#x27;+(G.net.contacts||[]).length+&#x27; // RANGE &#x27;+G.nav.range,
+ &#x27;LOCK&#x27;:&#x27;TARGET &#x27;+(G.nav.contact||&#x27;NONE&#x27;)+&#x27; // LOCK &#x27;+G.targetLock+&#x27;%&#x27;,
+ &#x27;TRACE&#x27;:&#x27;TRACE &#x27;+G.trace+&#x27;% // HARDLINE &#x27;+G.hard.strength+&#x27;%&#x27;,
+ &#x27;INTERCEPT&#x27;:&#x27;THREAT &#x27;+G.threat+&#x27; // ROUTE &#x27;+G.nav.route+&#x27;%&#x27;,
+ &#x27;EVADE&#x27;:&#x27;FUEL &#x27;+G.fuel+&#x27;% // THREAT &#x27;+G.threat,
+ &#x27;ANALYZE&#x27;:&#x27;INTEL &#x27;+G.intel+&#x27; // AI &#x27;+G.net.aiLoad+&#x27;%&#x27;,
+ &#x27;COMMIT&#x27;:&#x27;MISSION &#x27;+(G.net.mission?G.net.mission.type:&#x27;NONE&#x27;),
+ &#x27;ABORT&#x27;:&#x27;MISSION STATUS // STANDBY&#x27;,
+ &#x27;MASK&#x27;:&#x27;TRACE &#x27;+G.trace+&#x27;%&#x27;,
+ &#x27;ANCHOR&#x27;:&#x27;MATRIX STABILITY &#x27;+G.matrix.stability+&#x27;%&#x27;,
+ &#x27;PURGE&#x27;:&#x27;HOSTILE PROCESS &#x27;+(G.net.invasion?&#x27;ACTIVE&#x27;:&#x27;CLEAR&#x27;),
+ &#x27;CORE&#x27;:&#x27;REACTOR &#x27;+G.ship.reactor+&#x27;%&#x27;,
+ &#x27;HARDLINE&#x27;:&#x27;STRENGTH &#x27;+G.hard.strength+&#x27;%&#x27;,
+ &#x27;REPAIR&#x27;:&#x27;HULL &#x27;+G.ship.hull+&#x27;%&#x27;,
+ &#x27;COOL&#x27;:&#x27;HEAT &#x27;+G.heat+&#x27;%&#x27;
+ };
+ return m[name]||&#x27;LIVE SHIP LINK&#x27;;
+}
+function loreCard(name,onclick){
+ const art=ACTION_ART[name]||ACTION_ART[&#x27;FLIGHT&#x27;];
+ return &#x27;&lt;div class=&quot;actionLoreCard&quot;&gt;&lt;img src=&quot;&#x27;+art+&#x27;&quot; alt=&quot;&#x27;+name+&#x27;&quot;&gt;&#x27;+
+ &#x27;&lt;div class=&quot;actionLoreBody&quot;&gt;&lt;b&gt;&#x27;+name+&#x27;&lt;/b&gt;&lt;br&gt;&#x27;+ (ACTION_LORE[name]||&#x27;Mnemosyne subsystem.&#x27;)+
+ &#x27;&lt;div class=&quot;actionLoreMeta&quot;&gt;&#x27;+actionEffectText(name)+&#x27;&lt;/div&gt;&#x27;+
+ (onclick?&#x27;&lt;button onclick=&quot;&#x27;+onclick+&#x27;&quot;&gt;ACTIVATE &#x27;+name+&#x27;&lt;/button&gt;&#x27;:&#x27;&#x27;)+
+ &#x27;&lt;/div&gt;&lt;/div&gt;&#x27;;
+}
+function pilotLoreMarkup(){
+ const area=String(G.pilotArea||&#x27;flight&#x27;).toUpperCase();
+ const sets={
+  FLIGHT:[[&#x27;FLIGHT&#x27;,&quot;openDeepConsole(&#x27;COURSE_HOME&#x27;)&quot;],[&#x27;THRUST&#x27;,&quot;pilotAction(&#x27;thrust&#x27;)&quot;],[&#x27;BRAKE&#x27;,&quot;pilotAction(&#x27;brake&#x27;)&quot;],[&#x27;SCAN&#x27;,&quot;pilotAction(&#x27;scan&#x27;)&quot;],[&#x27;LOCK&#x27;,&quot;pilotAction(&#x27;lock&#x27;)&quot;]],
+  CONTACTS:[[&#x27;CONTACTS&#x27;,&#x27;&#x27;],[&#x27;CYCLE&#x27;,&quot;pilotAction(&#x27;cycle&#x27;)&quot;],[&#x27;TRACE&#x27;,&quot;pilotAction(&#x27;trace&#x27;)&quot;],[&#x27;INTERCEPT&#x27;,&quot;pilotAction(&#x27;intercept&#x27;)&quot;],[&#x27;EVADE&#x27;,&quot;pilotAction(&#x27;evade&#x27;)&quot;]],
+  MISSIONS:[[&#x27;MISSIONS&#x27;,&quot;openDeepConsole(&#x27;MISSION_HOME&#x27;)&quot;],[&#x27;NEW SIGNAL&#x27;,&quot;pilotAction(&#x27;newsignal&#x27;)&quot;],[&#x27;ANALYZE&#x27;,&quot;pilotAction(&#x27;analyze&#x27;)&quot;],[&#x27;COMMIT&#x27;,&quot;pilotAction(&#x27;commit&#x27;)&quot;],[&#x27;ABORT&#x27;,&quot;pilotAction(&#x27;abort&#x27;)&quot;]],
+  PROGRAMS:[[&#x27;PROGRAMS&#x27;,&quot;openDeepConsole(&#x27;PROGRAM_HOME&#x27;)&quot;],[&#x27;LOAD&#x27;,&quot;pilotAction(&#x27;load&#x27;)&quot;],[&#x27;MASK&#x27;,&quot;pilotAction(&#x27;mask&#x27;)&quot;],[&#x27;ANCHOR&#x27;,&quot;pilotAction(&#x27;anchor&#x27;)&quot;],[&#x27;PURGE&#x27;,&quot;pilotAction(&#x27;purge&#x27;)&quot;]],
+  SYSTEMS:[[&#x27;SYSTEMS&#x27;,&quot;openDeepConsole(&#x27;SYSTEM_HOME&#x27;)&quot;],[&#x27;CORE&#x27;,&quot;pilotAction(&#x27;core&#x27;)&quot;],[&#x27;HARDLINE&#x27;,&quot;pilotAction(&#x27;hardline&#x27;)&quot;],[&#x27;REPAIR&#x27;,&quot;pilotAction(&#x27;repair&#x27;)&quot;],[&#x27;COOL&#x27;,&quot;pilotAction(&#x27;cool&#x27;)&quot;]]
+ };
+ const arr=sets[area]||sets.FLIGHT;
+ return &#x27;&lt;div class=&quot;actionLoreGrid&quot;&gt;&#x27;+arr.map(x=&gt;loreCard(x[0],x[1])).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+}
+
+function openDeepConsole(screen,data){
+ const d=G.net.deepConsole;
+ if(d.screen)d.stack.push(d.screen);
+ d.screen=screen;
+ if(data&amp;&amp;data.target)d.target=data.target;
+ renderDeepConsole();
+}
+function deepBack(){
+ const d=G.net.deepConsole;
+ d.screen=d.stack.pop()||null;
+ if(!d.screen){closeDeepConsole();return}
+ renderDeepConsole();
+}
+function closeDeepConsole(){
+ const p=$(&#x27;deepConsole&#x27;);if(p)p.className=&#x27;&#x27;;
+ G.net.deepConsole.screen=null;G.net.deepConsole.stack=[];
+}
+function renderDeepConsole(){
+ const p=$(&#x27;deepConsole&#x27;);if(!p)return;
+ p.className=&#x27;on&#x27;;p.innerHTML=deepConsoleMarkup(G.net.deepConsole.screen);
+}
+function deepConsoleMarkup(screen){
+ const d=G.net.deepConsole;
+ const crumb=&#x27;MNEMOSYNE / &#x27;+String(screen||&#x27;CONSOLE&#x27;).replaceAll(&#x27;_&#x27;,&#x27; &#x27;);
+ let body=&#x27;&#x27;;
+ if(screen===&#x27;COURSE_HOME&#x27;)body=courseHomeScreen();
+ if(screen===&#x27;COURSE_TARGETS&#x27;)body=courseTargetScreen();
+ if(screen===&#x27;COURSE_ROUTE&#x27;)body=courseRouteScreen();
+ if(screen===&#x27;COURSE_HAZARDS&#x27;)body=courseHazardScreen();
+ if(screen===&#x27;COURSE_EXECUTE&#x27;)body=courseExecuteScreen();
+ if(screen===&#x27;MISSION_HOME&#x27;)body=missionDeepScreen();
+ if(screen===&#x27;HARDLINE_HOME&#x27;)body=hardlineDeepScreen();
+ if(screen===&#x27;PROGRAM_HOME&#x27;)body=programDeepScreen();
+ if(screen===&#x27;SYSTEM_HOME&#x27;)body=systemDeepScreen();
+ return &#x27;&lt;div class=&quot;deepHead&quot;&gt;&lt;button onclick=&quot;deepBack()&quot;&gt;BACK&lt;/button&gt;&lt;div class=&quot;crumb&quot;&gt;&#x27;+crumb+&#x27;&lt;/div&gt;&lt;button onclick=&quot;closeDeepConsole()&quot;&gt;CLOSE&lt;/button&gt;&lt;/div&gt;&#x27;+body;
+}
+function courseHomeScreen(){
+ return &#x27;&lt;div class=&quot;deepGrid&quot;&gt;&#x27;+
+  deepCard(&#x27;COURSE ARCHITECT&#x27;,&#x27;Build a route in stages. Choose a destination, shape its profile, analyze hazards, then commit it to Mnemosyne navigation.&#x27;+
+   &#x27;&lt;button onclick=&quot;openDeepConsole(\&#x27;COURSE_TARGETS\&#x27;)&quot;&gt;SELECT DESTINATION&lt;/button&gt;&#x27;)+
+  deepCard(&#x27;CURRENT SOLUTION&#x27;,kv(&#x27;TARGET&#x27;,G.net.deepConsole.target||G.nav.contact||&#x27;NONE&#x27;)+kv(&#x27;ROUTE MODE&#x27;,G.net.deepConsole.routeMode)+kv(&#x27;WAYPOINTS&#x27;,G.net.deepConsole.waypoints.length)+kv(&#x27;LOCK&#x27;,G.nav.route+&#x27;%&#x27;)+
+   &#x27;&lt;button onclick=&quot;openDeepConsole(\&#x27;COURSE_ROUTE\&#x27;)&quot;&gt;EDIT ROUTE&lt;/button&gt;&lt;button onclick=&quot;openDeepConsole(\&#x27;COURSE_HAZARDS\&#x27;)&quot;&gt;ANALYZE HAZARDS&lt;/button&gt;&lt;button onclick=&quot;openDeepConsole(\&#x27;COURSE_EXECUTE\&#x27;)&quot;&gt;EXECUTION SCREEN&lt;/button&gt;&#x27;)+
+ &#x27;&lt;/div&gt;&#x27;;
+}
+function courseTargetScreen(){
+ const contacts=(G.net.contacts||[]).slice(0,6).map(c=&gt;({name:c.name,range:c.range||55,type:c.hot?&#x27;HOSTILE&#x27;:&#x27;CONTACT&#x27;}));
+ const fixed=[
+  {name:&#x27;FRACTURE CITY&#x27;,range:42,type:&#x27;MATRIX&#x27;},
+  {name:&#x27;NODE SEVEN&#x27;,range:66,type:&#x27;HARDLINE&#x27;},
+  {name:&#x27;IMPOSSIBLE ARCHIVE&#x27;,range:81,type:&#x27;ARCHIVE&#x27;},
+  {name:&#x27;GHOST CARRIER&#x27;,range:57,type:&#x27;CONTACT&#x27;}
+ ];
+ const all=[...contacts,...fixed];
+ return &#x27;&lt;div class=&quot;deepGrid&quot;&gt;&#x27;+
+  deepCard(&#x27;KNOWN DESTINATIONS&#x27;,all.map(t=&gt;&#x27;&lt;button onclick=&quot;selectDeepTarget(\&#x27;&#x27;+String(t.name).replace(/&#x27;/g,&quot;\\&#x27;&quot;)+&#x27;\&#x27;,&#x27;+(t.range||50)+&#x27;,\&#x27;&#x27;+t.type+&#x27;\&#x27;)&quot;&gt;&#x27;+t.name+&#x27; // &#x27;+t.type+&#x27; // RANGE &#x27;+(t.range||50)+&#x27;&lt;/button&gt;&#x27;).join(&#x27;&#x27;))+
+  deepCard(&#x27;SENSOR SUMMARY&#x27;,kv(&#x27;CONTACTS&#x27;,(G.net.contacts||[]).length)+kv(&#x27;SENSOR POWER&#x27;,G.alloc.sensors+&#x27;%&#x27;)+kv(&#x27;TARGET LOCK&#x27;,G.targetLock+&#x27;%&#x27;)+kv(&#x27;TRACE&#x27;,G.trace+&#x27;%&#x27;))+
+ &#x27;&lt;/div&gt;&#x27;;
+}
+function selectDeepTarget(name,range,type){
+ const d=G.net.deepConsole;
+ d.target=name;d.targetRange=range;d.targetType=type;d.waypoints=[];
+ G.nav.contact=name;G.nav.range=range;
+ G.net.events.push(&#x27;NAV // DEEP TARGET SELECTED &#x27;+name);
+ openDeepConsole(&#x27;COURSE_ROUTE&#x27;);
+}
+function courseRouteScreen(){
+ const d=G.net.deepConsole;
+ const nodes=Array.from({length:10},(_,i)=&gt;&#x27;&lt;button class=&quot;&#x27;+(d.waypoints.includes(i)?&#x27;sel&#x27;:&#x27;&#x27;)+&#x27;&quot; onclick=&quot;toggleWaypoint(&#x27;+i+&#x27;)&quot;&gt;WP &#x27;+(i+1)+&#x27;&lt;/button&gt;&#x27;).join(&#x27;&#x27;);
+ return &#x27;&lt;div class=&quot;deepGrid&quot;&gt;&#x27;+
+  deepCard(&#x27;ROUTE SHAPE&#x27;,kv(&#x27;TARGET&#x27;,d.target||&#x27;NONE&#x27;)+kv(&#x27;MODE&#x27;,d.routeMode)+
+   &#x27;&lt;button onclick=&quot;setRouteMode(\&#x27;FAST\&#x27;)&quot;&gt;FAST / HOT&lt;/button&gt;&lt;button onclick=&quot;setRouteMode(\&#x27;BALANCED\&#x27;)&quot;&gt;BALANCED&lt;/button&gt;&lt;button onclick=&quot;setRouteMode(\&#x27;GHOST\&#x27;)&quot;&gt;GHOST / QUIET&lt;/button&gt;&#x27;)+
+  deepCard(&#x27;WAYPOINT FABRIC&#x27;,&#x27;&lt;div class=&quot;routeNodes&quot;&gt;&#x27;+nodes+&#x27;&lt;/div&gt;&lt;button onclick=&quot;openDeepConsole(\&#x27;COURSE_HAZARDS\&#x27;)&quot;&gt;NEXT: HAZARD ANALYSIS&lt;/button&gt;&#x27;)+
+ &#x27;&lt;/div&gt;&#x27;;
+}
+function toggleWaypoint(i){
+ const a=G.net.deepConsole.waypoints,idx=a.indexOf(i);
+ if(idx&gt;=0)a.splice(idx,1);else if(a.length&lt;6)a.push(i);
+ renderDeepConsole();
+}
+function setRouteMode(m){G.net.deepConsole.routeMode=m;renderDeepConsole()}
+function calcRouteModel(){
+ const d=G.net.deepConsole;
+ const modeAdj=d.routeMode===&#x27;FAST&#x27;?18:(d.routeMode===&#x27;GHOST&#x27;?-8:5);
+ const fuel=Math.max(2,Math.floor((d.targetRange||50)/18)+(d.routeMode===&#x27;FAST&#x27;?3:(d.routeMode===&#x27;GHOST&#x27;?1:0)));
+ const heat=Math.max(1,Math.floor((d.targetRange||50)/12)+(d.routeMode===&#x27;FAST&#x27;?12:(d.routeMode===&#x27;GHOST&#x27;?-2:3)));
+ const trace=Math.max(0,Math.floor(G.trace/5)+(d.routeMode===&#x27;GHOST&#x27;?-8:(d.routeMode===&#x27;FAST&#x27;?6:1)));
+ const confidence=Math.max(5,Math.min(99,Math.floor((G.hard.strength+G.alloc.sensors+G.targetLock+G.nav.route)/4)+modeAdj+d.waypoints.length*2));
+ const hazard=Math.max(1,Math.min(99,Math.floor((G.threat*20+G.heat+G.trace+(100-G.matrix.stability))/4)+(d.routeMode===&#x27;FAST&#x27;?12:(d.routeMode===&#x27;GHOST&#x27;?-6:0))));
+ return {fuel,heat,trace,confidence,hazard};
+}
+function courseHazardScreen(){
+ const d=G.net.deepConsole,m=calcRouteModel();
+ const segs=Array.from({length:12},(_,i)=&gt;&#x27;&lt;div class=&quot;routeSeg &#x27;+(((i*17+m.hazard)%100)&gt;70?&#x27;hot&#x27;:&#x27;good&#x27;)+&#x27;&quot;&gt;&lt;/div&gt;&#x27;).join(&#x27;&#x27;);
+ return &#x27;&lt;div class=&quot;deepGrid&quot;&gt;&#x27;+
+  deepCard(&#x27;HAZARD MODEL&#x27;,kv(&#x27;CONFIDENCE&#x27;,m.confidence+&#x27;%&#x27;)+kv(&#x27;FUEL COST&#x27;,m.fuel)+kv(&#x27;HEAT DELTA&#x27;,&#x27;+&#x27;+m.heat)+kv(&#x27;TRACE EXPOSURE&#x27;,m.trace+&#x27;%&#x27;)+kv(&#x27;HAZARD&#x27;,m.hazard+&#x27;%&#x27;)+
+   &#x27;&lt;div class=&quot;routeTrack&quot;&gt;&#x27;+segs+&#x27;&lt;/div&gt;&#x27;)+
+  deepCard(&#x27;ROUTE OPTIONS&#x27;,&#x27;&lt;button onclick=&quot;setRouteMode(\&#x27;FAST\&#x27;)&quot;&gt;RECALC FAST&lt;/button&gt;&lt;button onclick=&quot;setRouteMode(\&#x27;BALANCED\&#x27;)&quot;&gt;RECALC BALANCED&lt;/button&gt;&lt;button onclick=&quot;setRouteMode(\&#x27;GHOST\&#x27;)&quot;&gt;RECALC GHOST&lt;/button&gt;&lt;button onclick=&quot;openDeepConsole(\&#x27;COURSE_EXECUTE\&#x27;)&quot;&gt;NEXT: EXECUTION&lt;/button&gt;&#x27;)+
+ &#x27;&lt;/div&gt;&#x27;;
+}
+function courseExecuteScreen(){
+ const d=G.net.deepConsole,m=calcRouteModel();
+ return &#x27;&lt;div class=&quot;deepGrid&quot;&gt;&#x27;+
+  deepCard(&#x27;FINAL NAV SOLUTION&#x27;,kv(&#x27;TARGET&#x27;,d.target||&#x27;NONE&#x27;)+kv(&#x27;MODE&#x27;,d.routeMode)+kv(&#x27;CONFIDENCE&#x27;,m.confidence+&#x27;%&#x27;)+kv(&#x27;FUEL&#x27;,m.fuel)+kv(&#x27;HAZARD&#x27;,m.hazard+&#x27;%&#x27;)+
+   &#x27;&lt;button onclick=&quot;executeDeepCourse()&quot;&gt;COMMIT TO HELM&lt;/button&gt;&#x27;)+
+  deepCard(&#x27;MISSION EFFECT&#x27;,kv(&#x27;CURRENT MISSION&#x27;,activeMissionName())+kv(&#x27;CREW ACTIVE&#x27;,G.net.crew.filter(c=&gt;c.job!==&quot;IDLE&quot;).length+&#x27;/4&#x27;)+
+   &#x27;&lt;button onclick=&quot;openDeepConsole(\&#x27;COURSE_ROUTE\&#x27;)&quot;&gt;EDIT ROUTE AGAIN&lt;/button&gt;&#x27;)+
+ &#x27;&lt;/div&gt;&#x27;;
+}
+function executeDeepCourse(){
+ const d=G.net.deepConsole,m=calcRouteModel();
+ if(!d.target){setNote(&#x27;SELECT A DESTINATION FIRST.&#x27;);return}
+ if(G.fuel&lt;m.fuel){setNote(&#x27;INSUFFICIENT FUEL FOR FINAL ROUTE.&#x27;);return}
+ G.net.pendingCourse={name:d.target,range:d.targetRange||50,type:d.targetType||&#x27;CONTACT&#x27;,confidence:m.confidence};
+ G.nav.route=m.confidence;G.heat=Math.min(100,G.heat+m.heat);G.trace=Math.min(100,G.trace+Math.max(0,m.trace));
+ commitCourse();
+ G.net.events.push(&#x27;NAV // DEEP COURSE EXECUTED &#x27;+d.target+&#x27; // &#x27;+d.routeMode);
+ closeDeepConsole();
+}
+function missionDeepScreen(){
+ const m=G.net.mission;
+ return &#x27;&lt;div class=&quot;deepGrid&quot;&gt;&#x27;+deepCard(&#x27;MISSION BOARD&#x27;,kv(&#x27;ACTIVE&#x27;,m?m.type:&#x27;NONE&#x27;)+kv(&#x27;PROGRESS&#x27;,(G.missionProgress||0)+&#x27;%&#x27;)+
+ &#x27;&lt;button onclick=&quot;generateMission();renderDeepConsole()&quot;&gt;GENERATE SIGNAL&lt;/button&gt;&lt;button onclick=&quot;missionCompute(\&#x27;RISK\&#x27;);renderDeepConsole()&quot;&gt;RISK MODEL&lt;/button&gt;&#x27;)+
+ deepCard(&#x27;CREW ASSIGNMENTS&#x27;,G.net.crew.map(c=&gt;kv(c.name,c.job+&#x27; // &#x27;+c.progress+&#x27;%&#x27;)).join(&#x27;&#x27;)+
+ &#x27;&lt;button onclick=&quot;missionCompute(\&#x27;CREW\&#x27;);renderDeepConsole()&quot;&gt;AUTO CREW PLAN&lt;/button&gt;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+}
+function hardlineDeepScreen(){
+ return &#x27;&lt;div class=&quot;deepGrid&quot;&gt;&#x27;+deepCard(&#x27;ROUTING FABRIC&#x27;,kv(&#x27;STRENGTH&#x27;,G.hard.strength+&#x27;%&#x27;)+kv(&#x27;TRACE&#x27;,G.trace+&#x27;%&#x27;)+
+ &#x27;&lt;div class=&quot;routeNodes&quot;&gt;&#x27;+Array.from({length:10},(_,i)=&gt;&#x27;&lt;button onclick=&quot;routeNode(&#x27;+i+&#x27;);renderDeepConsole()&quot;&gt;NODE &#x27;+(i+1)+&#x27;&lt;/button&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;)+
+ deepCard(&#x27;HOSTILE PROCESS&#x27;,kv(&#x27;INVASION&#x27;,G.net.invasion?&#x27;ACTIVE&#x27;:&#x27;CLEAR&#x27;)+&#x27;&lt;button onclick=&quot;purgeInvasion();renderDeepConsole()&quot;&gt;PURGE PROCESS&lt;/button&gt;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+}
+function programDeepScreen(){
+ return &#x27;&lt;div class=&quot;deepGrid&quot;&gt;&#x27;+Object.entries(G.net.powers).map(x=&gt;deepCard(x[0],kv(&#x27;STATE&#x27;,x[1]?&#x27;READY&#x27;:&#x27;LOCKED&#x27;)+(x[1]?&#x27;&lt;button onclick=&quot;usePower(\&#x27;&#x27;+x[0]+&#x27;\&#x27;);renderDeepConsole()&quot;&gt;EXECUTE&lt;/button&gt;&#x27;:&#x27;&#x27;))).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+}
+function systemDeepScreen(){
+ return &#x27;&lt;div class=&quot;deepGrid&quot;&gt;&#x27;+
+ deepCard(&#x27;REACTOR&#x27;,kv(&#x27;CORE&#x27;,G.ship.reactor+&#x27;%&#x27;)+kv(&#x27;HEAT&#x27;,G.heat+&#x27;%&#x27;)+&#x27;&lt;button onclick=&quot;resolveEmergency();renderDeepConsole()&quot;&gt;STABILIZE&lt;/button&gt;&#x27;)+
+ deepCard(&#x27;HULL&#x27;,kv(&#x27;INTEGRITY&#x27;,G.ship.hull+&#x27;%&#x27;)+&#x27;&lt;button onclick=&quot;assignCrew(\&#x27;IRIS\&#x27;,\&#x27;REPAIR SYSTEMS\&#x27;);renderDeepConsole()&quot;&gt;SEND IRIS&lt;/button&gt;&#x27;)+
+ deepCard(&#x27;HARDLINE&#x27;,kv(&#x27;STRENGTH&#x27;,G.hard.strength+&#x27;%&#x27;)+&#x27;&lt;button onclick=&quot;openDeepConsole(\&#x27;HARDLINE_HOME\&#x27;)&quot;&gt;OPEN HARDLINE&lt;/button&gt;&#x27;)+
+ deepCard(&#x27;AI CORE&#x27;,kv(&#x27;LOAD&#x27;,G.net.aiLoad+&#x27;%&#x27;)+kv(&#x27;TOKENS&#x27;,G.net.tokenRate+&#x27;/s&#x27;))+
+ &#x27;&lt;/div&gt;&#x27;;
+}
+function deepCard(title,html){return &#x27;&lt;div class=&quot;deepCard&quot;&gt;&lt;h4&gt;&#x27;+title+&#x27;&lt;/h4&gt;&#x27;+html+&#x27;&lt;/div&gt;&#x27;}
 function renderActions(){
  const p=$(&#x27;primary&#x27;);p.innerHTML=&#x27;&#x27;;const u=$(&#x27;utility&#x27;);u.innerHTML=&#x27;&#x27;;
  if(G.view===&#x27;quiz&#x27;){
@@ -2600,6 +2854,8 @@ function goNext(){
 }
 function advance(a){if(G.step&lt;steps.length&amp;&amp;cur()[2]===a)G.step++}
 function act(a){
+ if(a===&#x27;courseplot&#x27;){openDeepConsole(&#x27;COURSE_HOME&#x27;);return}
+
  if(a===&#x27;courseplot&#x27;){G.view=&#x27;bridge&#x27;;renderFeature();setNote(&#x27;NAVIGATION CONSOLE READY // SELECT A TARGET&#x27;);return}
 
  if(a===&#x27;openJackSeq&#x27;){G.seqMode=&#x27;jack&#x27;;G.challenge=null;setNote(&#x27;NEURAL JACK CHALLENGE OPEN // FOUR STAGES.&#x27;);return render()}
@@ -2664,7 +2920,7 @@ $(&#x27;startBtn&#x27;).onclick=startGame;render();
   &lt;button onclick=&quot;closeTopMissionPanel()&quot;&gt;CLOSE PANEL&lt;/button&gt;
 &lt;/div&gt;
 &lt;div id=&quot;topMissionPanel&quot;&gt;&lt;/div&gt;
-&lt;/body&gt;&lt;/html&gt;"></iframe>
+&lt;div id=&quot;deepConsole&quot;&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
 
 <section id="oneScreenGame">
   <div class="osFrame">
