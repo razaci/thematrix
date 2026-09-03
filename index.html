@@ -68,7 +68,43 @@ footer{position:absolute;left:0;right:0;bottom:0;height:74px;padding:7px 8px cal
 .choiceRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.choice{padding:14px;border:1px solid #35ff8150;border-radius:7px;background:#0a1711;color:#d9ffe7;cursor:pointer}
 .choice.red{border-color:#ff5b6c88;background:#180708}.choice.blue{border-color:#64dfff88;background:#061418}
 #toast{position:absolute;left:50%;bottom:86px;translate:-50% 0;padding:8px 12px;background:#05140deb;border:1px solid #48ff9366;border-radius:6px;font-size:10px;color:#d7ffe4;z-index:40;opacity:0;pointer-events:none;transition:.25s}
+
 #toast.show{opacity:1;transform:translateY(-4px)}
+.citymap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.cityloc{position:relative;min-height:150px;border:1px solid #2fff8050;border-radius:8px;background:linear-gradient(180deg,#0a1711,#030806);padding:10px;cursor:pointer;color:#d9ffe6;text-align:left;overflow:hidden}
+.cityloc.done{border-color:#7affab;background:linear-gradient(180deg,#123220,#061009)}
+.cityloc h4{margin:0 0 6px;color:#82ffb1;font-size:12px}.cityloc p{margin:0;color:#83a990;font-size:9px;line-height:1.45}
+.cityloc .stamp{position:absolute;right:7px;bottom:7px;font-size:8px;color:#61ff9d}
+.cityloc .icon{font-size:30px;display:block;margin-bottom:8px}
+.consoleGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.consoleBtn{min-height:64px;border:1px solid #36ff8244;background:#06110c;color:#bfffd3;border-radius:6px;font-size:10px}
+.consoleBtn.sel{background:#16452a;border-color:#64ffa1}
+.tubeMap{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.tubeNode{aspect-ratio:1;border:1px solid #32ff8150;background:#07130e;color:#bfffd2;border-radius:50%}
+.tubeNode.active{background:#1d5f37;box-shadow:0 0 18px #35ff7750}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;max-width:320px;margin:auto}
+.key{min-height:58px;border:1px solid #35ff824c;background:#07130d;color:#d3ffe1;border-radius:6px;font-size:18px}
+.filmstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.frame{aspect-ratio:1.5;border:1px solid #3dff8650;background:#07110c;color:#bfffd4;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.archiveRack{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.archiveCell{min-height:80px;border:1px solid #34ff8142;background:#06100b;color:#bfffd1;border-radius:6px;padding:7px;font-size:9px}
+@media(max-width:640px){.citymap{grid-template-columns:1fr 1fr}.consoleGrid{grid-template-columns:repeat(3,1fr)}.filmstrip{grid-template-columns:repeat(2,1fr)}}
+.shipmap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.room{min-height:120px;border:1px solid #32ff8145;background:linear-gradient(#0a1711,#040b07);color:#d8ffe5;border-radius:8px;padding:10px;text-align:left}
+.room b{display:block;color:#82ffb1;margin-bottom:5px}.room small{color:#71977f}
+.room.locked{opacity:.35}
+.invgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.invitem{border:1px solid #31ff8045;background:#07110c;border-radius:6px;padding:8px;min-height:72px;font-size:9px}
+.evidenceBoard{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.evidenceNode{border:1px solid #39ff8645;background:#06110c;border-radius:7px;padding:9px;font-size:9px;min-height:68px}
+.evidenceNode.sel{background:#163d26;border-color:#79ffad}
+.travelLane{height:180px;position:relative;border:1px solid #32ff8140;background:radial-gradient(circle at center,#0b2719,#020604 70%);overflow:hidden}
+.travelShip{position:absolute;left:8%;top:50%;translate:0 -50%;font-size:34px;transition:left .4s linear}
+.contact{position:absolute;right:10%;top:35%;font-size:28px;animation:pulseContact 1s infinite alternate}@keyframes pulseContact{to{opacity:.35;transform:scale(.85)}}
+.tracefx{position:absolute;inset:0;pointer-events:none;z-index:19;display:none}
+.tracefx.on{display:block;background:repeating-linear-gradient(90deg,transparent 0 18px,#00ff6610 18px 20px),repeating-linear-gradient(0deg,transparent 0 9px,#00ff660b 9px 10px)}
+.fakebtn{position:absolute;z-index:18;border:1px solid #ff657688;background:#16080a;color:#ffd9de;padding:7px 10px;border-radius:6px;font-size:8px;display:none}
+.crewMeter{height:7px;background:#06110b;border:1px solid #2fff7d35;margin-top:4px}.crewMeter i{display:block;height:100%;background:#3cff8c}
+@media(max-width:640px){.shipmap{grid-template-columns:1fr 1fr}.invgrid{grid-template-columns:1fr 1fr}.evidenceBoard{grid-template-columns:1fr}}
+
+
 .glitch{animation:glitch .12s steps(2) 4}@keyframes glitch{0%{filter:hue-rotate(0) contrast(1)}50%{filter:hue-rotate(70deg) contrast(2);transform:translateX(3px)}100%{filter:hue-rotate(0) contrast(1)}}
 @media(max-width:820px){
  #hud{grid-template-columns:1fr;grid-template-rows:auto 1fr auto;overflow:auto;padding-bottom:4px}
@@ -94,15 +130,16 @@ footer{position:absolute;left:0;right:0;bottom:0;height:74px;padding:7px 8px cal
 <body>
 <div id="app">
 <canvas id="rain"></canvas>
-<div class="scanlines"></div><div class="vignette"></div>
+<div class="scanlines"></div><div class="tracefx" id="tracefx"></div><button id="fakebtn" class="fakebtn">UNKNOWN COMMAND</button><div class="vignette"></div>
 <header>
   <div class="brand">MATRIX: AFTERIMAGE<small>ORIGINAL FAN-INSPIRED INTERACTIVE FICTION</small></div>
+  <button id="storyQuick" onclick="safeOpenStory()" style="margin-right:6px;border:1px solid #39ff8c66;background:#0b1b13;color:#bfffd1;border-radius:5px;padding:5px 7px;font-size:8px;cursor:pointer">STORY</button>
   <div class="stats">
     <div class="chip">HULL <b id="hull">100</b>%</div>
     <div class="chip">POWER <b id="power">83</b>%</div>
     <div class="chip">TRACE <b id="trace">07</b>%</div>
     <div class="chip">FRAGMENTS <b id="frags">0</b>/7</div>
-  </div>
+  </div></div>
 </header>
 
 <div id="hud">
@@ -117,6 +154,7 @@ footer{position:absolute;left:0;right:0;bottom:0;height:74px;padding:7px 8px cal
       <button class="sysbtn" data-panel="construct">CONSTRUCT <small>Jack into simulated spaces</small></button>
     </div>
     <div id="missionBox">Wake the ship. Scan the tunnel. Something is transmitting from a location the map says does not exist.</div>
+<button class="action" style="margin-top:7px" onclick="openTravel()">TRAVEL / ENCOUNTER MODE</button>
   </div>
 </section>
 
@@ -151,12 +189,15 @@ footer{position:absolute;left:0;right:0;bottom:0;height:74px;padding:7px 8px cal
   <h3>CREW / NETWORK</h3>
   <div class="body">
     <div id="crew">
-      <div class="crew"><b>NYX — Operator</b><span>“That signal knows our ship name.”</span></div>
-      <div class="crew"><b>ROOK — Pilot</b><span>Trust 51% · wants to run.</span></div>
-      <div class="crew"><b>VEIL — Unknown</b><span>Identity hash unstable.</span></div>
+      <div class="crew"><b>NYX — Operator</b><span>Signal analyst. Curious, increasingly afraid.</span><div class="crewMeter"><i id="nyxMeter" style="width:50%"></i></div></div>
+      <div class="crew"><b>ROOK — Pilot</b><span>Practical. Wants the Orpheus alive.</span><div class="crewMeter"><i id="rookMeter" style="width:51%"></i></div></div>
+      <div class="crew"><b>VEIL — Unknown</b><span>Memory signature does not match the manifest.</span><div class="crewMeter"><i id="veilMeter" style="width:10%"></i></div></div>
     </div>
     <div class="side-list" style="margin-top:8px">
-      <button class="action" onclick="openStory()">OPEN STORY CHANNEL</button>
+      <button class="action" onclick="safeOpenStory()">OPEN STORY CHANNEL</button>
+      <button class="action" onclick="openShipMap()">EXPLORE ORPHEUS</button>
+      <button class="action" onclick="openEvidence()">EVIDENCE BOARD</button>
+      <button class="action" onclick="openInventory()">INVENTORY / DATA</button>
       <button class="action" onclick="openGuess()">IDENTITY GUESS GAME</button>
       <button class="action" onclick="openTrace()">TRACE TRAP GAME</button>
     </div>
@@ -195,10 +236,44 @@ let state=JSON.parse(localStorage.getItem("afterimageSave")||"null")||{
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
 
 // STORY DIRECTOR — persistent campaign state
-state.story = state.story || {
-  stage:0, xp:0, seenFuture:false, passenger:false, city:false, loop:false,
-  nyx:50, rook:51, veil:10, evidence:[], transmissions:[], ending:null
-};
+if(!state || typeof state!=="object") state={};
+state.story = (state.story && typeof state.story==="object") ? state.story : {};
+Object.assign(state.story, {
+  stage: Number.isFinite(state.story.stage) ? state.story.stage : 0,
+  xp: Number.isFinite(state.story.xp) ? state.story.xp : 0,
+  seenFuture: !!state.story.seenFuture,
+  passenger: !!state.story.passenger,
+  city: !!state.story.city,
+  loop: !!state.story.loop,
+  nyx: Number.isFinite(state.story.nyx) ? state.story.nyx : 50,
+  rook: Number.isFinite(state.story.rook) ? state.story.rook : 51,
+  veil: Number.isFinite(state.story.veil) ? state.story.veil : 10,
+  evidence: Array.isArray(state.story.evidence) ? state.story.evidence : [],
+  transmissions: Array.isArray(state.story.transmissions) ? state.story.transmissions : [],
+  ending: state.story.ending || null
+});
+state.cityGame = (state.cityGame && typeof state.cityGame==="object") ? state.cityGame : {};
+Object.assign(state.cityGame,{
+ hotel:!!state.cityGame.hotel,
+ subway:!!state.cityGame.subway,
+ apartment:!!state.cityGame.apartment,
+ exchange:!!state.cityGame.exchange,
+ theater:!!state.cityGame.theater,
+ archive:!!state.cityGame.archive,
+ keys:Array.isArray(state.cityGame.keys)?state.cityGame.keys:[],
+ glyphs:Array.isArray(state.cityGame.glyphs)?state.cityGame.glyphs:[]
+});
+state.meta = (state.meta && typeof state.meta==="object") ? state.meta : {};
+Object.assign(state.meta,{
+ room:state.meta.room||"bridge",
+ inventory:Array.isArray(state.meta.inventory)?state.meta.inventory:["Orpheus Access Key","Cracked Data Disk"],
+ theories:Array.isArray(state.meta.theories)?state.meta.theories:[],
+ trips:Number.isFinite(state.meta.trips)?state.meta.trips:0,
+ encounters:Number.isFinite(state.meta.encounters)?state.meta.encounters:0,
+ cooldown:Number.isFinite(state.meta.cooldown)?state.meta.cooldown:100
+});
+
+
 const STORY = [
  {title:"CHAPTER 1 — THE SIGNAL", objective:"Wake the Orpheus. SCAN the tunnel, LOCK the relay, then DECODE the impossible transmission."},
  {title:"CHAPTER 2 — THE PASSENGER", objective:"A fourth identity has appeared on the manifest. Run IDENTITY GUESS and reconstruct MEMORY evidence."},
@@ -233,6 +308,10 @@ function sync(){
  $("#trace").textContent=Math.max(0,Math.round(state.trace)).toString().padStart(2,"0");
  $("#frags").textContent=state.frags;
  $("#b1").style.width=Math.max(0,state.power)+"%";
+ if($("#nyxMeter"))$("#nyxMeter").style.width=Math.max(0,Math.min(100,state.story.nyx))+"%";
+ if($("#rookMeter"))$("#rookMeter").style.width=Math.max(0,Math.min(100,state.story.rook))+"%";
+ if($("#veilMeter"))$("#veilMeter").style.width=Math.max(0,Math.min(100,state.story.veil))+"%";
+ applyTraceFX();
  if(state.frags>=7 && !state.story.ending){
   if(state.story.stage<4){state.story.stage=4;state.chapter=5;addLog("LOOP 418: FINAL DECISION AVAILABLE");}
   toast("SEVEN FRAGMENTS RECOVERED — FINAL CHANNEL UNLOCKED");
@@ -245,7 +324,11 @@ function beep(freq=520,dur=.06,type="square"){
 }
 function glitch(){let app=$("#app");app.classList.add("glitch");beep(95,.16,"sawtooth");setTimeout(()=>app.classList.remove("glitch"),550)}
 function closeModal(){$("#overlay").classList.remove("show")}
-function modal(title,html){$("#modalTitle").textContent=title;$("#modalBody").innerHTML=html;$("#overlay").classList.add("show");beep(660,.05)}
+function modal(title,html){
+ let t=$("#modalTitle"), b=$("#modalBody"), o=$("#overlay");
+ if(!t||!b||!o){alert(String(title)+"\n\n"+String(html).replace(/<[^>]+>/g," "));return}
+ t.textContent=title; b.innerHTML=html; o.classList.add("show"); beep(660,.05);
+}
 function setScene(asset,title,alert=""){sceneImg.src=ASSET[asset];$("#sceneTitle").textContent=title;$("#alerts").innerHTML=alert}
 
 function shipAction(a){
@@ -270,8 +353,28 @@ function shipAction(a){
  save();
 }
 
+
+function safeOpenStory(){
+  try{
+    openStory();
+  }catch(err){
+    console.error("Story open failed:",err);
+    modal("STORY CHANNEL — RECOVERY MODE",
+      `<div class="story">
+        <p><strong>Campaign interface recovered.</strong></p>
+        <p>The story system hit an error while loading an older save. Your cockpit remains playable.</p>
+        <p><strong>Current objective:</strong> ${STORY[Math.min((state.story&&state.story.stage)||0,4)].objective}</p>
+        <button class="choice blue" style="width:100%;margin-top:12px" onclick="resetStoryOnly()">RESET STORY STATE</button>
+      </div>`);
+  }
+}
+function resetStoryOnly(){
+  state.story={stage:0,xp:0,seenFuture:false,passenger:false,city:false,loop:false,nyx:50,rook:51,veil:10,evidence:[],transmissions:[],ending:null};
+  state.chapter=1; state.frags=0; state.ending=null;
+  save(); updateDirector(); closeModal(); setTimeout(safeOpenStory,50);
+}
 function openStory(){
- let st=state.story.stage, ev=state.story.evidence.map(x=>"<li>"+x+"</li>").join("");
+ let st=Math.max(0,Math.min(Number(state.story.stage)||0,4)), ev=(state.story.evidence||[]).map(x=>"<li>"+x+"</li>").join("");
  let body="";
  if(st===0) body=`<p><strong>02:17 SHIP TIME.</strong> The Orpheus wakes beneath a dead machine city. Nyx receives a packet encrypted with the ship's private key.</p>
  <p style="font-size:18px;color:#78ffac">ORPHEUS // CREW: 3 // SURVIVORS: 0</p>
@@ -284,7 +387,7 @@ function openStory(){
  else if(st===2) body=`<p>The ghost coordinates lead to a city absent from every machine map. Its streets are being rendered only seconds before the Orpheus observes them.</p>
  <p>Hotel 101. Subway 6. The Empty Apartment. Telephone Exchange. An abandoned theater. <strong>Archive 0.</strong></p>
  <p>A theater screen shows you standing on the Orpheus bridge eleven hours from now. The version of you on-screen turns toward the camera.</p>
- <p>“You took too long this time.”</p><p><strong>Mission:</strong> JACK IN and find the object that does not belong.</p>`;
+ <p>“You took too long this time.”</p><p><strong>Mission:</strong> JACK IN and clear the Impossible City. Hotel 101, Subway 6, Empty Apartment, Telephone Exchange, Theater, and Archive 0 each contain part of Loop One.</p>`;
  else if(st===3) body=`<p><strong>AFTERIMAGE IS NOT PREDICTING THE FUTURE.</strong></p>
  <p>Every choice creates rejected possibilities: words never spoken, doors never opened, routes never taken. Something has been collecting those discarded outcomes.</p>
  <p>The discarded possibilities learned to remember themselves.</p>
@@ -385,13 +488,131 @@ function memoryPick(el,n){
 }
 
 function openConstruct(){
- state.construct=true;state.story.city=true;evidence("Construct 17 is generating memories not scenery");save();setScene("ALLEY","CONSTRUCT 17 — “THE EMPTY STREET”","SIMULATION: 91%<br>AGENT RISK: UNKNOWN");
- modal("CONSTRUCT 17 — VISUAL ANOMALY",`
- <div class="story"><p>The street is generated every seven seconds. One object violates the simulation rules. Find it before the construct resets.</p></div>
- <div class="gamegrid" id="anoms">
- ${["☂","☎","♟","⌚","🜁","🚪","☕","⚙","👁"].map((x,i)=>`<button class="tile ${i===8?'hot':''}" onclick="anom(${i})">${x}</button>`).join("")}
+ state.construct=true;state.story.city=true;evidence("Construct 17 is generating memories not scenery");save();
+ setScene("ALLEY","CONSTRUCT 17 — IMPOSSIBLE CITY","SIMULATION: 91%<br>DISTRICTS: 6");
+ openCityHub();
+}
+function openCityHub(){
+ const done=k=>state.cityGame[k]?"done":"";
+ const mark=k=>state.cityGame[k]?"CLEARED":"ENTER";
+ modal("CHAPTER 3 — THE IMPOSSIBLE CITY",`
+ <div class="story">
+ <p>The city is being rendered only when you observe it. Six locations are stable enough to enter. Clear them to reconstruct what happened in Loop One.</p>
+ </div>
+ <div class="citymap">
+  <button class="cityloc ${done("hotel")}" onclick="cityHotel()"><span class="icon">▣</span><h4>HOTEL 101</h4><p>Room occupancy contradicts the crew manifest. Rebuild the guest registry.</p><span class="stamp">${mark("hotel")}</span></button>
+  <button class="cityloc ${done("subway")}" onclick="citySubway()"><span class="icon">◎</span><h4>SUBWAY 6</h4><p>A train arrives from a station that does not exist. Route it without waking the hunter.</p><span class="stamp">${mark("subway")}</span></button>
+  <button class="cityloc ${done("apartment")}" onclick="cityApartment()"><span class="icon">⌂</span><h4>EMPTY APARTMENT</h4><p>The room contains objects from several different versions of your life.</p><span class="stamp">${mark("apartment")}</span></button>
+  <button class="cityloc ${done("exchange")}" onclick="cityExchange()"><span class="icon">☎</span><h4>TELEPHONE EXCHANGE</h4><p>Connect the dead line to a future call using a signal keypad.</p><span class="stamp">${mark("exchange")}</span></button>
+  <button class="cityloc ${done("theater")}" onclick="cityTheater()"><span class="icon">▰</span><h4>ABANDONED THEATER</h4><p>Reorder impossible film frames until the scene becomes coherent.</p><span class="stamp">${mark("theater")}</span></button>
+  <button class="cityloc ${done("archive")}" onclick="cityArchive()"><span class="icon">◫</span><h4>ARCHIVE 0</h4><p>The archive opens only after three other locations are cleared.</p><span class="stamp">${mark("archive")}</span></button>
  </div>`)
 }
+function cityComplete(key,clue,msg){
+ if(!state.cityGame[key]){
+   state.cityGame[key]=true;
+   evidence(clue);state.frags=Math.min(7,state.frags+1);addLog(msg||("CITY: "+key+" cleared"));
+   save();toast("CITY CLUE RECOVERED");
+ }
+ setTimeout(openCityHub,700)
+}
+function cityHotel(){
+ modal("HOTEL 101 — GUEST REGISTRY",`
+ <div class="story"><p>Four room cards belong to one night. One guest did not physically arrive. Tap the anomalous registry card.</p></div>
+ <div class="consoleGrid">
+  <button class="consoleBtn" onclick="hotelPick(false)">101 · NYX<br>03:10</button>
+  <button class="consoleBtn" onclick="hotelPick(false)">204 · ROOK<br>03:12</button>
+  <button class="consoleBtn" onclick="hotelPick(true)">000 · VEIL<br>00:00</button>
+  <button class="consoleBtn" onclick="hotelPick(false)">318 · YOU<br>03:11</button>
+ </div>`)
+}
+function hotelPick(ok){
+ if(ok) cityComplete("hotel","Hotel 101 lists Veil in Room 000 before the city was generated","HOTEL: Room 000 predates simulation");
+ else{state.trace+=3;save();toast("REGISTRY MATCH — NOT THE ANOMALY")}
+}
+function citySubway(){
+ window.subSeq=[];
+ modal("SUBWAY 6 — ROUTE THE IMPOSSIBLE TRAIN",`
+ <div class="story"><p>Route the train through three safe stations: <strong>2 → 5 → 9</strong>. A wrong node wakes the hunter process.</p></div>
+ <div class="tubeMap">${Array.from({length:10},(_,i)=>`<button class="tubeNode" onclick="subPick(this,${i+1})">${i+1}</button>`).join("")}</div>
+ <p id="substatus" class="story">Route: —</p>`)
+}
+function subPick(el,n){
+ window.subSeq.push(n);el.classList.add("active");$("#substatus").textContent="Route: "+window.subSeq.join(" → ");
+ let t=[2,5,9];
+ if(window.subSeq.length===3){
+  if(window.subSeq.every((x,i)=>x===t[i])) cityComplete("subway","Subway 6 terminates at a station labeled LOOP 1","SUBWAY: terminal LOOP 1 discovered");
+  else{state.trace+=6;save();toast("HUNTER WOKE — TRACE +6");setTimeout(citySubway,500)}
+ }
+}
+function cityApartment(){
+ window.apt=[];
+ const items=[["RED KEY","belongs"],["CHILD PHOTO","false"],["BROKEN WATCH","belongs"],["WHITE COAT","false"],["ORPHEUS BADGE","belongs"],["BLACK UMBRELLA","false"]];
+ modal("EMPTY APARTMENT — MEMORY SORT",`
+ <div class="story"><p>Select the three objects that belong to the same timeline as the Orpheus.</p></div>
+ <div class="consoleGrid">${items.map((x,i)=>`<button class="consoleBtn" onclick="aptPick(this,${i},'${x[1]}')">${x[0]}</button>`).join("")}</div>
+ <button class="choice blue" style="width:100%;margin-top:10px" onclick="aptCheck()">VERIFY TIMELINE</button>`)
+ window.aptItems=items;
+}
+function aptPick(el,i,k){let p=window.apt.indexOf(i);if(p>=0){window.apt.splice(p,1);el.classList.remove("sel")}else{window.apt.push(i);el.classList.add("sel")}}
+function aptCheck(){
+ let good=window.apt.length===3 && window.apt.every(i=>window.aptItems[i][1]==="belongs");
+ if(good)cityComplete("apartment","The apartment contains an Orpheus badge stamped LOOP 417","APARTMENT: Loop 417 badge recovered");
+ else{state.trace+=4;save();toast("MEMORY COLLISION — SORT AGAIN")}
+}
+function cityExchange(){
+ window.phone="";
+ modal("TELEPHONE EXCHANGE — DEAD LINE",`
+ <div class="story"><p>The future call repeats four pulse groups: <strong>4 · 1 · 8 · 0</strong>. Enter the sequence.</p></div>
+ <div id="phoneRead" style="font-size:26px;text-align:center;padding:12px;color:#7affac">—</div>
+ <div class="keypad">${[1,2,3,4,5,6,7,8,9,0].map(n=>`<button class="key" onclick="phoneKey(${n})">${n}</button>`).join("")}</div>`)
+}
+function phoneKey(n){
+ window.phone+=n;$("#phoneRead").textContent=window.phone;
+ if(window.phone.length===4){
+   if(window.phone==="4180")cityComplete("exchange","A dead phone line carries the phrase: THIS IS LOOP 418","EXCHANGE: future caller identified loop number");
+   else{state.trace+=4;save();toast("LINE REJECTED");setTimeout(cityExchange,450)}
+ }
+}
+function cityTheater(){
+ window.frames=[];
+ const labels=["YOU WAKE","VEIL ARRIVES","CITY EXISTS","ORPHEUS DIES"];
+ modal("ABANDONED THEATER — EDIT THE FUTURE",`
+ <div class="story"><p>Tap the film frames in causal order. The screen shows events that have not all happened yet.</p></div>
+ <div class="filmstrip">${labels.map((x,i)=>`<button class="frame" onclick="filmPick(this,${i})">${i+1}<br><small>${x}</small></button>`).join("")}</div>
+ <p id="filmstat" class="story">Cut: —</p>`)
+}
+function filmPick(el,i){
+ if(window.frames.includes(i))return;window.frames.push(i);el.classList.add("sel");$("#filmstat").textContent="Cut: "+window.frames.map(x=>x+1).join(" → ");
+ if(window.frames.length===4){
+   let good=[0,1,2,3].every((x,j)=>window.frames[j]===x);
+   if(good)cityComplete("theater","The theater shows your death before the city is created","THEATER: future scene verified");
+   else{state.trace+=5;save();toast("BAD CUT — FILM RESETS");setTimeout(cityTheater,500)}
+ }
+}
+function cityArchive(){
+ let cleared=["hotel","subway","apartment","exchange","theater"].filter(k=>state.cityGame[k]).length;
+ if(cleared<3){toast("ARCHIVE LOCKED — CLEAR 3 LOCATIONS");return}
+ modal("ARCHIVE 0 — REJECTED FUTURES",`
+ <div class="story"><p>The archive contains discarded outcomes. Open the three files whose labels contradict reality.</p></div>
+ <div class="archiveRack">
+  <button class="archiveCell" onclick="arcPick(this,true)">FILE 000<br>ORPHEUS NEVER LAUNCHED</button>
+  <button class="archiveCell" onclick="arcPick(this,false)">FILE 104<br>NYX MAINTENANCE LOG</button>
+  <button class="archiveCell" onclick="arcPick(this,true)">FILE 417<br>YOU DESTROY AFTERIMAGE</button>
+  <button class="archiveCell" onclick="arcPick(this,false)">FILE 203<br>SUBWAY MAP</button>
+  <button class="archiveCell" onclick="arcPick(this,true)">FILE 418<br>VEIL REMEMBERS LOOP ONE</button>
+  <button class="archiveCell" onclick="arcPick(this,false)">FILE 302<br>SHIP INVENTORY</button>
+ </div>
+ <p id="arcstat" class="story">Contradictions found: 0 / 3</p>`)
+ window.arcCount=0;window.arcSeen=new Set();
+}
+function arcPick(el,good){
+ if(window.arcSeen.has(el))return;window.arcSeen.add(el);
+ if(good){window.arcCount++;el.classList.add("sel");$("#arcstat").textContent="Contradictions found: "+window.arcCount+" / 3";
+   if(window.arcCount===3){state.story.loop=true;if(state.story.stage<3)storyStage(3,"ARCHIVE 0: LOOP 418 CONFIRMED");cityComplete("archive","Archive 0 proves AFTERIMAGE stores rejected futures","ARCHIVE: rejected futures exposed")}
+ }else{state.trace+=3;save();toast("ORDINARY FILE")}
+}
+
 function anom(i){
  if(i===8){state.frags=Math.min(7,state.frags+1);state.trace+=3;save();toast("ANOMALY CAPTURED — IT LOOKED BACK");addLog("CONSTRUCT: observer object isolated");setTimeout(closeModal,700)}
  else{state.trace+=4;save();toast("FALSE POSITIVE")}
@@ -426,11 +647,128 @@ function trap(i){
  save()
 }
 
-$$(".sysbtn").forEach(b=>b.onclick=()=>{
+$$(".sysbtn").forEach(b=>b.onclick=(ev)=>{ ev.preventDefault(); ev.stopPropagation();
  $$(".sysbtn").forEach(x=>x.classList.remove("active"));b.classList.add("active");
- ({mission:openStory,nav:openNav,signal:openSignal,memory:openMemory,construct:openConstruct}[b.dataset.panel])();
+ ({mission:safeOpenStory,nav:openNav,signal:openSignal,memory:openMemory,construct:openConstruct}[b.dataset.panel])();
 });
 
+
+function applyTraceFX(){
+ const fx=$("#tracefx"), fb=$("#fakebtn"); if(!fx||!fb)return;
+ if(state.trace>=50) fx.classList.add("on"); else fx.classList.remove("on");
+ if(state.trace>=72){
+   fb.style.display="block";
+   fb.style.left=(8+Math.random()*70)+"%"; fb.style.top=(12+Math.random()*65)+"%";
+   fb.textContent=["PLAYER IS NOT CREW","OPEN DOOR 000","VEIL AUTHORIZED","PURGE MEMORY","WHO IS PRESSING?"][Math.floor(Math.random()*5)];
+ }else fb.style.display="none";
+ if(state.trace>=90 && Math.random()<.25){ $("#sceneTitle").textContent="FORWARD VIEW — ORPHEUS // LOOP "+(418+Math.floor(Math.random()*3)); }
+}
+
+function openShipMap(){
+ const rooms=[
+ ["bridge","BRIDGE","Flight, radar, mission control",true],
+ ["operator","OPERATOR PIT","Signal analysis and code rain",true],
+ ["engine","ENGINE CORE","Power and coolant routing",true],
+ ["construct","CONSTRUCT CHAMBER","Jack-in systems and city access",true],
+ ["quarters","CREW QUARTERS","Personal evidence and trust events",true],
+ ["medbay","MEDICAL BAY","Crew stabilization and memory scans",state.frags>=2],
+ ["cargo","CARGO HOLD","Inventory cache and sealed containers",state.story.stage>=2],
+ ["sealed","SEALED ROOM 000","Nobody remembers building it",state.cityGame.archive||state.frags>=5]
+ ];
+ modal("ORPHEUS — DECK MAP",`<div class="story"><p>Move through the ship. Rooms can reveal systems, inventory, trust events and hidden evidence.</p></div>
+ <div class="shipmap">${rooms.map(r=>`<button class="room ${r[3]?"":"locked"}" ${r[3]?`onclick="enterRoom('${r[0]}')"`:"disabled"}><b>${r[1]}</b><small>${r[2]}</small></button>`).join("")}</div>`)
+}
+function enterRoom(r){
+ state.meta.room=r;save();
+ const data={
+ bridge:["BRIDGE","The forward viewport hums. Rook keeps one hand on THRUST and one on the manual disconnect.","bridge"],
+ operator:["OPERATOR PIT","Columns of green symbols descend over Nyx's face. One column is moving upward.","operator"],
+ engine:["ENGINE CORE","The core is stable, but a secondary conduit is drawing power for a room not on the original schematics.","engine"],
+ construct:["CONSTRUCT CHAMBER","Six neural chairs sit in a circle. There are only four crew harnesses.","construct"],
+ quarters:["CREW QUARTERS","Veil's bunk contains folded clothes, a cup still warm, and a photograph none of you remember taking.","quarters"],
+ medbay:["MEDICAL BAY","A memory scan reports four active human-pattern signatures and one observer-pattern signature.","medbay"],
+ cargo:["CARGO HOLD","A sealed black case is stamped: ORPHEUS / LOOP 417 / DO NOT OPEN.","cargo"],
+ sealed:["ROOM 000","The door opens onto a tiny room containing a single chair facing a monitor. The monitor reads: PLAYER.","sealed"]
+ };
+ let d=data[r];
+ let extras="";
+ if(r==="operator") extras=`<button class="choice blue" style="width:100%" onclick="roomAction('operator')">TRACE THE UPWARD COLUMN</button>`;
+ if(r==="engine") extras=`<button class="choice blue" style="width:100%" onclick="roomAction('engine')">REROUTE UNKNOWN POWER DRAW</button>`;
+ if(r==="quarters") extras=`<button class="choice blue" style="width:100%" onclick="roomAction('quarters')">SEARCH VEIL'S BUNK</button>`;
+ if(r==="medbay") extras=`<button class="choice blue" style="width:100%" onclick="roomAction('medbay')">RUN MEMORY SIGNATURE SCAN</button>`;
+ if(r==="cargo") extras=`<button class="choice red" style="width:100%" onclick="roomAction('cargo')">OPEN LOOP 417 CASE</button>`;
+ if(r==="sealed") extras=`<button class="choice red" style="width:100%" onclick="roomAction('sealed')">SIT IN THE CHAIR</button>`;
+ modal("ORPHEUS — "+d[0],`<div class="story"><p>${d[1]}</p>${extras}<button class="choice" style="width:100%;margin-top:8px" onclick="openShipMap()">RETURN TO DECK MAP</button></div>`)
+}
+function roomAction(r){
+ const once="room_"+r;
+ if(state.meta.inventory.includes(once)){toast("NOTHING NEW HERE");return}
+ state.meta.inventory.push(once);
+ if(r==="operator"){evidence("A code column moves backward and spells PLAYER");state.story.nyx+=5;state.trace+=4}
+ if(r==="engine"){evidence("Unknown power conduit feeds Room 000");state.power+=5;state.story.rook+=4}
+ if(r==="quarters"){evidence("Veil owns a photograph dated before the Orpheus launched");state.story.veil+=7;state.meta.inventory.push("Impossible Crew Photograph")}
+ if(r==="medbay"){evidence("Observer-pattern signature is not attached to any crew body");state.meta.inventory.push("Observer Scan")}
+ if(r==="cargo"){evidence("Loop 417 case contains your own access key");state.trace+=8;state.meta.inventory.push("Loop 417 Access Key")}
+ if(r==="sealed"){evidence("Room 000 monitor identifies the external PLAYER");state.trace+=10;state.story.loop=true;state.meta.inventory.push("PLAYER Mark")}
+ save();sync();toast("SHIP EVIDENCE ACQUIRED")
+}
+
+function openInventory(){
+ const items=state.meta.inventory.filter(x=>!x.startsWith("room_"));
+ modal("INVENTORY / DATA DECK",`<div class="story"><p>Physical objects and recovered data persist between locations.</p></div>
+ <div class="invgrid">${items.map(x=>`<div class="invitem"><b>${x}</b><br><span style="color:#6e9a7f">Persistent item</span></div>`).join("")||"<p>No items.</p>"}</div>`)
+}
+
+function openEvidence(){
+ window.evSel=[];
+ modal("EVIDENCE BOARD — BUILD A THEORY",`<div class="story"><p>Select two evidence nodes you believe are connected, then TEST THEORY.</p></div>
+ <div class="evidenceBoard">${(state.story.evidence||[]).map((x,i)=>`<button class="evidenceNode" onclick="evPick(this,${i})">${x}</button>`).join("")||"<p>No evidence yet.</p>"}</div>
+ <button class="choice blue" style="width:100%;margin-top:10px" onclick="testTheory()">TEST THEORY</button>
+ <p id="theoryOut" class="story"></p>`)
+}
+function evPick(el,i){
+ let p=window.evSel.indexOf(i); if(p>=0){window.evSel.splice(p,1);el.classList.remove("sel")}
+ else if(window.evSel.length<2){window.evSel.push(i);el.classList.add("sel")}
+}
+function testTheory(){
+ if(window.evSel.length!==2){toast("SELECT TWO EVIDENCE NODES");return}
+ let a=state.story.evidence[window.evSel[0]],b=state.story.evidence[window.evSel[1]];
+ let txt=(a+" "+b).toLowerCase(),result="";
+ if(txt.includes("loop") || (txt.includes("future")&&txt.includes("voice"))) result="THEORY ACCEPTED: the Orpheus is receiving information from prior or discarded timelines.";
+ else if(txt.includes("veil")) result="THEORY PLAUSIBLE: Veil existed before the current crew memory state.";
+ else result="THEORY UNRESOLVED: connection is possible, but evidence is insufficient.";
+ $("#theoryOut").textContent=result;state.meta.theories.push(result);state.story.nyx+=2;save();sync()
+}
+
+function openTravel(){
+ modal("ORPHEUS — TRAVEL / ENCOUNTER",`<div class="story"><p>Travel burns power and can trigger contacts. Choose a destination.</p></div>
+ <div class="choiceRow">
+ <button class="choice blue" onclick="travelTo('ghost')"><b>GHOST COORDINATE</b><br><small>Impossible City vector</small></button>
+ <button class="choice" onclick="travelTo('wreck')"><b>DERELICT SIGNAL</b><br><small>Unknown hovercraft wreck</small></button>
+ <button class="choice" onclick="travelTo('deep')"><b>DEEP TUNNEL</b><br><small>Low signal, high uncertainty</small></button>
+ <button class="choice red" onclick="travelTo('machine')"><b>MACHINE CORRIDOR</b><br><small>High contact probability</small></button>
+ </div>`)
+}
+function travelTo(dest){
+ if(state.power<10){toast("INSUFFICIENT POWER");return}
+ state.power-=8;state.meta.trips++;save();
+ modal("IN TRANSIT — "+dest.toUpperCase(),`<div class="travelLane"><div class="travelShip" id="travelShip">▶</div><div class="contact" id="travelContact">●</div></div>
+ <div class="story"><p id="travelText">The Orpheus enters the tunnel...</p></div>
+ <div class="choiceRow"><button class="choice blue" onclick="encounterAction('scan','${dest}')">SCAN CONTACT</button><button class="choice" onclick="encounterAction('evade','${dest}')">EVADE</button></div>`)
+ setTimeout(()=>{let sh=$("#travelShip");if(sh)sh.style.left="62%";},80)
+}
+function encounterAction(a,dest){
+ state.meta.encounters++;
+ if(a==="scan"){
+   state.trace+=5; evidence("Travel contact at "+dest+" carries Orpheus-compatible telemetry");
+   if(dest==="wreck"){state.meta.inventory.push("Derelict Black Box");state.story.rook+=3;$("#travelText").textContent="Scan resolves a wrecked Orpheus-class craft. Its black box carries your current encryption key."}
+   else if(dest==="machine"){state.hull-=8;$("#travelText").textContent="Sentinel cluster reacts to the scan. Hull grazed during emergency turn."}
+   else $("#travelText").textContent="Contact resolves into a duplicated ship signature that vanishes when targeted.";
+ }else{
+   state.power-=4;state.story.rook+=4;$("#travelText").textContent="Rook kills the lights and rides the tunnel wall. The contact passes without lock.";
+ }
+ save();sync();addLog("TRAVEL: encounter resolved");toast("ENCOUNTER COMPLETE")
+}
 function drawRain(){
  const c=$("#rain"),ctx=c.getContext("2d");let w=c.width=innerWidth*devicePixelRatio,h=c.height=innerHeight*devicePixelRatio;
  let fs=14*devicePixelRatio,cols=Math.floor(w/fs),drops=Array(cols).fill(1);
@@ -448,7 +786,9 @@ function radarLoop(){
  ctx.strokeStyle="#58ff9a";ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(t)*r,cy+Math.sin(t)*r);ctx.stroke();
  [[.6,.2],[-.45,.4],[.1,-.7]].forEach((p,j)=>{ctx.fillStyle=j===0?"#ffd86d":"#57ff9b";ctx.beginPath();ctx.arc(cx+p[0]*r,cy+p[1]*r,3,0,7);ctx.fill()});t+=.035;requestAnimationFrame(d)}d()
 }
-drawRain();radarLoop();sync();updateDirector();addLog("ORPHEUS deck online");addLog("Unknown future packet detected");
+drawRain();radarLoop();sync();
+try{updateDirector()}catch(e){console.error(e)}
+addLog("ORPHEUS deck online");addLog("Unknown future packet detected");addLog("Deck map, evidence board and travel systems online");
 addEventListener("resize",()=>{});
 </script>
 </body></html>
