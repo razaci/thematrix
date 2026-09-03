@@ -198,8 +198,8 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
    <div class="startStep"><b>2. Play</b>Solve puzzles, hack networks, collect programs, and survive encounters.</div>
    <div class="startStep"><b>3. Advance</b>The yellow guide always shows the next required action.</div>
   </div>
-  <button class="startPrimary" id="startGameBtn">START THE CAMPAIGN</button>
-  <button class="startSecondary" id="continueGameBtn">CONTINUE SAVED GAME</button>
+  <button class="startPrimary" id="startGameBtn" type="button">START THE CAMPAIGN</button>
+  <button class="startSecondary" id="continueGameBtn" type="button">CONTINUE SAVED GAME</button>
   <div class="startNote">Tip: If you are ever unsure what to do, press the yellow ADVANCE NEXT button.</div>
  </div>
 </div>
@@ -250,7 +250,7 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
   <div class="card"><h3>Crew Interludes</h3><p>After major missions, resolve a shipboard event before continuing.</p><div id="interludePanel"></div></div>
  </div>
 </section>
-<section class="stage active" id="stage0">
+<section class="stage active" id="stage0"><div id="storyCheckpoint_deck"></div>
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzA2MTMwZCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAwMWIyYSIvPjwvbGluZWFyR3JhZGllbnQ+CjxmaWx0ZXIgaWQ9ImdsIj48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSI2Ii8+PC9maWx0ZXI+PC9kZWZzPgo8cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idXJsKCNnKSIvPgo8ZyBzdHJva2U9IiM0M2ZmOWMiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii42NSI+CjxwYXRoIGQ9Ik04MCAzNTAgTDI1MCAxODAgTDY1MCAxODAgTDgyMCAzNTAgTDY1MCA0MTAgTDI1MCA0MTAgWiIgc3Ryb2tlLXdpZHRoPSI2Ii8+CjxwYXRoIGQ9Ik0yNzAgMTk1IEwzNDAgOTAgTDU2MCA5MCBMNjMwIDE5NSIgc3Ryb2tlLXdpZHRoPSI1Ii8+CjxwYXRoIGQ9Ik0zNzAgMTMwaDE2ME0yMDAgMzMwaDUwME0yOTAgMjYwaDMyME00NTAgOTB2MzIwIiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9Ii41Ii8+CjwvZz4KPGcgZmlsbD0iIzQzZmY5YyI+CjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iMjUiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjYwIiBmaWxsPSJub25lIiBzdHJva2U9IiM0M2ZmOWMiIHN0cm9rZS13aWR0aD0iMyIvPgo8Y2lyY2xlIGN4PSIxODAiIGN5PSIzNjUiIHI9IjEwIi8+PGNpcmNsZSBjeD0iNzIwIiBjeT0iMzY1IiByPSIxMCIvPgo8L2c+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNzdmZmMwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjI0Ij5NTkVNT1NZTkUgLy8gU0lHTkFMIERFQ0s8L3RleHQ+Cjwvc3ZnPg=="><div class="heroText"><div class="kicker">CHAPTER I // THE SIGNAL DECK</div><h2>THE SKY WAS REWRITTEN.<br>THE CODE NOTICED.</h2><p>Weeks after Neo and Trinity reclaimed their power inside the simulation, impossible messages begin arriving aboard the Mnemosyne. They contain memories belonging to people who were never born.</p><button class="action pulse" id="jackIn">JACK INTO THE AFTERIMAGE</button></div></div>
  <div class="grid">
   <div class="card"><h3>Signal Diagnostic</h3><p>Triangulate the ghost transmission. Each scan raises Trace; correct frequencies reveal a hidden speaker.</p><div id="signalButtons"></div></div>
@@ -386,7 +386,7 @@ $('#soundBtn').onclick=()=>{G.sound=!G.sound;$('#soundBtn').textContent='SND '+(
 $('#ngPlusBtn').onclick=()=>{
  if(!G.ending){toast('COMPLETE AN ENDING FIRST');return}
  const keep={ngplus:(G.ngplus||0)+1,ownedPrograms:[...(G.ownedPrograms||[])],secretScore:(G.secretScore||0)+1};
- localStorage.removeItem('matrixAfterimage');G=clone(fresh);Object.assign(G,keep);G.insight=2;G.code=10;
+ localStorage.removeItem('matrixAfterimage');try{G=structuredClone(fresh)}catch(e){G=JSON.parse(JSON.stringify(fresh))}Object.assign(G,keep);G.insight=2;G.code=10;
  save();location.reload();
 };
 $('#resetBtn').onclick=()=>{if(confirm('Erase this run and restart the Afterimage?')){localStorage.removeItem('matrixAfterimage');location.reload()}}
@@ -763,28 +763,51 @@ function showStartScreen(){
  const ss=$('#startScreen');if(ss)ss.classList.remove('hidden');
 }
 function beginCampaign(freshStart=false){
- if(freshStart){
-   // Keep current save structure but reset progression cleanly.
-   const keepNg=G.ngplus||0;
-   const keepPrograms=G.ngplus>0?[...(G.ownedPrograms||[])]:undefined;
-   G=clone(fresh);
-   if(keepNg){G.ngplus=keepNg;if(keepPrograms)G.ownedPrograms=keepPrograms}
- }
- G.started=true;
- save();
- hideStartScreen();
- go(Math.min(G.stage||0,4));
- renderAllStoryCheckpoints();
- updateHud();
- updateGuide();
- setTimeout(()=>{
-   const key=storyKeyForStage(currentStageNumber());
-   if(key&&!G.storyPagesComplete[key]){
-     const box=$('#storyCheckpoint_'+key);
-     if(box)box.scrollIntoView({behavior:'smooth',block:'start'});
+ try{
+   if(freshStart){
+     const keepNg=Number(G.ngplus||0);
+     const keepPrograms=keepNg>0?[...(G.ownedPrograms||[])]:null;
+     try{localStorage.removeItem('matrixAfterimage')}catch(e){}
+     try{G=structuredClone(fresh)}catch(e){G=JSON.parse(JSON.stringify(fresh))}
+     if(keepNg>0){
+       G.ngplus=keepNg;
+       if(keepPrograms)G.ownedPrograms=keepPrograms;
+     }
    }
- },120);
- toast('CAMPAIGN STARTED');
+   G.started=true;
+   save();
+   hideStartScreen();
+
+   // Force a clean, visible chapter-one/main-stage state.
+   const target=Math.max(0,Math.min(Number(G.stage)||0,4));
+   if(typeof go==='function')go(target);
+   else{
+     document.querySelectorAll('.stage').forEach(x=>x.classList.remove('active'));
+     const st=document.getElementById('stage'+target);
+     if(st)st.classList.add('active');
+   }
+
+   if(typeof renderAllStoryCheckpoints==='function')renderAllStoryCheckpoints();
+   if(typeof updateHud==='function')updateHud();
+   if(typeof updateGuide==='function')updateGuide();
+
+   setTimeout(()=>{
+     const key=(typeof storyKeyForStage==='function')?storyKeyForStage(target):'deck';
+     const box=document.getElementById('storyCheckpoint_'+key);
+     if(box)box.scrollIntoView({behavior:'smooth',block:'start'});
+   },80);
+
+   if(typeof toast==='function')toast('CAMPAIGN STARTED');
+ }catch(err){
+   console.error('CAMPAIGN START ERROR',err);
+   hideStartScreen();
+   document.querySelectorAll('.stage').forEach(x=>x.classList.remove('active'));
+   const st=document.getElementById('stage0');
+   if(st)st.classList.add('active');
+   if(typeof renderAllStoryCheckpoints==='function')renderAllStoryCheckpoints();
+   const box=document.getElementById('storyCheckpoint_deck');
+   if(box)box.scrollIntoView({behavior:'smooth',block:'start'});
+ }
 }
 
 // PERMANENT SHIP HUB + ADVANCE NEXT GUIDE
@@ -1559,5 +1582,19 @@ if(G.started) hideStartScreen(); else showStartScreen();
 if($('#continueGameBtn')&&!localStorage.getItem('matrixAfterimage'))$('#continueGameBtn').textContent='NO SAVE YET — START NEW';
 if(G.ngplus>0&&$('#ngEcho'))$('#ngEcho').innerHTML='<br><b>ECHO:</b> I remember you.';updateObjectives();updateGuide();
 })();
+
+// FINAL START-SCREEN BINDING: runs after all game functions exist.
+(function bindCampaignStart(){
+ const bind=()=>{
+   const start=document.getElementById('startGameBtn');
+   const cont=document.getElementById('continueGameBtn');
+   if(start)start.onclick=(e)=>{e.preventDefault();beginCampaign(true)};
+   if(cont)cont.onclick=(e)=>{e.preventDefault();beginCampaign(!localStorage.getItem('matrixAfterimage'))};
+ };
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});
+ else bind();
+ window.beginCampaign=beginCampaign;
+})();
+
 </script>
 </body></html>
