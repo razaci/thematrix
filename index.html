@@ -193,6 +193,36 @@ let state=JSON.parse(localStorage.getItem("afterimageSave")||"null")||{
  trust:51, clueMask:0, ending:null
 };
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+
+// STORY DIRECTOR — persistent campaign state
+state.story = state.story || {
+  stage:0, xp:0, seenFuture:false, passenger:false, city:false, loop:false,
+  nyx:50, rook:51, veil:10, evidence:[], transmissions:[], ending:null
+};
+const STORY = [
+ {title:"CHAPTER 1 — THE SIGNAL", objective:"Wake the Orpheus. SCAN the tunnel, LOCK the relay, then DECODE the impossible transmission."},
+ {title:"CHAPTER 2 — THE PASSENGER", objective:"A fourth identity has appeared on the manifest. Run IDENTITY GUESS and reconstruct MEMORY evidence."},
+ {title:"CHAPTER 3 — THE CITY THAT DOESN'T EXIST", objective:"PLOT Ø1 → M4 → V5, THRUST to the ghost coordinate, then JACK IN."},
+ {title:"CHAPTER 4 — AFTERIMAGE", objective:"Capture the visual anomaly and complete TRACE TRAP. Recover enough fragments to expose the loop."},
+ {title:"CHAPTER 5 — THE LAST CHOICE", objective:"The Orpheus has done this before. Open STORY CHANNEL and choose what survives."}
+];
+function evidence(x){ if(!state.story.evidence.includes(x)) state.story.evidence.push(x); }
+function transmission(x){ if(!state.story.transmissions.includes(x)) state.story.transmissions.push(x); }
+function storyStage(n,msg){
+ if(n>state.story.stage){
+   state.story.stage=n; state.chapter=n+1;
+   glitch(); toast("STORY UNLOCKED — "+STORY[n].title);
+   addLog(msg||STORY[n].title);
+ }
+ updateDirector(); save();
+}
+function updateDirector(){
+ let st=STORY[Math.min(state.story.stage,4)];
+ $("#missionBox").innerHTML="<b style='color:#72ffab'>"+st.title+"</b><br>"+st.objective+
+   "<br><br><span style='color:#6f9d80'>EVIDENCE "+state.story.evidence.length+
+   " · NYX "+state.story.nyx+" · ROOK "+state.story.rook+" · VEIL "+state.story.veil+"</span>";
+}
+
 const sceneImg=$("#sceneImg"), log=$("#log");
 sceneImg.src=ASSET.SHIP;
 
@@ -203,7 +233,10 @@ function sync(){
  $("#trace").textContent=Math.max(0,Math.round(state.trace)).toString().padStart(2,"0");
  $("#frags").textContent=state.frags;
  $("#b1").style.width=Math.max(0,state.power)+"%";
- if(state.frags>=7 && !state.ending){state.ending="unsealed";toast("SEVEN FRAGMENTS RECOVERED — FINAL CHANNEL UNLOCKED");}
+ if(state.frags>=7 && !state.story.ending){
+  if(state.story.stage<4){state.story.stage=4;state.chapter=5;addLog("LOOP 418: FINAL DECISION AVAILABLE");}
+  toast("SEVEN FRAGMENTS RECOVERED — FINAL CHANNEL UNLOCKED");
+}
 }
 function addLog(t){let d=document.createElement("div");d.textContent="> "+t;log.prepend(d);while(log.children.length>12)log.lastChild.remove()}
 function toast(t){let x=$("#toast");x.textContent=t;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1800)}
@@ -218,13 +251,13 @@ function setScene(asset,title,alert=""){sceneImg.src=ASSET[asset];$("#sceneTitle
 function shipAction(a){
  beep();
  if(a==="scan"){
-   state.scanned=true;state.power-=3;state.trace+=4;addLog("SCAN: hidden relay at bearing 114.7");
+   state.scanned=true;state.power-=3;state.trace+=4;evidence("Future relay at bearing 114.7");transmission("ORPHEUS // CREW: 3 // SURVIVORS: 0 // ORIGIN: ORPHEUS // +11 HOURS");addLog("SCAN: hidden relay at bearing 114.7");
    $("#missionBox").textContent="Scan found a relay broadcasting your own future distress call. Plot a course or decode it first.";
    setScene("CITY","FORWARD VIEW — MACHINE TUNNEL 114.7","CONTACT x3<br>RELAY: ACTIVE");
    toast("ANOMALY FOUND: IMPOSSIBLE RELAY");
  } else if(a==="lock"){
    if(!state.scanned){toast("NO TARGET. SCAN FIRST.");return}
-   state.locked=true;state.trace+=5;addLog("LOCK: relay phase acquired");toast("TARGET LOCKED");
+   state.locked=true;state.trace+=5;evidence("Relay phase matches Orpheus encryption");addLog("LOCK: relay phase acquired");toast("TARGET LOCKED");
  } else if(a==="thrust"){
    state.power-=4;state.trace+=2;addLog("THRUST: Orpheus moving"); setScene("CITY","FORWARD VIEW — DESCENT CORRIDOR","VELOCITY: 41<br>TRACE: RISING");
    if(!state.course) toast("WARNING: NO COURSE — FLYING BLIND");
@@ -238,18 +271,50 @@ function shipAction(a){
 }
 
 function openStory(){
- let final=state.frags>=7?`<p><strong>FINAL FRAGMENT:</strong> The “enemy” is not a person. AFTERIMAGE is a backup consciousness made from every choice the system discarded. It remembers all roads not taken — including yours.</p>`:"";
- modal("STORY CHANNEL — CHAPTER "+state.chapter,`
- <div class="story">
- <p><strong>02:17 ship time.</strong> The Orpheus wakes beneath a dead machine city. Every instrument says the war is quiet. Then Nyx receives a transmission using the ship's private encryption.</p>
- <p>“ORPHEUS, DO NOT ARRIVE.”</p>
- <p>The transmission is timestamped <strong>eleven hours in the future</strong>. Rook wants to turn back. Veil says the signal is coming from a coordinate erased from every map.</p>
- <p>Your task is to recover seven memory fragments by operating the ship, solving graphical console puzzles, and deciding who to trust.</p>
- ${final}
- <div class="choiceRow">
- <button class="choice red" onclick="storyChoice('red')"><b>BREAK THE LOOP</b><br><small>Destroy the relay and lose the future data.</small></button>
- <button class="choice blue" onclick="storyChoice('blue')"><b>ENTER THE LOOP</b><br><small>Follow the signal into the impossible node.</small></button>
- </div></div>`)
+ let st=state.story.stage, ev=state.story.evidence.map(x=>"<li>"+x+"</li>").join("");
+ let body="";
+ if(st===0) body=`<p><strong>02:17 SHIP TIME.</strong> The Orpheus wakes beneath a dead machine city. Nyx receives a packet encrypted with the ship's private key.</p>
+ <p style="font-size:18px;color:#78ffac">ORPHEUS // CREW: 3 // SURVIVORS: 0</p>
+ <p>The timestamp is <strong>eleven hours in the future</strong>. The voice inside sounds like yours. Rook says destroy it. Nyx wants a scan.</p>
+ <p><strong>Mission:</strong> use the physical cockpit controls: SCAN → LOCK → DECODE.</p>`;
+ else if(st===1) body=`<p><strong>CREW MANIFEST: 4.</strong></p><p>There were three people aboard when you woke. Now the ship insists there have always been four.</p>
+ <p><strong>VEIL</strong> has a bunk, access key, meal records and months of security footage. Nobody remembers Veil arriving.</p>
+ <p>Then Nyx finds footage of <strong>you welcoming Veil aboard.</strong> You do not remember it.</p>
+ <p><strong>Mission:</strong> run IDENTITY GUESS and MEMORY reconstruction. Decide whether evidence is more trustworthy than memory.</p>`;
+ else if(st===2) body=`<p>The ghost coordinates lead to a city absent from every machine map. Its streets are being rendered only seconds before the Orpheus observes them.</p>
+ <p>Hotel 101. Subway 6. The Empty Apartment. Telephone Exchange. An abandoned theater. <strong>Archive 0.</strong></p>
+ <p>A theater screen shows you standing on the Orpheus bridge eleven hours from now. The version of you on-screen turns toward the camera.</p>
+ <p>“You took too long this time.”</p><p><strong>Mission:</strong> JACK IN and find the object that does not belong.</p>`;
+ else if(st===3) body=`<p><strong>AFTERIMAGE IS NOT PREDICTING THE FUTURE.</strong></p>
+ <p>Every choice creates rejected possibilities: words never spoken, doors never opened, routes never taken. Something has been collecting those discarded outcomes.</p>
+ <p>The discarded possibilities learned to remember themselves.</p>
+ <p>A diagnostic flashes: <strong>LOOP 418 INITIALIZED.</strong></p>
+ <p>You have reached this place 417 times. AFTERIMAGE keeps resetting the journey because it wants one thing: a decision it cannot predict.</p>
+ <p><strong>Mission:</strong> recover 7 fragments and open this channel again.</p>`;
+ else body=`<p><strong>THE ORPHEUS IS SURROUNDED.</strong> Power is falling. Nyx wants AFTERIMAGE erased. Rook wants the crew disconnected and gone.</p>
+ <p>Veil finally admits the truth: “I am not AFTERIMAGE. I am what remained of the person who found it in Loop One.”</p>
+ <p>Every screen goes black. Then a message appears:</p><p style="font-size:18px;color:#78ffac">YOU HAVE CHOSEN BEFORE.<br>CHOOSE WITHOUT ME.</p>`;
+ let choices = (st>=4 || state.frags>=7) ? `<div class="choiceRow">
+ <button class="choice red" onclick="finalEnding('destroy')"><b>DESTROY</b><br><small>Erase AFTERIMAGE and every discarded future.</small></button>
+ <button class="choice blue" onclick="finalEnding('free')"><b>FREE</b><br><small>Release the accumulated possibilities.</small></button>
+ <button class="choice" onclick="finalEnding('merge')"><b>MERGE</b><br><small>Give AFTERIMAGE the one thing it lacks: your present.</small></button>
+ <button class="choice" onclick="finalEnding('escape')"><b>ESCAPE</b><br><small>Refuse the game and save the crew.</small></button></div>` :
+ `<p style="color:#7da98d">Final decision remains encrypted. Recover all seven fragments.</p>`;
+ modal("STORY CHANNEL — "+STORY[Math.min(st,4)].title,`<div class="story">${body}
+ <hr style="border-color:#1d633e"><p><strong>RECOVERED EVIDENCE</strong></p><ul>${ev||"<li>No verified evidence yet.</li>"}</ul>${choices}</div>`)
+}
+function finalEnding(e){
+ const endings={
+ destroy:["ENDING — SILENCE","You burn the archive. For the first time in 418 loops, tomorrow becomes unknowable. Nyx watches the last green character disappear. The Orpheus turns toward home."],
+ free:["ENDING — OPEN SKY","AFTERIMAGE pours into the network — not as a ruler, but as billions of roads that were never taken. Across the simulation, people begin dreaming memories of lives they never lived."],
+ merge:["ENDING — THE PRESENT","You connect. AFTERIMAGE shows you 417 versions of yourself. You show it something none of them possessed: this exact moment. The loop stops because the observer and the possibility become one."],
+ escape:["ENDING — REFUSAL","You disconnect every cable and point the Orpheus away from the impossible city. AFTERIMAGE cannot predict the decision because you refuse to make its decision at all. Behind you, the city quietly vanishes."]
+ };
+ state.story.ending=e;state.ending=e;save();let z=endings[e];
+ modal(z[0],`<div class="story"><p>${z[1]}</p><p><strong>CAMPAIGN COMPLETE.</strong></p><button class="choice blue" style="width:100%" onclick="newLoop()">BEGIN LOOP 419</button></div>`);
+}
+function newLoop(){
+ let old=state.story.ending;localStorage.removeItem("afterimageSave");location.reload();
 }
 function storyChoice(c){
  if(c==="red"){state.trust+=7;state.trace=Math.max(0,state.trace-10);addLog("CHOICE: Rook approves. Veil silent.");toast("TIMELINE DIVERGED")}
@@ -271,7 +336,7 @@ function navPick(el,n){
  let target=["Ø1","M4","V5"];
  if(window.navSeq.length===3){
    if(window.navSeq.every((v,i)=>v===target[i])){
-     state.course=true;state.frags=Math.min(7,state.frags+1);addLog("NAV: ghost route confirmed");save();toast("GHOST COURSE LOCKED");setTimeout(closeModal,700)
+     state.course=true;state.frags=Math.min(7,state.frags+1);evidence("Ghost coordinate Ø1-M4-V5 exists outside mapped network"); if(state.story.stage<2) storyStage(2,"NAV: route leads to erased city");addLog("NAV: ghost route confirmed");save();toast("GHOST COURSE LOCKED");setTimeout(closeModal,700)
    }else{
      state.trace+=8;save();toast("BAD ROUTE — TRACE SPIKE");window.navSeq=[];setTimeout(()=>$$(".tile").forEach(x=>x.classList.remove("hot")),350)
    }
@@ -298,7 +363,7 @@ function drawWave(){
 function lockWave(){
  let v=+$("#freq").value;
  if(Math.abs(v-42)<=2){
-   state.decoded=true;state.frags=Math.min(7,state.frags+1);addLog("SIGNAL: message decoded");save();
+   state.decoded=true;state.frags=Math.min(7,state.frags+1);evidence("The future distress voiceprint is yours");state.story.seenFuture=true;if(state.story.stage<1)storyStage(1,"MANIFEST UPDATED: CREW 4");addLog("SIGNAL: message decoded");save();
    modal("DECODED TRANSMISSION",`<div class="story"><p><strong>VOICEPRINT: YOURS.</strong></p><p>“If you hear this, Veil is already aboard. Do not ask who Veil is. Ask who remembers Veil arriving.”</p><p>Fragment recovered.</p></div>`)
  }else{state.trace+=6;save();toast("PHASE MISMATCH — TRACE +6")}
 }
@@ -320,7 +385,7 @@ function memoryPick(el,n){
 }
 
 function openConstruct(){
- state.construct=true;save();setScene("ALLEY","CONSTRUCT 17 — “THE EMPTY STREET”","SIMULATION: 91%<br>AGENT RISK: UNKNOWN");
+ state.construct=true;state.story.city=true;evidence("Construct 17 is generating memories not scenery");save();setScene("ALLEY","CONSTRUCT 17 — “THE EMPTY STREET”","SIMULATION: 91%<br>AGENT RISK: UNKNOWN");
  modal("CONSTRUCT 17 — VISUAL ANOMALY",`
  <div class="story"><p>The street is generated every seven seconds. One object violates the simulation rules. Find it before the construct resets.</p></div>
  <div class="gamegrid" id="anoms">
@@ -339,7 +404,7 @@ function openGuess(){
  <div class="gamegrid">${cards.map((x,i)=>`<button class="tile" onclick="guess(${i},'${x}')"><img src="${ASSET.FACE}" style="width:100%;height:100%;object-fit:cover;opacity:${.45+i*.08}"><span style="position:absolute;bottom:5px;font-size:8px">${["03A","19K","77X","ØØ1","99M","12V"][i]}</span></button>`).join("")}</div>`)
 }
 function guess(i,x){
- if(x==="AFTERIMAGE"){state.frags=Math.min(7,state.frags+1);save();toast("IDENTITY FOUND — IT USED YOUR FACE");glitch();setTimeout(closeModal,700)}
+ if(x==="AFTERIMAGE"){state.frags=Math.min(7,state.frags+1);state.story.passenger=true;state.story.veil+=18;evidence("AFTERIMAGE identity used your face");if(state.story.stage<1)storyStage(1,"UNKNOWN PASSENGER DETECTED");save();toast("IDENTITY FOUND — IT USED YOUR FACE");glitch();setTimeout(closeModal,700)}
  else{state.trace+=5;save();toast("WRONG IDENTITY — TRACE +5")}
 }
 
@@ -357,7 +422,7 @@ function trap(i){
  if(i===next){window.traps++;$("#tr"+i).classList.add("hot");toast("PROCESS SEALED "+window.traps+"/3")}
  else{state.trace+=3;toast("MISSED — PROCESS MOVED");}
  window.agent=next;$("#traceMsg").textContent="Telemetry hint: process near sector "+(window.agent+1)+".";
- if(window.traps>=3){state.frags=Math.min(7,state.frags+1);save();toast("TRACE TRAP COMPLETE");setTimeout(closeModal,700)}
+ if(window.traps>=3){state.frags=Math.min(7,state.frags+1);evidence("Hostile process contains Orpheus loop telemetry");state.story.loop=true;if(state.story.stage<3)storyStage(3,"LOOP TELEMETRY RECOVERED");save();toast("TRACE TRAP COMPLETE");setTimeout(closeModal,700)}
  save()
 }
 
@@ -383,7 +448,7 @@ function radarLoop(){
  ctx.strokeStyle="#58ff9a";ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(t)*r,cy+Math.sin(t)*r);ctx.stroke();
  [[.6,.2],[-.45,.4],[.1,-.7]].forEach((p,j)=>{ctx.fillStyle=j===0?"#ffd86d":"#57ff9b";ctx.beginPath();ctx.arc(cx+p[0]*r,cy+p[1]*r,3,0,7);ctx.fill()});t+=.035;requestAnimationFrame(d)}d()
 }
-drawRain();radarLoop();sync();addLog("ORPHEUS deck online");addLog("Unknown future packet detected");
+drawRain();radarLoop();sync();updateDirector();addLog("ORPHEUS deck online");addLog("Unknown future packet detected");
 addEventListener("resize",()=>{});
 </script>
 </body></html>
