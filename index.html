@@ -1415,6 +1415,14 @@ button{min-height:40px;border-radius:8px;border:1px solid #416a4d;background:#0a
 .thinkstream div{padding:2px 0;border-bottom:1px solid rgba(70,120,80,.18)}
 @media(max-width:720px){.dataHeaven{grid-template-columns:1fr}}
 
+
+/* LIVE TOP DATA OVERLAYS */
+.topScreen{position:relative;overflow:hidden}
+.liveOverlay{position:absolute;inset:4px 4px 18px 4px;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.62));pointer-events:none;padding:4px;font:7px monospace;color:#d5ffdf;text-shadow:0 0 5px #63ff89}
+.liveOverlay .line{display:flex;justify-content:space-between;gap:6px;white-space:nowrap;overflow:hidden}
+.liveOverlay .pulse{animation:livePulse .8s infinite alternate}
+@keyframes livePulse{from{opacity:.55}to{opacity:1}}
+
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;div id=&quot;app&quot;&gt;
  &lt;div class=&quot;top&quot;&gt;&lt;div class=&quot;brand&quot;&gt;MATRIX: AFTERIMAGE // SHIP CONSOLE&lt;/div&gt;&lt;div class=&quot;hud&quot;&gt;&lt;span class=&quot;chip&quot; id=&quot;step&quot;&gt;MISSION 1&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;intel&quot;&gt;INTEL 0&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;trace&quot;&gt;TRACE 0%&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
@@ -1496,7 +1504,12 @@ const mainActs={
 };
 function $(x){return document.getElementById(x)} function cur(){return steps[Math.min(G.step,steps.length-1)]}
 function setNote(t){$(&#x27;note&#x27;).textContent=t}
-setInterval(networkTick,900);
+
+if(document.readyState===&#x27;loading&#x27;){
+ document.addEventListener(&#x27;DOMContentLoaded&#x27;,()=&gt;{setInterval(networkTick,700);setTimeout(()=&gt;{renderTopScreens();updateLiveScreens();},50);},{once:true});
+}else{
+ setInterval(networkTick,700);setTimeout(()=&gt;{renderTopScreens();updateLiveScreens();},50);
+}
 function startGame(){$(&#x27;start&#x27;).style.display=&#x27;none&#x27;;logEvent(&#x27;&lt;b&gt;MISSION:&lt;/b&gt; Mnemosyne leaves safe space. The future signal is live.&#x27;);render()}
 function render(){
  const d=D[G.view]||D.bridge;
@@ -1573,11 +1586,36 @@ function renderTopScreens(){
    [&#x27;MATRIX TELEMETRY&#x27;,(SCREENS.matrix||[])[0],&#x27;telemetry&#x27;]
  ];
  bank.innerHTML=&#x27;&#x27;;
- feeds.forEach(x=&gt;{
+ feeds.forEach((x,i)=&gt;{
    const d=document.createElement(&#x27;div&#x27;);d.className=&#x27;topScreen&#x27;;
-   d.innerHTML=&#x27;&lt;img src=&quot;&#x27;+x[1]+&#x27;&quot; alt=&quot;&quot;&gt;&lt;small&gt;&#x27;+x[0]+&#x27;&lt;/small&gt;&#x27;;
+   d.innerHTML=&#x27;&lt;img src=&quot;&#x27;+x[1]+&#x27;&quot; alt=&quot;&quot;&gt;&lt;div class=&quot;liveOverlay&quot; id=&quot;liveTop&#x27;+i+&#x27;&quot;&gt;&lt;/div&gt;&lt;small&gt;&#x27;+x[0]+&#x27;&lt;/small&gt;&#x27;;
    d.onclick=()=&gt;openCommand(x[2]);bank.appendChild(d);
  });
+ updateLiveScreens();
+}
+
+function updateLiveScreens(){
+ const n=G.net||{};const top=i=&gt;$(&#x27;liveTop&#x27;+i);
+ if(top(0))top(0).innerHTML=
+   &#x27;&lt;div class=&quot;line&quot;&gt;&lt;span&gt;CONTACT&lt;/span&gt;&lt;b&gt;&#x27;+(G.nav.contact||&#x27;NONE&#x27;)+&#x27;&lt;/b&gt;&lt;/div&gt;&#x27;+
+   &#x27;&lt;div class=&quot;line&quot;&gt;&lt;span&gt;RANGE&lt;/span&gt;&lt;b&gt;&#x27;+G.nav.range+&#x27;%&lt;/b&gt;&lt;/div&gt;&#x27;+
+   &#x27;&lt;div class=&quot;line&quot;&gt;&lt;span&gt;LOCK&lt;/span&gt;&lt;b&gt;&#x27;+G.targetLock+&#x27;%&lt;/b&gt;&lt;/div&gt;&#x27;+
+   &#x27;&lt;div class=&quot;line&quot;&gt;&lt;span&gt;VEL&lt;/span&gt;&lt;b&gt;&#x27;+G.velocity+&#x27;&lt;/b&gt;&lt;/div&gt;&#x27;;
+ if(top(1))top(1).innerHTML=
+   &#x27;&lt;div class=&quot;line pulse&quot;&gt;&lt;span&gt;PACKETS&lt;/span&gt;&lt;b&gt;&#x27;+(n.tick||0)+&#x27;&lt;/b&gt;&lt;/div&gt;&#x27;+
+   &#x27;&lt;div class=&quot;line&quot;&gt;&lt;span&gt;STRENGTH&lt;/span&gt;&lt;b&gt;&#x27;+Math.round(G.hard.strength)+&#x27;%&lt;/b&gt;&lt;/div&gt;&#x27;+
+   &#x27;&lt;div class=&quot;line&quot;&gt;&lt;span&gt;HOT NODES&lt;/span&gt;&lt;b&gt;&#x27;+((n.nodes||[]).filter(x=&gt;x.state===&quot;HOT&quot;).length)+&#x27;&lt;/b&gt;&lt;/div&gt;&#x27;+
+   &#x27;&lt;div class=&quot;line&quot;&gt;&lt;span&gt;AI PROC&lt;/span&gt;&lt;b&gt;&#x27;+((n.processes||[]).filter(x=&gt;x.state===&quot;RUNNING&quot;).length)+&#x27;&lt;/b&gt;&lt;/div&gt;&#x27;;
+ if(top(2))top(2).innerHTML=
+   &#x27;&lt;div class=&quot;line&quot;&gt;&lt;span&gt;REACTOR&lt;/span&gt;&lt;b&gt;&#x27;+G.ship.reactor+&#x27;%&lt;/b&gt;&lt;/div&gt;&#x27;+
+   &#x27;&lt;div class=&quot;line&quot;&gt;&lt;span&gt;HULL&lt;/span&gt;&lt;b&gt;&#x27;+G.ship.hull+&#x27;%&lt;/b&gt;&lt;/div&gt;&#x27;+
+   &#x27;&lt;div class=&quot;line&quot;&gt;&lt;span&gt;HEAT&lt;/span&gt;&lt;b&gt;&#x27;+G.heat+&#x27;&lt;/b&gt;&lt;/div&gt;&#x27;+
+   &#x27;&lt;div class=&quot;line&quot;&gt;&lt;span&gt;JACK PWR&lt;/span&gt;&lt;b&gt;&#x27;+G.alloc.jack+&#x27;&lt;/b&gt;&lt;/div&gt;&#x27;;
+ if(top(3))top(3).innerHTML=
+   &#x27;&lt;div class=&quot;line pulse&quot;&gt;&lt;span&gt;TRACE&lt;/span&gt;&lt;b&gt;&#x27;+G.trace+&#x27;%&lt;/b&gt;&lt;/div&gt;&#x27;+
+   &#x27;&lt;div class=&quot;line&quot;&gt;&lt;span&gt;AI LOAD&lt;/span&gt;&lt;b&gt;&#x27;+(n.aiLoad||0)+&#x27;%&lt;/b&gt;&lt;/div&gt;&#x27;+
+   &#x27;&lt;div class=&quot;line&quot;&gt;&lt;span&gt;TOK/S&lt;/span&gt;&lt;b&gt;&#x27;+(n.tokenRate||0)+&#x27;&lt;/b&gt;&lt;/div&gt;&#x27;+
+   &#x27;&lt;div class=&quot;line&quot;&gt;&lt;span&gt;AGENTS&lt;/span&gt;&lt;b&gt;&#x27;+(n.agents||0)+&#x27;&lt;/b&gt;&lt;/div&gt;&#x27;;
 }
 function openCommand(which){G.cmd=which;renderCommand()}
 function closeCommand(){G.cmd=null;$(&#x27;commandDeck&#x27;).className=&#x27;&#x27;}
@@ -1705,6 +1743,8 @@ function networkTick(){
  const bank=$(&#x27;topScreenBank&#x27;);
  if(bank&amp;&amp;bank.children[1]&amp;&amp;bank.children[1].querySelector(&#x27;small&#x27;))bank.children[1].querySelector(&#x27;small&#x27;).textContent=&#x27;HARDLINE // &#x27;+Math.round(G.hard.strength)+&#x27;% // &#x27;+n.nodes.filter(x=&gt;x.state===&#x27;HOT&#x27;).length+&#x27; HOT // &#x27;+n.processes.filter(x=&gt;x.state===&#x27;RUNNING&#x27;).length+&#x27; AI&#x27;;
  if(bank&amp;&amp;bank.children[3]&amp;&amp;bank.children[3].querySelector(&#x27;small&#x27;))bank.children[3].querySelector(&#x27;small&#x27;).textContent=&#x27;MATRIX // TRACE &#x27;+G.trace+&#x27; // AI &#x27;+n.aiLoad+&#x27;% // TOK &#x27;+n.tokenRate+&#x27;/s // AG &#x27;+n.agents;
+ updateLiveScreens();
+ if(G.view===&#x27;matrix&#x27;){const f=$(&#x27;feature&#x27;);if(f){const dh=f.querySelector(&#x27;.dataHeaven&#x27;);if(dh)dh.outerHTML=matrixTelemetryMarkup();}}
 }
 function matrixTelemetryMarkup(){
  const n=G.net;
