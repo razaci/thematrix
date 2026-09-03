@@ -757,10 +757,10 @@ function updateObjectives(){
 
 
 function hideStartScreen(){
- const ss=$('#startScreen');if(ss)ss.classList.add('hidden');
+ const ss=$('#startScreen');if(ss){ss.classList.add('hidden');ss.style.display='none'}
 }
 function showStartScreen(){
- const ss=$('#startScreen');if(ss)ss.classList.remove('hidden');
+ const ss=$('#startScreen');if(ss){ss.classList.remove('hidden');ss.style.display='flex'}
 }
 function beginCampaign(freshStart=false){
  try{
@@ -1411,7 +1411,8 @@ document.addEventListener('click',e=>{
  const btn=e.target.closest('button');if(!btn)return;
 
  // Always allow story controls, yellow guidance, global navigation, sound/reset/hub.
- if(btn.closest('[id^="storyCheckpoint_"]') ||
+ if(btn.closest('#startScreen') ||
+    btn.closest('[id^="storyCheckpoint_"]') ||
     btn.id==='nextGuideBtn' ||
     btn.id==='hubBtn' ||
     btn.id==='soundBtn' ||
@@ -1583,13 +1584,41 @@ if($('#continueGameBtn')&&!localStorage.getItem('matrixAfterimage'))$('#continue
 if(G.ngplus>0&&$('#ngEcho'))$('#ngEcho').innerHTML='<br><b>ECHO:</b> I remember you.';updateObjectives();updateGuide();
 })();
 
+
+(function reinforceMobileStart(){
+ const arm=()=>{
+   const start=document.getElementById('startGameBtn');
+   if(!start)return;
+   start.addEventListener('pointerup',function(){
+     const ss=document.getElementById('startScreen');
+     if(ss){ss.classList.add('hidden');ss.style.display='none'}
+   },{passive:true});
+ };
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',arm,{once:true});
+ else arm();
+})();
+
 // FINAL START-SCREEN BINDING: runs after all game functions exist.
 (function bindCampaignStart(){
  const bind=()=>{
    const start=document.getElementById('startGameBtn');
    const cont=document.getElementById('continueGameBtn');
-   if(start)start.onclick=(e)=>{e.preventDefault();beginCampaign(true)};
-   if(cont)cont.onclick=(e)=>{e.preventDefault();beginCampaign(!localStorage.getItem('matrixAfterimage'))};
+   if(start){
+     start.onclick=(e)=>{
+       e.preventDefault();
+       const ss=document.getElementById('startScreen');
+       if(ss){ss.classList.add('hidden');ss.style.display='none'}
+       setTimeout(()=>beginCampaign(true),0);
+     };
+   }
+   if(cont){
+     cont.onclick=(e)=>{
+       e.preventDefault();
+       const ss=document.getElementById('startScreen');
+       if(ss){ss.classList.add('hidden');ss.style.display='none'}
+       setTimeout(()=>beginCampaign(!localStorage.getItem('matrixAfterimage')),0);
+     };
+   }
  };
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});
  else bind();
