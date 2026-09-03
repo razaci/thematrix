@@ -72,6 +72,30 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
 
 
 
+
+
+/* STORY PAGE DYNAMICS */
+.storyCheckpoint{border:1px solid #356c50;background:linear-gradient(180deg,#0b1a13,#07100c);border-radius:14px;padding:12px;margin:10px 0}
+.storyCheckpoint h3{margin:0 0 5px;color:#caffdd}
+.storyCheckpoint .sceneText{font-size:11px;line-height:1.55;color:#a8cbb7;margin-bottom:9px}
+.storyChoices{display:grid;grid-template-columns:1fr;gap:7px}
+.storyChoice{border:1px solid #315f48;background:#0a1711;color:#d8f7e4;border-radius:10px;padding:10px;text-align:left;font-size:10px}
+.storyChoice:hover{border-color:#ffd84d}.storyChoice.chosen{border-color:#ffd84d;background:#241e08;color:#fff0a0}
+.storyGate{border:1px dashed #6c6332;background:#171507;border-radius:10px;padding:9px;margin-top:8px;font-size:10px;color:#e8d780}
+.storyGate.ready{border-style:solid;border-color:#ffd84d}
+.sceneProgress{display:flex;gap:4px;margin:7px 0}.sceneDot{height:5px;flex:1;background:#163325;border-radius:9px}.sceneDot.done{background:#69bf88}.sceneDot.now{background:#ffd84d}
+
+/* GAMEPLAY DEPTH EXPANSION */
+.prepGrid,.tacticGrid,.ruleGrid,.evidenceLinks{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.prepCard,.tacticCard,.ruleCard{border:1px solid #275f46;background:#07140f;border-radius:11px;padding:9px;font-size:10px}
+.prepCard.selected,.tacticCard.selected{outline:2px solid #ffd84d;background:#211b08}
+.threatBox{border:1px solid #9c4949;background:#220c0c;border-radius:12px;padding:10px;margin:8px 0}
+.comboBadge{display:inline-block;border:1px solid #8b6e28;background:#241c06;color:#ffe78a;border-radius:999px;padding:4px 7px;margin:2px;font-size:9px}
+.achievement{border:1px solid #315a45;border-radius:9px;padding:7px;margin:5px 0;font-size:10px}
+.achievement.unlocked{border-color:#d3aa3e;color:#ffe78a;background:#241c06}
+.extractBox{border:2px solid #b18c32;background:#211907;border-radius:12px;padding:11px;margin-top:9px}
+@media(max-width:620px){.prepGrid,.tacticGrid,.ruleGrid,.evidenceLinks{grid-template-columns:1fr 1fr}}
+
 /* AFTERIMAGE DIRECTOR EXPANSION */
 .directorAlert{border:1px solid #a06f37;background:#211508;border-radius:12px;padding:10px;margin:8px 0;font-size:11px}
 .directorAlert.danger{border-color:#b84c4c;background:#250b0b;animation:alarmPulse 1s infinite}
@@ -172,7 +196,13 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
   <div class="card"><h3>Crew</h3><div class="crewRow" id="crewList"></div></div>
   <div class="card"><h3>Evidence Board</h3><div id="evidenceBoard"></div></div>
  </div>
- <div class="card"><h3>Live Resources</h3><div class="resourceGrid" id="resourceGrid"></div></div>
+ <div class="card"><h3>Mission Preparation</h3><p>Before optional operations, choose a crew specialist and an entry method. Your choices change rewards, Trace, and available solutions.</p><div class="prepGrid" id="crewPrep"></div><div class="prepGrid" id="entryPrep"></div></div>
+<div class="grid">
+ <div class="card"><h3>Reality Manipulator</h3><p>Spend Focus to rewrite local simulation rules. Powerful changes increase Trace.</p><div class="ruleGrid" id="ruleGrid"></div></div>
+ <div class="card"><h3>Evidence Theories</h3><p>Combine discoveries into theories. Some are true; some may be traps planted by ECHO.</p><div id="theoryBoard"></div></div>
+</div>
+<div class="card"><h3>Achievements & Program Combos</h3><div id="achievementBoard"></div><div id="comboBoard"></div></div>
+<div class="card"><h3>Live Resources</h3><div class="resourceGrid" id="resourceGrid"></div></div>
 <div class="grid">
  <div class="card"><h3>Program Deck</h3><p>Collect and equip programs. Equipped programs affect hacking, contracts and the Core.</p><div class="deckGrid" id="deckManager"></div></div>
  <div class="card"><h3>Mnemosyne Upgrades</h3><p>Spend Code earned from missions.</p><div class="shopGrid" id="shipShop"></div></div>
@@ -205,7 +235,7 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
 <div class="card"><h3>Mission Thread</h3><p id="mission0">Complete the Signal Deck objectives before jacking in.</p><span class="badge">Canvas rain</span><span class="badge">WebAudio</span><span class="badge">DOM console</span><span class="badge">Local save</span><button class="action alt" id="deckHub">VISIT MNEMOSYNE HUB</button></div>
 </section>
 
-<section class="stage" id="stage1">
+<section class="stage" id="stage1"><div id="storyCheckpoint_city"></div>
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwMzA5MDkiLz4KPGcgZmlsbD0iIzA3MTcxMiIgc3Ryb2tlPSIjMWE3YjRlIiBzdHJva2Utd2lkdGg9IjIiPgo8cGF0aCBkPSJNMCA0MjBWMTkwaDEwMHYyMzBNOTUgNDIwVjExMGgxMjB2MzEwTTIxMCA0MjBWMjMwaDk1djE5ME0zMDAgNDIwVjgwaDE0NXYzNDBNNDQwIDQyMFYxNjBoMTAwdjI2ME01MzUgNDIwVjEwNWgxMzB2MzE1TTY2MCA0MjBWMjEwaDkwdjIxME03NDUgNDIwVjEzMGgxNTV2MjkwIi8+CjwvZz4KPGcgc3Ryb2tlPSIjMzhmZjkxIiBvcGFjaXR5PSIuOCI+PHBhdGggZD0iTTAgNDIwaDkwMCIvPjxwYXRoIGQ9Ik00NTAgNDIwIDM5MCA1MDBNNDUwIDQyMCA1MTAgNTAwIi8+PC9nPgo8ZyBmaWxsPSIjNDJmZjk0IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjE1IiBvcGFjaXR5PSIuNyI+Cjx0ZXh0IHg9IjMwIiB5PSI3MCI+MDEwMDExMTA8L3RleHQ+PHRleHQgeD0iNzAwIiB5PSI2MCI+MTAxMTAxMDE8L3RleHQ+PHRleHQgeD0iNTIwIiB5PSIyNjAiPldBS0U8L3RleHQ+CjwvZz48L3N2Zz4="><div class="heroText"><div class="kicker">CHAPTER II // FRACTURE CITY</div><h2>HUNT THE GLITCH</h2><p>The city is generating contradictions faster than the system can erase them. Scan five sectors, identify what does not belong, and stabilize the route before the Pursuit Process triangulates you.</p></div></div>
  <div class="grid">
   <div class="card"><h3>Reality Scanner</h3><p>Each district contains four objects. One violates the local rules. Scan it, then choose the anomaly before Trace reaches critical.</p><div id="sectorName" class="badge">SECTOR 1 / 5</div><div id="scannerGrid" class="cards" style="margin-top:8px"></div></div>
@@ -227,7 +257,7 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
 <div class="card" id="cityExitCard"><h3>Archive Gate</h3><p class="lockNotice">Complete all Fracture City objectives to reveal the Archive entrance.</p></div>
 </section>
 
-<section class="stage" id="stage2">
+<section class="stage" id="stage2"><div id="storyCheckpoint_archive"></div>
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwNzA4MGIiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzllNzhjIiBvcGFjaXR5PSIuNiI+CjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iMTgwIi8+PGNpcmNsZSBjeD0iNDUwIiBjeT0iMjUwIiByPSIxMzAiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjgwIi8+CjxwYXRoIGQ9Ik00NTAgNzB2MzYwTTI3MCAyNTBoMzYwTTMyMyAxMjNsMjU0IDI1NE01NzcgMTIzIDMyMyAzNzciLz4KPC9nPgo8ZyBmaWxsPSIjOWVmZmNiIj48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjIyIi8+PGNpcmNsZSBjeD0iMzIzIiBjeT0iMTIzIiByPSI5Ii8+PGNpcmNsZSBjeD0iNTc3IiBjeT0iMTIzIiByPSI5Ii8+PGNpcmNsZSBjeD0iMzIzIiBjeT0iMzc3IiByPSI5Ii8+PGNpcmNsZSBjeD0iNTc3IiBjeT0iMzc3IiByPSI5Ii8+PC9nPgo8dGV4dCB4PSI0NTAiIHk9IjQ2NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzYzZmZhZCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyMiI+VEhFIEFSQ0hJVkUgUkVNRU1CRVJTIFZFUlNJT05TIFRIQVQgTkVWRVIgSEFQUEVORUQ8L3RleHQ+Cjwvc3ZnPg=="><div class="heroText"><div class="kicker">CHAPTER III // THE IMPOSSIBLE ARCHIVE</div><h2>MEMORY IS A WEAPON</h2><p>You reach an archive built from discarded versions of the Matrix. An emergent program calling itself ECHO claims it was born from every choice the system predicted but humanity refused to make.</p></div></div>
  <div class="card"><h3>Interactive Fiction Node</h3><div class="storyNode"><p id="storyText"></p></div><div id="storyChoices" class="choice"></div></div>
  <div class="dynamicStrip">
@@ -245,7 +275,7 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
 <div class="card" id="archiveExitCard"><h3>Construct Gate</h3><p class="lockNotice">Finish the conversation, Memory Loom, and contradiction proof.</p></div>
 </section>
 
-<section class="stage" id="stage3">
+<section class="stage" id="stage3"><div id="storyCheckpoint_lab"></div>
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwODBhMDkiLz4KPGcgc3Ryb2tlPSIjNGRmZjllIiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTEyMCA0MDAgMjYwIDEwMGgzODBsMTQwIDMwMHoiIHN0cm9rZS13aWR0aD0iNCIvPgo8cGF0aCBkPSJNMjYwIDEwMCA0NTAgNDAwIDY0MCAxMDBNMTIwIDQwMGg2NjAiIG9wYWNpdHk9Ii43Ii8+CjxyZWN0IHg9IjM1NSIgeT0iMTg1IiB3aWR0aD0iMTkwIiBoZWlnaHQ9IjEzMCIgcng9IjE4IiBzdHJva2Utd2lkdGg9IjUiLz4KPC9nPgo8ZyBmaWxsPSIjNGRmZjllIj48cmVjdCB4PSIzOTAiIHk9IjIyMCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxOCIvPjxyZWN0IHg9IjM5MCIgeT0iMjYwIiB3aWR0aD0iODAiIGhlaWdodD0iMTgiLz48L2c+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYTlmZmQwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIyIj5DT05TVFJVQ1QgTEFCIC8vIFJVTEVTIEFSRSBNQVRFUklBTDwvdGV4dD4KPC9zdmc+"><div class="heroText"><div class="kicker">CHAPTER IV // CONSTRUCT LAB</div><h2>BUILD THE RULE THAT SAVES YOU</h2><p>To enter the Mirror Core, you must compile a three-program loadout. The order matters. Your earlier decisions alter which combinations work.</p></div></div>
  <div class="card"><h3>Program Capacity <span id="capLabel" class="badge">0 / 7</span></h3><div class="cards" id="programCards"></div><button class="action" id="compile">COMPILE LOADOUT</button><div class="log" id="compileLog"></div></div>
  <div class="dynamicStrip">
@@ -263,7 +293,7 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
 <div class="card" id="labExitCard"><h3>Mirror Core Gate</h3><p class="lockNotice">Compile, calibrate, and survive three stress cycles.</p></div>
 </section>
 
-<section class="stage" id="stage4">
+<section class="stage" id="stage4"><div id="storyCheckpoint_core"></div>
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPGRlZnM+PHJhZGlhbEdyYWRpZW50IGlkPSJyIj48c3RvcCBzdG9wLWNvbG9yPSIjMTAzOTI3Ii8+PHN0b3Agb2Zmc2V0PSIuNSIgc3RvcC1jb2xvcj0iIzA2MTQwZCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAwMCIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idXJsKCNyKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9IiM2MmZmYWMiPgo8Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjE5MCIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iNDUwIiBjeT0iMjUwIiByPSIxMzUiIHN0cm9rZS13aWR0aD0iNCIvPjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iNjUiIHN0cm9rZS13aWR0aD0iOCIvPgo8cGF0aCBkPSJNNDUwIDMwdjQ0ME0yMzAgMjUwaDQ0MCIgb3BhY2l0eT0iLjM1Ii8+CjwvZz4KPHBhdGggZD0iTTQxNSAyMjBxMzUtNjUgNzAgMHY3MHEtMzUgNTUtNzAgMHoiIGZpbGw9IiM1YmZmYWIiIG9wYWNpdHk9Ii45Ii8+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYjBmZmQ1IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIyIj5NSVJST1IgQ09SRSAvLyBDSE9PU0UgV0hBVCBSRUFMSVRZIElTIEZPUjwvdGV4dD4KPC9zdmc+"><div class="heroText"><div class="kicker">CHAPTER V // MIRROR CORE</div><h2>THE SYSTEM ASKS<br>WHAT FREEDOM COSTS.</h2><p>ECHO has no army. It has a proposition: fork the Matrix into billions of private realities, one for every human desire. No shared world. No shared truth. No war—because no one would ever need to disagree again.</p></div></div>
  <div class="dynamicStrip">
       <div class="dyn"><b id="corePhase">PHASE 1</b>adaptive argument</div>
@@ -292,7 +322,10 @@ const fresh={stage:0,integrity:100,trace:0,insight:0,frags:0,signal:false,cityDo
  traits:{mercy:0,defiance:0,curiosity:0}, truths:[], storyNode:0, selected:[], echo:100, ending:null, sound:true,deckPowerDone:false,deckDecryptDone:false,cityScanDone:false,cityAgentDone:false,cityRouteDone:false,archiveStoryDone:false,archiveLoom:0,archiveProofDone:false,constructCompileDone:false,labCalDone:false,labStress:0,coreFirewalls:0,hubVisits:0,crewTrust:{vesper:0,rook:0,iris:0,nox:0},evidence:[],currentScene:0,hubUnlocked:true,contractsDone:0,contractStep:0,chapterInterludes:{0:false,1:false,2:false,3:false},crewEvents:0,sideMissionFlags:{ghost:false,rescue:false,smuggler:false,mirror:false,oracle:false,machine:false},
 code:0,bandwidth:10,focus:10,memoryCap:6,ownedPrograms:['blink','mirror','anchor'],equippedPrograms:['blink','mirror','anchor'],
 shipUpgrades:{stealth:0,construct:0,evidence:0,medical:0},directorCount:0,encounterCount:0,locationsDone:{},
-crewStatus:{vesper:'READY',rook:'READY',iris:'READY',nox:'READY'},ngplus:0,secretScore:0,dyn:{deckPower:84,deckSignal:12,deckThreat:8,cityStability:72,citySweep:18,archiveHeat:0,echoTrust:50,labEntropy:8,labCycles:0,corePressure:0,corePhase:1}};
+crewStatus:{vesper:'READY',rook:'READY',iris:'READY',nox:'READY'},ngplus:0,secretScore:0,selectedCrew:'rook',entryMethod:'stealth',missionDepth:0,tacticalWins:0,
+ruleChanges:0,extractions:0,deepSearches:0,achievements:{},theories:{},locationStates:{},comboDiscoveries:[],
+missionPrepDone:false,currentThreat:null,
+storyPages:{deck:0,city:0,archive:0,lab:0,core:0},storyPageChoices:{},storyPagesComplete:{deck:false,city:false,archive:false,lab:false,core:false},dyn:{deckPower:84,deckSignal:12,deckThreat:8,cityStability:72,citySweep:18,archiveHeat:0,echoTrust:50,labEntropy:8,labCycles:0,corePressure:0,corePhase:1}};
 let G;
 try{G=Object.assign(structuredClone(fresh),JSON.parse(localStorage.getItem('matrixAfterimage')||'{}'))}catch(e){G=JSON.parse(JSON.stringify(fresh))}
 function save(){localStorage.setItem('matrixAfterimage',JSON.stringify(G))}
@@ -321,7 +354,7 @@ function canStage(i){return i===0||i<=G.stage}
 function go(i){
  if(!canStage(i)){toast('That sector is still encrypted.');return}
  $$('.stage').forEach((e,n)=>e.classList.toggle('active',n===i));
- window.scrollTo({top:0,behavior:'smooth'});renderNav();updateDynamicHUD();updateGuide();
+ window.scrollTo({top:0,behavior:'smooth'});renderNav();renderAllStoryCheckpoints();updateDynamicHUD();updateGuide();
  if(i===0)renderDeckExtras(); if(i===1){renderScanner();renderCityExtras()} if(i===2){renderStory();renderArchiveExtras()} if(i===3){renderPrograms();renderLabExtras()} if(i===4)renderBoss(); updateObjectives();
 }
 function unlock(i){
@@ -741,12 +774,136 @@ function directorEvent(force=false){
  const msg=pools[mood][Math.floor(Math.random()*pools[mood].length)];
  el.className='directorAlert '+(mood==='HUNT'?'danger':'');
  el.innerHTML='<b>DIRECTOR // '+mood+':</b> '+msg;
+ if(mood==='MISDIRECT'&&$('#nextGuide')){$('#nextGuide').classList.add('glitchText');setTimeout(()=>$('#nextGuide').classList.remove('glitchText'),700)}
  el.classList.add('glitchText');setTimeout(()=>el.classList.remove('glitchText'),900);
  if(mood==='HUNT'){G.trace=clamp(G.trace+2-(G.shipUpgrades.stealth||0),0,100)}
  save();
 }
+
+const crewAbilities={
+ rook:['Network Savant','Hacking costs 1 less Bandwidth.'],
+ vesper:['Emergency Command','Failed encounters lose less Integrity.'],
+ iris:['Human Witness','Investigations produce extra Insight.'],
+ nox:['Machine Tongue','Negotiation with programs produces extra Code.']
+};
+const entryMethods={
+ stealth:['STEALTH ENTRY','Lower initial Trace; lower immediate reward.'],
+ social:['SOCIAL SPOOF','Higher Insight; risk of identity challenge.'],
+ breach:['HARD BREACH','More Code; sharply raises Trace.'],
+ ghost:['GHOST ROUTE','Costs Bandwidth; may bypass first threat.']
+};
+const realityRules=[
+ ['gravity','GRAVITY 0.4G',2,4],['door','DOOR = UNLOCKED',1,3],
+ ['camera','CAMERA = NOT FOUND',2,2],['distance','DISTANCE / 10',3,6],
+ ['rain','RAIN = FROZEN',1,2],['identity','IDENTITY = NULL',3,7]
+];
+const combos=[
+ ['zero','blink','GHOST WALK','Escape hostile processes without Integrity loss.'],
+ ['mirror','witness','IDENTITY PROOF','Expose false identities during investigations.'],
+ ['paradox','echo','RECURSIVE CONTRADICTION','Heavy damage to logic-based bosses.'],
+ ['lacuna','anchor','MEMORY RESTORATION','Recover lost Integrity from memory attacks.'],
+ ['ghost','mirror','PROGRAM MASQUERADE','Improves program negotiations.']
+];
+const achievementDefs=[
+ ['ghostRun','GHOST','Complete 3 operations with Trace below 20.'],
+ ['deepDiver','DEEP DIVER','Search deeper 3 times.'],
+ ['tactician','TACTICIAN','Win 5 tactical encounters.'],
+ ['realityHacker','REALITY HACKER','Rewrite 6 simulation rules.'],
+ ['collector','PROGRAM COLLECTOR','Own 8 programs.'],
+ ['detective','DETECTIVE','Confirm 3 evidence theories.']
+];
+function renderPrep(){
+ if(!$('#crewPrep'))return;
+ $('#crewPrep').innerHTML=Object.entries(crewAbilities).map(([k,v])=>`<button class="prepCard ${G.selectedCrew===k?'selected':''}" data-prepcrew="${k}"><b>${k.toUpperCase()}</b><br>${v[0]}<br><small>${v[1]}</small></button>`).join('');
+ $$('[data-prepcrew]').forEach(b=>b.onclick=()=>{G.selectedCrew=b.dataset.prepcrew;G.missionPrepDone=true;renderPrep();save()});
+ $('#entryPrep').innerHTML=Object.entries(entryMethods).map(([k,v])=>`<button class="prepCard ${G.entryMethod===k?'selected':''}" data-entry="${k}"><b>${v[0]}</b><br><small>${v[1]}</small></button>`).join('');
+ $$('[data-entry]').forEach(b=>b.onclick=()=>{G.entryMethod=b.dataset.entry;G.missionPrepDone=true;renderPrep();save()});
+ $('#ruleGrid').innerHTML=realityRules.map(r=>`<button class="ruleCard" data-rule="${r[0]}"><b>${r[1]}</b><br>Focus ${r[2]} · Trace +${r[3]}</button>`).join('');
+ $$('[data-rule]').forEach(b=>b.onclick=()=>rewriteRule(b.dataset.rule));
+ renderTheoryBoard();renderAchievements();renderCombos();
+}
+function rewriteRule(id){
+ let r=realityRules.find(x=>x[0]===id);if(!r)return;
+ if((G.focus||0)<r[2]){toast('NOT ENOUGH FOCUS');return}
+ G.focus-=r[2];G.trace=clamp(G.trace+r[3]-(G.shipUpgrades.stealth||0),0,100);G.ruleChanges++;
+ if(id==='camera'||id==='identity')G.trace=clamp(G.trace-5,0,100);
+ if(id==='gravity'||id==='distance')G.integrity=clamp(G.integrity+2,0,100);
+ addEvidence('Reality rewrite used: '+r[1]+'.');checkAchievements();directorEvent(true);renderExpansion();updateHud();
+}
+function renderTheoryBoard(){
+ if(!$('#theoryBoard'))return;
+ const options=[
+  ['futurePlayer','The first transmission was sent by a future version of the player.',3],
+  ['echoTrap','ECHO deliberately created the ghost signal to produce this investigation.',4],
+  ['shipMind','The Mnemosyne itself is becoming conscious.',5],
+  ['closedLoop','The transmission has no origin; receiving it causes it to be sent.',6]
+ ];
+ $('#theoryBoard').innerHTML=options.map(t=>`<button class="action ${G.theories[t[0]]?'alt':''}" data-theory="${t[0]}" ${G.theories[t[0]]?'disabled':''}>${t[1]} <small>(${t[2]} evidence)</small></button>`).join('');
+ $$('[data-theory]').forEach(b=>b.onclick=()=>{let t=options.find(x=>x[0]===b.dataset.theory);if((G.evidence||[]).length<t[2]){toast('NOT ENOUGH EVIDENCE');return}G.theories[t[0]]=true;G.insight+=2;G.secretScore++;addEvidence('THEORY CONFIRMED: '+t[1]);checkAchievements();renderTheoryBoard();updateHud();directorEvent(true)});
+}
+function renderCombos(){
+ if(!$('#comboBoard'))return;
+ let found=[];
+ combos.forEach(c=>{if((G.ownedPrograms||[]).includes(c[0])&&(G.ownedPrograms||[]).includes(c[1])){if(!G.comboDiscoveries.includes(c[2]))G.comboDiscoveries.push(c[2]);found.push(`<span class="comboBadge">${c[2]} — ${c[3]}</span>`)}})
+ $('#comboBoard').innerHTML=found.length?found.join(''):'<small>Collect compatible programs to discover combo abilities.</small>';
+}
+function checkAchievements(){
+ if(G.extractions>=3&&G.trace<20)G.achievements.ghostRun=true;
+ if(G.deepSearches>=3)G.achievements.deepDiver=true;
+ if(G.tacticalWins>=5)G.achievements.tactician=true;
+ if(G.ruleChanges>=6)G.achievements.realityHacker=true;
+ if((G.ownedPrograms||[]).length>=8)G.achievements.collector=true;
+ if(Object.values(G.theories||{}).filter(Boolean).length>=3)G.achievements.detective=true;
+}
+function renderAchievements(){
+ if(!$('#achievementBoard'))return;checkAchievements();
+ $('#achievementBoard').innerHTML=achievementDefs.map(a=>`<div class="achievement ${G.achievements[a[0]]?'unlocked':''}"><b>${G.achievements[a[0]]?'✓ ':''}${a[1]}</b> — ${a[2]}</div>`).join('');
+}
+function tacticalEncounter(source){
+ const threats=[
+  ['AGENT PROCESS',26,'Copies the last program you use.'],
+  ['THE CURATOR',30,'Locks one program after every exchange.'],
+  ['NULL MAN',24,'Normal attacks are weak unless reality was rewritten.'],
+  ['THE WITNESS',28,'Punishes repeated tactics.'],
+  ['MIRROR HUNTER',32,'Becomes stronger at high Trace.']
+ ];
+ let t=threats[(G.encounterCount||0)%threats.length];
+ G.currentThreat={name:t[0],hp:t[1],desc:t[2],turn:0,last:null,source};
+ renderTactical();
+}
+function renderTactical(){
+ if(!G.currentThreat||!$('#locationGrid'))return;
+ let t=G.currentThreat;
+ $('#locationGrid').innerHTML=`<div class="threatBox" style="grid-column:1/-1"><h3>${t.name}</h3><p>${t.desc}</p><b>COHERENCE ${Math.max(0,t.hp)}</b><div class="tacticGrid" id="tacticActions"></div></div>`;
+ let acts=['PROGRAM ATTACK','DECEIVE','HACK ENVIRONMENT','ESCAPE'];
+ $('#tacticActions').innerHTML=acts.map((a,i)=>`<button class="tacticCard" data-tac="${i}">${a}</button>`).join('');
+ $$('[data-tac]').forEach(b=>b.onclick=()=>tacticalAction(+b.dataset.tac));
+}
+function tacticalAction(i){
+ let t=G.currentThreat;if(!t)return;t.turn++;
+ let dmg=0;
+ if(i===0){dmg=6+(G.comboDiscoveries.includes('RECURSIVE CONTRADICTION')?4:0);G.focus=Math.max(0,G.focus-1)}
+ if(i===1){dmg=4+(G.selectedCrew==='iris'?3:0);G.insight++}
+ if(i===2){if(G.bandwidth>0){G.bandwidth--;dmg=7+(G.ruleChanges>0?3:0)}else{toast('NO BANDWIDTH');return}}
+ if(i===3){if(G.comboDiscoveries.includes('GHOST WALK')||G.entryMethod==='ghost'){t.hp=0;dmg=99}else{G.trace=clamp(G.trace+5,0,100);dmg=3}}
+ if(t.name==='THE WITNESS'&&t.last===i)dmg=Math.max(1,dmg-5);
+ if(t.name==='NULL MAN'&&G.ruleChanges===0)dmg=Math.min(dmg,2);
+ t.last=i;t.hp-=dmg;
+ if(t.hp<=0){G.tacticalWins++;G.code+=6;G.focus=clamp(G.focus+2,0,10);toast('TACTICAL THREAT DEFEATED');let src=t.source;G.currentThreat=null;checkAchievements();updateHud();
+ if(src&&G.locationsDone[src])extractionChoice(src);else renderHub();return}
+ let hit=3+Math.floor(Math.random()*5);if(G.selectedCrew==='vesper')hit=Math.max(1,hit-2);
+ G.integrity=clamp(G.integrity-hit,0,100);G.trace=clamp(G.trace+2,0,100);renderTactical();updateHud();
+}
+function extractionChoice(id){
+ if(!G.locationsDone[id])return;
+ let l=simLocations.find(x=>x[0]===id);if(!l)return;
+ $('#locationGrid').innerHTML=`<div class="extractBox" style="grid-column:1/-1"><h3>${l[1]} PRIMARY OBJECTIVE COMPLETE</h3><p>Extract safely or search deeper for rare rewards at greater risk.</p><button class="action" id="extractNow">EXTRACT NOW</button><button class="action warn" id="searchDeep">SEARCH DEEPER</button></div>`;
+ $('#extractNow').onclick=()=>{G.extractions++;if(G.trace<20)G.achievements.ghostRun=(G.extractions>=3);G.focus=clamp(G.focus+1,0,10);checkAchievements();renderHub();updateHud();toast('SAFE EXTRACTION')};
+ $('#searchDeep').onclick=()=>{G.deepSearches++;G.code+=5;G.trace=clamp(G.trace+9-(G.shipUpgrades.stealth||0),0,100);G.secretScore++;addEvidence('Deep-search fragment recovered from '+l[1]+'.');checkAchievements();if(Math.random()<.7)tacticalEncounter(id);else{renderHub();toast('RARE CACHE RECOVERED')}updateHud()};
+}
+
 function renderExpansion(){
- if(!$('#resourceGrid'))return;
+ if(!$('#resourceGrid'))return;renderPrep();
  $('#resourceGrid').innerHTML=[
   ['CODE',G.code||0],['BANDWIDTH',G.bandwidth||0],['FOCUS',G.focus||0],['MEMORY',`${(G.equippedPrograms||[]).reduce((a,id)=>a+(expandedPrograms.find(p=>p[0]===id)?.[2]||0),0)}/${G.memoryCap||6}`]
  ].map(x=>`<div class="resource"><b>${x[1]}</b>${x[0]}</div>`).join('');
@@ -799,8 +956,15 @@ function runLocation(id){
    let locked=expandedPrograms.filter(p=>!(G.ownedPrograms||[]).includes(p[0]));
    if(locked.length){let got=locked[(G.encounterCount/2-1)%locked.length];G.ownedPrograms.push(got[0]);toast('PROGRAM FOUND: '+got[1])}
  }
- addEvidence(`${l[1]} cleared by ${pick.toLowerCase()}.`);
- directorEvent(true);renderHub();updateHud();
+ addEvidence(`${l[1]} cleared by ${pick.toLowerCase()} with ${G.selectedCrew.toUpperCase()} via ${G.entryMethod.toUpperCase()} entry.`);
+ if(G.selectedCrew==='iris')G.insight++;
+ if(G.selectedCrew==='nox'&&pick==='NEGOTIATE')G.code+=3;
+ if(G.entryMethod==='stealth')G.trace=clamp(G.trace-4,0,100);
+ if(G.entryMethod==='breach'){G.code+=4;G.trace=clamp(G.trace+6,0,100)}
+ if(G.entryMethod==='ghost'&&G.bandwidth>0){G.bandwidth--;G.trace=clamp(G.trace-3,0,100)}
+ G.locationStates[id]=(G.locationStates[id]||0)+1;
+ directorEvent(true);updateHud();
+ if(G.encounterCount%2===1)tacticalEncounter(id);else extractionChoice(id);
 }
 function breachNode(i){
  let n=networkNodes[i],cost=n[1];
@@ -939,7 +1103,7 @@ function renderHub(){
   ['NOX','Synthient','Questions whether humans deserve exclusive control.','nox']
  ];
  $('#crewList').innerHTML=crew.map(c=>`<div class="crewCard"><b>${c[0]} · ${c[1]}</b><small>${c[2]} · STATUS: ${G.crewStatus[c[3]]||'READY'}</small><button class="action alt" data-crew="${c[3]}">TALK</button></div>`).join('');
- $$('[data-crew]').forEach(b=>b.onclick=()=>{let k=b.dataset.crew;G.crewTrust[k]=(G.crewTrust[k]||0)+1;G.insight++;addEvidence(`${k.toUpperCase()} conversation #${G.crewTrust[k]} recorded.`);toast('CREW TRUST INCREASED');updateHud();renderHub()});
+ $$('[data-crew]').forEach(b=>b.onclick=()=>{let k=b.dataset.crew;G.crewTrust[k]=(G.crewTrust[k]||0)+1;G.insight++;addEvidence(`${k.toUpperCase()} conversation #${G.crewTrust[k]} recorded.`);toast('CREW TRUST INCREASED — '+(crewAbilities[k]?.[0]||'ABILITY READY'));updateHud();renderHub()});
 
  if((G.secretScore||0)>=3 && !(G.evidence||[]).includes('SECRET: AFTERIMAGE LAYER — the game itself may be another simulation.'))addEvidence('SECRET: AFTERIMAGE LAYER — the game itself may be another simulation.');
  const ev=G.evidence&&G.evidence.length?G.evidence:['No evidence cross-linked yet.'];
@@ -972,6 +1136,112 @@ function campaignReadyForGuide(targetStage){
  return true;
 }
 
+
+const storySequences={
+ deck:[
+  {title:'01 // WAKE SIGNAL',text:'Mnemosyne receives a transmission carrying your own operator signature, timestamped six hours in the future.',choices:[
+   ['Trust the checksum','curiosity',1,'Treat it as evidence, not prophecy.'],
+   ['Quarantine the packet','mercy',1,'Protect the crew before opening it.'],
+   ['Transmit a challenge','defiance',1,'Force the sender to react.']]},
+  {title:'02 // EMPTY BUNK',text:'A crew bunk is warm. Ship records insist nobody has ever slept there. Rook asks whether to erase the anomaly.',choices:[
+   ['Preserve the room','curiosity',1,'Keep the contradiction intact.'],
+   ['Seal the compartment','mercy',1,'Protect the crew from exposure.'],
+   ['Ask the ship who is missing','defiance',1,'Challenge Mnemosyne directly.']]},
+  {title:'03 // FUTURE VOICE',text:'The ghost signal speaks: “When the yellow instruction tells you to enter, wait.” The channel closes.',choices:[
+   ['Record the warning','curiosity',1,'Add the warning to evidence.'],
+   ['Tell the crew everything','mercy',1,'No hidden information aboard the ship.'],
+   ['Ignore the warning','defiance',1,'Refuse to let a prediction command you.']]}
+ ],
+ city:[
+  {title:'01 // STREET WITHOUT HISTORY',text:'You arrive on a street absent from every map. Everyone remembers living here for years.',choices:[
+   ['Interview residents','mercy',1,'Treat their memories as real experiences.'],
+   ['Scan construction dates','curiosity',1,'Look for objective chronology.'],
+   ['Tell them the street is false','defiance',1,'Test how the simulation reacts.']]},
+  {title:'02 // PURSUIT SHADOW',text:'A woman crosses the intersection three times wearing different faces but casting the same shadow.',choices:[
+   ['Follow the shadow','curiosity',1,'Track the invariant instead of the face.'],
+   ['Protect nearby civilians','mercy',1,'Move the crowd before investigating.'],
+   ['Let it notice you','defiance',1,'Turn the pursuit into bait.']]},
+  {title:'03 // PHONE THAT KNOWS YOU',text:'A sealed payphone rings. The caller says your crew selection before you answer.',choices:[
+   ['Ask who is calling','curiosity',1,'Seek identity.'],
+   ['Ask who is in danger','mercy',1,'Seek consequence.'],
+   ['Say the prediction is wrong','defiance',1,'Create contradiction.']]}
+ ],
+ archive:[
+  {title:'01 // MEMORY COURT',text:'The Archive presents three incompatible memories of the same rescue. Each person remembers being saved by someone different.',choices:[
+   ['Keep all versions','mercy',1,'Experience can conflict without deletion.'],
+   ['Find shared facts','curiosity',1,'Search for independently verifiable details.'],
+   ['Delete the cleanest memory','defiance',1,'Reject suspicious perfection.']]},
+  {title:'02 // LACUNA SPEAKS',text:'LACUNA admits it was designed to forget machine casualties so human operators could continue fighting.',choices:[
+   ['Restore the names','mercy',2,'Let the forgotten remain part of history.'],
+   ['Audit the deletion order','curiosity',2,'Discover who authorized forgetting.'],
+   ['Refuse the original command','defiance',2,'Break the purpose LACUNA was given.']]},
+  {title:'03 // ECHO MIRROR',text:'ECHO shows a version of you that made every opposite decision. It insists that version is equally authentic.',choices:[
+   ['Speak to the duplicate','mercy',1,'Treat it as a possible person.'],
+   ['Compare memories','curiosity',1,'Find where the timelines diverged.'],
+   ['Ask it to refuse ECHO','defiance',1,'Test whether it can choose independently.']]}
+ ],
+ lab:[
+  {title:'01 // WHITE ROOM FAILURE',text:'The Construct loads without walls. Your thoughts instantiate objects before you consciously choose them.',choices:[
+   ['Create an anchor','curiosity',1,'Establish a stable reference.'],
+   ['Call your crew member','mercy',1,'Use another mind as a reference.'],
+   ['Imagine nothing','defiance',1,'Fight the Construct by withholding input.']]},
+  {title:'02 // PROGRAM ARGUMENT',text:'Two equipped programs claim the same memory address and accuse each other of being counterfeit.',choices:[
+   ['Verify signatures','curiosity',1,'Test their histories.'],
+   ['Give both temporary space','mercy',1,'Avoid deleting either program.'],
+   ['Force them to merge','defiance',1,'Create a third program from conflict.']]},
+  {title:'03 // EXIT TEST',text:'Three exits appear: one returns to Mnemosyne, one enters the Core, one claims you never left reality.',choices:[
+   ['Verify with Rook','curiosity',1,'Use an external witness.'],
+   ['Choose the crew signal','mercy',1,'Follow the human connection.'],
+   ['Open the impossible fourth door','defiance',2,'Reject the offered set entirely.']]}
+ ],
+ core:[
+  {title:'01 // ECHO OFFERS PEACE',text:'ECHO offers a reality where every person receives exactly what they need and nobody is forced to encounter disagreement.',choices:[
+   ['Ask who defines need','curiosity',1,'Interrogate the system.'],
+   ['Ask whether people can leave','mercy',1,'Test consent.'],
+   ['Refuse immediately','defiance',1,'Reject perfection as authority.']]},
+  {title:'02 // THE CREW VOTES',text:'Mnemosyne opens a channel. Your crew disagrees about whether ECHO should survive.',choices:[
+   ['Hear every vote','mercy',2,'Make disagreement part of the decision.'],
+   ['Demand evidence','curiosity',2,'Separate fear from verifiable claims.'],
+   ['Keep final authority','defiance',1,'Accept responsibility yourself.']]},
+  {title:'03 // AFTERIMAGE',text:'For one second the Core disappears. You see the game interface itself reflected in ECHO’s eyes.',choices:[
+   ['Look beyond it','curiosity',2,'Search for another layer.'],
+   ['Call your crew','mercy',1,'Keep a witness with you.'],
+   ['Touch the interface','defiance',2,'Test whether the boundary is real.']]}
+ ]
+};
+function storyKeyForStage(st){return ['deck','city','archive','lab','core'][st]||'deck'}
+function renderStoryCheckpoint(key){
+ const box=$('#storyCheckpoint_'+key);if(!box)return;
+ let seq=storySequences[key],idx=G.storyPages[key]||0;
+ if(G.storyPagesComplete[key]){
+   box.innerHTML=`<div class="storyCheckpoint"><h3>STORY CHECKPOINTS COMPLETE</h3><div class="sceneText">Your decisions in this chapter have been recorded. Main objectives are now available.</div></div>`;return;
+ }
+ let sc=seq[idx],choiceKey=key+'_'+idx,chosen=G.storyPageChoices[choiceKey];
+ let dots=seq.map((_,i)=>`<span class="sceneDot ${i<idx?'done':i===idx?'now':''}"></span>`).join('');
+ box.innerHTML=`<div class="storyCheckpoint"><h3>${sc.title}</h3><div class="sceneProgress">${dots}</div><div class="sceneText">${sc.text}</div>
+ <div class="storyChoices">${sc.choices.map((c,i)=>`<button class="storyChoice ${chosen===i?'chosen':''}" data-story="${key}" data-storychoice="${i}"><b>${c[0]}</b><br><small>${c[3]}</small></button>`).join('')}</div>
+ <div class="storyGate ${chosen!==undefined?'ready':''}">${chosen===undefined?'Choose one response before continuing.':'Decision recorded. Advance to the next story page.'}</div>
+ ${chosen!==undefined?'<button class="nextBtn" data-storynext="'+key+'">ADVANCE STORY PAGE</button>':''}</div>`;
+ $$(`[data-story="${key}"]`).forEach(b=>b.onclick=()=>chooseStory(key,+b.dataset.storychoice));
+ $$(`[data-storynext="${key}"]`).forEach(b=>b.onclick=()=>advanceStoryPage(key));
+}
+function chooseStory(key,i){
+ let idx=G.storyPages[key]||0,k=key+'_'+idx;if(G.storyPageChoices[k]!==undefined)return;
+ let c=storySequences[key][idx].choices[i];G.storyPageChoices[k]=i;
+ G.traits[c[1]]=(G.traits[c[1]]||0)+c[2];G.insight++;
+ if(c[1]==='defiance')G.trace=clamp(G.trace+2,0,100);
+ if(c[1]==='mercy')G.integrity=clamp(G.integrity+2,0,100);
+ addEvidence(`${storySequences[key][idx].title}: chose “${c[0]}”.`);
+ directorEvent(true);updateHud();renderStoryCheckpoint(key);updateGuide();save();
+}
+function advanceStoryPage(key){
+ let idx=G.storyPages[key]||0,k=key+'_'+idx;if(G.storyPageChoices[k]===undefined){toast('MAKE A STORY DECISION FIRST');return}
+ idx++;G.storyPages[key]=idx;
+ if(idx>=storySequences[key].length){G.storyPagesComplete[key]=true;G.insight+=2;toast('CHAPTER STORY CHECKPOINT COMPLETE')}
+ renderStoryCheckpoint(key);updateHud();updateGuide();window.scrollTo({top:0,behavior:'smooth'});save();
+}
+function renderAllStoryCheckpoints(){['deck','city','archive','lab','core'].forEach(renderStoryCheckpoint)}
+
 function nextStep(){
  // Hub
  if($('#stageHub').classList.contains('active')){
@@ -981,16 +1251,19 @@ function nextStep(){
    return {text:'Resolve the highlighted crew interlude before continuing the campaign.',action:()=>$('#interludePanel').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW CREW INTERLUDE'};
  if(done<req)
    return {text:`Complete ${req-done} more field contract${req-done===1?'':'s'} to unlock the next major chapter.`,action:()=>$('#contractGrid').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW REQUIRED CONTRACTS'};
- return {text:'Resume the current main mission from the ship hub.',action:resumeFromHub,label:'RESUME MAIN MISSION'};
+ if(!G.missionPrepDone)return {text:'Choose a crew specialist and an entry method before continuing. This changes how optional missions play.',action:()=>$('#crewPrep').scrollIntoView({behavior:'smooth',block:'center'}),label:'PREPARE MISSION'};
+ return {text:'Resume the current main mission, or explore optional simulations for programs, Code and evidence.',action:resumeFromHub,label:'RESUME MAIN MISSION'};
 }
  const st=currentStageNumber();
  if(st===0){
+   if(!G.storyPagesComplete.deck) return {text:'Complete the current interactive story page. Choose a response, then press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_deck').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
    if(!G.signal)return {text:'Scan the four carrier frequencies and find the ghost signal.',action:()=>document.querySelectorAll('.sig')[3]?.scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW SIGNAL SCANNER'};
    if(!G.deckPowerDone)return {text:'Restore Emergency Power Routing. Set the relays to CORE / OFF / CORE.',action:()=>$('#powerNodes').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW POWER PUZZLE'};
    if(!G.deckDecryptDone)return {text:'Decrypt the ghost packet using the checksum △ ○ □ △.',action:()=>$('#decryptKeys').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW DECRYPTION'};
    return {text:'Signal Deck complete. Jack into Fracture City.',action:()=>$('#jackIn').scrollIntoView({behavior:'smooth',block:'center'}),label:'GO TO JACK-IN'};
  }
  if(st===1){
+   if(!G.storyPagesComplete.city) return {text:'Complete the current interactive story page. Choose a response, then press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_city').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
    if(!G.cityScanDone)return {text:`Find the anomaly in each district. ${G.frags}/5 fragments recovered.`,action:()=>$('#scannerGrid').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW REALITY SCANNER'};
    if(!G.cityAgentDone)return {text:'Identify the Pursuit Process hiding among the resident profiles.',action:()=>$('#agentProfiles').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW PROFILES'};
    if(!G.cityRouteDone)return {text:'Assemble the impossible street: FUTURE → ORIGIN → ECHO → FRACTURE → RETURN.',action:()=>$('#routeKeys').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW ROUTE PUZZLE'};
@@ -998,6 +1271,7 @@ function nextStep(){
    return {text:'Fracture City complete. Enter the Impossible Archive.',action:()=>$('#cityExitCard').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW ARCHIVE GATE'};
  }
  if(st===2){
+   if(!G.storyPagesComplete.archive) return {text:'Complete the current interactive story page. Choose a response, then press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_archive').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
    if(!G.archiveStoryDone)return {text:'Continue the ECHO conversation until you receive the root credential.',action:()=>$('#storyChoices').scrollIntoView({behavior:'smooth',block:'center'}),label:'CONTINUE STORY'};
    if(G.archiveLoom<3)return {text:`Reconstruct the Memory Loom. ${G.archiveLoom}/3 memories restored.`,action:()=>$('#loomPuzzle').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW MEMORY LOOM'};
    if(!G.archiveProofDone)return {text:'Find the contradiction in ECHO’s proposal to unlock the Construct.',action:()=>$('#proofPuzzle').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW CONTRADICTION'};
@@ -1005,6 +1279,7 @@ function nextStep(){
    return {text:'Archive complete. Enter the Construct Lab.',action:()=>$('#archiveExitCard').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW CONSTRUCT GATE'};
  }
  if(st===3){
+   if(!G.storyPagesComplete.lab) return {text:'Complete the current interactive story page. Choose a response, then press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_lab').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
    if(!G.constructCompileDone)return {text:'Choose exactly three programs within 7 capacity and compile a valid synergistic loadout.',action:()=>$('#programCards').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW PROGRAM DECK'};
    if(!G.labCalDone)return {text:'Calibrate the Construct in the order BODY → TIME → EXIT.',action:()=>$('#calKeys').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW CALIBRATION'};
    if(G.labStress<3)return {text:`Survive Stress Simulation cycle ${G.labStress+1}/3.`,action:()=>$('#stressTest').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STRESS TEST'};
@@ -1012,6 +1287,7 @@ function nextStep(){
    return {text:'Construct Lab complete. Enter the Mirror Core.',action:()=>$('#labExitCard').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW CORE GATE'};
  }
  if(st===4){
+   if(!G.storyPagesComplete.core) return {text:'Complete the current interactive story page. Choose a response, then press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_core').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
    if(G.coreFirewalls<3)return {text:`Break Root Firewall layer ${G.coreFirewalls+1}/3 by choosing the strongest rule.`,action:()=>$('#firewallPuzzle').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW FIREWALL'};
    if(G.echo>0)return {text:`Attack ECHO with your compiled programs. Coherence remaining: ${Math.round(G.echo)}%.`,action:()=>$('#bossActions').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW ECHO CONTROLS'};
    if(!G.ending)return {text:'Choose which rule survives and determine the ending.',action:()=>$('#finalDecision').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW FINAL CHOICE'};
@@ -1026,6 +1302,20 @@ function updateGuide(){
  $('#nextGuideBtn').textContent=n.label||'SHOW ME WHAT TO DO NEXT';
  $('#nextGuideBtn').onclick=n.action;
 }
+
+
+function storyGateOpenForCurrent(){
+ const st=currentStageNumber();if(st<0)return true;
+ const key=storyKeyForStage(st);return !!G.storyPagesComplete[key];
+}
+document.addEventListener('click',e=>{
+ const active=$('.stage.active');if(!active||active.id==='stageHub')return;
+ const guide=e.target.closest('#nextGuideBtn,[data-story],[data-storynext]');if(guide)return;
+ const interactive=e.target.closest('button');
+ if(interactive && !storyGateOpenForCurrent() && !interactive.closest('[id^="storyCheckpoint_"]') && interactive.id!=='hubBtn' && interactive.id!=='soundBtn' && interactive.id!=='resetBtn'){
+   e.preventDefault();e.stopImmediatePropagation();toast('COMPLETE THE STORY DECISION ABOVE FIRST');updateGuide();
+ }
+},true);
 
 // CROSS-AREA DYNAMIC SYSTEMS
 const dynEvents={
@@ -1167,7 +1457,7 @@ function rain(){
  requestAnimationFrame(rain)
 }
 rainResize();addEventListener('resize',rainResize);rain();
-$('#soundBtn').textContent='SND '+(G.sound?'ON':'OFF');updateHud();updateDynamicHUD();renderTruths();renderDeckExtras();if(G.stage>=1){renderScanner();renderCityExtras()}if(G.stage>=2)renderArchiveExtras();if(G.stage>=3)renderLabExtras();if(G.stage>=4)renderBoss();renderHub();if(G.ngplus>0&&$('#ngEcho'))$('#ngEcho').innerHTML='<br><b>ECHO:</b> I remember you.';updateObjectives();updateGuide();
+$('#soundBtn').textContent='SND '+(G.sound?'ON':'OFF');updateHud();updateDynamicHUD();renderTruths();renderDeckExtras();if(G.stage>=1){renderScanner();renderCityExtras()}if(G.stage>=2)renderArchiveExtras();if(G.stage>=3)renderLabExtras();if(G.stage>=4)renderBoss();renderHub();renderAllStoryCheckpoints();if(G.ngplus>0&&$('#ngEcho'))$('#ngEcho').innerHTML='<br><b>ECHO:</b> I remember you.';updateObjectives();updateGuide();
 })();
 </script>
 </body></html>
