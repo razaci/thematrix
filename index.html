@@ -375,6 +375,40 @@ linear-gradient(180deg,#07120c,#020503 70%);position:relative;overflow:hidden;pa
  .jackCable{width:8px;height:50px;margin:auto}
 }
 
+
+/* MATRIX LIVE DISTRICT */
+#matrixDistrict{display:none;border:1px solid #355d47;background:#041009;border-radius:15px;padding:12px;margin:10px 0}
+#matrixDistrict.active{display:block}
+.districtHero{border:1px solid #3f6c50;background:linear-gradient(180deg,#08170f,#030805);border-radius:13px;padding:12px}
+.districtStats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:9px 0}
+.districtStat{border:1px solid #355d47;background:#07130d;border-radius:9px;padding:8px;text-align:center}
+.buildGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:9px}
+.buildCard{border:1px solid #3b664d;background:#07150e;border-radius:10px;padding:9px}
+.buildCard button{width:100%;margin-top:6px;background:#102219;color:#fff;border:1px solid #4f7b5f;border-radius:8px;padding:9px;font-weight:800}
+.buildCard.owned{border-color:#82c79a;background:#0c1d13}
+.districtLog{font-family:monospace;background:#010503;border:1px solid #315c43;border-radius:8px;padding:8px;min-height:78px;margin-top:8px;color:#d9ffe7}
+.districtActions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}
+.districtActions button{background:#0d1c14;color:#fff;border:1px solid #477157;border-radius:9px;padding:10px;font-weight:800}
+.districtActions .exit{border:2px solid #ffd84d;background:#ffd84d;color:#171100}
+@media(max-width:650px){.districtStats,.buildGrid,.districtActions{grid-template-columns:1fr}}
+
+
+/* MATRIX SANDBOX CREATOR */
+#matrixSandbox{display:none;border:1px solid #355d47;background:#030805;border-radius:15px;padding:12px;margin:10px 0}
+#matrixSandbox.active{display:block}
+.sandboxHero{border:1px solid #456f56;background:#06130c;border-radius:13px;padding:11px}
+.sandboxScene{position:relative;overflow:hidden;min-height:330px;border:1px solid #436a51;border-radius:12px;background:#020503;margin:9px 0}
+#sandboxCanvas{display:block;width:100%;height:330px}
+.sandboxHUD{position:absolute;left:8px;right:8px;top:8px;display:flex;justify-content:space-between;gap:6px;pointer-events:none;font-family:monospace;font-size:9px}
+.sandboxHUD span{background:#030805cc;border:1px solid #355d47;border-radius:7px;padding:5px;color:#e2ffeb}
+.sandboxControls{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.sandboxPanel{border:1px solid #365e48;background:#07130d;border-radius:10px;padding:9px}
+.sandboxPanel h4{margin:.1rem 0 .4rem}
+.sandboxPanel button,.sandboxPanel select{width:100%;min-height:42px;margin-top:5px;background:#0d1e15;color:#fff;border:1px solid #4d775d;border-radius:8px;padding:8px;font-weight:800}
+.sandboxObjectGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.sandboxExit{width:100%;margin-top:9px;border:2px solid #ffd84d;background:#ffd84d;color:#171100;border-radius:10px;padding:12px;font-weight:950}
+@media(max-width:650px){.sandboxControls{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -445,10 +479,98 @@ linear-gradient(180deg,#07120c,#020503 70%);position:relative;overflow:hidden;pa
           <b>MATRIX TERMINAL</b>
           <div class="matrixScreenMini" id="matrixMiniScreen">LINK: DISCONNECTED<br>CAMPAIGN: STANDBY<br>RAIN FEED: OFF</div>
           <button type="button" id="jackIntoMatrix" disabled>JACK INTO MATRIX</button>
+<button type="button" id="enterMatrixDistrict" disabled>ENTER AFTERIMAGE BLOCK</button>
+<button type="button" id="enterMatrixSandbox" disabled>ENTER MATRIX SANDBOX</button>
           <button type="button" id="openRainFromBay">OPEN RAIN MONITOR</button>
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+
+<section id="matrixSandbox">
+ <div class="sandboxHero">
+  <div class="storyChapterLabel">MATRIX SANDBOX // NON-CANON CREATOR SPACE</div>
+  <h2>THE EDITABLE BLOCK</h2>
+  <p>A safe experimental Matrix instance. Change its rules, scenery and objects, then leave through the hardline and return to Mnemosyne.</p>
+
+  <div class="sandboxScene">
+    <canvas id="sandboxCanvas" width="900" height="500" aria-label="Editable Matrix simulation scene"></canvas>
+    <div class="sandboxHUD">
+      <span id="sandboxSceneReadout">SCENE: NEON STREET</span>
+      <span id="sandboxRuleReadout">GRAVITY: 1.0G // RAIN: ON</span>
+    </div>
+  </div>
+
+  <div class="sandboxControls">
+    <div class="sandboxPanel">
+      <h4>SCENE SELECTOR</h4>
+      <select id="sandboxSceneSelect">
+        <option value="street">NEON STREET</option>
+        <option value="rooftop">ROOFTOP NIGHT</option>
+        <option value="construct">WHITE CONSTRUCT</option>
+        <option value="subway">ABANDONED SUBWAY</option>
+        <option value="garden">SYNTHETIC GARDEN</option>
+      </select>
+      <button type="button" id="sandboxCycleScene">LOAD NEXT SCENE</button>
+    </div>
+
+    <div class="sandboxPanel">
+      <h4>REALITY RULES</h4>
+      <button type="button" id="sandboxRain">TOGGLE DIGITAL RAIN</button>
+      <button type="button" id="sandboxGravity">CHANGE GRAVITY</button>
+      <button type="button" id="sandboxLight">SHIFT LIGHTING</button>
+      <button type="button" id="sandboxGlitch">DESTABILIZE REALITY</button>
+    </div>
+
+    <div class="sandboxPanel">
+      <h4>SPAWN OBJECTS</h4>
+      <div class="sandboxObjectGrid">
+        <button type="button" data-spawn="crate">CRATE</button>
+        <button type="button" data-spawn="phone">PAYPHONE</button>
+        <button type="button" data-spawn="door">DOOR</button>
+        <button type="button" data-spawn="drone">DRONE</button>
+        <button type="button" data-spawn="light">LIGHT</button>
+        <button type="button" data-spawn="bench">BENCH</button>
+      </div>
+      <button type="button" id="sandboxClear">CLEAR OBJECTS</button>
+    </div>
+
+    <div class="sandboxPanel">
+      <h4>SIMULATION TOOLS</h4>
+      <button type="button" id="sandboxFreeze">FREEZE / RESUME</button>
+      <button type="button" id="sandboxPulse">CODE PULSE</button>
+      <button type="button" id="sandboxSavePreset">SAVE LOCAL PRESET</button>
+      <div class="consoleReadout" id="sandboxLog">SANDBOX READY</div>
+    </div>
+  </div>
+
+  <button type="button" class="sandboxExit" id="sandboxExit">EXIT SANDBOX VIA HARDLINE</button>
+ </div>
+</section>
+<section id="matrixDistrict">
+  <div class="districtHero">
+    <div class="storyChapterLabel">MATRIX RESIDENCY // PERSISTENT DISTRICT</div>
+    <h2>THE AFTERIMAGE BLOCK</h2>
+    <p>This is your persistent place inside the Matrix. Build it up, configure systems, run local jobs, gather resources, and leave through the hardline when you are ready to return to Mnemosyne.</p>
+    <div class="districtStats">
+      <div class="districtStat"><b>LEVEL</b><div id="districtLevel">1</div></div>
+      <div class="districtStat"><b>CODE</b><div id="districtCode">0</div></div>
+      <div class="districtStat"><b>STABILITY</b><div id="districtStability">70%</div></div>
+      <div class="districtStat"><b>RESIDENTS</b><div id="districtResidents">2</div></div>
+    </div>
+    <div class="buildGrid" id="districtBuildGrid"></div>
+    <h3>LOCAL ACTIVITIES</h3>
+    <div class="districtActions">
+      <button type="button" id="districtScavenge">SCAVENGE CODE</button>
+      <button type="button" id="districtTune">TUNE REALITY</button>
+      <button type="button" id="districtRecruit">RECRUIT PROGRAM</button>
+      <button type="button" id="districtPatrol">PATROL BLOCK</button>
+      <button type="button" id="districtRest">REST / STABILIZE</button>
+      <button type="button" class="exit" id="districtExit">EXIT VIA HARDLINE</button>
+    </div>
+    <div class="districtLog" id="districtLog">DISTRICT ONLINE // BUILD SOMETHING OR RUN A LOCAL ACTIVITY</div>
   </div>
 </section>
 <section id="shipConsoleDock" class="shipConsoleDock">
@@ -2492,6 +2614,8 @@ document.addEventListener('click',e=>{
     btn.closest('[id^="shipConsole_"]') ||
     btn.closest('#shipDamageGrid') ||
     btn.closest('#shipMainFrame') ||
+    btn.closest('#matrixDistrict') ||
+    btn.closest('#matrixSandbox') ||
     btn.id==='nextGuideBtn' ||
     btn.id==='hubBtn' ||
     btn.id==='soundBtn' ||
@@ -2998,6 +3122,8 @@ function bindShipMain(){
     MATRIX_CABLE_CONNECTED=!MATRIX_CABLE_CONNECTED;
     $('#plugMatrixCable').textContent=MATRIX_CABLE_CONNECTED?'UNPLUG CABLE':'PLUG IN CABLE';
     $('#jackIntoMatrix').disabled=!MATRIX_CABLE_CONNECTED;
+    if($('#enterMatrixDistrict'))$('#enterMatrixDistrict').disabled=!MATRIX_CABLE_CONNECTED;
+    if($('#enterMatrixSandbox'))$('#enterMatrixSandbox').disabled=!MATRIX_CABLE_CONNECTED;
     $('#matrixMiniScreen').innerHTML=MATRIX_CABLE_CONNECTED
       ?`LINK: CONNECTED<br>CAMPAIGN: CHAPTER ${(Number(G.stage)||0)+1}<br>RAIN FEED: AVAILABLE`
       :'LINK: DISCONNECTED<br>CAMPAIGN: STANDBY<br>RAIN FEED: OFF';
@@ -3010,6 +3136,8 @@ function bindShipMain(){
     const target=$('#storyCampaign_'+key)||$('#protocol_'+key);
     if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
   };
+  if($('#enterMatrixDistrict'))$('#enterMatrixDistrict').onclick=openMatrixDistrict;
+  if($('#enterMatrixSandbox'))$('#enterMatrixSandbox').onclick=openMatrixSandbox;
   if($('#openRainFromBay'))$('#openRainFromBay').onclick=openRainChamber;
   updateShipHero();
 }
@@ -3021,6 +3149,224 @@ function updateShipHero(){
   if($('#shipHeroMatrix'))$('#shipHeroMatrix').textContent=MATRIX_CABLE_CONNECTED?'CABLE CONNECTED':'STANDBY';
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindShipMain,{once:true});else bindShipMain();
+
+
+const DISTRICT_BUILDINGS=[
+ {id:'safehouse',name:'SAFEHOUSE',cost:6,desc:'A secure room that improves Stability and gives you a reliable spawn point.'},
+ {id:'workbench',name:'CODE WORKBENCH',cost:8,desc:'Lets you refine scavenged Code and improves local job rewards.'},
+ {id:'relay',name:'SIGNAL RELAY',cost:10,desc:'Improves communications with Mnemosyne and reveals more local events.'},
+ {id:'market',name:'PROGRAM MARKET',cost:12,desc:'Attracts independent programs and increases resident count.'},
+ {id:'garden',name:'SYNTHETIC GARDEN',cost:14,desc:'A calming simulation zone that slowly restores district Stability.'},
+ {id:'hardline',name:'PRIVATE HARDLINE',cost:16,desc:'A dedicated exit that improves safe extraction rewards.'}
+];
+const DISTRICT={
+ level:1,
+ stability:70,
+ residents:2,
+ localCode:10,
+ buildings:{},
+ jobs:0
+};
+function openMatrixDistrict(){
+ if(!MATRIX_CABLE_CONNECTED){toast('PLUG IN MATRIX CABLE FIRST');showShipZone('matrix');return}
+ $$('.stage').forEach(x=>x.classList.remove('active'));
+ $$('.shipConsoleScreen').forEach(x=>x.classList.remove('active'));
+ const d=$('#matrixDistrict');if(d)d.classList.add('active');
+ renderDistrict();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function closeMatrixDistrict(){
+ const d=$('#matrixDistrict');if(d)d.classList.remove('active');
+ showShipZone('matrix');
+ showShipConsole('matrix');
+ const ship=$('#shipMainFrame');if(ship)ship.scrollIntoView({behavior:'smooth',block:'start'});
+ toast('RETURNED TO MNEMOSYNE');
+}
+function districtLog(t){
+ if($('#districtLog'))$('#districtLog').textContent=t;
+}
+function renderDistrict(){
+ if($('#districtLevel'))$('#districtLevel').textContent=DISTRICT.level;
+ if($('#districtCode'))$('#districtCode').textContent=DISTRICT.localCode;
+ if($('#districtStability'))$('#districtStability').textContent=DISTRICT.stability+'%';
+ if($('#districtResidents'))$('#districtResidents').textContent=DISTRICT.residents;
+ const g=$('#districtBuildGrid');if(!g)return;
+ g.innerHTML=DISTRICT_BUILDINGS.map(b=>{
+   const owned=!!DISTRICT.buildings[b.id];
+   return `<div class="buildCard ${owned?'owned':''}">
+     <h4>${b.name}</h4><p>${b.desc}</p>
+     <button type="button" data-build="${b.id}" ${owned?'disabled':''}>${owned?'BUILT':'BUILD — '+b.cost+' CODE'}</button>
+   </div>`;
+ }).join('');
+ $$('[data-build]').forEach(btn=>btn.onclick=()=>buildDistrict(btn.dataset.build));
+}
+function buildDistrict(id){
+ const b=DISTRICT_BUILDINGS.find(x=>x.id===id);if(!b)return;
+ if(DISTRICT.buildings[id])return;
+ if(DISTRICT.localCode<b.cost){districtLog('NOT ENOUGH LOCAL CODE // RUN SCAVENGE OR JOBS');toast('NEED MORE LOCAL CODE');return}
+ DISTRICT.localCode-=b.cost;
+ DISTRICT.buildings[id]=true;
+ DISTRICT.level=1+Object.keys(DISTRICT.buildings).length;
+ if(id==='safehouse')DISTRICT.stability=Math.min(100,DISTRICT.stability+8);
+ if(id==='market')DISTRICT.residents+=2;
+ if(id==='garden')DISTRICT.stability=Math.min(100,DISTRICT.stability+10);
+ districtLog(`BUILT ${b.name} // DISTRICT LEVEL ${DISTRICT.level}`);
+ renderDistrict();save();
+}
+function bindDistrict(){
+ const set=(id,fn)=>{if($(id))$(id).onclick=fn};
+ set('#districtScavenge',()=>{
+   const gain=3+(DISTRICT.buildings.workbench?2:0);
+   DISTRICT.localCode+=gain;DISTRICT.stability=Math.max(20,DISTRICT.stability-2);
+   DISTRICT.jobs++;districtLog(`SCAVENGE COMPLETE // +${gain} LOCAL CODE // MINOR STABILITY LOSS`);renderDistrict();save();
+ });
+ set('#districtTune',()=>{
+   DISTRICT.stability=Math.min(100,DISTRICT.stability+7);
+   DISTRICT.localCode=Math.max(0,DISTRICT.localCode-1);
+   districtLog('REALITY TUNED // +7 STABILITY // -1 LOCAL CODE');renderDistrict();save();
+ });
+ set('#districtRecruit',()=>{
+   if(DISTRICT.localCode<4){districtLog('NEED 4 LOCAL CODE TO RECRUIT');return}
+   DISTRICT.localCode-=4;DISTRICT.residents++;
+   districtLog('INDEPENDENT PROGRAM JOINED THE BLOCK');renderDistrict();save();
+ });
+ set('#districtPatrol',()=>{
+   const risky=Math.random()<.28;
+   if(risky){DISTRICT.stability=Math.max(10,DISTRICT.stability-5);districtLog('PATROL HIT A PURSUIT PROCESS // -5 STABILITY');}
+   else{DISTRICT.localCode+=4;districtLog('PATROL CLEAR // +4 LOCAL CODE');}
+   DISTRICT.jobs++;renderDistrict();save();
+ });
+ set('#districtRest',()=>{
+   DISTRICT.stability=Math.min(100,DISTRICT.stability+(DISTRICT.buildings.garden?12:6));
+   districtLog('DISTRICT REST CYCLE COMPLETE');renderDistrict();save();
+ });
+ set('#districtExit',closeMatrixDistrict);
+ renderDistrict();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindDistrict,{once:true});else bindDistrict();
+
+
+const SANDBOX={
+ scene:'street',
+ rain:true,
+ gravity:1.0,
+ light:0,
+ glitch:0,
+ frozen:false,
+ objects:[],
+ preset:null
+};
+const SANDBOX_SCENES={
+ street:{name:'NEON STREET',sky:'#07120d',ground:'#09120d'},
+ rooftop:{name:'ROOFTOP NIGHT',sky:'#020408',ground:'#11151a'},
+ construct:{name:'WHITE CONSTRUCT',sky:'#dddddd',ground:'#f3f3f3'},
+ subway:{name:'ABANDONED SUBWAY',sky:'#080808',ground:'#181818'},
+ garden:{name:'SYNTHETIC GARDEN',sky:'#06140d',ground:'#102318'}
+};
+let sandboxRAF=null,sandboxDrops=[];
+
+function openMatrixSandbox(){
+ if(!MATRIX_CABLE_CONNECTED){toast('PLUG IN MATRIX CABLE FIRST');showShipZone('matrix');return}
+ $$('.stage').forEach(x=>x.classList.remove('active'));
+ $$('.shipConsoleScreen').forEach(x=>x.classList.remove('active'));
+ $('#matrixDistrict')?.classList.remove('active');
+ const el=$('#matrixSandbox');if(el)el.classList.add('active');
+ initSandbox();
+ renderSandbox();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function closeMatrixSandbox(){
+ $('#matrixSandbox')?.classList.remove('active');
+ if(sandboxRAF){cancelAnimationFrame(sandboxRAF);sandboxRAF=null}
+ showShipZone('matrix');
+ showShipConsole('matrix');
+ $('#shipMainFrame')?.scrollIntoView({behavior:'smooth',block:'start'});
+ toast('SANDBOX DISCONNECTED // BACK ABOARD MNEMOSYNE');
+}
+function sandboxLog(t){if($('#sandboxLog'))$('#sandboxLog').textContent=t}
+function initSandbox(){
+ const c=$('#sandboxCanvas');if(!c)return;
+ sandboxDrops=Array.from({length:70},()=>({x:Math.random()*c.width,y:Math.random()*c.height,s:4+Math.random()*8}));
+ if(!sandboxRAF)animateSandbox();
+}
+function renderSandbox(){
+ const d=SANDBOX_SCENES[SANDBOX.scene]||SANDBOX_SCENES.street;
+ if($('#sandboxSceneReadout'))$('#sandboxSceneReadout').textContent='SCENE: '+d.name;
+ if($('#sandboxRuleReadout'))$('#sandboxRuleReadout').textContent=`GRAVITY: ${SANDBOX.gravity.toFixed(1)}G // RAIN: ${SANDBOX.rain?'ON':'OFF'} // GLITCH: ${SANDBOX.glitch}`;
+ if($('#sandboxSceneSelect'))$('#sandboxSceneSelect').value=SANDBOX.scene;
+}
+function drawSandbox(){
+ const c=$('#sandboxCanvas');if(!c)return;
+ const x=c.getContext('2d'),d=SANDBOX_SCENES[SANDBOX.scene]||SANDBOX_SCENES.street;
+ x.fillStyle=d.sky;x.fillRect(0,0,c.width,c.height);
+ x.fillStyle=d.ground;x.fillRect(0,c.height*.64,c.width,c.height*.36);
+
+ // horizon structures differ by scene
+ x.strokeStyle=SANDBOX.scene==='construct'?'#888':'#315b43';x.lineWidth=2;
+ if(SANDBOX.scene==='street'){
+   for(let i=0;i<8;i++){x.strokeRect(i*130-30,120+(i%2)*35,95,205)}
+   x.beginPath();x.moveTo(0,320);x.lineTo(c.width,320);x.stroke();
+ } else if(SANDBOX.scene==='rooftop'){
+   x.fillStyle='#11161a';for(let i=0;i<12;i++)x.fillRect(i*85,180-(i%4)*20,60,180);
+ } else if(SANDBOX.scene==='subway'){
+   x.strokeRect(80,125,740,240);x.beginPath();x.moveTo(0,360);x.lineTo(c.width,360);x.stroke();
+ } else if(SANDBOX.scene==='garden'){
+   x.fillStyle='#183522';for(let i=0;i<18;i++){x.beginPath();x.arc(30+i*55,320-(i%3)*16,24,0,Math.PI*2);x.fill()}
+ }
+
+ // spawned objects
+ for(const o of SANDBOX.objects){
+   x.save();x.translate(o.x,o.y);
+   x.fillStyle='#6da57d';x.strokeStyle='#b9e7c7';
+   if(o.type==='crate')x.fillRect(-18,-18,36,36);
+   if(o.type==='phone'){x.fillRect(-12,-28,24,56);x.strokeRect(-8,-21,16,15)}
+   if(o.type==='door'){x.strokeRect(-22,-60,44,60)}
+   if(o.type==='drone'){x.beginPath();x.arc(0,0,14,0,Math.PI*2);x.fill();x.strokeRect(-28,-2,56,4)}
+   if(o.type==='light'){x.beginPath();x.arc(0,0,10,0,Math.PI*2);x.fill()}
+   if(o.type==='bench')x.fillRect(-28,-8,56,16);
+   x.restore();
+ }
+
+ // digital rain
+ if(SANDBOX.rain){
+   x.font='14px monospace';x.fillStyle=SANDBOX.scene==='construct'?'#1f5d32':'#69d98d';
+   for(const r of sandboxDrops){
+     x.fillText(Math.random()>.5?'1':'0',r.x,r.y);
+     if(!SANDBOX.frozen){r.y+=r.s;if(r.y>c.height){r.y=0;r.x=Math.random()*c.width}}
+   }
+ }
+
+ // glitch bands
+ if(SANDBOX.glitch>0){
+   x.fillStyle='rgba(255,255,255,.05)';
+   for(let i=0;i<SANDBOX.glitch;i++)x.fillRect(Math.random()*c.width,Math.random()*c.height,100+Math.random()*300,2+Math.random()*8);
+ }
+}
+function animateSandbox(){
+ drawSandbox();
+ sandboxRAF=requestAnimationFrame(animateSandbox);
+}
+function bindMatrixSandbox(){
+ $('#sandboxSceneSelect')?.addEventListener('change',e=>{SANDBOX.scene=e.target.value;renderSandbox();sandboxLog('SCENE LOADED: '+SANDBOX_SCENES[SANDBOX.scene].name)});
+ $('#sandboxCycleScene')?.addEventListener('click',()=>{
+   const keys=Object.keys(SANDBOX_SCENES),i=(keys.indexOf(SANDBOX.scene)+1)%keys.length;SANDBOX.scene=keys[i];renderSandbox();sandboxLog('SCENE SHIFTED');
+ });
+ $('#sandboxRain')?.addEventListener('click',()=>{SANDBOX.rain=!SANDBOX.rain;renderSandbox();sandboxLog('DIGITAL RAIN '+(SANDBOX.rain?'ENABLED':'DISABLED'))});
+ $('#sandboxGravity')?.addEventListener('click',()=>{const vals=[.2,.5,1,1.8,0];let i=vals.indexOf(SANDBOX.gravity);SANDBOX.gravity=vals[(i+1)%vals.length];renderSandbox();sandboxLog('GRAVITY RULE CHANGED')});
+ $('#sandboxLight')?.addEventListener('click',()=>{SANDBOX.light=(SANDBOX.light+1)%4;sandboxLog('LIGHTING PROFILE '+SANDBOX.light)});
+ $('#sandboxGlitch')?.addEventListener('click',()=>{SANDBOX.glitch=(SANDBOX.glitch+1)%6;renderSandbox();sandboxLog('REALITY INSTABILITY '+SANDBOX.glitch)});
+ $$('[data-spawn]').forEach(b=>b.addEventListener('click',()=>{
+   if(SANDBOX.objects.length>=18){sandboxLog('OBJECT LIMIT REACHED');return}
+   SANDBOX.objects.push({type:b.dataset.spawn,x:90+Math.random()*720,y:250+Math.random()*160});
+   sandboxLog('SPAWNED '+b.dataset.spawn.toUpperCase());
+ }));
+ $('#sandboxClear')?.addEventListener('click',()=>{SANDBOX.objects=[];sandboxLog('OBJECT LAYER CLEARED')});
+ $('#sandboxFreeze')?.addEventListener('click',()=>{SANDBOX.frozen=!SANDBOX.frozen;sandboxLog(SANDBOX.frozen?'SIMULATION FROZEN':'SIMULATION RESUMED')});
+ $('#sandboxPulse')?.addEventListener('click',()=>{SANDBOX.glitch=Math.min(5,SANDBOX.glitch+2);G.insight=(G.insight||0)+1;renderSandbox();sandboxLog('CODE PULSE // +1 INSIGHT');updateHud();save()});
+ $('#sandboxSavePreset')?.addEventListener('click',()=>{SANDBOX.preset=JSON.parse(JSON.stringify({scene:SANDBOX.scene,rain:SANDBOX.rain,gravity:SANDBOX.gravity,light:SANDBOX.light,glitch:SANDBOX.glitch,objects:SANDBOX.objects}));sandboxLog('LOCAL SANDBOX PRESET SAVED')});
+ $('#sandboxExit')?.addEventListener('click',closeMatrixSandbox);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindMatrixSandbox,{once:true});else bindMatrixSandbox();
 
 </script>
 </body></html>
