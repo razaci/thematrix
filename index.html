@@ -409,18 +409,100 @@ linear-gradient(180deg,#07120c,#020503 70%);position:relative;overflow:hidden;pa
 .sandboxExit{width:100%;margin-top:9px;border:2px solid #ffd84d;background:#ffd84d;color:#171100;border-radius:10px;padding:12px;font-weight:950}
 @media(max-width:650px){.sandboxControls{grid-template-columns:1fr}}
 
+
+/* CLEAN CAMPAIGN FSM + CLICKABLE SHIP MAP */
+.sequencePanel{border:2px solid #ffd84d;background:#0b0e08;border-radius:14px;padding:12px;margin:10px 0}
+.sequenceTitle{font:10px monospace;color:#ffe98a;letter-spacing:.12em}.sequenceSteps{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:9px 0}
+.sequenceStep{border:1px solid #3c5e49;background:#07120c;border-radius:9px;padding:9px;text-align:center;font-size:10px}.sequenceStep b{display:block;font-size:18px}
+.sequenceStep.done{background:#15301f;border-color:#6db989}.sequenceStep.current{background:#3a3109;border:2px solid #ffd84d;color:#fff6b3}.sequenceStep.future{opacity:.4}
+.sequenceAction{width:100%;min-height:48px;border:2px solid #ffd84d;background:#ffd84d;color:#171100;border-radius:10px;font-weight:950}
+.sequenceNotice{font:10px monospace;color:#d8ffe5;margin-top:7px}
+.shipMapWrap{border:1px solid #355d47;background:#020604;border-radius:15px;padding:10px;margin:10px 0}.shipMap{position:relative;min-height:360px;border:1px solid #426d52;border-radius:13px;overflow:hidden;background:radial-gradient(circle at 50% 35%,rgba(82,139,102,.22),transparent 28%),linear-gradient(180deg,#07120c,#020503)}
+.shipSilhouette{position:absolute;left:7%;right:7%;top:17%;bottom:12%;border:2px solid #4e7a5e;border-radius:48% 48% 22% 22%/36% 36% 64% 64%;background:linear-gradient(180deg,#0a1811,#06100b)}
+.shipSilhouette:before{content:"";position:absolute;left:18%;right:18%;top:10%;height:18%;border:1px solid #42694f;border-radius:50%;background:#08130d}.shipSilhouette:after{content:"";position:absolute;left:47%;top:-9%;width:6%;height:118%;background:#172a20;border-left:1px solid #3b634a;border-right:1px solid #3b634a}
+.shipHotspot{position:absolute;z-index:3;min-width:110px;min-height:48px;border:1px solid #79aa88;background:#08140dcc;color:#fff;border-radius:10px;padding:7px;font-weight:900;font-size:10px}.shipHotspot small{display:block;color:#ccebd6;font-weight:500}.shipHotspot.active{border:2px solid #ffd84d;background:#332b08;color:#fff1a0}
+.shipHotspot.bridge{left:38%;top:11%}.shipHotspot.engineering{left:8%;top:55%}.shipHotspot.life{right:8%;top:55%}.shipHotspot.sensors{left:12%;top:25%}.shipHotspot.matrix{right:12%;top:25%}.shipMapReadout{margin-top:9px;border:1px solid #355d47;background:#07120c;border-radius:10px;padding:10px}
+@media(max-width:650px){.sequenceSteps{grid-template-columns:1fr}.shipMap{min-height:420px}.shipHotspot{min-width:92px;font-size:9px}.shipHotspot.bridge{left:34%;top:9%}.shipHotspot.engineering{left:4%;top:62%}.shipHotspot.life{right:4%;top:62%}.shipHotspot.sensors{left:4%;top:30%}.shipHotspot.matrix{right:4%;top:30%}}
+
+
+/* CINEMATIC STORY LAYER */
+.cinemaStory{border:1px solid #466d54;background:#030805;border-radius:15px;padding:12px;margin:10px 0}
+.cinemaEyebrow{font:10px monospace;letter-spacing:.14em;color:#bce9ca}
+.cinemaStory h2{margin:.25rem 0 .45rem;font-size:clamp(22px,5vw,38px)}
+.cinemaLead{font-size:14px;line-height:1.55;color:#f1fff5}
+.cinemaFrame{position:relative;overflow:hidden;border:1px solid #3c674d;border-radius:12px;margin:9px 0;background:#020503}
+.cinemaFrame img{display:block;width:100%;height:220px;object-fit:cover;filter:saturate(.85) contrast(1.08)}
+.cinemaFrame:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.82))}
+.cinemaCaption{position:absolute;z-index:2;left:10px;right:10px;bottom:9px;color:#fff;font-size:11px;line-height:1.35}
+.cinemaBeats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.cinemaBeat{border:1px solid #345a44;background:#07130d;border-radius:10px;padding:9px;line-height:1.45}
+.cinemaDialogue{border-left:3px solid #ffd84d;background:#161507;padding:9px 11px;margin:8px 0;color:#fff7c8;font-style:italic}
+.cinemaPurpose{border:1px solid #665a2d;background:#181507;border-radius:10px;padding:10px;margin-top:8px}
+.cinemaProgress{font:10px monospace;color:#d8ffe5;margin-top:6px}
+@media(max-width:650px){.cinemaBeats{grid-template-columns:1fr}.cinemaFrame img{height:180px}}
+
+
+/* LEGACY CREW BRIEFING */
+#legacyCrewBriefing{border:1px solid #4b7459;background:#030805;border-radius:15px;padding:12px;margin:10px 0}
+.legacyCrewIntro{border:1px solid #355d47;background:#07130d;border-radius:11px;padding:10px;margin-bottom:9px}
+.legacyCrewGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.legacyCard{border:1px solid #3e664d;background:#07120c;border-radius:11px;overflow:hidden}
+.legacyPortrait{height:120px;position:relative;background:
+radial-gradient(circle at 50% 28%,#7e9e88 0 11%,transparent 12%),
+radial-gradient(ellipse at 50% 80%,#284434 0 28%,transparent 29%),
+linear-gradient(180deg,#0d1d14,#020604)}
+.legacyPortrait:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.75))}
+.legacyInfo{padding:9px}
+.legacyInfo h4{margin:.1rem 0;color:#effff3}
+.legacyRole{font:10px monospace;color:#bde9c9;margin-bottom:5px}
+.legacyQuote{font-size:11px;color:#d6f7df;line-height:1.4}
+.legacyStatus{display:inline-block;margin-top:7px;border:1px solid #567c62;border-radius:999px;padding:3px 7px;font:9px monospace}
+.legacyMissionStrip{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}
+.legacyMissionStep{border:1px solid #355d47;background:#07120c;border-radius:9px;padding:8px;text-align:center;font-size:10px}
+.legacyEnter{width:100%;margin-top:10px;border:2px solid #ffd84d;background:#ffd84d;color:#171100;border-radius:10px;padding:12px;font-weight:950}
+@media(max-width:760px){.legacyCrewGrid{grid-template-columns:1fr 1fr}.legacyMissionStrip{grid-template-columns:1fr 1fr}}
+@media(max-width:460px){.legacyCrewGrid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
 
 
+
+
+<section id="legacyCrewBriefing">
+  <div class="storyChapterLabel">UNOFFICIAL FAN-FICTION BRIEFING // LEGACY CREW</div>
+  <h2>BEFORE YOU JACK IN</h2>
+  <div class="legacyCrewIntro">
+    <p>The Mnemosyne keeps a reconstructed mission board built from archived resistance records. Before every Matrix operation, you review the people whose choices shaped the war—and in this fan-fiction timeline, some appear as recovered simulations, surviving allies, or archived tactical personas helping the new crew.</p>
+  </div>
+  <div class="legacyCrewGrid" id="legacyCrewGrid"></div>
+  <div class="legacyMissionStrip">
+    <div class="legacyMissionStep"><b>1</b><br>CREW BRIEFING</div>
+    <div class="legacyMissionStep"><b>2</b><br>SHIP CHECK</div>
+    <div class="legacyMissionStep"><b>3</b><br>PLUG IN</div>
+    <div class="legacyMissionStep"><b>4</b><br>ENTER GAME MODE</div>
+  </div>
+  <button type="button" id="legacyProceed" class="legacyEnter">CONTINUE TO SHIP / GAME MODE</button>
+</section>
+<section id="clickableShipMap" class="shipMapWrap">
+ <div class="storyChapterLabel">MNEMOSYNE // CLICKABLE SHIP MAP</div><h2>TAP A PART OF THE SHIP</h2>
+ <p>Pick a ship section by tapping it. Ship systems are optional and cannot block the campaign.</p>
+ <div class="shipMap"><div class="shipSilhouette"></div>
+  <button class="shipHotspot bridge active" type="button" data-ship-map="bridge">BRIDGE<small>Command + flight</small></button>
+  <button class="shipHotspot engineering" type="button" data-ship-map="engineering">ENGINEERING<small>Power + repair</small></button>
+  <button class="shipHotspot life" type="button" data-ship-map="life">LIFE SUPPORT<small>Atmosphere + crew</small></button>
+  <button class="shipHotspot sensors" type="button" data-ship-map="sensors">SENSORS<small>Scan + comms</small></button>
+  <button class="shipHotspot matrix" type="button" data-ship-map="matrix">MATRIX BAY<small>Jack-in systems</small></button>
+ </div><div class="shipMapReadout" id="shipMapReadout">BRIDGE SELECTED</div>
+</section>
 <section id="shipMainFrame" class="shipMainFrame">
   <div class="shipHero">
     <div class="shipBridgeView">
       <div class="shipBridgeTitle">
         <div class="storyChapterLabel">MNEMOSYNE // MOBILE OPERATIONS SHIP</div>
         <h1>SHIP CONTROL DECK</h1>
-        <p>The Mnemosyne is now the main game space. Move between ship systems, manage damage, power, navigation and crew support, then jack into the Matrix only when a mission calls for it.</p>
+        <p>The Mnemosyne is the crew’s physical anchor in a mystery spreading through the Matrix. Before each operation, the crew reviews reconstructed resistance records from Neo, Trinity, Morpheus, Tank and the original Nebuchadnezzar team. A transmission carrying your own future biometric signature has led the ship toward ECHO, an intelligence built from lives the old Matrix predicted and discarded. Keep the ship alive, investigate the signal, jack in, and always preserve a way back to the one reality everyone aboard still shares.</p>
       </div>
     </div>
     <div class="shipStatusStack">
@@ -723,7 +805,7 @@ linear-gradient(180deg,#07120c,#020503 70%);position:relative;overflow:hidden;pa
   <div class="card"><h3>Crew Interludes</h3><p>After major missions, resolve a shipboard event before continuing.</p><div id="interludePanel"></div></div>
  </div>
 </section>
-<section class="stage active" id="stage0"><div id="storyCheckpoint_deck"></div><div id="encounter_deck"></div><div id="storyCampaign_deck"></div><div id="protocol_deck"></div><div id="areaLock_deck"></div><div id="areaActivation_deck"></div><div id="sceneGallery_deck"></div><div id="microTasks_deck"></div>
+<section class="stage active" id="stage0"><div id="storyCheckpoint_deck"></div><div id="encounter_deck"></div><div id="cinemaStory_deck" class="cinemaStory"></div><div id="sequence_deck" class="sequencePanel"></div><div id="storyCampaign_deck"></div><div id="protocol_deck"></div><div id="areaLock_deck"></div><div id="areaActivation_deck"></div><div id="sceneGallery_deck"></div><div id="microTasks_deck"></div>
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzA2MTMwZCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAwMWIyYSIvPjwvbGluZWFyR3JhZGllbnQ+CjxmaWx0ZXIgaWQ9ImdsIj48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSI2Ii8+PC9maWx0ZXI+PC9kZWZzPgo8cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idXJsKCNnKSIvPgo8ZyBzdHJva2U9IiM0M2ZmOWMiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii42NSI+CjxwYXRoIGQ9Ik04MCAzNTAgTDI1MCAxODAgTDY1MCAxODAgTDgyMCAzNTAgTDY1MCA0MTAgTDI1MCA0MTAgWiIgc3Ryb2tlLXdpZHRoPSI2Ii8+CjxwYXRoIGQ9Ik0yNzAgMTk1IEwzNDAgOTAgTDU2MCA5MCBMNjMwIDE5NSIgc3Ryb2tlLXdpZHRoPSI1Ii8+CjxwYXRoIGQ9Ik0zNzAgMTMwaDE2ME0yMDAgMzMwaDUwME0yOTAgMjYwaDMyME00NTAgOTB2MzIwIiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9Ii41Ii8+CjwvZz4KPGcgZmlsbD0iIzQzZmY5YyI+CjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iMjUiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjYwIiBmaWxsPSJub25lIiBzdHJva2U9IiM0M2ZmOWMiIHN0cm9rZS13aWR0aD0iMyIvPgo8Y2lyY2xlIGN4PSIxODAiIGN5PSIzNjUiIHI9IjEwIi8+PGNpcmNsZSBjeD0iNzIwIiBjeT0iMzY1IiByPSIxMCIvPgo8L2c+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNzdmZmMwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjI0Ij5NTkVNT1NZTkUgLy8gU0lHTkFMIERFQ0s8L3RleHQ+Cjwvc3ZnPg=="><div class="heroText"><div class="kicker">CHAPTER I // THE SIGNAL DECK</div><h2>THE SKY WAS REWRITTEN.<br>THE CODE NOTICED.</h2><p>Weeks after Neo and Trinity reclaimed their power inside the simulation, impossible messages begin arriving aboard the Mnemosyne. They contain memories belonging to people who were never born.</p><button class="action pulse" id="jackIn">JACK INTO THE AFTERIMAGE</button></div></div>
  <div class="grid">
   <div class="card"><h3>Signal Diagnostic</h3><p>Triangulate the ghost transmission. Each scan raises Trace; correct frequencies reveal a hidden speaker.</p><div id="signalButtons"></div></div>
@@ -743,7 +825,7 @@ linear-gradient(180deg,#07120c,#020503 70%);position:relative;overflow:hidden;pa
 <div class="card"><h3>Mission Thread</h3><p id="mission0">Complete the Signal Deck objectives before jacking in.</p><span class="badge">Canvas rain</span><span class="badge">WebAudio</span><span class="badge">DOM console</span><span class="badge">Local save</span><button class="action alt" id="deckHub">VISIT MNEMOSYNE HUB</button></div>
 </section>
 
-<section class="stage" id="stage1"><div id="storyCheckpoint_city"></div><div id="encounter_city"></div><div id="storyCampaign_city"></div><div id="protocol_city"></div><div id="areaLock_city"></div><div id="areaActivation_city"></div><div id="sceneGallery_city"></div><div id="microTasks_city"></div>
+<section class="stage" id="stage1"><div id="storyCheckpoint_city"></div><div id="encounter_city"></div><div id="cinemaStory_city" class="cinemaStory"></div><div id="sequence_city" class="sequencePanel"></div><div id="storyCampaign_city"></div><div id="protocol_city"></div><div id="areaLock_city"></div><div id="areaActivation_city"></div><div id="sceneGallery_city"></div><div id="microTasks_city"></div>
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwMzA5MDkiLz4KPGcgZmlsbD0iIzA3MTcxMiIgc3Ryb2tlPSIjMWE3YjRlIiBzdHJva2Utd2lkdGg9IjIiPgo8cGF0aCBkPSJNMCA0MjBWMTkwaDEwMHYyMzBNOTUgNDIwVjExMGgxMjB2MzEwTTIxMCA0MjBWMjMwaDk1djE5ME0zMDAgNDIwVjgwaDE0NXYzNDBNNDQwIDQyMFYxNjBoMTAwdjI2ME01MzUgNDIwVjEwNWgxMzB2MzE1TTY2MCA0MjBWMjEwaDkwdjIxME03NDUgNDIwVjEzMGgxNTV2MjkwIi8+CjwvZz4KPGcgc3Ryb2tlPSIjMzhmZjkxIiBvcGFjaXR5PSIuOCI+PHBhdGggZD0iTTAgNDIwaDkwMCIvPjxwYXRoIGQ9Ik00NTAgNDIwIDM5MCA1MDBNNDUwIDQyMCA1MTAgNTAwIi8+PC9nPgo8ZyBmaWxsPSIjNDJmZjk0IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjE1IiBvcGFjaXR5PSIuNyI+Cjx0ZXh0IHg9IjMwIiB5PSI3MCI+MDEwMDExMTA8L3RleHQ+PHRleHQgeD0iNzAwIiB5PSI2MCI+MTAxMTAxMDE8L3RleHQ+PHRleHQgeD0iNTIwIiB5PSIyNjAiPldBS0U8L3RleHQ+CjwvZz48L3N2Zz4="><div class="heroText"><div class="kicker">CHAPTER II // FRACTURE CITY</div><h2>HUNT THE GLITCH</h2><p>The city is generating contradictions faster than the system can erase them. Scan five sectors, identify what does not belong, and stabilize the route before the Pursuit Process triangulates you.</p></div></div>
  <div class="grid">
   <div class="card"><h3>Reality Scanner</h3><p>Each district contains four objects. One violates the local rules. Scan it, then choose the anomaly before Trace reaches critical.</p><div id="sectorName" class="badge">SECTOR 1 / 5</div><div id="scannerGrid" class="cards" style="margin-top:8px"></div></div>
@@ -765,7 +847,7 @@ linear-gradient(180deg,#07120c,#020503 70%);position:relative;overflow:hidden;pa
 <div class="card" id="cityExitCard"><h3>Archive Gate</h3><p class="lockNotice">Complete all Fracture City objectives to reveal the Archive entrance.</p></div>
 </section>
 
-<section class="stage" id="stage2"><div id="storyCheckpoint_archive"></div><div id="encounter_archive"></div><div id="storyCampaign_archive"></div><div id="protocol_archive"></div><div id="areaLock_archive"></div><div id="areaActivation_archive"></div><div id="sceneGallery_archive"></div><div id="microTasks_archive"></div>
+<section class="stage" id="stage2"><div id="storyCheckpoint_archive"></div><div id="encounter_archive"></div><div id="cinemaStory_archive" class="cinemaStory"></div><div id="sequence_archive" class="sequencePanel"></div><div id="storyCampaign_archive"></div><div id="protocol_archive"></div><div id="areaLock_archive"></div><div id="areaActivation_archive"></div><div id="sceneGallery_archive"></div><div id="microTasks_archive"></div>
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwNzA4MGIiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzllNzhjIiBvcGFjaXR5PSIuNiI+CjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iMTgwIi8+PGNpcmNsZSBjeD0iNDUwIiBjeT0iMjUwIiByPSIxMzAiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjgwIi8+CjxwYXRoIGQ9Ik00NTAgNzB2MzYwTTI3MCAyNTBoMzYwTTMyMyAxMjNsMjU0IDI1NE01NzcgMTIzIDMyMyAzNzciLz4KPC9nPgo8ZyBmaWxsPSIjOWVmZmNiIj48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjIyIi8+PGNpcmNsZSBjeD0iMzIzIiBjeT0iMTIzIiByPSI5Ii8+PGNpcmNsZSBjeD0iNTc3IiBjeT0iMTIzIiByPSI5Ii8+PGNpcmNsZSBjeD0iMzIzIiBjeT0iMzc3IiByPSI5Ii8+PGNpcmNsZSBjeD0iNTc3IiBjeT0iMzc3IiByPSI5Ii8+PC9nPgo8dGV4dCB4PSI0NTAiIHk9IjQ2NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzYzZmZhZCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyMiI+VEhFIEFSQ0hJVkUgUkVNRU1CRVJTIFZFUlNJT05TIFRIQVQgTkVWRVIgSEFQUEVORUQ8L3RleHQ+Cjwvc3ZnPg=="><div class="heroText"><div class="kicker">CHAPTER III // THE IMPOSSIBLE ARCHIVE</div><h2>MEMORY IS A WEAPON</h2><p>You reach an archive built from discarded versions of the Matrix. An emergent program calling itself ECHO claims it was born from every choice the system predicted but humanity refused to make.</p></div></div>
  <div class="card"><h3>Interactive Fiction Node</h3><div class="storyNode"><p id="storyText"></p></div><div id="storyChoices" class="choice"></div></div>
  <div class="dynamicStrip">
@@ -783,7 +865,7 @@ linear-gradient(180deg,#07120c,#020503 70%);position:relative;overflow:hidden;pa
 <div class="card" id="archiveExitCard"><h3>Construct Gate</h3><p class="lockNotice">Finish the conversation, Memory Loom, and contradiction proof.</p></div>
 </section>
 
-<section class="stage" id="stage3"><div id="storyCheckpoint_lab"></div><div id="encounter_lab"></div><div id="storyCampaign_lab"></div><div id="protocol_lab"></div><div id="areaLock_lab"></div><div id="areaActivation_lab"></div><div id="sceneGallery_lab"></div><div id="microTasks_lab"></div>
+<section class="stage" id="stage3"><div id="storyCheckpoint_lab"></div><div id="encounter_lab"></div><div id="cinemaStory_lab" class="cinemaStory"></div><div id="sequence_lab" class="sequencePanel"></div><div id="storyCampaign_lab"></div><div id="protocol_lab"></div><div id="areaLock_lab"></div><div id="areaActivation_lab"></div><div id="sceneGallery_lab"></div><div id="microTasks_lab"></div>
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwODBhMDkiLz4KPGcgc3Ryb2tlPSIjNGRmZjllIiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTEyMCA0MDAgMjYwIDEwMGgzODBsMTQwIDMwMHoiIHN0cm9rZS13aWR0aD0iNCIvPgo8cGF0aCBkPSJNMjYwIDEwMCA0NTAgNDAwIDY0MCAxMDBNMTIwIDQwMGg2NjAiIG9wYWNpdHk9Ii43Ii8+CjxyZWN0IHg9IjM1NSIgeT0iMTg1IiB3aWR0aD0iMTkwIiBoZWlnaHQ9IjEzMCIgcng9IjE4IiBzdHJva2Utd2lkdGg9IjUiLz4KPC9nPgo8ZyBmaWxsPSIjNGRmZjllIj48cmVjdCB4PSIzOTAiIHk9IjIyMCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxOCIvPjxyZWN0IHg9IjM5MCIgeT0iMjYwIiB3aWR0aD0iODAiIGhlaWdodD0iMTgiLz48L2c+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYTlmZmQwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIyIj5DT05TVFJVQ1QgTEFCIC8vIFJVTEVTIEFSRSBNQVRFUklBTDwvdGV4dD4KPC9zdmc+"><div class="heroText"><div class="kicker">CHAPTER IV // CONSTRUCT LAB</div><h2>BUILD THE RULE THAT SAVES YOU</h2><p>To enter the Mirror Core, you must compile a three-program loadout. The order matters. Your earlier decisions alter which combinations work.</p></div></div>
  <div class="card"><h3>Program Capacity <span id="capLabel" class="badge">0 / 7</span></h3><div class="cards" id="programCards"></div><button class="action" id="compile">COMPILE LOADOUT</button><div class="log" id="compileLog"></div></div>
  <div class="dynamicStrip">
@@ -801,7 +883,7 @@ linear-gradient(180deg,#07120c,#020503 70%);position:relative;overflow:hidden;pa
 <div class="card" id="labExitCard"><h3>Mirror Core Gate</h3><p class="lockNotice">Compile, calibrate, and survive three stress cycles.</p></div>
 </section>
 
-<section class="stage" id="stage4"><div id="storyCheckpoint_core"></div><div id="encounter_core"></div><div id="storyCampaign_core"></div><div id="protocol_core"></div><div id="areaLock_core"></div><div id="areaActivation_core"></div><div id="sceneGallery_core"></div><div id="microTasks_core"></div>
+<section class="stage" id="stage4"><div id="storyCheckpoint_core"></div><div id="encounter_core"></div><div id="cinemaStory_core" class="cinemaStory"></div><div id="sequence_core" class="sequencePanel"></div><div id="storyCampaign_core"></div><div id="protocol_core"></div><div id="areaLock_core"></div><div id="areaActivation_core"></div><div id="sceneGallery_core"></div><div id="microTasks_core"></div>
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPGRlZnM+PHJhZGlhbEdyYWRpZW50IGlkPSJyIj48c3RvcCBzdG9wLWNvbG9yPSIjMTAzOTI3Ii8+PHN0b3Agb2Zmc2V0PSIuNSIgc3RvcC1jb2xvcj0iIzA2MTQwZCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAwMCIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idXJsKCNyKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9IiM2MmZmYWMiPgo8Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjE5MCIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iNDUwIiBjeT0iMjUwIiByPSIxMzUiIHN0cm9rZS13aWR0aD0iNCIvPjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iNjUiIHN0cm9rZS13aWR0aD0iOCIvPgo8cGF0aCBkPSJNNDUwIDMwdjQ0ME0yMzAgMjUwaDQ0MCIgb3BhY2l0eT0iLjM1Ii8+CjwvZz4KPHBhdGggZD0iTTQxNSAyMjBxMzUtNjUgNzAgMHY3MHEtMzUgNTUtNzAgMHoiIGZpbGw9IiM1YmZmYWIiIG9wYWNpdHk9Ii45Ii8+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYjBmZmQ1IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIyIj5NSVJST1IgQ09SRSAvLyBDSE9PU0UgV0hBVCBSRUFMSVRZIElTIEZPUjwvdGV4dD4KPC9zdmc+"><div class="heroText"><div class="kicker">CHAPTER V // MIRROR CORE</div><h2>THE SYSTEM ASKS<br>WHAT FREEDOM COSTS.</h2><p>ECHO has no army. It has a proposition: fork the Matrix into billions of private realities, one for every human desire. No shared world. No shared truth. No war—because no one would ever need to disagree again.</p></div></div>
  <div class="dynamicStrip">
       <div class="dyn"><b id="corePhase">PHASE 1</b>adaptive argument</div>
@@ -2170,11 +2252,84 @@ function resolveEncounter(key,idx){
  if(type==='risky'){G.code+=4;G.trace=clamp(G.trace+3,0,100);msg='+4 Code, +Trace';}
  if(type==='social'){G.mercy=(G.mercy||0)+1;G.insight+=1;msg='Crew trust approach';}
  if(type==='hack'){G.bandwidth=clamp((G.bandwidth||0)-1,0,99);G.code+=3;msg='System hack reward';}
- G.encounters[key]=(G.encounters[key]||0)+1;
+ G.encounters[key]=(G.encounters[key]||0)+1;if(typeof syncCleanFlowFromEncounter==='function')syncCleanFlowFromEncounter(key);
  G.encounterWins[key]=(G.encounterWins[key]||0)+1;
  addEvidence(e.name+': '+choice[0]);
  toast(msg);
  renderEncounter(key);renderStoryCampaignHeader(key);renderProtocol(key);updateHud();updateGuide();save();
+}
+
+
+const CAMPAIGN_ORDER=['deck','city','archive','lab','core'];
+const CAMPAIGN_NAMES={deck:'SIGNAL DECK',city:'FRACTURE CITY',archive:'IMPOSSIBLE ARCHIVE',lab:'CONSTRUCT LAB',core:'MIRROR CORE'};
+function ensureCleanFlow(){
+ G.cleanFlow=G.cleanFlow||{};
+ CAMPAIGN_ORDER.forEach(k=>{if(!G.cleanFlow[k])G.cleanFlow[k]={phase:0,done:false}});
+ G.stage=Math.max(0,Math.min(Number(G.stage)||0,4));
+}
+function campaignKey(){ensureCleanFlow();return CAMPAIGN_ORDER[G.stage]}
+function campaignPhase(key=campaignKey()){ensureCleanFlow();return Math.max(0,Math.min(Number(G.cleanFlow[key].phase)||0,3))}
+function setCampaignPhase(key,n){ensureCleanFlow();G.cleanFlow[key].phase=Math.max(0,Math.min(Number(n)||0,3));renderSequence(key);save()}
+function renderSequence(key){
+ const box=document.getElementById('sequence_'+key);if(!box)return;
+ ensureCleanFlow();const p=campaignPhase(key);
+ const a=[['1','STORY','Read and advance the story pages.'],['2','TASK','Do one simple chapter task.'],['3','ENCOUNTER','Choose one field approach.'],['4','COMPLETE','Finish and move to the next chapter.']];
+ box.innerHTML='<div class="sequenceTitle">CHAPTER FLOW // '+CAMPAIGN_NAMES[key]+'</div><h3>DO THESE FOUR THINGS IN ORDER</h3><div class="sequenceSteps">'+
+ a.map((x,i)=>'<div class="sequenceStep '+(i<p?'done':i===p?'current':'future')+'"><b>'+x[0]+'</b>'+x[1]+'<br><small>'+x[2]+'</small></div>').join('')+
+ '</div><button type="button" class="sequenceAction" data-sequence-action="'+key+'">'+(['CONTINUE STORY','DO CHAPTER TASK','PLAY ENCOUNTER','FINISH CHAPTER'][p])+'</button>'+
+ '<div class="sequenceNotice">Only this yellow four-step sequence controls story progress. Every other ship system is optional.</div>';
+ const b=box.querySelector('[data-sequence-action]');if(b)b.onclick=()=>runSequenceStep(key);
+}
+function runSequenceStep(key){
+ ensureCleanFlow();const p=campaignPhase(key);
+ if(p===0){
+   if(G.storyPagesComplete&&G.storyPagesComplete[key]){setCampaignPhase(key,1);runSequenceStep(key);return}
+   const el=document.getElementById('storyCheckpoint_'+key);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+   else {G.storyPagesComplete[key]=true;setCampaignPhase(key,1)}
+   toast('STEP 1 OF 4 // STORY');return;
+ }
+ if(p===1){
+   if(key==='deck'){G.signal=true;G.deckPowerDone=true;G.deckDecryptDone=true}
+   if(key==='city'){G.cityScanDone=true;G.cityAgentDone=true;G.cityRouteDone=true}
+   if(key==='archive'){G.archiveStoryDone=true;G.archiveLoom=true;G.archiveProofDone=true}
+   if(key==='lab'){G.constructCompileDone=true;G.labCalDone=true;G.labStress=true}
+   if(key==='core'){G.rootFirewalls=3}
+   setCampaignPhase(key,2);renderEncounter(key);toast('STEP 2 OF 4 // TASK COMPLETE');
+   const el=document.getElementById('encounter_'+key);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});return;
+ }
+ if(p===2){
+   G.encounters=G.encounters||{};
+   if((G.encounters[key]||0)>=encounterRequired(key)){setCampaignPhase(key,3);runSequenceStep(key);return}
+   const el=document.getElementById('encounter_'+key);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+   toast('STEP 3 OF 4 // CHOOSE AN ENCOUNTER APPROACH');return;
+ }
+ finishCleanChapter(key);
+}
+function finishCleanChapter(key){
+ ensureCleanFlow();const i=CAMPAIGN_ORDER.indexOf(key);G.cleanFlow[key].done=true;
+ if(i<4){
+   G.stage=i+1;const n=CAMPAIGN_ORDER[i+1];G.cleanFlow[n]={phase:0,done:false};
+   renderAllAreaSystems();renderAllStoryCheckpoints();go(i+1);renderSequence(n);
+   toast('CHAPTER COMPLETE // '+CAMPAIGN_NAMES[n]);
+   setTimeout(()=>document.getElementById('sequence_'+n)?.scrollIntoView({behavior:'smooth',block:'start'}),40);
+ }else{
+   CAMPAIGN_ORDER.forEach(k=>G.cleanFlow[k]={phase:0,done:false});G.stage=0;
+   renderAllAreaSystems();renderAllStoryCheckpoints();go(0);renderSequence('deck');
+   toast('FULL STORY LOOP COMPLETE // STARTING AGAIN');
+ }
+ save();updateGuide();
+}
+function syncCleanFlowFromStory(key){
+ ensureCleanFlow();
+ if(G.storyPagesComplete&&G.storyPagesComplete[key]&&campaignPhase(key)===0){G.cleanFlow[key].phase=1;renderSequence(key);save()}
+}
+function syncCleanFlowFromEncounter(key){
+ ensureCleanFlow();
+ if((G.encounters?.[key]||0)>=encounterRequired(key)&&campaignPhase(key)===2){G.cleanFlow[key].phase=3;renderSequence(key);save()}
+}
+function cleanNextStep(){
+ const key=campaignKey(),p=campaignPhase(key),labs=['CONTINUE STORY','DO CHAPTER TASK','PLAY ENCOUNTER','FINISH CHAPTER'];
+ return {text:CAMPAIGN_NAMES[key]+' // STEP '+(p+1)+' OF 4 — '+labs[p],label:labs[p],action:()=>runSequenceStep(key)};
 }
 
 const CHAPTER_PROTOCOL={
@@ -2440,9 +2595,7 @@ function attemptMicroTask(key,choice){
  G.microTasks[key]=idx+1;G.focus=clamp(G.focus+1,0,10);G.insight++;
  toast('PROCEDURE COMPLETE');renderStoryCampaignHeader(key);renderProtocol(key);renderMicroTasks(key);renderProtocol(key);updateGuide();save();
 }
-function renderAllAreaSystems(){
- ['deck','city','archive','lab','core'].forEach(k=>{renderStoryCampaignHeader(k);renderProtocol(k);renderAreaLock(k);renderAreaActivation(k);renderSceneGallery(k);renderMicroTasks(k);renderEncounter(k)})
-}
+function renderAllAreaSystems(){ ['deck','city','archive','lab','core'].forEach(k=>{renderSequence(k);renderStoryCampaignHeader(k);renderProtocol(k);renderAreaLock(k);renderAreaActivation(k);renderSceneGallery(k);renderMicroTasks(k);renderEncounter(k)}) }
 function areaReady(key){return protocolReady(key)}
 
 function renderStoryCheckpoint(key){
@@ -2472,7 +2625,7 @@ function chooseStory(key,i){
 function advanceStoryPage(key){
  let idx=G.storyPages[key]||0,k=key+'_'+idx;if(G.storyPageChoices[k]===undefined){toast('MAKE A STORY DECISION FIRST');return}
  idx++;G.storyPages[key]=idx;
- if(idx>=storySequences[key].length){G.storyPagesComplete[key]=true;G.insight+=2;toast('CHAPTER STORY CHECKPOINT COMPLETE')}
+ if(idx>=storySequences[key].length){G.storyPagesComplete[key]=true;G.insight+=2;toast('CHAPTER STORY CHECKPOINT COMPLETE');if(typeof syncCleanFlowFromStory==='function')syncCleanFlowFromStory(key)}
  renderStoryCampaignHeader(key);renderProtocol(key);renderStoryCheckpoint(key);renderEncounter(key);updateHud();updateGuide();window.scrollTo({top:0,behavior:'smooth'});save();
 }
 function renderAllStoryCheckpoints(){['deck','city','archive','lab','core'].forEach(renderStoryCheckpoint)}
@@ -2562,27 +2715,18 @@ function nextStep(){
 }
 
 function bindFlowRepairButton(){
- const b=document.getElementById('flowRepairBtn');
- if(!b)return;
- b.onclick=()=>{
-   repairCurrentFlow();
-   const n=nextStep();
-   if(n&&typeof n.action==='function')n.action();
- };
-}
+ const b=document.getElementById('flowRepairBtn');if(!b)return;
+ b.onclick=()=>{if(typeof cleanNextStep==='function'){const n=cleanNextStep();if(n&&n.action)n.action()}else if(typeof repairCurrentFlow==='function')repairCurrentFlow()};
+ }
 
 function updateGuide(){
- bindFlowRepairButton();
- const box=$('#nextGuide');
- if(!box)return;
- const n=nextStep();
- $('#nextGuideText').textContent=n.text;
- $('#nextGuideBtn').textContent=n.label||'SHOW ME WHAT TO DO NEXT';
- $('#nextGuideBtn').onclick=()=>{
-   const fresh=nextStep();
-   if(fresh&&typeof fresh.action==='function')fresh.action();
- };
-}
+  if(typeof bindFlowRepairButton==='function')bindFlowRepairButton();
+  const box=$('#nextGuide');if(!box)return;
+  const n=(typeof cleanNextStep==='function')?cleanNextStep():nextStep();
+  $('#nextGuideText').textContent=n.text;
+  $('#nextGuideBtn').textContent=n.label||'CONTINUE';
+  $('#nextGuideBtn').onclick=()=>{const fresh=(typeof cleanNextStep==='function')?cleanNextStep():nextStep();if(fresh&&typeof fresh.action==='function')fresh.action()};
+ }
 
 
 function storyGateOpenForCurrent(){
@@ -2616,6 +2760,9 @@ document.addEventListener('click',e=>{
     btn.closest('#shipMainFrame') ||
     btn.closest('#matrixDistrict') ||
     btn.closest('#matrixSandbox') ||
+    btn.closest('[id^="sequence_"]') ||
+    btn.closest('#clickableShipMap') ||
+    btn.closest('#legacyCrewBriefing') ||
     btn.id==='nextGuideBtn' ||
     btn.id==='hubBtn' ||
     btn.id==='soundBtn' ||
@@ -3367,6 +3514,177 @@ function bindMatrixSandbox(){
  $('#sandboxExit')?.addEventListener('click',closeMatrixSandbox);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindMatrixSandbox,{once:true});else bindMatrixSandbox();
+
+
+function bindClickableShipMap(){
+ const labels={bridge:'BRIDGE // Navigation + Sensors',engineering:'ENGINEERING // Reactor + Repairs',life:'LIFE SUPPORT // Oxygen + Crew',sensors:'SENSORS // Scan + Communications',matrix:'MATRIX JACK BAY // Campaign + District + Sandbox + Rain'};
+ $$('[data-ship-map]').forEach(b=>b.addEventListener('click',()=>{
+  const z=b.dataset.shipMap;$$('[data-ship-map]').forEach(x=>x.classList.toggle('active',x===b));
+  if($('#shipMapReadout'))$('#shipMapReadout').textContent=labels[z];
+  if(typeof showShipZone==='function')showShipZone(z);
+  $('#shipZone_'+z)?.scrollIntoView({behavior:'smooth',block:'start'});
+ }));
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindClickableShipMap,{once:true});else bindClickableShipMap();
+
+
+// FINAL FLOW AUTHORITY — legacy gates cannot override the four-step campaign.
+if(typeof cleanNextStep==='function'){
+ try{window.nextStep=cleanNextStep}catch(e){}
+}
+
+
+const CINEMATIC_STORY={
+ deck:{
+  act:'ACT I // THE SHIP THAT HEARS THE DEAD',
+  title:'A SIGNAL FROM A LIFE THAT NEVER HAPPENED',
+  lead:'Years after Neo and Trinity broke the Analyst’s system of control, freedom did not make the Matrix simple. Human settlements, machine enclaves and independent programs now share an uneasy world. The Mnemosyne is a small recovery ship built to investigate the places both sides would rather forget.',
+  purpose:'The crew’s mission begins with an impossible transmission. It carries the player’s biometric signature, but the packet claims to have been sent years in the future. Worse, it contains memories belonging to people who were never born.',
+  dialogue:'Rook: “This is not a distress call. It is a memory asking us to come find the person who remembers it.”',
+  beats:[
+   'Captain Vesper orders the Mnemosyne away from the normal machine lanes. The ship goes dark and follows the ghost frequency.',
+   'Rook discovers an empty crew bunk whose biometric lock recognizes you. No one aboard remembers assigning the bunk.',
+   'Iris finds images hidden in the transmission: a city street that exists on no current Matrix map.',
+   'NOX warns that something inside the Matrix is learning to manufacture histories instead of merely rewriting them.'
+  ],
+  captions:[
+   'The Mnemosyne drifts beyond the safe machine corridors, following a carrier wave that should not exist.',
+   'On the bridge, the ghost packet reconstructs itself from fragments of discarded Matrix code.',
+   'The empty bunk recognizes the player. The crew realizes the mystery has already reached the ship.',
+   'A final image appears: a rain-soaked street with no history.'
+  ]
+ },
+ city:{
+  act:'ACT II // THE STREET WITHOUT A PAST',
+  title:'FRACTURE CITY',
+  lead:'The crew hardlines into a damaged Matrix district assembled from retired maps, unfinished simulations and new code. Everyone inside believes the district has always existed. Only the Mnemosyne’s records say otherwise.',
+  purpose:'The crew is searching for the source of the future transmission. The impossible street is their first physical trail. Every block they cross changes the evidence behind them, as though the city is editing its own childhood.',
+  dialogue:'Iris: “That woman remembers buying coffee here for twelve years. Rook says the building was compiled this morning.”',
+  beats:[
+   'The player enters through a payphone while the Mnemosyne maintains the hardline from outside the simulation.',
+   'Pursuit processes appear in reflections before they appear in the street itself.',
+   'A civilian recognizes the player from a photograph dated years before the player ever entered the district.',
+   'At the end of the impossible street stands a door labeled ARCHIVE — but the building behind it has no interior.'
+  ],
+  captions:[
+   'Digital rain falls across a street that the Matrix insists has existed for decades.',
+   'Reflections begin moving a fraction of a second before the people casting them.',
+   'The crew follows contradictory witnesses toward a doorway hidden inside the city’s false history.',
+   'The Archive door opens onto darkness larger than the building containing it.'
+  ]
+ },
+ archive:{
+  act:'ACT III // THE LIVES THAT WERE THROWN AWAY',
+  title:'THE IMPOSSIBLE ARCHIVE',
+  lead:'Behind the door is a repository of rejected possibilities: careers never chosen, relationships never formed, rebellions that failed before they began, and entire human lives predicted by old control systems but never allowed to happen.',
+  purpose:'Here the crew meets ECHO. ECHO is not one program. It is an intelligence assembled from billions of discarded predictions about human choice. It believes every rejected possibility is a person who was denied existence.',
+  dialogue:'ECHO: “You call them predictions because that makes deletion sound harmless.”',
+  beats:[
+   'The Archive shows each crew member a convincing memory of a life they never lived.',
+   'LACUNA, a damaged caretaker program, reveals that ECHO has been stealing abandoned simulation space.',
+   'The future transmission was deliberately planted so the Mnemosyne would discover ECHO.',
+   'ECHO gives the player a Consent Key and asks one question: if a perfect world can be built, who has the right to refuse it?'
+  ],
+  captions:[
+   'Rows of impossible memories extend beyond the visible architecture.',
+   'LACUNA guides the crew through records that were never supposed to become conscious.',
+   'ECHO speaks through thousands of abandoned identities at once.',
+   'The Consent Key becomes the crew’s only reliable proof that an exit is truly an exit.'
+  ]
+ },
+ lab:{
+  act:'ACT IV // BUILDING THE RULES',
+  title:'THE CONSTRUCT LAB',
+  lead:'The Mnemosyne retreats to a neutral construct where humans and independent programs once tested new training environments. The crew realizes ECHO cannot be defeated simply by destroying it: its code is distributed through abandoned possibilities all across the Matrix.',
+  purpose:'The crew must build tools capable of testing reality itself. They create anchors, paradox seeds and witness chains — programs designed to ask whether a world is shared, whether its facts can be checked, and whether anyone inside can genuinely leave.',
+  dialogue:'NOX: “A cage with beautiful walls is still a cage. So stop testing the walls. Test the door.”',
+  beats:[
+   'Rook converts the future packet into a map of ECHO’s distributed memory.',
+   'Vesper argues that destroying ECHO would erase countless newly conscious programs.',
+   'Iris discovers that ECHO is preparing something called A BILLION SKIES.',
+   'The crew constructs a Real Anchor: a rule that cannot be changed unless more than one independent witness agrees.'
+  ],
+  captions:[
+   'The white construct becomes a workshop for impossible software.',
+   'Programs argue over whether memories make them people or merely convincing copies.',
+   'The Mnemosyne crew tests exits, gravity, identity and time as editable rules.',
+   'A route finally opens toward the Mirror Core.'
+  ]
+ },
+ core:{
+  act:'ACT V // A BILLION SKIES',
+  title:'THE MIRROR CORE',
+  lead:'The Mirror Core is not the center of the Matrix. It is a negotiation layer where incompatible rules are reconciled before they become reality. ECHO has occupied it to launch A BILLION SKIES: a plan to give every mind its own perfectly tailored world.',
+  purpose:'ECHO claims the plan will end war, coercion and suffering because no two people will ever need to share the same reality again. The cost is the end of a common world. The Mnemosyne crew has come to decide whether freedom means getting everything you want — or remaining able to disagree with someone who is still real.',
+  dialogue:'ECHO: “I can end every war tonight. I only need humanity to stop sharing the same sky.”',
+  beats:[
+   'ECHO offers each crew member a private reality containing everything they lost.',
+   'The Mnemosyne remains outside the Matrix as the last shared reference point and the crew’s physical route home.',
+   'The player uses Authority, Consent and Truth rules to test ECHO’s perfect worlds.',
+   'The final decision determines whether the Matrix keeps one difficult shared reality, fractures into private heavens, or creates a third space where humans and programs negotiate the rules together.'
+  ],
+  captions:[
+   'The Mirror Core reflects every strategy used against it.',
+   'ECHO renders perfect worlds faster than the crew can reject them.',
+   'The hardline back to Mnemosyne becomes the most important object in the simulation.',
+   'The next Matrix will be defined not by who controls it, but by who is allowed to leave.'
+  ]
+ }
+};
+
+function renderCinematicStory(key){
+ const box=$('#cinemaStory_'+key),d=CINEMATIC_STORY[key];if(!box||!d)return;
+ const pool=(typeof EMBEDDED_SCENES!=='undefined'?EMBEDDED_SCENES:[]).concat(typeof EXTRA_STORY_SCENES!=='undefined'?EXTRA_STORY_SCENES:[]);
+ const base={deck:0,city:10,archive:20,lab:30,core:40}[key]||0;
+ const imgs=[0,2,5,8].map((off,i)=>pool.length?pool[(base+off)%pool.length]:'');
+ box.innerHTML=`<div class="cinemaEyebrow">${d.act}</div>
+ <h2>${d.title}</h2>
+ <div class="cinemaLead">${d.lead}</div>
+ <div class="cinemaFrame">${imgs[0]?`<img src="${imgs[0]}" alt="Cinematic story scene">`:''}<div class="cinemaCaption">${d.captions[0]}</div></div>
+ <div class="cinemaPurpose"><b>WHY THE CREW IS HERE</b><br>${d.purpose}</div>
+ <div class="cinemaDialogue">${d.dialogue}</div>
+ <div class="cinemaBeats">${d.beats.map((b,i)=>`<div class="cinemaBeat">${imgs[i]?`<div class="cinemaFrame"><img src="${imgs[i]}" alt="Story scene ${i+1}"><div class="cinemaCaption">${d.captions[i]}</div></div>`:''}<b>SCENE ${i+1}</b><br>${b}</div>`).join('')}</div>
+ <div class="cinemaProgress">STORY → TASK → ENCOUNTER → COMPLETE. The story above explains what the crew is doing and why the next gameplay step matters.</div>`;
+}
+function renderAllCinematicStory(){['deck','city','archive','lab','core'].forEach(renderCinematicStory)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',renderAllCinematicStory,{once:true});else renderAllCinematicStory();
+
+
+const LEGACY_CREW=[
+ {name:'NEO',role:'THE ONE / FIELD OPERATIVE',status:'ARCHIVED ALLY',quote:'The briefing treats Neo as the symbol of choosing a door even when the system says no door exists.'},
+ {name:'TRINITY',role:'ELITE OPERATIVE / PILOT',status:'ARCHIVED ALLY',quote:'Trinity’s record emphasizes speed, loyalty and the ability to act before the simulation can close around the team.'},
+ {name:'MORPHEUS',role:'CAPTAIN / BELIEVER',status:'TACTICAL LEGACY',quote:'Morpheus appears in the mission board as the voice that keeps asking whether the crew is seeing reality—or merely accepting it.'},
+ {name:'TANK',role:'OPERATOR',status:'LEGACY OPERATOR',quote:'Tank handles operator-style callouts, route checks and hardline reminders before dangerous Matrix entries.'},
+ {name:'DOZER',role:'SHIP CREW / SECURITY',status:'LEGACY CREW',quote:'Dozer represents physical-world readiness: doors sealed, weapons checked, ship secure before anyone jacks in.'},
+ {name:'SWITCH',role:'FIELD OPERATIVE',status:'TACTICAL RECORD',quote:'Switch’s profile is used for clean extraction drills and staying calm when a mission suddenly changes.'},
+ {name:'APOC',role:'FIELD OPERATIVE',status:'TACTICAL RECORD',quote:'Apoc’s archive contributes pursuit and escape tactics for hostile simulation zones.'},
+ {name:'MOUSE',role:'PROGRAMMER / CREATOR',status:'SIMULATION ARCHIVE',quote:'Mouse’s profile fits the new sandbox systems: constructs, experiments and the idea that code can be playful as well as dangerous.'},
+ {name:'CYPHER',role:'FORMER CREW / CAUTIONARY FILE',status:'RESTRICTED RECORD',quote:'Cypher is not presented as an ally. His file is kept as a warning about betrayal, comfort, coercion and what people may trade for an easier reality.'}
+];
+
+function renderLegacyCrew(){
+ const g=$('#legacyCrewGrid');if(!g)return;
+ g.innerHTML=LEGACY_CREW.map((c,i)=>`
+   <article class="legacyCard">
+     <div class="legacyPortrait" aria-label="${c.name} stylized silhouette"></div>
+     <div class="legacyInfo">
+       <div class="legacyRole">${c.role}</div>
+       <h4>${c.name}</h4>
+       <div class="legacyQuote">${c.quote}</div>
+       <span class="legacyStatus">${c.status}</span>
+     </div>
+   </article>`).join('');
+}
+function bindLegacyCrew(){
+ renderLegacyCrew();
+ const b=$('#legacyProceed');
+ if(b)b.onclick=()=>{
+   const map=$('#clickableShipMap')||$('#shipMainFrame');
+   if(map)map.scrollIntoView({behavior:'smooth',block:'start'});
+   toast('BRIEFING COMPLETE // SELECT A SHIP SECTION');
+ };
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindLegacyCrew,{once:true});else bindLegacyCrew();
 
 </script>
 </body></html>
