@@ -76,6 +76,22 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
 
 /* STORY PAGE DYNAMICS */
 
+/* START SCREEN */
+#startScreen{position:fixed;inset:0;z-index:9999;background:radial-gradient(circle at 50% 20%,#0b2016 0,#050906 45%,#020302 100%);display:flex;align-items:center;justify-content:center;padding:20px}
+#startScreen.hidden{display:none}
+.startPanel{width:min(680px,94vw);border:1px solid #2e6c4d;background:linear-gradient(180deg,#07130e,#030705);border-radius:18px;padding:18px;box-shadow:0 0 40px #35ff9b18}
+.startPanel h1{margin:0 0 8px;color:#d8ffe8;font-size:28px;letter-spacing:.04em}
+.startPanel p{color:#a6c9b5;font-size:12px;line-height:1.55}
+.startSteps{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0}
+.startStep{border:1px solid #285d45;background:#07110d;border-radius:10px;padding:9px;font-size:10px;color:#b8d8c5}
+.startStep b{display:block;color:#e7fff0;margin-bottom:3px}
+.startPrimary{width:100%;border:2px solid #ffe36c;background:#ffd84d;color:#151100;border-radius:12px;padding:15px;font-weight:900;font-size:15px;letter-spacing:.06em;box-shadow:0 0 22px #ffd84d66}
+.startPrimary:active{transform:translateY(1px)}
+.startSecondary{width:100%;margin-top:7px;border:1px solid #315a45;background:#0a1510;color:#b8dbc7;border-radius:10px;padding:10px}
+.startNote{margin-top:10px;font-size:10px;color:#70927e}
+@media(max-width:620px){.startSteps{grid-template-columns:1fr}}
+
+
 .storyStartChoice{border-color:#ffd84d!important;box-shadow:0 0 14px #ffd84d33}
 .storyStartChoice b{color:#ffe98a}
 
@@ -172,6 +188,21 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
 </style>
 </head>
 <body>
+<div id="startScreen">
+ <div class="startPanel">
+  <div class="kicker">UNOFFICIAL FAN GAME // MATRIX: AFTERIMAGE</div>
+  <h1>Wake Up.</h1>
+  <p>The Mnemosyne has received a signal that should not exist. Your choices shape the crew, the simulation, ECHO, and the ending.</p>
+  <div class="startSteps">
+   <div class="startStep"><b>1. Choose</b>Pick story responses and crew decisions.</div>
+   <div class="startStep"><b>2. Play</b>Solve puzzles, hack networks, collect programs, and survive encounters.</div>
+   <div class="startStep"><b>3. Advance</b>The yellow guide always shows the next required action.</div>
+  </div>
+  <button class="startPrimary" id="startGameBtn">START THE CAMPAIGN</button>
+  <button class="startSecondary" id="continueGameBtn">CONTINUE SAVED GAME</button>
+  <div class="startNote">Tip: If you are ever unsure what to do, press the yellow ADVANCE NEXT button.</div>
+ </div>
+</div>
 <canvas id="rain"></canvas><div class="scanlines"></div><div class="toast" id="toast"></div>
 <div class="app">
 <header class="top">
@@ -329,7 +360,7 @@ shipUpgrades:{stealth:0,construct:0,evidence:0,medical:0},directorCount:0,encoun
 crewStatus:{vesper:'READY',rook:'READY',iris:'READY',nox:'READY'},ngplus:0,secretScore:0,selectedCrew:'rook',entryMethod:'stealth',missionDepth:0,tacticalWins:0,
 ruleChanges:0,extractions:0,deepSearches:0,achievements:{},theories:{},locationStates:{},comboDiscoveries:[],
 missionPrepDone:false,currentThreat:null,
-storyPages:{deck:0,city:0,archive:0,lab:0,core:0},storyPageChoices:{},storyPagesComplete:{deck:false,city:false,archive:false,lab:false,core:false},dyn:{deckPower:84,deckSignal:12,deckThreat:8,cityStability:72,citySweep:18,archiveHeat:0,echoTrust:50,labEntropy:8,labCycles:0,corePressure:0,corePhase:1}};
+storyPages:{deck:0,city:0,archive:0,lab:0,core:0},storyPageChoices:{},storyPagesComplete:{deck:false,city:false,archive:false,lab:false,core:false},started:false,dyn:{deckPower:84,deckSignal:12,deckThreat:8,cityStability:72,citySweep:18,archiveHeat:0,echoTrust:50,labEntropy:8,labCycles:0,corePressure:0,corePhase:1}};
 let G;
 try{G=Object.assign(structuredClone(fresh),JSON.parse(localStorage.getItem('matrixAfterimage')||'{}'))}catch(e){G=JSON.parse(JSON.stringify(fresh))}
 function save(){localStorage.setItem('matrixAfterimage',JSON.stringify(G))}
@@ -345,6 +376,11 @@ function beep(freq=440,dur=.06,type='sine'){
  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.035,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+dur);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+dur)}catch(e){}
 }
 $('#hubBtn').onclick=showHub;
+if($('#startGameBtn'))$('#startGameBtn').onclick=()=>beginCampaign(true);
+if($('#continueGameBtn'))$('#continueGameBtn').onclick=()=>{
+ if(localStorage.getItem('matrixAfterimage')) beginCampaign(false);
+ else beginCampaign(true);
+};
 $('#deckHub').onclick=showHub;
 $('#soundBtn').onclick=()=>{G.sound=!G.sound;$('#soundBtn').textContent='SND '+(G.sound?'ON':'OFF');save();beep(520,.08)}
 $('#ngPlusBtn').onclick=()=>{
@@ -718,6 +754,38 @@ function updateObjectives(){
  save();
 }
 
+
+
+function hideStartScreen(){
+ const ss=$('#startScreen');if(ss)ss.classList.add('hidden');
+}
+function showStartScreen(){
+ const ss=$('#startScreen');if(ss)ss.classList.remove('hidden');
+}
+function beginCampaign(freshStart=false){
+ if(freshStart){
+   // Keep current save structure but reset progression cleanly.
+   const keepNg=G.ngplus||0;
+   const keepPrograms=G.ngplus>0?[...(G.ownedPrograms||[])]:undefined;
+   G=clone(fresh);
+   if(keepNg){G.ngplus=keepNg;if(keepPrograms)G.ownedPrograms=keepPrograms}
+ }
+ G.started=true;
+ save();
+ hideStartScreen();
+ go(Math.min(G.stage||0,4));
+ renderAllStoryCheckpoints();
+ updateHud();
+ updateGuide();
+ setTimeout(()=>{
+   const key=storyKeyForStage(currentStageNumber());
+   if(key&&!G.storyPagesComplete[key]){
+     const box=$('#storyCheckpoint_'+key);
+     if(box)box.scrollIntoView({behavior:'smooth',block:'start'});
+   }
+ },120);
+ toast('CAMPAIGN STARTED');
+}
 
 // PERMANENT SHIP HUB + ADVANCE NEXT GUIDE
 
@@ -1338,6 +1406,14 @@ document.addEventListener('click',e=>{
  }
 },true);
 
+
+document.addEventListener('click',e=>{
+ const ss=$('#startScreen');
+ if(ss&&!ss.classList.contains('hidden')&&!e.target.closest('#startScreen')){
+   e.preventDefault();e.stopImmediatePropagation();
+ }
+},true);
+
 // CROSS-AREA DYNAMIC SYSTEMS
 const dynEvents={
  deck:[
@@ -1479,16 +1555,8 @@ function rain(){
 }
 rainResize();addEventListener('resize',rainResize);rain();
 $('#soundBtn').textContent='SND '+(G.sound?'ON':'OFF');updateHud();updateDynamicHUD();renderTruths();renderDeckExtras();if(G.stage>=1){renderScanner();renderCityExtras()}if(G.stage>=2)renderArchiveExtras();if(G.stage>=3)renderLabExtras();if(G.stage>=4)renderBoss();renderHub();renderAllStoryCheckpoints();
-setTimeout(()=>{
- const st=currentStageNumber();
- if(st>=0){
-   const key=storyKeyForStage(st);
-   if(!G.storyPagesComplete[key]){
-     const box=$('#storyCheckpoint_'+key);
-     if(box) box.scrollIntoView({behavior:'smooth',block:'start'});
-   }
- }
-},120);
+if(G.started) hideStartScreen(); else showStartScreen();
+if($('#continueGameBtn')&&!localStorage.getItem('matrixAfterimage'))$('#continueGameBtn').textContent='NO SAVE YET — START NEW';
 if(G.ngplus>0&&$('#ngEcho'))$('#ngEcho').innerHTML='<br><b>ECHO:</b> I remember you.';updateObjectives();updateGuide();
 })();
 </script>
