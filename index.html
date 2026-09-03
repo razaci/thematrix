@@ -49,12 +49,18 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
 .console{display:flex;gap:7px;margin-top:8px}.console input{min-width:0;flex:1;background:#020806;border:1px solid #246447;color:#aaffcd;border-radius:9px;padding:10px}
 .badge{display:inline-block;border:1px solid #286245;border-radius:999px;padding:4px 7px;margin:2px;font-size:10px;color:#9fffc6;background:#07150f}
 .lock{opacity:.45;filter:saturate(.5)}
-#cityGame{position:relative;height:280px;background:#010604;border:1px solid #1b5a40;border-radius:14px;overflow:hidden}
-#cityCanvas{width:100%;height:100%;display:block}
-.controls{position:absolute;inset:auto 8px 8px 8px;display:flex;justify-content:space-between;gap:8px}
-.controls button{width:64px;height:52px;border-radius:14px;border:1px solid #2e6d51;background:#071c13cc;color:#d3ffe6;font-size:20px}
 .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.program{position:relative;text-align:left;min-height:95px}
 .program.selected{outline:2px solid var(--green);background:#13452f}.program .cost{position:absolute;right:8px;top:7px;font-size:10px;color:var(--warn)}
+
+.scanTile{min-height:108px;text-align:left;position:relative;background:#071510;border:1px solid #1d5a40}
+.scanTile b{display:block;color:#caffdf;margin-bottom:5px}
+.scanTile small{color:#75a88d}
+.scanTile.scanned{box-shadow:inset 0 0 24px #48ff9b25}
+.scanTile.correct{outline:2px solid #63ffad;background:#103524}
+.scanTile.wrong{outline:2px solid #ff6077;background:#2a1016}
+.routeNode{height:18px;border:1px solid #215b42;border-radius:999px;background:#07100d}
+.routeNode.on{background:#5dffab;box-shadow:0 0 12px #5dffab88}
+
 .storyNode{border-left:3px solid var(--green);padding:2px 0 2px 12px;margin:8px 0 12px}.storyNode p{font-family:system-ui,sans-serif;font-size:14px;color:#d5eee1;line-height:1.55}
 .nav{position:fixed;z-index:15;bottom:0;left:0;right:0;background:#020806ef;border-top:1px solid #163e2e;display:flex;justify-content:center;padding:6px max(6px,env(safe-area-inset-left)) calc(6px + env(safe-area-inset-bottom));backdrop-filter:blur(12px)}
 .navin{display:grid;grid-template-columns:repeat(5,1fr);width:min(760px,100%);gap:4px}.nav button{border:0;background:transparent;color:#65917b;padding:7px 3px;font-size:9px;border-radius:9px}.nav button span{display:block;font-size:17px;margin-bottom:3px}.nav button.active{background:#0c2118;color:#8affbd}.nav button.locked{opacity:.3}
@@ -90,12 +96,13 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
 </section>
 
 <section class="stage" id="stage1">
- <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwMzA5MDkiLz4KPGcgZmlsbD0iIzA3MTcxMiIgc3Ryb2tlPSIjMWE3YjRlIiBzdHJva2Utd2lkdGg9IjIiPgo8cGF0aCBkPSJNMCA0MjBWMTkwaDEwMHYyMzBNOTUgNDIwVjExMGgxMjB2MzEwTTIxMCA0MjBWMjMwaDk1djE5ME0zMDAgNDIwVjgwaDE0NXYzNDBNNDQwIDQyMFYxNjBoMTAwdjI2ME01MzUgNDIwVjEwNWgxMzB2MzE1TTY2MCA0MjBWMjEwaDkwdjIxME03NDUgNDIwVjEzMGgxNTV2MjkwIi8+CjwvZz4KPGcgc3Ryb2tlPSIjMzhmZjkxIiBvcGFjaXR5PSIuOCI+PHBhdGggZD0iTTAgNDIwaDkwMCIvPjxwYXRoIGQ9Ik00NTAgNDIwIDM5MCA1MDBNNDUwIDQyMCA1MTAgNTAwIi8+PC9nPgo8ZyBmaWxsPSIjNDJmZjk0IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjE1IiBvcGFjaXR5PSIuNyI+Cjx0ZXh0IHg9IjMwIiB5PSI3MCI+MDEwMDExMTA8L3RleHQ+PHRleHQgeD0iNzAwIiB5PSI2MCI+MTAxMTAxMDE8L3RleHQ+PHRleHQgeD0iNTIwIiB5PSIyNjAiPldBS0U8L3RleHQ+CjwvZz48L3N2Zz4="><div class="heroText"><div class="kicker">CHAPTER II // FRACTURE CITY</div><h2>RUN THE GLITCH</h2><p>The city has started generating streets faster than the machines can delete them. Collect five memory fragments before the Pursuit Process locks onto your signal.</p></div></div>
- <div class="card"><h3>Realtime Escape</h3><p>Move with buttons, arrow keys, WASD, or swipe. Touch cyan fragments. Avoid red sentries.</p>
-  <div id="cityGame"><canvas id="cityCanvas"></canvas><div class="controls"><button data-move="-1">◀</button><button data-jump="1">▲</button><button data-move="1">▶</button></div></div>
-  <p id="cityStatus">Fragments: 0/5 · Pursuit: dormant</p>
+ <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwMzA5MDkiLz4KPGcgZmlsbD0iIzA3MTcxMiIgc3Ryb2tlPSIjMWE3YjRlIiBzdHJva2Utd2lkdGg9IjIiPgo8cGF0aCBkPSJNMCA0MjBWMTkwaDEwMHYyMzBNOTUgNDIwVjExMGgxMjB2MzEwTTIxMCA0MjBWMjMwaDk1djE5ME0zMDAgNDIwVjgwaDE0NXYzNDBNNDQwIDQyMFYxNjBoMTAwdjI2ME01MzUgNDIwVjEwNWgxMzB2MzE1TTY2MCA0MjBWMjEwaDkwdjIxME03NDUgNDIwVjEzMGgxNTV2MjkwIi8+CjwvZz4KPGcgc3Ryb2tlPSIjMzhmZjkxIiBvcGFjaXR5PSIuOCI+PHBhdGggZD0iTTAgNDIwaDkwMCIvPjxwYXRoIGQ9Ik00NTAgNDIwIDM5MCA1MDBNNDUwIDQyMCA1MTAgNTAwIi8+PC9nPgo8ZyBmaWxsPSIjNDJmZjk0IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjE1IiBvcGFjaXR5PSIuNyI+Cjx0ZXh0IHg9IjMwIiB5PSI3MCI+MDEwMDExMTA8L3RleHQ+PHRleHQgeD0iNzAwIiB5PSI2MCI+MTAxMTAxMDE8L3RleHQ+PHRleHQgeD0iNTIwIiB5PSIyNjAiPldBS0U8L3RleHQ+CjwvZz48L3N2Zz4="><div class="heroText"><div class="kicker">CHAPTER II // FRACTURE CITY</div><h2>HUNT THE GLITCH</h2><p>The city is generating contradictions faster than the system can erase them. Scan five sectors, identify what does not belong, and stabilize the route before the Pursuit Process triangulates you.</p></div></div>
+ <div class="grid">
+  <div class="card"><h3>Reality Scanner</h3><p>Each district contains four objects. One violates the local rules. Scan it, then choose the anomaly before Trace reaches critical.</p><div id="sectorName" class="badge">SECTOR 1 / 5</div><div id="scannerGrid" class="cards" style="margin-top:8px"></div></div>
+  <div class="card"><h3>Signal Reconstruction</h3><p>Correct anomaly picks recover memory fragments. Wrong picks raise Trace and distort the next district.</p><div class="log" id="scanLog"></div><div style="margin-top:8px"><span class="badge" id="scanScore">0 fragments</span><span class="badge" id="scanMistakes">0 errors</span></div></div>
  </div>
- <div class="choice"><button class="action alt" id="hideCrowd">BLEND WITH CROWD (-10 TRACE)</button><button class="action warn" id="overclock">OVERCLOCK (+speed, +trace)</button></div>
+ <div class="card"><h3>Route Assembly</h3><p id="routeText">Recover all five fragments to reveal a hidden street that does not exist on any machine map.</p><div id="routeNodes" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px"></div></div>
+ <div class="choice"><button class="action alt" id="coolTrace">GHOST THE SCANNER (-8 TRACE)</button><button class="action warn" id="deepScan">DEEP SCAN (+INSIGHT, +6 TRACE)</button></div>
 </section>
 
 <section class="stage" id="stage2">
@@ -176,41 +183,86 @@ function command(){
  if(c==='who'||c==='echo'){G.traits.curiosity++;G.insight++;updateHud()}
 }
 $('#cmdGo').onclick=command;$('#cmd').addEventListener('keydown',e=>{if(e.key==='Enter')command()});
-$('#jackIn').onclick=()=>{if(!G.signal){toast('Triangulate the ghost signal first.');return}unlock(1);startCity()};
+$('#jackIn').onclick=()=>{if(!G.signal){toast('Triangulate the ghost signal first.');return}unlock(1);renderScanner()};
 
-// AREA 2: Canvas action game
-let cityStarted=false,ctx,cv,W,H,player,items=[],enemies=[],keys={},last=0,overclock=0;
-function resizeCity(){cv=$('#cityCanvas');const r=cv.getBoundingClientRect(),d=devicePixelRatio||1;cv.width=r.width*d;cv.height=r.height*d;ctx=cv.getContext('2d');ctx.setTransform(d,0,0,d,0,0);W=r.width;H=r.height}
-function resetCityObjects(){player={x:45,y:210,vx:0,vy:0,r:10};items=Array.from({length:5},(_,i)=>({x:130+i*120,y:80+Math.random()*150,taken:i<G.frags}));enemies=[{x:300,y:225,v:45},{x:580,y:145,v:-55}]}
-function startCity(){if(cityStarted)return;cityStarted=true;resizeCity();resetCityObjects();requestAnimationFrame(cityLoop)}
-window.addEventListener('resize',()=>{if(cityStarted)resizeCity()});
-function cityLoop(t){
- if(!last)last=t;let dt=Math.min(.035,(t-last)/1000);last=t;
- if(G.cityDone){drawCity();requestAnimationFrame(cityLoop);return}
- let speed=120+(overclock?90:0);player.vx=((keys.ArrowRight||keys.d?1:0)-(keys.ArrowLeft||keys.a?1:0))*speed;
- player.vy+=360*dt;player.x+=player.vx*dt;player.y+=player.vy*dt;
- if(player.y>H-24){player.y=H-24;player.vy=0} player.x=clamp(player.x,12,W-12);
- enemies.forEach(e=>{e.x+=e.v*dt;if(e.x<20||e.x>W-20)e.v*=-1;if(Math.hypot(player.x-e.x,player.y-e.y)<20){G.integrity=clamp(G.integrity-18*dt,0,100);G.trace=clamp(G.trace+10*dt,0,100)}});
- items.forEach(it=>{if(!it.taken&&Math.hypot(player.x-it.x,player.y-it.y)<23){it.taken=true;G.frags++;G.insight++;toast('MEMORY FRAGMENT '+G.frags+'/5');updateHud();if(G.frags>=5){G.cityDone=true;G.insight+=2;unlock(2)}}});
- if(overclock){overclock-=dt;G.trace=clamp(G.trace+2*dt,0,100)}
- drawCity();$('#cityStatus').textContent=`Fragments: ${G.frags}/5 · Pursuit: ${G.trace>70?'CRITICAL':G.trace>35?'tracking':'dormant'}`;
- if(G.integrity<=0){G.integrity=65;G.trace=clamp(G.trace-20,0,100);player.x=45;toast('Residual self-image rebuilt.');updateHud()}
- requestAnimationFrame(cityLoop);
+// AREA 2: Fracture City anomaly scanner
+const citySectors=[
+ {name:'Rain Market', anomaly:2, objects:[
+  ['Umbrella Vendor','Drops slide downward.'],
+  ['Taxi Reflection','Mirrors nearby signs.'],
+  ['Dry Pedestrian','Walks through rain without getting wet.'],
+  ['Steam Grate','Condensation rises.']
+ ]},
+ {name:'Loop Station', anomaly:0, objects:[
+  ['Clock 08:61','Minute display exceeds sixty.'],
+  ['Arrival Board','Train delayed 4 minutes.'],
+  ['Platform Echo','Footsteps repeat once.'],
+  ['Ticket Gate','Reads transit credentials.']
+ ]},
+ {name:'Glass District', anomaly:3, objects:[
+  ['Office Window','Reflects the opposite tower.'],
+  ['Elevator Panel','Floors count upward.'],
+  ['Security Camera','Tracks movement.'],
+  ['Shadow Facing Light','Falls toward the light source.']
+ ]},
+ {name:'Null Crossing', anomaly:1, objects:[
+  ['Walk Signal','Cycles red to white.'],
+  ['Street Name Changes','Renames itself every blink.'],
+  ['Bus Stop','Lists route numbers.'],
+  ['Crosswalk','Paint aligned with road.']
+ ]},
+ {name:'Old Code Alley', anomaly:2, objects:[
+  ['Phone Booth','Rings with no caller ID.'],
+  ['Graffiti','Repeats a symbol pattern.'],
+  ['Door Opens to Same Alley','Returns to its own exterior.'],
+  ['Neon Sign','Flickers at low voltage.']
+ ]}
+];
+let scanState={sector:Math.min(G.frags,4),errors:0,locked:false};
+
+function scanLog(t){
+ const e=$('#scanLog');
+ e.innerHTML+=`<div>${t}</div>`;
+ e.scrollTop=e.scrollHeight;
 }
-function drawCity(){
- if(!ctx)return;ctx.clearRect(0,0,W,H);ctx.fillStyle='#020806';ctx.fillRect(0,0,W,H);
- ctx.strokeStyle='#0c3a27';ctx.lineWidth=1;for(let x=0;x<W;x+=28){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(let y=0;y<H;y+=28){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
- items.forEach(it=>{if(!it.taken){ctx.fillStyle='#5de4ff';ctx.beginPath();ctx.arc(it.x%Math.max(150,W-30),it.y,7,0,7);ctx.fill();ctx.strokeStyle='#baf6ff';ctx.stroke()}});
- enemies.forEach(e=>{ctx.fillStyle='#ff526a';ctx.fillRect(e.x-9,e.y-9,18,18)});
- ctx.fillStyle='#63ffad';ctx.beginPath();ctx.arc(player.x,player.y,player.r,0,7);ctx.fill();ctx.fillStyle='#baffd6';ctx.fillRect(player.x-3,player.y-18,6,10);
+function renderRoute(){
+ $('#routeNodes').innerHTML=Array.from({length:5},(_,i)=>`<div class="routeNode ${i<G.frags?'on':''}"></div>`).join('');
+ $('#scanScore').textContent=G.frags+' fragments';
+ $('#scanMistakes').textContent=scanState.errors+' errors';
+ if(G.frags>=5) $('#routeText').textContent='A sixth street compiles between two buildings. It was hidden by probability, not walls.';
 }
-window.addEventListener('keydown',e=>{keys[e.key]=true;if((e.key==='ArrowUp'||e.key==='w')&&player&&player.y>H-45)player.vy=-210});
-window.addEventListener('keyup',e=>keys[e.key]=false);
-$$('[data-move]').forEach(b=>{const k=+b.dataset.move>0?'ArrowRight':'ArrowLeft';b.onpointerdown=()=>keys[k]=true;b.onpointerup=b.onpointercancel=()=>keys[k]=false});
-$('[data-jump]').onpointerdown=()=>{if(player&&player.y>H-50)player.vy=-220};
-let sx=0;$('#cityGame').addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});$('#cityGame').addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>35){player.x=clamp(player.x+Math.sign(dx)*55,10,W-10)}else if(player&&player.y>H-50)player.vy=-220},{passive:true});
-$('#hideCrowd').onclick=()=>{G.trace=clamp(G.trace-10,0,100);G.integrity=clamp(G.integrity-4,0,100);updateHud();toast('Signal dispersed through crowd')};
-$('#overclock').onclick=()=>{overclock=6;G.trace=clamp(G.trace+8,0,100);updateHud();toast('Reflex clock overdriven')};
+function renderScanner(){
+ if(G.cityDone){renderRoute();$('#sectorName').textContent='ROUTE COMPLETE';$('#scannerGrid').innerHTML='<div class="card" style="grid-column:1/-1"><h3>Impossible Street Found</h3><p>The recovered fragments agree on a road the Matrix insists does not exist. The Archive entrance is waiting at the end of it.</p><button class="action" id="enterArchive">ENTER THE IMPOSSIBLE ARCHIVE</button></div>';$('#enterArchive').onclick=()=>unlock(2);return}
+ scanState.sector=Math.min(G.frags,4);
+ const s=citySectors[scanState.sector];
+ $('#sectorName').textContent=`SECTOR ${scanState.sector+1} / 5 · ${s.name.toUpperCase()}`;
+ $('#scannerGrid').innerHTML=s.objects.map((o,i)=>`<button class="action scanTile" data-scan="${i}"><b>${o[0]}</b><small>${o[1]}</small></button>`).join('');
+ $$('#scannerGrid [data-scan]').forEach(b=>b.onclick=()=>pickAnomaly(+b.dataset.scan));
+ renderRoute();
+}
+function pickAnomaly(i){
+ if(scanState.locked||G.cityDone)return;
+ const s=citySectors[scanState.sector], buttons=$$('#scannerGrid [data-scan]');
+ scanState.locked=true;
+ buttons.forEach(b=>b.classList.add('scanned'));
+ if(i===s.anomaly){
+   buttons[i].classList.add('correct');
+   G.frags++;G.insight++;
+   scanLog(`MATCH: ${s.objects[i][0]} violates sector physics. Fragment ${G.frags}/5 recovered.`);
+   toast('ANOMALY CONFIRMED');
+   updateHud();renderRoute();
+   if(G.frags>=5){G.cityDone=true;G.insight+=2;updateHud();setTimeout(()=>{scanState.locked=false;renderScanner()},450)}
+   else setTimeout(()=>{scanState.locked=false;renderScanner()},600);
+ }else{
+   buttons[i].classList.add('wrong');
+   G.trace=clamp(G.trace+12,0,100);G.integrity=clamp(G.integrity-4,0,100);scanState.errors++;
+   scanLog(`FALSE POSITIVE: ${s.objects[i][0]} is consistent. Pursuit Process learns your scan signature.`);
+   updateHud();renderRoute();
+   setTimeout(()=>{scanState.locked=false;renderScanner()},650);
+ }
+}
+$('#coolTrace').onclick=()=>{G.trace=clamp(G.trace-8,0,100);G.integrity=clamp(G.integrity-2,0,100);updateHud();scanLog('Scanner signature dispersed through public infrastructure.');toast('TRACE REDUCED')};
+$('#deepScan').onclick=()=>{G.insight++;G.trace=clamp(G.trace+6,0,100);updateHud();const s=citySectors[Math.min(G.frags,4)];scanLog(`Deep scan hint: anomaly index parity is ${s.anomaly%2?'odd':'even'}.`);toast('DEEP SCAN COMPLETE')};
 
 // AREA 3: branching Twine-like story
 const story=[
@@ -327,7 +379,7 @@ function rain(){
  requestAnimationFrame(rain)
 }
 rainResize();addEventListener('resize',rainResize);rain();
-$('#soundBtn').textContent='SND '+(G.sound?'ON':'OFF');updateHud();renderTruths();if(G.stage>=1)startCity();
+$('#soundBtn').textContent='SND '+(G.sound?'ON':'OFF');updateHud();renderTruths();if(G.stage>=1)renderScanner();
 })();
 </script>
 </body></html>
