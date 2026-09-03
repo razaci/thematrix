@@ -75,6 +75,10 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
 
 
 /* STORY PAGE DYNAMICS */
+
+.storyStartChoice{border-color:#ffd84d!important;box-shadow:0 0 14px #ffd84d33}
+.storyStartChoice b{color:#ffe98a}
+
 .storyCheckpoint{border:1px solid #356c50;background:linear-gradient(180deg,#0b1a13,#07100c);border-radius:14px;padding:12px;margin:10px 0}
 .storyCheckpoint h3{margin:0 0 5px;color:#caffdd}
 .storyCheckpoint .sceneText{font-size:11px;line-height:1.55;color:#a8cbb7;margin-bottom:9px}
@@ -1219,7 +1223,7 @@ function renderStoryCheckpoint(key){
  let sc=seq[idx],choiceKey=key+'_'+idx,chosen=G.storyPageChoices[choiceKey];
  let dots=seq.map((_,i)=>`<span class="sceneDot ${i<idx?'done':i===idx?'now':''}"></span>`).join('');
  box.innerHTML=`<div class="storyCheckpoint"><h3>${sc.title}</h3><div class="sceneProgress">${dots}</div><div class="sceneText">${sc.text}</div>
- <div class="storyChoices">${sc.choices.map((c,i)=>`<button class="storyChoice ${chosen===i?'chosen':''}" data-story="${key}" data-storychoice="${i}"><b>${c[0]}</b><br><small>${c[3]}</small></button>`).join('')}</div>
+ <div class="storyChoices">${sc.choices.map((c,i)=>`<button class="storyChoice ${chosen===i?'chosen':''} ${chosen===undefined?'storyStartChoice':''}" data-story="${key}" data-storychoice="${i}"><b>${c[0]}</b><br><small>${c[3]}</small></button>`).join('')}</div>
  <div class="storyGate ${chosen!==undefined?'ready':''}">${chosen===undefined?'Choose one response before continuing.':'Decision recorded. Advance to the next story page.'}</div>
  ${chosen!==undefined?'<button class="nextBtn" data-storynext="'+key+'">ADVANCE STORY PAGE</button>':''}</div>`;
  $$(`[data-story="${key}"]`).forEach(b=>b.onclick=()=>chooseStory(key,+b.dataset.storychoice));
@@ -1256,14 +1260,14 @@ function nextStep(){
 }
  const st=currentStageNumber();
  if(st===0){
-   if(!G.storyPagesComplete.deck) return {text:'Complete the current interactive story page. Choose a response, then press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_deck').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
+   if(!G.storyPagesComplete.deck) return {text:'Start here: choose one of the yellow story responses at the top of this page. After choosing, press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_deck').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
    if(!G.signal)return {text:'Scan the four carrier frequencies and find the ghost signal.',action:()=>document.querySelectorAll('.sig')[3]?.scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW SIGNAL SCANNER'};
    if(!G.deckPowerDone)return {text:'Restore Emergency Power Routing. Set the relays to CORE / OFF / CORE.',action:()=>$('#powerNodes').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW POWER PUZZLE'};
    if(!G.deckDecryptDone)return {text:'Decrypt the ghost packet using the checksum △ ○ □ △.',action:()=>$('#decryptKeys').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW DECRYPTION'};
    return {text:'Signal Deck complete. Jack into Fracture City.',action:()=>$('#jackIn').scrollIntoView({behavior:'smooth',block:'center'}),label:'GO TO JACK-IN'};
  }
  if(st===1){
-   if(!G.storyPagesComplete.city) return {text:'Complete the current interactive story page. Choose a response, then press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_city').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
+   if(!G.storyPagesComplete.city) return {text:'Start here: choose one of the yellow story responses at the top of this page. After choosing, press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_city').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
    if(!G.cityScanDone)return {text:`Find the anomaly in each district. ${G.frags}/5 fragments recovered.`,action:()=>$('#scannerGrid').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW REALITY SCANNER'};
    if(!G.cityAgentDone)return {text:'Identify the Pursuit Process hiding among the resident profiles.',action:()=>$('#agentProfiles').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW PROFILES'};
    if(!G.cityRouteDone)return {text:'Assemble the impossible street: FUTURE → ORIGIN → ECHO → FRACTURE → RETURN.',action:()=>$('#routeKeys').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW ROUTE PUZZLE'};
@@ -1271,7 +1275,7 @@ function nextStep(){
    return {text:'Fracture City complete. Enter the Impossible Archive.',action:()=>$('#cityExitCard').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW ARCHIVE GATE'};
  }
  if(st===2){
-   if(!G.storyPagesComplete.archive) return {text:'Complete the current interactive story page. Choose a response, then press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_archive').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
+   if(!G.storyPagesComplete.archive) return {text:'Start here: choose one of the yellow story responses at the top of this page. After choosing, press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_archive').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
    if(!G.archiveStoryDone)return {text:'Continue the ECHO conversation until you receive the root credential.',action:()=>$('#storyChoices').scrollIntoView({behavior:'smooth',block:'center'}),label:'CONTINUE STORY'};
    if(G.archiveLoom<3)return {text:`Reconstruct the Memory Loom. ${G.archiveLoom}/3 memories restored.`,action:()=>$('#loomPuzzle').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW MEMORY LOOM'};
    if(!G.archiveProofDone)return {text:'Find the contradiction in ECHO’s proposal to unlock the Construct.',action:()=>$('#proofPuzzle').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW CONTRADICTION'};
@@ -1279,7 +1283,7 @@ function nextStep(){
    return {text:'Archive complete. Enter the Construct Lab.',action:()=>$('#archiveExitCard').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW CONSTRUCT GATE'};
  }
  if(st===3){
-   if(!G.storyPagesComplete.lab) return {text:'Complete the current interactive story page. Choose a response, then press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_lab').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
+   if(!G.storyPagesComplete.lab) return {text:'Start here: choose one of the yellow story responses at the top of this page. After choosing, press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_lab').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
    if(!G.constructCompileDone)return {text:'Choose exactly three programs within 7 capacity and compile a valid synergistic loadout.',action:()=>$('#programCards').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW PROGRAM DECK'};
    if(!G.labCalDone)return {text:'Calibrate the Construct in the order BODY → TIME → EXIT.',action:()=>$('#calKeys').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW CALIBRATION'};
    if(G.labStress<3)return {text:`Survive Stress Simulation cycle ${G.labStress+1}/3.`,action:()=>$('#stressTest').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STRESS TEST'};
@@ -1287,7 +1291,7 @@ function nextStep(){
    return {text:'Construct Lab complete. Enter the Mirror Core.',action:()=>$('#labExitCard').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW CORE GATE'};
  }
  if(st===4){
-   if(!G.storyPagesComplete.core) return {text:'Complete the current interactive story page. Choose a response, then press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_core').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
+   if(!G.storyPagesComplete.core) return {text:'Start here: choose one of the yellow story responses at the top of this page. After choosing, press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_core').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
    if(G.coreFirewalls<3)return {text:`Break Root Firewall layer ${G.coreFirewalls+1}/3 by choosing the strongest rule.`,action:()=>$('#firewallPuzzle').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW FIREWALL'};
    if(G.echo>0)return {text:`Attack ECHO with your compiled programs. Coherence remaining: ${Math.round(G.echo)}%.`,action:()=>$('#bossActions').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW ECHO CONTROLS'};
    if(!G.ending)return {text:'Choose which rule survives and determine the ending.',action:()=>$('#finalDecision').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW FINAL CHOICE'};
@@ -1308,12 +1312,29 @@ function storyGateOpenForCurrent(){
  const st=currentStageNumber();if(st<0)return true;
  const key=storyKeyForStage(st);return !!G.storyPagesComplete[key];
 }
+function storyGateKey(){
+ const st=currentStageNumber();return st<0?null:storyKeyForStage(st);
+}
 document.addEventListener('click',e=>{
  const active=$('.stage.active');if(!active||active.id==='stageHub')return;
- const guide=e.target.closest('#nextGuideBtn,[data-story],[data-storynext]');if(guide)return;
- const interactive=e.target.closest('button');
- if(interactive && !storyGateOpenForCurrent() && !interactive.closest('[id^="storyCheckpoint_"]') && interactive.id!=='hubBtn' && interactive.id!=='soundBtn' && interactive.id!=='resetBtn'){
-   e.preventDefault();e.stopImmediatePropagation();toast('COMPLETE THE STORY DECISION ABOVE FIRST');updateGuide();
+ const btn=e.target.closest('button');if(!btn)return;
+
+ // Always allow story controls, yellow guidance, global navigation, sound/reset/hub.
+ if(btn.closest('[id^="storyCheckpoint_"]') ||
+    btn.id==='nextGuideBtn' ||
+    btn.id==='hubBtn' ||
+    btn.id==='soundBtn' ||
+    btn.id==='resetBtn' ||
+    btn.id==='deckHub' ||
+    btn.closest('nav')) return;
+
+ if(!storyGateOpenForCurrent()){
+   const key=storyGateKey();
+   e.preventDefault();e.stopImmediatePropagation();
+   const box=key?$('#storyCheckpoint_'+key):null;
+   if(box) box.scrollIntoView({behavior:'smooth',block:'start'});
+   toast('START WITH THE YELLOW STORY CHOICE ABOVE');
+   updateGuide();
  }
 },true);
 
@@ -1457,7 +1478,18 @@ function rain(){
  requestAnimationFrame(rain)
 }
 rainResize();addEventListener('resize',rainResize);rain();
-$('#soundBtn').textContent='SND '+(G.sound?'ON':'OFF');updateHud();updateDynamicHUD();renderTruths();renderDeckExtras();if(G.stage>=1){renderScanner();renderCityExtras()}if(G.stage>=2)renderArchiveExtras();if(G.stage>=3)renderLabExtras();if(G.stage>=4)renderBoss();renderHub();renderAllStoryCheckpoints();if(G.ngplus>0&&$('#ngEcho'))$('#ngEcho').innerHTML='<br><b>ECHO:</b> I remember you.';updateObjectives();updateGuide();
+$('#soundBtn').textContent='SND '+(G.sound?'ON':'OFF');updateHud();updateDynamicHUD();renderTruths();renderDeckExtras();if(G.stage>=1){renderScanner();renderCityExtras()}if(G.stage>=2)renderArchiveExtras();if(G.stage>=3)renderLabExtras();if(G.stage>=4)renderBoss();renderHub();renderAllStoryCheckpoints();
+setTimeout(()=>{
+ const st=currentStageNumber();
+ if(st>=0){
+   const key=storyKeyForStage(st);
+   if(!G.storyPagesComplete[key]){
+     const box=$('#storyCheckpoint_'+key);
+     if(box) box.scrollIntoView({behavior:'smooth',block:'start'});
+   }
+ }
+},120);
+if(G.ngplus>0&&$('#ngEcho'))$('#ngEcho').innerHTML='<br><b>ECHO:</b> I remember you.';updateObjectives();updateGuide();
 })();
 </script>
 </body></html>
