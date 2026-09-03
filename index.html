@@ -639,6 +639,254 @@ body.story-hull-mode [id^="returnShip_"]{display:none!important}
  .storyHullText{-webkit-line-clamp:4}
 }
 
+
+/* COMPLETE CLEAN WRAP */
+#cleanWrap{
+  max-width:980px;
+  margin:10px auto;
+  padding:10px;
+}
+.cwHero{
+  position:relative;
+  min-height:300px;
+  overflow:hidden;
+  border:1px solid #385942;
+  border-radius:16px;
+  background:#020503;
+}
+.cwHero img{
+  width:100%;
+  height:300px;
+  object-fit:cover;
+  display:block;
+  filter:brightness(.5) contrast(1.08) saturate(.82);
+}
+.cwShade{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.42) 50%,rgba(0,0,0,.94));
+}
+.cwCopy{
+  position:absolute;
+  z-index:3;
+  left:14px;right:14px;bottom:13px;
+  color:#fff;
+}
+.cwKicker{
+  font:10px monospace;
+  letter-spacing:.12em;
+  color:#c9f0d4;
+}
+.cwCopy h2{
+  margin:.2rem 0 .35rem;
+  font-size:clamp(26px,6vw,44px);
+}
+.cwText{
+  font-size:13px;
+  line-height:1.5;
+  max-width:720px;
+}
+.cwQuote{
+  margin-top:7px;
+  font:11px monospace;
+  color:#fff0aa;
+}
+.cwStatus{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:6px;
+  margin:8px 0;
+}
+.cwStat{
+  border:1px solid #365943;
+  background:#07120c;
+  border-radius:9px;
+  padding:7px;
+  text-align:center;
+  font:10px monospace;
+}
+.cwStat b{display:block;font-size:14px;margin-top:2px}
+.cwNext{
+  border:2px solid #ffd84d;
+  background:#171300;
+  color:#fff8bf;
+  border-radius:11px;
+  padding:10px;
+  margin-top:8px;
+}
+.cwNext b{display:block;margin-bottom:3px}
+.cwActions{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:7px;
+  margin-top:8px;
+}
+.cwAction{
+  border:1px solid #426b50;
+  background:#07130d;
+  color:#fff;
+  border-radius:10px;
+  padding:10px;
+  min-height:72px;
+  text-align:left;
+  font-weight:900;
+}
+.cwAction small{
+  display:block;
+  margin-top:4px;
+  color:#cfe6d5;
+  font-weight:500;
+  line-height:1.35;
+}
+.cwAction.primary{
+  border:2px solid #ffd84d;
+  background:#332b08;
+}
+.cwAction.done{opacity:.55}
+.cwPanel{
+  border:1px solid #3c6249;
+  background:#030805;
+  border-radius:13px;
+  padding:10px;
+  margin-top:9px;
+}
+.cwPanel h3{margin:.1rem 0 .45rem}
+.cwAreaGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+}
+.cwArea{
+  border:1px solid #365942;
+  background:#07120c;
+  border-radius:10px;
+  padding:8px;
+}
+.cwArea.locked{display:none}
+.cwArea p{
+  font-size:11px;
+  line-height:1.35;
+  margin:.3rem 0;
+}
+.cwArea button,
+.cwQuiz button,
+.cwReturn,
+.cwAdvance{
+  width:100%;
+  min-height:42px;
+  border-radius:9px;
+  font-weight:900;
+}
+.cwArea button{
+  background:#102219;
+  color:#fff;
+  border:1px solid #557d62;
+}
+.cwQuiz{
+  display:none;
+  border:2px solid #6b5d36;
+  background:#161204;
+  border-radius:12px;
+  padding:10px;
+  margin-top:9px;
+}
+.cwQuiz.active{display:block}
+.cwQuizChoice{
+  display:block;
+  margin-top:6px;
+  background:#151f18;
+  color:#fff;
+  border:1px solid #5e735f;
+  padding:8px;
+}
+.cwQuizResult{
+  margin-top:8px;
+  font:11px monospace;
+  min-height:22px;
+  color:#fff1af;
+}
+.cwAdvance{
+  display:none;
+  margin-top:8px;
+  background:#ffd84d;
+  color:#171100;
+  border:2px solid #ffd84d;
+}
+.cwAdvance.show{display:block}
+.cwAreaPlay{
+  display:none;
+  border:2px solid #456e53;
+  background:#020604;
+  border-radius:13px;
+  padding:10px;
+  margin-top:9px;
+}
+.cwAreaPlay.active{display:block}
+.cwTask{
+  border:1px solid #365942;
+  background:#07120c;
+  border-radius:9px;
+  padding:8px;
+  margin-top:6px;
+}
+.cwTask button{
+  width:100%;
+  min-height:42px;
+  margin-top:5px;
+  background:#102219;
+  color:#fff;
+  border:1px solid #557d62;
+  border-radius:8px;
+  font-weight:900;
+}
+.cwReturn{
+  margin-top:8px;
+  background:#ffd84d;
+  color:#171100;
+  border:2px solid #ffd84d;
+}
+.cwSandbox{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
+  margin-top:8px;
+}
+.cwSandbox button{
+  min-height:42px;
+  background:#0d1b13;
+  color:#fff;
+  border:1px solid #567c62;
+  border-radius:8px;
+  font-weight:900;
+}
+.cwSandboxReadout{
+  border:1px solid #355a43;
+  background:#010503;
+  border-radius:9px;
+  padding:8px;
+  margin-top:7px;
+  font:10px monospace;
+  color:#dfffe7;
+}
+body.clean-wrap-mode #storyHull,
+body.clean-wrap-mode #movieOpening,
+body.clean-wrap-mode #dailySim,
+body.clean-wrap-mode #legacyCrewBriefing,
+body.clean-wrap-mode #clickableShipMap,
+body.clean-wrap-mode #shipMainFrame,
+body.clean-wrap-mode #shipWorld,
+body.clean-wrap-mode #shipConsoleDock,
+body.clean-wrap-mode .sequencePanel,
+body.clean-wrap-mode [id^="returnShip_"],
+body.clean-wrap-mode #quizHub,
+body.clean-wrap-mode #rainChamber{
+  display:none!important;
+}
+@media(max-width:700px){
+  .cwHero,.cwHero img{height:330px;min-height:330px}
+  .cwStatus{grid-template-columns:1fr 1fr}
+  .cwActions,.cwAreaGrid,.cwSandbox{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
@@ -650,6 +898,48 @@ body.story-hull-mode [id^="returnShip_"]{display:none!important}
 
 
 
+
+<section id="cleanWrap">
+  <div class="cwHero">
+    <img id="cwImage" alt="Cinematic Matrix-inspired story scene">
+    <div class="cwShade"></div>
+    <div class="cwCopy">
+      <div class="cwKicker" id="cwKicker">MNEMOSYNE // STORY MODE</div>
+      <h2 id="cwTitle">THE SHIP REMEMBERS</h2>
+      <div class="cwText" id="cwText"></div>
+      <div class="cwQuote" id="cwQuote"></div>
+    </div>
+  </div>
+
+  <div class="cwStatus">
+    <div class="cwStat">DAY<b id="cwDay">1</b></div>
+    <div class="cwStat">HULL<b id="cwHull">100%</b></div>
+    <div class="cwStat">INTEL<b id="cwIntel">0</b></div>
+    <div class="cwStat">HARDLINE<b id="cwHardline">READY</b></div>
+  </div>
+
+  <div class="cwNext">
+    <b id="cwNextTitle">WHAT TO DO NOW</b>
+    <span id="cwNextText">Check the bridge signal.</span>
+  </div>
+
+  <div class="cwActions" id="cwActions"></div>
+
+  <div class="cwQuiz" id="cwQuiz">
+    <div class="cwKicker">STORY CHECK // QUIZ</div>
+    <h3 id="cwQuizQuestion">Question</h3>
+    <div id="cwQuizChoices"></div>
+    <div class="cwQuizResult" id="cwQuizResult"></div>
+    <button type="button" class="cwAdvance" id="cwAdvance">CONTINUE STORY</button>
+  </div>
+
+  <div class="cwPanel">
+    <div class="cwKicker">SHIP HULL // UNLOCKED AREAS</div>
+    <div class="cwAreaGrid" id="cwAreaGrid"></div>
+  </div>
+
+  <div class="cwAreaPlay" id="cwAreaPlay"></div>
+</section>
 <section id="storyHull">
   <div class="storySticky" id="storySticky">MNEMOSYNE // STORY MODE // THE SHIP HULL IS YOUR HOME SCENE</div>
   <div class="storyHullHero">
@@ -3076,6 +3366,7 @@ document.addEventListener('click',e=>{
     btn.closest('#jackSequence') ||
     btn.closest('#movieOpening') ||
     btn.closest('#storyHull') ||
+    btn.closest('#cleanWrap') ||
     btn.id==='nextGuideBtn' ||
     btn.id==='hubBtn' ||
     btn.id==='soundBtn' ||
@@ -3845,6 +4136,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 if(typeof cleanNextStep==='function'){
  try{window.nextStep=cleanNextStep}catch(e){}
 }
+try{window.nextStep=function(){document.getElementById('cleanWrap')?.scrollIntoView({behavior:'smooth',block:'start'});return {text:'Follow the movie scene and highlighted activity.'}}}catch(e){}
 
 
 const CINEMATIC_STORY={
@@ -4615,6 +4907,319 @@ function bindStoryHull(){
  renderStoryHull();
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindStoryHull,{once:true});else bindStoryHull();
+
+
+const CW={
+  scene:0,
+  day:1,
+  intel:0,
+  hull:100,
+  hardline:true,
+  activityDone:false,
+  quizPassed:false,
+  unlocked:{bridge:true,operator:false,engineering:false,quarters:false,jack:false,matrix:false,sandbox:false},
+  areaDone:{},
+  taskDone:{},
+  sandbox:{rain:true,gravity:1,glitch:0,objects:0}
+};
+
+const CW_SCENES=[
+ {
+  kicker:'ACT I // THE SHIP HULL',
+  title:'THE SHIP REMEMBERS',
+  text:'The Mnemosyne drifts dark through machine space. A bridge monitor wakes by itself and displays a carrier keyed to your biometric signature.',
+  quote:'ROOK: “This packet thinks you sent it.”',
+  activity:{label:'CHECK THE BRIDGE SIGNAL',desc:'Go to the Bridge and inspect the impossible carrier.',area:'bridge'},
+  quiz:{q:'What makes the signal impossible?',choices:['It has no sound','It carries your biometric signature','It came from Zion'],answer:1},
+  unlock:['operator','engineering']
+ },
+ {
+  kicker:'ACT I // OPERATOR PIT',
+  title:'TANK FINDS A DOOR',
+  text:'Tank traces the carrier to a Matrix street that does not exist on any current map. The hardline is real. The destination should not be.',
+  quote:'TANK: “I can get you there. I just can’t tell you what there is yet.”',
+  activity:{label:'TRACE THE HARDLINE',desc:'Work with Tank in the Operator Pit.',area:'operator'},
+  quiz:{q:'What is unusual about the route?',choices:['The hardline is broken','The destination is missing from current maps','Tank refuses to use it'],answer:1},
+  unlock:['quarters']
+ },
+ {
+  kicker:'ACT I // ENGINEERING',
+  title:'KEEP THE REAL WORLD ALIVE',
+  text:'Before anyone jacks in, Engineering has to keep the physical ship stable. The Matrix can wait. The reactor cannot.',
+  quote:'DOZER: “Come back with the same number of people we sent in.”',
+  activity:{label:'STABILIZE ENGINEERING',desc:'Route power and check the reactor.',area:'engineering'},
+  quiz:{q:'Why does Engineering matter before a Matrix mission?',choices:['It makes the Matrix prettier','The ship is the physical route home','It unlocks more weapons'],answer:1},
+  unlock:['jack']
+ },
+ {
+  kicker:'ACT I // CREW QUARTERS',
+  title:'THE BUNK THAT KNOWS YOU',
+  text:'An empty bunk opens when you approach. Inside is a photograph dated three years from now and a transit card from a city called AFTERIMAGE.',
+  quote:'The photograph shows you standing on the impossible street.',
+  activity:{label:'INVESTIGATE THE BUNK',desc:'Inspect the photo and the impossible transit card.',area:'quarters'},
+  quiz:{q:'What is wrong with the photograph?',choices:['It is blank','It is dated three years in the future','Tank is missing from it'],answer:1},
+  unlock:['matrix']
+ },
+ {
+  kicker:'ACT II // JACK BAY',
+  title:'THE CHOICE TO ENTER',
+  text:'Tank has a route. Engineering is stable. The jack chairs are powered. Now you can choose to enter the Matrix—or keep exploring the ship.',
+  quote:'TANK: “The ship stays here. Remember where real is.”',
+  activity:{label:'PREPARE THE JACK-IN',desc:'Check cables, load the entry package, and verify the return line.',area:'jack'},
+  quiz:{q:'What is the Mnemosyne during a Matrix mission?',choices:['A scoreboard','The shared physical anchor and route home','A simulated training room'],answer:1},
+  unlock:['sandbox']
+ },
+ {
+  kicker:'ACT II // FRACTURE CITY',
+  title:'THE STREET THAT SHOULD NOT EXIST',
+  text:'Rain falls on a city block everyone remembers. Mnemosyne records say the entire district was compiled this morning.',
+  quote:'IRIS: “They remember years here. The code says hours.”',
+  activity:{label:'ENTER FRACTURE CITY',desc:'Scan the street, question a resident, and find the Archive door.',area:'matrix'},
+  quiz:{q:'What proves Fracture City is wrong?',choices:['It has rain','Residents remember years, but the code is new','There are no telephones'],answer:1},
+  unlock:['sandbox']
+ },
+ {
+  kicker:'FREE PLAY // AFTERIMAGE',
+  title:'THE MATRIX OPENS',
+  text:'The mystery continues, but the ship and the Matrix are now open to you. Revisit rooms, run simulations, change reality rules, and build your own fictional path.',
+  quote:'NOX: “Freedom is not one correct path. It is knowing the door is real.”',
+  activity:{label:'FREE PLAY',desc:'Choose any unlocked area below.',area:'sandbox'},
+  quiz:null,
+  unlock:['sandbox']
+ }
+];
+
+const CW_AREAS={
+ bridge:{
+   name:'BRIDGE',
+   desc:'Signal, navigation, briefing.',
+   tasks:[
+     ['READ SIGNAL','The packet carries your biometric key and a future timestamp.'],
+     ['CHECK NAVIGATION','Source: Broadcast Depths, outside safe machine lanes.']
+   ]
+ },
+ operator:{
+   name:'OPERATOR PIT',
+   desc:'Tank, hardlines, Matrix feed.',
+   tasks:[
+     ['TALK TO TANK','Tank confirms the destination exists even though current maps deny it.'],
+     ['TRACE EXIT','A return line resolves through an abandoned telephone exchange.']
+   ]
+ },
+ engineering:{
+   name:'ENGINEERING',
+   desc:'Reactor, power, ship survival.',
+   tasks:[
+     ['CHECK REACTOR','Output is stable but coolant is under load.'],
+     ['ROUTE POWER','Power shifts toward Operator Pit and Jack Bay.']
+   ]
+ },
+ quarters:{
+   name:'CREW QUARTERS',
+   desc:'Bunks, clues, crew life.',
+   tasks:[
+     ['OPEN THE BUNK','Clothes in your size. No crew assignment record.'],
+     ['READ THE PHOTO','The image is dated three years in the future.']
+   ]
+ },
+ jack:{
+   name:'JACK BAY',
+   desc:'Prepare the physical Matrix connection.',
+   tasks:[
+     ['CHECK CABLES','Neural couplers and chair restraints are green.'],
+     ['LOAD ENTRY PACKAGE','Tank marks the return route and emergency exit.']
+   ]
+ },
+ matrix:{
+   name:'FRACTURE CITY',
+   desc:'First playable Matrix mission.',
+   tasks:[
+     ['SCAN THE STREET','Buildings report conflicting creation dates.'],
+     ['QUESTION A RESIDENT','She recognizes you from a photograph taken years ago.'],
+     ['FIND ARCHIVE DOOR','A door marked ARCHIVE exists where no interior should be.']
+   ]
+ },
+ sandbox:{
+   name:'REALITY SANDBOX',
+   desc:'Fictional free-play Matrix rules.',
+   sandbox:true
+ }
+};
+
+function cwPool(){
+  return (typeof EMBEDDED_SCENES!=='undefined'?EMBEDDED_SCENES:[])
+    .concat(typeof EXTRA_STORY_SCENES!=='undefined'?EXTRA_STORY_SCENES:[]);
+}
+function cwScene(){return CW_SCENES[Math.min(CW.scene,CW_SCENES.length-1)]}
+function cwClamp(){
+  CW.hull=Math.max(1,Math.min(100,CW.hull));
+  CW.intel=Math.max(0,Math.min(999,CW.intel));
+}
+function renderCW(){
+  document.body.classList.add('clean-wrap-mode');
+  const d=cwScene(), pool=cwPool();
+  if($('#cwImage')&&pool.length)$('#cwImage').src=pool[(CW.scene*7+1)%pool.length];
+  $('#cwKicker').textContent=d.kicker;
+  $('#cwTitle').textContent=d.title;
+  $('#cwText').textContent=d.text;
+  $('#cwQuote').textContent=d.quote;
+  $('#cwDay').textContent=CW.day;
+  $('#cwHull').textContent=CW.hull+'%';
+  $('#cwIntel').textContent=CW.intel;
+  $('#cwHardline').textContent=CW.hardline?'READY':'SEARCHING';
+
+  const next = CW.activityDone
+    ? (d.quiz ? (CW.quizPassed?'Story check passed. Continue the story.':'Complete the short quiz below.') : 'Choose any unlocked area.')
+    : d.activity.desc;
+  $('#cwNextText').textContent=next;
+
+  $('#cwActions').innerHTML = CW.activityDone
+    ? (d.quiz ? `<button type="button" class="cwAction primary" id="cwQuizOpen">TAKE STORY QUIZ<small>One short question unlocks the next scene.</small></button>` :
+       `<button type="button" class="cwAction primary" data-cw-open="${d.activity.area}">FREE PLAY<small>${d.activity.desc}</small></button>`)
+    : `<button type="button" class="cwAction primary" data-cw-open="${d.activity.area}">${d.activity.label}<small>${d.activity.desc}</small></button>`;
+
+  $$('[data-cw-open]').forEach(b=>b.onclick=()=>openCWArea(b.dataset.cwOpen));
+  $('#cwQuizOpen')?.addEventListener('click',showCWQuiz);
+  renderCWAreas();
+  renderCWQuiz();
+}
+function renderCWAreas(){
+  const order=['bridge','operator','engineering','quarters','jack','matrix','sandbox'];
+  $('#cwAreaGrid').innerHTML=order.map(k=>{
+    const a=CW_AREAS[k],u=!!CW.unlocked[k],done=!!CW.areaDone[k];
+    return `<div class="cwArea ${u?'':'locked'}">
+      <b>${a.name}</b>
+      <p>${a.desc}</p>
+      <button type="button" data-cw-area="${k}" ${u?'':'disabled'}>${done?'REVISIT':'ENTER'}</button>
+    </div>`;
+  }).join('');
+  $$('[data-cw-area]').forEach(b=>b.onclick=()=>openCWArea(b.dataset.cwArea));
+}
+function openCWArea(k){
+  if(!CW.unlocked[k]&&!CW_AREAS[k])return;
+  if(!CW.unlocked[k])return;
+  const a=CW_AREAS[k], p=$('#cwAreaPlay');
+  p.classList.add('active');
+  if(a.sandbox){
+    p.innerHTML=`<div class="cwKicker">FREE PLAY // REALITY SANDBOX</div>
+      <h3>${a.name}</h3>
+      <p>Change fictional Matrix rules without affecting story progress.</p>
+      <div class="cwSandbox">
+        <button type="button" data-cw-sandbox="rain">TOGGLE RAIN</button>
+        <button type="button" data-cw-sandbox="gravity">CHANGE GRAVITY</button>
+        <button type="button" data-cw-sandbox="glitch">GLITCH REALITY</button>
+        <button type="button" data-cw-sandbox="object">SPAWN OBJECT</button>
+        <button type="button" data-cw-sandbox="intel">SCAN CODE</button>
+        <button type="button" data-cw-sandbox="reset">RESET RULES</button>
+      </div>
+      <div class="cwSandboxReadout" id="cwSandboxReadout"></div>
+      <button type="button" class="cwReturn" id="cwReturnHull">RETURN TO SHIP HULL</button>`;
+    $$('[data-cw-sandbox]').forEach(b=>b.onclick=()=>doCWSandbox(b.dataset.cwSandbox));
+    $('#cwReturnHull').onclick=closeCWArea;
+    renderCWSandbox();
+  } else {
+    const doneMap=CW.taskDone[k]||{};
+    p.innerHTML=`<div class="cwKicker">PLAYABLE AREA</div>
+      <h3>${a.name}</h3>
+      <p>${a.desc}</p>
+      ${a.tasks.map((t,i)=>`<div class="cwTask">
+        <b>${t[0]}</b>
+        <div>${doneMap[i]?t[1]:'Complete this activity.'}</div>
+        <button type="button" data-cw-task="${k}|${i}">${doneMap[i]?'DONE':'DO IT'}</button>
+      </div>`).join('')}
+      <button type="button" class="cwReturn" id="cwReturnHull">RETURN TO SHIP HULL</button>`;
+    $$('[data-cw-task]').forEach(b=>b.onclick=()=>{
+      const [area,idx]=b.dataset.cwTask.split('|');
+      doCWTask(area,Number(idx));
+    });
+    $('#cwReturnHull').onclick=closeCWArea;
+  }
+  p.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function doCWTask(k,i){
+  CW.taskDone[k]=CW.taskDone[k]||{};
+  CW.taskDone[k][i]=true;
+  if(k==='engineering'){CW.hull=Math.min(100,CW.hull+2)}
+  if(k==='operator'||k==='matrix'){CW.intel+=1}
+  const a=CW_AREAS[k];
+  const all=a.tasks.every((_,idx)=>CW.taskDone[k][idx]);
+  if(all){
+    CW.areaDone[k]=true;
+    const d=cwScene();
+    if(d.activity.area===k)CW.activityDone=true;
+  }
+  cwClamp();
+  openCWArea(k);
+  renderCW();
+}
+function closeCWArea(){
+  $('#cwAreaPlay').classList.remove('active');
+  renderCW();
+  $('#cleanWrap')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function showCWQuiz(){
+  const d=cwScene();
+  if(!d.quiz)return;
+  $('#cwQuiz').classList.add('active');
+  $('#cwQuiz')?.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function renderCWQuiz(){
+  const d=cwScene(), q=$('#cwQuiz');
+  if(!d.quiz){q.classList.remove('active');return}
+  $('#cwQuizQuestion').textContent=d.quiz.q;
+  $('#cwQuizChoices').innerHTML=d.quiz.choices.map((c,i)=>
+    `<button type="button" class="cwQuizChoice" data-cw-answer="${i}">${c}</button>`).join('');
+  $('#cwQuizResult').textContent=CW.quizPassed?'PASSED // NEXT SCENE UNLOCKED':'';
+  $('#cwAdvance').classList.toggle('show',CW.quizPassed);
+  $$('[data-cw-answer]').forEach(b=>b.onclick=()=>answerCWQuiz(Number(b.dataset.cwAnswer)));
+  $('#cwAdvance').onclick=advanceCWScene;
+}
+function answerCWQuiz(i){
+  const d=cwScene();
+  if(i===d.quiz.answer){
+    CW.quizPassed=true;
+    $('#cwQuizResult').textContent='CORRECT // STORY UNLOCKED';
+    $('#cwAdvance').classList.add('show');
+  }else{
+    $('#cwQuizResult').textContent='NOT QUITE // READ THE SCENE ABOVE AND TRY AGAIN';
+  }
+}
+function advanceCWScene(){
+  if(!CW.activityDone)return;
+  const d=cwScene();
+  if(d.quiz&&!CW.quizPassed)return;
+  (d.unlock||[]).forEach(k=>CW.unlocked[k]=true);
+  CW.scene=Math.min(CW.scene+1,CW_SCENES.length-1);
+  CW.activityDone=false;
+  CW.quizPassed=false;
+  CW.day++;
+  $('#cwQuiz').classList.remove('active');
+  renderCW();
+  $('#cleanWrap')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function doCWSandbox(a){
+  if(a==='rain')CW.sandbox.rain=!CW.sandbox.rain;
+  if(a==='gravity'){
+    const vals=[.25,.5,1,1.8,0];
+    const i=vals.indexOf(CW.sandbox.gravity);
+    CW.sandbox.gravity=vals[(i+1)%vals.length];
+  }
+  if(a==='glitch')CW.sandbox.glitch=(CW.sandbox.glitch+1)%5;
+  if(a==='object')CW.sandbox.objects++;
+  if(a==='intel')CW.intel++;
+  if(a==='reset')CW.sandbox={rain:true,gravity:1,glitch:0,objects:0};
+  renderCWSandbox();renderCW();
+}
+function renderCWSandbox(){
+  const r=$('#cwSandboxReadout');if(!r)return;
+  r.textContent=`RAIN ${CW.sandbox.rain?'ON':'OFF'} // GRAVITY ${CW.sandbox.gravity}G // GLITCH ${CW.sandbox.glitch} // OBJECTS ${CW.sandbox.objects}`;
+}
+function bindCW(){
+  // New clean wrap is the only progression authority.
+  document.body.classList.add('clean-wrap-mode');
+  renderCW();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindCW,{once:true});else bindCW();
 
 </script>
 </body></html>
