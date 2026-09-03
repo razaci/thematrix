@@ -1557,6 +1557,33 @@ body.hideTopMenus #areaDeck{display:none!important}
 .courseStatus{display:grid;grid-template-columns:1fr auto;gap:4px;padding:3px 0;border-bottom:1px solid rgba(255,157,46,.15)}
 @media(max-width:720px){.courseTargets{grid-template-columns:1fr}}
 
+
+/* COLLAPSIBLE TOP FOUR CONSOLES */
+#topScreenControls{
+ position:fixed;top:6px;left:50%;transform:translateX(-50%);
+ z-index:25000;display:flex;gap:5px;pointer-events:auto
+}
+#topScreenControls button{font:8px monospace;padding:5px 8px;min-height:28px}
+body.topBankOff #topScreenBank{display:none!important}
+#topMissionPanel{
+ position:fixed;left:50%;top:108px;transform:translateX(-50%);
+ width:min(920px,94vw);max-height:58vh;overflow:auto;
+ z-index:24000;background:rgba(3,7,4,.97);border:1px solid #4c7d56;
+ border-radius:9px;padding:9px;display:none;pointer-events:auto;
+ box-shadow:0 0 45px rgba(0,0,0,.8)
+}
+#topMissionPanel.on{display:block}
+.topMissionHead{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:7px}
+.topMissionHead b{color:#b8ffc8;font:10px monospace}
+.topMissionGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.topMissionCard{border:1px solid #31583d;border-radius:7px;padding:7px;background:#020805;font:9px monospace}
+.topMissionCard h4{margin:0 0 5px;color:#b7ffc7}
+.topScreen.activeConsole{outline:1px solid #91ffad;box-shadow:0 0 14px rgba(100,255,140,.22)}
+@media(max-width:720px){
+ #topMissionPanel{top:96px;max-height:62vh}
+ .topMissionGrid{grid-template-columns:1fr}
+}
+
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;div id=&quot;app&quot;&gt;
  &lt;div class=&quot;top&quot;&gt;&lt;div class=&quot;brand&quot;&gt;MATRIX: AFTERIMAGE // SHIP CONSOLE&lt;/div&gt;&lt;div class=&quot;hud&quot;&gt;&lt;span class=&quot;chip&quot; id=&quot;step&quot;&gt;MISSION 1&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;intel&quot;&gt;INTEL 0&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;trace&quot;&gt;TRACE 0%&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
@@ -1613,7 +1640,7 @@ thoughts:[],hex:[],events:[],map:Array.from({length:64},()=&gt;0),clock:0,missio
 relationships:{TANK:50,ROOK:50,IRIS:50,NOX:50},
 director:{hack:0,fight:0,flee:0,distort:0,adapt:0},
 powers:{&#x27;ZERO TRACE&#x27;:1,&#x27;BLINK STEP&#x27;:1,&#x27;MIRROR KEY&#x27;:0,&#x27;GRAVITY BREAK&#x27;:0,&#x27;BULLET CLOCK&#x27;:0,&#x27;FALSE IDENTITY&#x27;:0,&#x27;MEMORY FORK&#x27;:0,&#x27;REALITY ANCHOR&#x27;:1},
-invasion:null,emergency:null,topMenusVisible:true,pendingCourse:null,routePath:[],processes:[
+invasion:null,emergency:null,topMenusVisible:true,topBankVisible:true,activeTopConsole:null,pendingCourse:null,routePath:[],processes:[
 {name:&#x27;ORACLE-LITE&#x27;,state:&#x27;RUNNING&#x27;,cpu:22},{name:&#x27;ROUTE-MIND&#x27;,state:&#x27;RUNNING&#x27;,cpu:17},
 {name:&#x27;LACUNA&#x27;,state:&#x27;IDLE&#x27;,cpu:5},{name:&#x27;ECHO-SIM&#x27;,state:&#x27;RUNNING&#x27;,cpu:31},
 {name:&#x27;MIRROR-WATCH&#x27;,state:&#x27;RUNNING&#x27;,cpu:19},{name:&#x27;HARDLINE-AI&#x27;,state:&#x27;RUNNING&#x27;,cpu:14}
@@ -1747,9 +1774,9 @@ function renderTopScreens(){
  ];
  bank.innerHTML=&#x27;&#x27;;
  feeds.forEach((x,i)=&gt;{
-   const d=document.createElement(&#x27;div&#x27;);d.className=&#x27;topScreen&#x27;;
+   const d=document.createElement(&#x27;div&#x27;);d.className=&#x27;topScreen&#x27;+(G.net.activeTopConsole===x[2]?&#x27; activeConsole&#x27;:&#x27;&#x27;);
    d.innerHTML=&#x27;&lt;img src=&quot;&#x27;+x[1]+&#x27;&quot; alt=&quot;&quot;&gt;&lt;div class=&quot;liveOverlay&quot; id=&quot;liveTop&#x27;+i+&#x27;&quot;&gt;&lt;/div&gt;&lt;small&gt;&#x27;+x[0]+&#x27;&lt;/small&gt;&#x27;;
-   d.onclick=()=&gt;openCommand(x[2]);bank.appendChild(d);
+   d.onclick=()=&gt;openTopMissionConsole(x[2]);bank.appendChild(d);
  });
  updateLiveScreens();
 }
@@ -2349,6 +2376,61 @@ function commitCourse(){
  renderFeature();renderReadout();try{updateLiveScreens()}catch(e){}
 }
 function cancelCourse(){G.net.pendingCourse=null;G.nav.contact=null;G.nav.route=Math.max(0,G.nav.route-5);setNote(&#x27;COURSE CLEARED.&#x27;);renderFeature();renderReadout()}
+
+function toggleTopBank(){
+ const off=document.body.classList.contains(&#x27;topBankOff&#x27;);
+ document.body.classList.toggle(&#x27;topBankOff&#x27;,!off);
+ G.net.topBankVisible=off;
+ if(!off)closeTopMissionPanel();
+ setNote(off?&#x27;TOP FOUR SCREENS ON&#x27;:&#x27;TOP FOUR SCREENS OFF&#x27;);
+}
+function closeTopMissionPanel(){
+ const p=$(&#x27;topMissionPanel&#x27;);if(p)p.className=&#x27;&#x27;;
+ G.net.activeTopConsole=null;
+ try{renderTopScreens()}catch(e){}
+}
+function openTopMissionConsole(type){
+ G.net.activeTopConsole=type;
+ const p=$(&#x27;topMissionPanel&#x27;);if(!p)return;
+ p.className=&#x27;on&#x27;;p.innerHTML=topMissionConsoleMarkup(type);
+ try{renderTopScreens()}catch(e){}
+}
+function topMissionConsoleMarkup(type){
+ const n=G.net,mission=activeMissionName();
+ let title=&#x27;&#x27;,body=&#x27;&#x27;;
+ if(type===&#x27;nav&#x27;){
+   title=&#x27;NAV ARRAY // MISSION ROUTES&#x27;;
+   body=&#x27;&lt;div class=&quot;topMissionGrid&quot;&gt;&#x27;+
+    card(&#x27;ACTIVE OPERATION&#x27;,kv(&#x27;MISSION&#x27;,mission)+kv(&#x27;TARGET&#x27;,G.nav.contact||&#x27;NONE&#x27;)+kv(&#x27;ROUTE&#x27;,G.nav.route+&#x27;%&#x27;)+kv(&#x27;RANGE&#x27;,G.nav.range)+
+      &#x27;&lt;button onclick=&quot;plotCourseTo(\&#x27;FRACTURE CITY\&#x27;,42,\&#x27;MATRIX\&#x27;)&quot;&gt;PLOT FRACTURE CITY&lt;/button&gt; &#x27;+
+      &#x27;&lt;button onclick=&quot;plotCourseTo(\&#x27;NODE SEVEN\&#x27;,66,\&#x27;HARDLINE\&#x27;)&quot;&gt;PLOT NODE 7&lt;/button&gt;&lt;br&gt;&lt;button onclick=&quot;commitCourse()&quot;&gt;COMMIT COURSE&lt;/button&gt;&#x27;)+
+    card(&#x27;TACTICAL NAV&#x27;,kv(&#x27;VELOCITY&#x27;,G.velocity)+kv(&#x27;FUEL&#x27;,G.fuel+&#x27;%&#x27;)+kv(&#x27;LOCK&#x27;,G.targetLock+&#x27;%&#x27;)+
+      &#x27;&lt;button onclick=&quot;missionCompute(\&#x27;ROUTE\&#x27;)&quot;&gt;COMPUTE ROUTE&lt;/button&gt;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+ }
+ if(type===&#x27;hard&#x27;){
+   title=&#x27;HARDLINE // MISSION NETWORK&#x27;;
+   body=&#x27;&lt;div class=&quot;topMissionGrid&quot;&gt;&#x27;+
+    card(&#x27;NETWORK STATUS&#x27;,kv(&#x27;STRENGTH&#x27;,G.hard.strength+&#x27;%&#x27;)+kv(&#x27;TRACE&#x27;,G.trace+&#x27;%&#x27;)+kv(&#x27;NODES&#x27;,G.hard.nodes||G.net.nodes.length)+
+      &#x27;&lt;button onclick=&quot;routeNode(6)&quot;&gt;ROUTE NODE 7&lt;/button&gt; &lt;button onclick=&quot;purgeInvasion()&quot;&gt;PURGE AGENT&lt;/button&gt;&#x27;)+
+    card(&#x27;MISSION PACKETS&#x27;,&#x27;&lt;div class=&quot;consoleLog&quot;&gt;&#x27;+(n.packets||[]).slice(-12).reverse().join(&#x27;\n&#x27;)+&#x27;&lt;/div&gt;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+ }
+ if(type===&#x27;core&#x27;){
+   title=&#x27;SHIP CORE // MISSION SUPPORT&#x27;;
+   body=&#x27;&lt;div class=&quot;topMissionGrid&quot;&gt;&#x27;+
+    card(&#x27;CORE STATUS&#x27;,kv(&#x27;REACTOR&#x27;,G.ship.reactor+&#x27;%&#x27;)+kv(&#x27;HULL&#x27;,G.ship.hull+&#x27;%&#x27;)+kv(&#x27;HEAT&#x27;,G.heat+&#x27;%&#x27;)+
+      &#x27;&lt;button onclick=&quot;resolveEmergency()&quot;&gt;STABILIZE&lt;/button&gt; &lt;button onclick=&quot;assignCrew(\&#x27;IRIS\&#x27;,\&#x27;REPAIR SYSTEMS\&#x27;)&quot;&gt;SEND IRIS&lt;/button&gt;&#x27;)+
+    card(&#x27;CREW SUPPORT&#x27;,G.net.crew.map(c=&gt;kv(c.name,c.job+&#x27; // &#x27;+c.progress+&#x27;%&#x27;)).join(&#x27;&#x27;))+&#x27;&lt;/div&gt;&#x27;;
+ }
+ if(type===&#x27;telemetry&#x27;){
+   title=&#x27;MATRIX TELEMETRY // MISSION DEPTH&#x27;;
+   body=&#x27;&lt;div class=&quot;topMissionGrid&quot;&gt;&#x27;+
+    card(&#x27;SIMULATION STATE&#x27;,kv(&#x27;STABILITY&#x27;,G.matrix.stability+&#x27;%&#x27;)+kv(&#x27;EXIT&#x27;,G.matrix.exit+&#x27;%&#x27;)+kv(&#x27;AGENTS&#x27;,G.matrix.agents)+kv(&#x27;ANOMALY&#x27;,computeMissionConsoles().anomaly+&#x27;%&#x27;)+
+      &#x27;&lt;button onclick=&quot;usePower(\&#x27;REALITY ANCHOR\&#x27;)&quot;&gt;REALITY ANCHOR&lt;/button&gt; &lt;button onclick=&quot;usePower(\&#x27;MEMORY FORK\&#x27;)&quot;&gt;MEMORY FORK&lt;/button&gt;&#x27;)+
+    card(&#x27;AI MODEL&#x27;,&#x27;&lt;div class=&quot;consoleLog&quot;&gt;&#x27;+(n.thoughts||[]).slice(-12).reverse().join(&#x27;\n&#x27;)+&#x27;&lt;/div&gt;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+ }
+ return &#x27;&lt;div class=&quot;topMissionHead&quot;&gt;&lt;b&gt;&#x27;+title+&#x27;&lt;/b&gt;&lt;button onclick=&quot;closeTopMissionPanel()&quot;&gt;X&lt;/button&gt;&lt;/div&gt;&#x27;+body;
+}
+function card(title,html){return &#x27;&lt;div class=&quot;topMissionCard&quot;&gt;&lt;h4&gt;&#x27;+title+&#x27;&lt;/h4&gt;&#x27;+html+&#x27;&lt;/div&gt;&#x27;}
 function renderActions(){
  const p=$(&#x27;primary&#x27;);p.innerHTML=&#x27;&#x27;;const u=$(&#x27;utility&#x27;);u.innerHTML=&#x27;&#x27;;
  if(G.view===&#x27;quiz&#x27;){
@@ -2576,7 +2658,13 @@ function buildMatrixRain(){
 
 buildMatrixRain();
 $(&#x27;startBtn&#x27;).onclick=startGame;render();
-&lt;/script&gt;&lt;div id=&quot;cinema&quot;&gt;&lt;div class=&quot;cinemaBox&quot;&gt;&lt;div class=&quot;cinemaTitle&quot; id=&quot;cinemaTitle&quot;&gt;&lt;/div&gt;&lt;div class=&quot;cinemaText&quot; id=&quot;cinemaText&quot;&gt;&lt;/div&gt;&lt;div class=&quot;cinemaChoices&quot; id=&quot;cinemaChoices&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+&lt;/script&gt;&lt;div id=&quot;cinema&quot;&gt;&lt;div class=&quot;cinemaBox&quot;&gt;&lt;div class=&quot;cinemaTitle&quot; id=&quot;cinemaTitle&quot;&gt;&lt;/div&gt;&lt;div class=&quot;cinemaText&quot; id=&quot;cinemaText&quot;&gt;&lt;/div&gt;&lt;div class=&quot;cinemaChoices&quot; id=&quot;cinemaChoices&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div id=&quot;topScreenControls&quot;&gt;
+  &lt;button onclick=&quot;toggleTopBank()&quot;&gt;TOP 4 ON/OFF&lt;/button&gt;
+  &lt;button onclick=&quot;closeTopMissionPanel()&quot;&gt;CLOSE PANEL&lt;/button&gt;
+&lt;/div&gt;
+&lt;div id=&quot;topMissionPanel&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;&lt;/html&gt;"></iframe>
 
 <section id="oneScreenGame">
   <div class="osFrame">
