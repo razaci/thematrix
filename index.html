@@ -1018,6 +1018,37 @@ body.one-screen-only > *:not(#oneScreenGame):not(script):not(style){display:none
   .osRoomNav{grid-template-columns:repeat(3,1fr)}
 }
 
+
+/* SINGLE YELLOW GUIDE BUTTON */
+.osButtons button,
+.osRoomNav button,
+.osQuiz button{
+  background:#0d1b13!important;
+  color:#fff!important;
+  border:1px solid #567c62!important;
+}
+.osButtons button.primary{
+  background:#0d1b13!important;
+  color:#fff!important;
+  border:1px solid #567c62!important;
+}
+#osGuide{
+  width:100%;
+  min-height:52px;
+  margin-top:9px;
+  border-radius:10px;
+  border:2px solid #ffd84d!important;
+  background:#ffd84d!important;
+  color:#171100!important;
+  font-weight:950;
+  font-size:13px;
+}
+#osStart{
+  background:#0d1b13!important;
+  color:#fff!important;
+  border:1px solid #567c62!important;
+}
+
 </style>
 </head>
 <body>
@@ -1040,6 +1071,7 @@ body.one-screen-only > *:not(#oneScreenGame):not(script):not(style){display:none
       <div class="osText" id="osText">You are aboard a resistance ship moving through machine space.</div>
       <div class="osMini" id="osMini">Press START to enter the ship.</div>
       <div class="osButtons" id="osButtons"></div>
+      <button type="button" id="osGuide">START</button>
       <div class="osRoomNav" id="osRoomNav"></div>
       <button type="button" class="osStart" id="osStart">START</button>
     </div>
@@ -5493,7 +5525,11 @@ function renderOS(){
    $('#osMini').textContent='Press START. Everything happens on this one screen.';
    $('#osButtons').innerHTML='';
    $('#osRoomNav').innerHTML='';
-   $('#osStart').style.display='block';
+   $('#osStart').style.display='none';
+ $('#osGuide').style.display='block';
+   $('#osGuide').style.display='block';
+   $('#osGuide').textContent='START';
+   $('#osGuide').onclick=startOS;
    return;
  }
  $('#osStart').style.display='none';
@@ -5512,10 +5548,11 @@ function renderOS(){
    </div>`;
    $$('[data-os-quiz]').forEach(b=>b.onclick=()=>answerOSQuiz(Number(b.dataset.osQuiz)));
  } else {
-   $('#osButtons').innerHTML=d.actions.map(a=>`<button type="button" class="${a[1]==='plugin'?'primary':''}" data-os-act="${a[1]}">${a[0]}</button>`).join('');
+   $('#osButtons').innerHTML=d.actions.map(a=>`<button type="button" class="" data-os-act="${a[1]}">${a[0]}</button>`).join('');
    $$('[data-os-act]').forEach(b=>b.onclick=()=>osAction(b.dataset.osAct));
  }
 
+ updateOSGuide();
  const rooms=[
   ['bridge','BRIDGE'],['operator','TANK'],['engineering','ENGINEERING'],
   ['quarters','QUARTERS'],['jack','JACK BAY']
@@ -5525,6 +5562,26 @@ function renderOS(){
  `<button type="button" data-os-room="matrix" ${OS.quizPassed?'':'disabled'}>MATRIX</button>`;
  $$('[data-os-room]').forEach(b=>b.onclick=()=>{if(!b.disabled){OS.view=b.dataset.osRoom;renderOS()}});
 }
+
+function nextOSStep(){
+ if(!OS.started)return {label:'START',run:startOS};
+ if(!OS.signalChecked)return {label:'NEXT: CHECK BRIDGE SIGNAL',run:()=>{OS.view='bridge';osAction('signal')}};
+ if(!OS.tankTalk)return {label:'NEXT: TALK TO TANK',run:()=>{OS.view='operator';renderOS()}};
+ if(!OS.powerReady)return {label:'NEXT: ROUTE POWER IN ENGINEERING',run:()=>{OS.view='engineering';renderOS()}};
+ if(!OS.clueFound)return {label:'NEXT: INSPECT CREW QUARTERS',run:()=>{OS.view='quarters';renderOS()}};
+ if(!OS.quizPassed)return {label:'NEXT: TAKE STORY QUIZ',run:()=>{OS.view='quiz';renderOS()}};
+ if(OS.view!=='matrix'&&!OS.matrixDone)return {label:'NEXT: PLUG INTO THE MATRIX',run:()=>{OS.view='jack';renderOS()}};
+ if(OS.view==='matrix'&&!OS.matrixDone)return {label:'NEXT: FIND THE ARCHIVE DOOR',run:()=>osAction('archive')};
+ if(OS.matrixDone)return {label:'NEXT: RETURN TO TANK',run:()=>{OS.view='operator';renderOS()}};
+ return {label:'CONTINUE',run:()=>renderOS()};
+}
+function updateOSGuide(){
+ const g=$('#osGuide');if(!g)return;
+ const n=nextOSStep();
+ g.textContent=n.label;
+ g.onclick=n.run;
+}
+
 function osMiniText(){
  if(OS.view==='bridge'){
    if(!OS.signalChecked)return 'NEXT: Check the signal.';
