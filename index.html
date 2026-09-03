@@ -1202,191 +1202,155 @@ body.cockpit-only>*:not(#playableCockpit):not(script):not(style){display:none!im
 <iframe id="playableCockpit" title="MATRIX AFTERIMAGE playable cockpit" srcdoc="&lt;!doctype html&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
 &lt;style&gt;
-:root{--g:#78ff9d;--y:#ffd84d;--bg:#010403;--p:#07100a;--line:#315541}
-*{box-sizing:border-box}html,body{margin:0;height:100%;background:#000;color:#f5fff7;font-family:Arial,Helvetica,sans-serif}body{overflow:hidden}
-#app{height:100vh;display:grid;grid-template-rows:auto 1fr;background:radial-gradient(circle at 50% 10%,#0a2114,#010403 50%,#000)}
-.top{display:flex;justify-content:space-between;gap:8px;padding:8px 10px;border-bottom:1px solid #183524;background:#020604}
-.brand{font-weight:900;letter-spacing:.08em}.hud{display:flex;gap:5px;flex-wrap:wrap}.chip{font:10px monospace;padding:5px 7px;border:1px solid #385e46;border-radius:999px;background:#06110a}
-.stage{position:relative;min-height:0;overflow:hidden}
-.scene{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.8)),radial-gradient(circle at 50% 35%,rgba(42,150,80,.28),transparent 30%),linear-gradient(135deg,#06140c,#020503 58%,#000)}
-.scene:before{content:&quot;&quot;;position:absolute;inset:8% 7% 30%;border:1px solid rgba(110,255,150,.16);clip-path:polygon(8% 0,92% 0,100% 100%,0 100%);background:linear-gradient(90deg,transparent 0 18%,rgba(65,255,120,.05) 18% 19%,transparent 19% 45%,rgba(65,255,120,.05) 45% 46%,transparent 46% 73%,rgba(65,255,120,.05) 73% 74%,transparent 74%),linear-gradient(180deg,rgba(31,83,49,.18),rgba(0,0,0,.15))}
-.scene:after{content:&quot;MNEMOSYNE&quot;;position:absolute;top:13%;left:50%;transform:translateX(-50%);font:700 18px monospace;letter-spacing:.2em;color:#79be8c;opacity:.7}
-.city{background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.82)),repeating-linear-gradient(90deg,#03120a 0 80px,#071a10 80px 82px,#020704 82px 150px),linear-gradient(#08180f,#000)}.city:after{content:&quot;MATRIX // AFTERIMAGE&quot;}
-.rain{position:absolute;inset:0;pointer-events:none;opacity:.27;background-image:repeating-linear-gradient(90deg,transparent 0 31px,rgba(100,255,150,.12) 31px 32px)}
-.panel{position:absolute;left:8px;right:8px;bottom:8px;max-width:980px;max-height:79%;overflow:auto;margin:auto;background:rgba(2,8,5,.95);border:1px solid var(--line);border-radius:16px;padding:11px;box-shadow:0 15px 50px rgba(0,0,0,.7)}
-.k{font:10px monospace;color:#b9e6c5;letter-spacing:.12em}.title{font-size:23px;font-weight:900;margin:3px 0}.story{font-size:13px;line-height:1.42;color:#f7fff9}
-.mission{margin-top:7px;padding:8px;border:1px solid #355c43;border-radius:10px;background:#07120b}.mission b{display:block;font-size:12px}.mission small{color:#b8d5c0}
-.progress{height:7px;margin-top:6px;background:#102118;border-radius:999px;overflow:hidden}.progress i{display:block;height:100%;background:#93e7aa}
-.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:7px}
-button{min-height:42px;border-radius:9px;border:1px solid #456b50;background:#0a1710;color:#fff;font-weight:850;cursor:pointer}button:active{transform:translateY(1px)}
-.rooms,.extras{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:6px}.rooms button,.extras button{font-size:9px;min-height:36px}.rooms button.on,.extras button.on{outline:2px solid var(--g)}button:disabled{opacity:.3}
-#next{width:100%;margin-top:7px;min-height:50px;background:var(--y);color:#181200;border:2px solid var(--y);font-size:14px}
-.note{font:10px monospace;color:#dff6e5;margin-top:6px;min-height:15px}
-.systems{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:6px}.sys{background:#06110a;border:1px solid #294a36;border-radius:8px;padding:5px;text-align:center;font:9px monospace}.sys b{display:block;font-size:12px;color:#fff}
-.quiz{display:grid;gap:6px;margin-top:7px}.quiz button{width:100%}
-#start{position:absolute;inset:0;display:grid;place-items:center;padding:16px;background:radial-gradient(circle,#0a2114,#000 68%);z-index:20}.startbox{max-width:600px;text-align:center;background:#041009;border:1px solid #315541;border-radius:16px;padding:18px}.startbox h1{font-size:clamp(32px,7vw,62px);margin:4px 0}.startbox p{font-size:14px;color:#dff3e5}#startBtn{background:var(--y);color:#181200;border:2px solid var(--y);width:100%;font-size:15px}
-@media(max-width:720px){.actions{grid-template-columns:1fr 1fr}.rooms,.extras{grid-template-columns:repeat(3,1fr)}.systems{grid-template-columns:repeat(3,1fr)}.panel{left:5px;right:5px;bottom:5px}.title{font-size:20px}}
+:root{--g:#7dff9e;--y:#ffd94a;--panel:rgba(2,8,5,.94);--line:#315943;--muted:#b5d3bd}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:#000;color:#f7fff9;font-family:Arial,Helvetica,sans-serif}body{overflow:hidden}
+#app{height:100vh;display:grid;grid-template-rows:auto 1fr;background:#000}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 9px;border-bottom:1px solid #1d432b;background:#020704;position:relative;z-index:10}
+.brand{font-weight:900;letter-spacing:.09em;font-size:13px}.hud{display:flex;gap:5px;flex-wrap:wrap}.chip{font:9px monospace;border:1px solid #355f43;border-radius:999px;padding:4px 6px;background:#06100a}
+.stage{position:relative;min-height:0;overflow:hidden}#scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.68) contrast(1.12) saturate(.9)}
+.overlay{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.06),rgba(0,0,0,.16) 38%,rgba(0,0,0,.92) 88%),repeating-linear-gradient(0deg,transparent 0 3px,rgba(80,255,130,.025) 3px 4px)}
+.console{position:absolute;left:7px;right:7px;bottom:7px;max-width:1000px;margin:auto;max-height:78%;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px;box-shadow:0 18px 70px rgba(0,0,0,.75)}
+.k{font:9px monospace;letter-spacing:.14em;color:#bee8c8}h1{font-size:22px;margin:2px 0 4px}.story{font-size:12px;line-height:1.4;color:#eefaf1}
+.mission{margin-top:7px;padding:8px;border:1px solid #3b684a;background:#07130b;border-radius:10px}.mission b{display:block;font-size:12px}.mission small{color:var(--muted)}
+.bar{height:7px;margin-top:6px;background:#102018;border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;background:#9cebb1}
+.primary,.utility,.rooms,.extras{display:grid;gap:5px;margin-top:6px}.primary{grid-template-columns:repeat(3,1fr)}.utility{grid-template-columns:repeat(3,1fr)}.rooms{grid-template-columns:repeat(5,1fr)}.extras{grid-template-columns:repeat(4,1fr)}
+button{min-height:40px;border-radius:8px;border:1px solid #416a4d;background:#0a1710;color:#fff;font-weight:800;cursor:pointer}button:active{transform:translateY(1px)}button:disabled{opacity:.28}button.on{outline:2px solid var(--g)}
+#next{width:100%;margin-top:7px;min-height:49px;background:var(--y);color:#171100;border:2px solid var(--y);font-size:14px}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:6px}.meter{border:1px solid #2f573d;background:#061009;border-radius:8px;padding:5px;text-align:center;font:9px monospace}.meter b{display:block;font-size:12px;color:#fff}
+.feature{margin-top:7px;border:1px solid #2d573b;border-radius:10px;padding:8px;background:#061009}.feature h3{font-size:11px;margin:0 0 5px}.feature p{font:10px monospace;color:#cfe6d4;margin:4px 0}.feature input[type=range]{width:100%}.terminal{height:64px;overflow:auto;background:#010402;border:1px solid #234a31;border-radius:6px;padding:5px;font:9px monospace;color:#84ff9f}
+.quiz{display:grid;gap:5px}.quiz button{width:100%}#note{font:10px monospace;color:#dff6e4;min-height:14px;margin-top:5px}
+#start{position:absolute;inset:0;z-index:20;display:grid;place-items:center;padding:15px;background:radial-gradient(circle,#0b2315,#000 70%)}.startbox{max-width:620px;background:#041009;border:1px solid #376248;border-radius:16px;padding:18px;text-align:center}.startbox h2{font-size:clamp(30px,7vw,56px);margin:5px 0}#startBtn{width:100%;background:var(--y);color:#171100;border:2px solid var(--y);font-size:15px}
+@media(max-width:720px){.primary,.utility{grid-template-columns:1fr 1fr}.rooms{grid-template-columns:repeat(3,1fr)}.extras{grid-template-columns:repeat(2,1fr)}.readout{grid-template-columns:repeat(2,1fr)}.console{left:4px;right:4px;bottom:4px}h1{font-size:19px}}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;div id=&quot;app&quot;&gt;
- &lt;div class=&quot;top&quot;&gt;&lt;div class=&quot;brand&quot;&gt;MATRIX: AFTERIMAGE // EXPANDED&lt;/div&gt;&lt;div class=&quot;hud&quot;&gt;&lt;span class=&quot;chip&quot; id=&quot;stepchip&quot;&gt;STEP 1&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;intel&quot;&gt;INTEL 0&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;trace&quot;&gt;TRACE 0%&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;credits&quot;&gt;CREDITS 10&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
- &lt;div class=&quot;stage&quot;&gt;&lt;div class=&quot;scene&quot; id=&quot;scene&quot;&gt;&lt;/div&gt;&lt;div class=&quot;rain&quot;&gt;&lt;/div&gt;
-  &lt;div class=&quot;panel&quot;&gt;
-   &lt;div class=&quot;k&quot; id=&quot;kicker&quot;&gt;MISSION CONTROL&lt;/div&gt;&lt;div class=&quot;title&quot; id=&quot;title&quot;&gt;BRIDGE&lt;/div&gt;&lt;div class=&quot;story&quot; id=&quot;story&quot;&gt;&lt;/div&gt;
-   &lt;div class=&quot;mission&quot;&gt;&lt;b id=&quot;mission&quot;&gt;MAIN MISSION: FOLLOW THE AFTERIMAGE SIGNAL&lt;/b&gt;&lt;small id=&quot;objective&quot;&gt;&lt;/small&gt;&lt;div class=&quot;progress&quot;&gt;&lt;i id=&quot;bar&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;
-   &lt;div class=&quot;actions&quot; id=&quot;actions&quot;&gt;&lt;/div&gt;&lt;div class=&quot;note&quot; id=&quot;note&quot;&gt;&lt;/div&gt;
-   &lt;div class=&quot;rooms&quot; id=&quot;rooms&quot;&gt;&lt;/div&gt;&lt;div class=&quot;extras&quot; id=&quot;extras&quot;&gt;&lt;/div&gt;&lt;div class=&quot;systems&quot; id=&quot;systems&quot;&gt;&lt;/div&gt;
+ &lt;div class=&quot;top&quot;&gt;&lt;div class=&quot;brand&quot;&gt;MATRIX: AFTERIMAGE // SHIP CONSOLE&lt;/div&gt;&lt;div class=&quot;hud&quot;&gt;&lt;span class=&quot;chip&quot; id=&quot;step&quot;&gt;MISSION 1&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;intel&quot;&gt;INTEL 0&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;trace&quot;&gt;TRACE 0%&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+ &lt;div class=&quot;stage&quot;&gt;&lt;img id=&quot;scene&quot; alt=&quot;&quot;&gt;&lt;div class=&quot;overlay&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;console&quot;&gt;
+   &lt;div class=&quot;k&quot; id=&quot;kicker&quot;&gt;&lt;/div&gt;&lt;h1 id=&quot;title&quot;&gt;&lt;/h1&gt;&lt;div class=&quot;story&quot; id=&quot;story&quot;&gt;&lt;/div&gt;
+   &lt;div class=&quot;mission&quot;&gt;&lt;b id=&quot;mission&quot;&gt;MAIN MISSION&lt;/b&gt;&lt;small id=&quot;objective&quot;&gt;&lt;/small&gt;&lt;div class=&quot;bar&quot;&gt;&lt;i id=&quot;bar&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;
+   &lt;div class=&quot;primary&quot; id=&quot;primary&quot;&gt;&lt;/div&gt;&lt;div class=&quot;utility&quot; id=&quot;utility&quot;&gt;&lt;/div&gt;
+   &lt;div class=&quot;feature&quot; id=&quot;feature&quot;&gt;&lt;/div&gt;&lt;div id=&quot;note&quot;&gt;&lt;/div&gt;
+   &lt;div class=&quot;rooms&quot; id=&quot;rooms&quot;&gt;&lt;/div&gt;&lt;div class=&quot;extras&quot; id=&quot;extras&quot;&gt;&lt;/div&gt;
+   &lt;div class=&quot;readout&quot; id=&quot;readout&quot;&gt;&lt;/div&gt;
    &lt;button id=&quot;next&quot;&gt;NEXT&lt;/button&gt;
   &lt;/div&gt;
-  &lt;div id=&quot;start&quot;&gt;&lt;div class=&quot;startbox&quot;&gt;&lt;div class=&quot;k&quot;&gt;WORKING COCKPIT // EXPANDED SYSTEMS&lt;/div&gt;&lt;h1&gt;MATRIX: AFTERIMAGE&lt;/h1&gt;&lt;p&gt;Follow one clear yellow mission path, or explore the ship, crew, evidence room, Matrix district, archive, lab, sandbox, and core as they unlock.&lt;/p&gt;&lt;button id=&quot;startBtn&quot;&gt;START GAME&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;div id=&quot;start&quot;&gt;&lt;div class=&quot;startbox&quot;&gt;&lt;div class=&quot;k&quot;&gt;FIVE SHIP AREAS // ONE CLEAR CAMPAIGN&lt;/div&gt;&lt;h2&gt;MATRIX: AFTERIMAGE&lt;/h2&gt;&lt;p&gt;You are seated at the Mnemosyne command console. Move between five ship areas, work the systems, pass quizzes, then jack into the Matrix.&lt;/p&gt;&lt;button id=&quot;startBtn&quot;&gt;START GAME&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
  &lt;/div&gt;
 &lt;/div&gt;
 &lt;script&gt;
-const G={
- step:0,view:&#x27;bridge&#x27;,intel:0,trace:0,credits:10,quiz1:false,quiz2:false,
- ship:{hull:100,reactor:100,life:100,sensors:100,matrix:100},
- sandbox:{rain:true,gravity:1,glitch:0,objects:0},done:{},
- unlocked:{bridge:true,operator:true,engineering:true,quarters:true,jack:true,quiz:true,matrix:false,evidence:true,crew:true,archive:false,lab:false,sandbox:false,district:false,core:false}
-};
+const IMG={&quot;bridge&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iIzcxZmY5OSIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3MWZmOTkiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxyZWN0IHg9IjYyIiB5PSI5NSIgd2lkdGg9IjMxMCIgaGVpZ2h0PSIxNzUiIHJ4PSIxOCIgZmlsbD0iIzA0MTAwYSIgc3Ryb2tlPSIjMjc1YzM4Ii8+PHJlY3QgeD0iNjUyIiB5PSI5NSIgd2lkdGg9IjMxMCIgaGVpZ2h0PSIxNzUiIHJ4PSIxOCIgZmlsbD0iIzA0MTAwYSIgc3Ryb2tlPSIjMjc1YzM4Ii8+PGNpcmNsZSBjeD0iNTEyIiBjeT0iMjIwIiByPSI5MiIgZmlsbD0iIzA3MTcwZCIgc3Ryb2tlPSIjNGJiNTZiIiBzdHJva2Utd2lkdGg9IjMiLz48Y2lyY2xlIGN4PSI1MTIiIGN5PSIyMjAiIHI9IjU4IiBmaWxsPSJub25lIiBzdHJva2U9IiMyZTZmNDQiIHN0cm9rZS13aWR0aD0iMiIvPgo8cGF0aCBkPSJNMCA1MzAgTDE1NSA0NTUgSDg2OSBMMTAyNCA1MzAgVjU3NiBIMFoiIGZpbGw9IiMwMjA1MDQiIHN0cm9rZT0iIzE3M2MyNSIvPgo8dGV4dCB4PSI0MiIgeT0iNDYiIGZpbGw9IiM3MWZmOTkiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMjMiIGZvbnQtd2VpZ2h0PSI3MDAiPkJSSURHRTwvdGV4dD4KPHRleHQgeD0iNDIiIHk9IjcwIiBmaWxsPSIjYjRkOWJkIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjEyIj5OQVZJR0FUSU9OIC8gU0lHTkFMIENPTlRST0w8L3RleHQ+Cjx0ZXh0IHg9IjgxMiIgeT0iNTQ4IiBmaWxsPSIjMzU2ODQ0IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjExIj5NTkVNT1NZTkUgLy8gREVDSyBMSU5LPC90ZXh0Pgo8L3N2Zz4=&quot;, &quot;operator&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iIzcxZmY5OSIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3MWZmOTkiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxyZWN0IHg9IjgyIiB5PSI3OCIgd2lkdGg9Ijg2MCIgaGVpZ2h0PSIyNDUiIHJ4PSIyMiIgZmlsbD0iIzAzMTAwOCIgc3Ryb2tlPSIjMmY2ZjQ1Ii8+PHBhdGggZD0iTTE0MCAyODAgTDI0MCAxMzAgTDM2MCAyNTAgTDQ3MCAxNTAgTDU4NSAyNDUgTDcwMCAxMjUgTDg0MCAyNzUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzRkZjA3ZCIgc3Ryb2tlLXdpZHRoPSI0Ii8+PGcgZmlsbD0iIzBiMjQxNCIgc3Ryb2tlPSIjM2Q5YjVhIj48cmVjdCB4PSIxMzAiIHk9IjM1NSIgd2lkdGg9IjIxMCIgaGVpZ2h0PSIxNDAiIHJ4PSIxNiIvPjxyZWN0IHg9IjQwNyIgeT0iMzU1IiB3aWR0aD0iMjEwIiBoZWlnaHQ9IjE0MCIgcng9IjE2Ii8+PHJlY3QgeD0iNjg0IiB5PSIzNTUiIHdpZHRoPSIyMTAiIGhlaWdodD0iMTQwIiByeD0iMTYiLz48L2c+CjxwYXRoIGQ9Ik0wIDUzMCBMMTU1IDQ1NSBIODY5IEwxMDI0IDUzMCBWNTc2IEgwWiIgZmlsbD0iIzAyMDUwNCIgc3Ryb2tlPSIjMTczYzI1Ii8+Cjx0ZXh0IHg9IjQyIiB5PSI0NiIgZmlsbD0iIzcxZmY5OSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyMyIgZm9udC13ZWlnaHQ9IjcwMCI+T1BFUkFUT1IgUElUPC90ZXh0Pgo8dGV4dCB4PSI0MiIgeT0iNzAiIGZpbGw9IiNiNGQ5YmQiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTIiPlRBTksgLyBIQVJETElORSAvIE1BVFJJWCBUUkFDRTwvdGV4dD4KPHRleHQgeD0iODEyIiB5PSI1NDgiIGZpbGw9IiMzNTY4NDQiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTEiPk1ORU1PU1lORSAvLyBERUNLIExJTks8L3RleHQ+Cjwvc3ZnPg==&quot;, &quot;engineering&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iIzcxZmY5OSIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3MWZmOTkiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxjaXJjbGUgY3g9IjUxMiIgY3k9IjIwOCIgcj0iMTUwIiBmaWxsPSIjMDMxMDA4IiBzdHJva2U9IiMyYjZjNDAiIHN0cm9rZS13aWR0aD0iMyIvPjxjaXJjbGUgY3g9IjUxMiIgY3k9IjIwOCIgcj0iMTEwIiBmaWxsPSJub25lIiBzdHJva2U9IiM0OWQzNmUiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWRhc2hhcnJheT0iMTggMTIiLz48cGF0aCBkPSJNNTEyIDExMCBMNTQ4IDIwNSBMNTEyIDE4NSBMNDc2IDIwNSBaIiBmaWxsPSIjNjdmNThhIi8+PGcgZmlsbD0iIzA2MTQwYiIgc3Ryb2tlPSIjMmY2ZDQyIj48cmVjdCB4PSI5MCIgeT0iMzcwIiB3aWR0aD0iMjUwIiBoZWlnaHQ9IjExNSIgcng9IjE0Ii8+PHJlY3QgeD0iMzg3IiB5PSIzNzAiIHdpZHRoPSIyNTAiIGhlaWdodD0iMTE1IiByeD0iMTQiLz48cmVjdCB4PSI2ODQiIHk9IjM3MCIgd2lkdGg9IjI1MCIgaGVpZ2h0PSIxMTUiIHJ4PSIxNCIvPjwvZz4KPHBhdGggZD0iTTAgNTMwIEwxNTUgNDU1IEg4NjkgTDEwMjQgNTMwIFY1NzYgSDBaIiBmaWxsPSIjMDIwNTA0IiBzdHJva2U9IiMxNzNjMjUiLz4KPHRleHQgeD0iNDIiIHk9IjQ2IiBmaWxsPSIjNzFmZjk5IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIzIiBmb250LXdlaWdodD0iNzAwIj5FTkdJTkVFUklORzwvdGV4dD4KPHRleHQgeD0iNDIiIHk9IjcwIiBmaWxsPSIjYjRkOWJkIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjEyIj5SRUFDVE9SIC8gTElGRSBTVVBQT1JUIC8gUE9XRVIgQlVTPC90ZXh0Pgo8dGV4dCB4PSI4MTIiIHk9IjU0OCIgZmlsbD0iIzM1Njg0NCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSI+TU5FTU9TWU5FIC8vIERFQ0sgTElOSzwvdGV4dD4KPC9zdmc+&quot;, &quot;quarters&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iIzcxZmY5OSIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3MWZmOTkiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxwYXRoIGQ9Ik02MCAxNTUgSDk2NCBWNTIwIEg2MCBaIiBmaWxsPSIjMDQxMDA5IiBzdHJva2U9IiMyZDZjNDAiLz48ZyBmaWxsPSIjMDcxNzBkIiBzdHJva2U9IiMzNzdmNGMiPjxyZWN0IHg9IjEwNSIgeT0iMjAwIiB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI1MCIgcng9IjIwIi8+PHJlY3QgeD0iMzkyIiB5PSIyMDAiIHdpZHRoPSIyNDAiIGhlaWdodD0iMjUwIiByeD0iMjAiLz48cmVjdCB4PSI2NzkiIHk9IjIwMCIgd2lkdGg9IjI0MCIgaGVpZ2h0PSIyNTAiIHJ4PSIyMCIvPjwvZz48ZyBmaWxsPSIjNjlmZjhkIj48Y2lyY2xlIGN4PSIyMjUiIGN5PSIyNTAiIHI9IjE0Ii8+PGNpcmNsZSBjeD0iNTEyIiBjeT0iMjUwIiByPSIxNCIvPjxjaXJjbGUgY3g9Ijc5OSIgY3k9IjI1MCIgcj0iMTQiLz48L2c+CjxwYXRoIGQ9Ik0wIDUzMCBMMTU1IDQ1NSBIODY5IEwxMDI0IDUzMCBWNTc2IEgwWiIgZmlsbD0iIzAyMDUwNCIgc3Ryb2tlPSIjMTczYzI1Ii8+Cjx0ZXh0IHg9IjQyIiB5PSI0NiIgZmlsbD0iIzcxZmY5OSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyMyIgZm9udC13ZWlnaHQ9IjcwMCI+Q1JFVyBRVUFSVEVSUzwvdGV4dD4KPHRleHQgeD0iNDIiIHk9IjcwIiBmaWxsPSIjYjRkOWJkIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjEyIj5FVklERU5DRSAvIE1FTU9SWSAvIFBFUlNPTkFMIEVGRkVDVFM8L3RleHQ+Cjx0ZXh0IHg9IjgxMiIgeT0iNTQ4IiBmaWxsPSIjMzU2ODQ0IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjExIj5NTkVNT1NZTkUgLy8gREVDSyBMSU5LPC90ZXh0Pgo8L3N2Zz4=&quot;, &quot;jack&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iIzcxZmY5OSIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3MWZmOTkiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxlbGxpcHNlIGN4PSI1MTIiIGN5PSIyNjAiIHJ4PSIxODAiIHJ5PSI5NSIgZmlsbD0iIzAzMTAwOCIgc3Ryb2tlPSIjM2Y5YzVhIiBzdHJva2Utd2lkdGg9IjQiLz48ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjYwIiByeD0iMTI1IiByeT0iNjAiIGZpbGw9IiMwNzE4MGQiIHN0cm9rZT0iIzYzZjE4YSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTUxMiAxODAgVjg1IE01MTIgMzM1IFY0NjUgTTM2NSAyNjAgSDEzMCBNNjU5IDI2MCBIODk0IiBzdHJva2U9IiM0YmIzNmEiIHN0cm9rZS13aWR0aD0iNSIvPjxnIGZpbGw9IiMwNjE1MGMiIHN0cm9rZT0iIzM1N2U0YSI+PHJlY3QgeD0iOTAiIHk9IjkwIiB3aWR0aD0iMjQ1IiBoZWlnaHQ9IjExMCIgcng9IjE2Ii8+PHJlY3QgeD0iNjg5IiB5PSI5MCIgd2lkdGg9IjI0NSIgaGVpZ2h0PSIxMTAiIHJ4PSIxNiIvPjxyZWN0IHg9IjkwIiB5PSIzNzAiIHdpZHRoPSIyNDUiIGhlaWdodD0iMTEwIiByeD0iMTYiLz48cmVjdCB4PSI2ODkiIHk9IjM3MCIgd2lkdGg9IjI0NSIgaGVpZ2h0PSIxMTAiIHJ4PSIxNiIvPjwvZz4KPHBhdGggZD0iTTAgNTMwIEwxNTUgNDU1IEg4NjkgTDEwMjQgNTMwIFY1NzYgSDBaIiBmaWxsPSIjMDIwNTA0IiBzdHJva2U9IiMxNzNjMjUiLz4KPHRleHQgeD0iNDIiIHk9IjQ2IiBmaWxsPSIjNzFmZjk5IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIzIiBmb250LXdlaWdodD0iNzAwIj5KQUNLIEJBWTwvdGV4dD4KPHRleHQgeD0iNDIiIHk9IjcwIiBmaWxsPSIjYjRkOWJkIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjEyIj5ORVVSQUwgTElOSyAvIENPTlNUUlVDVCBBQ0NFU1M8L3RleHQ+Cjx0ZXh0IHg9IjgxMiIgeT0iNTQ4IiBmaWxsPSIjMzU2ODQ0IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjExIj5NTkVNT1NZTkUgLy8gREVDSyBMSU5LPC90ZXh0Pgo8L3N2Zz4=&quot;, &quot;matrix&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iIzM5ZmY3MyIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMzOWZmNzMiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxyZWN0IHg9IjgyIiB5PSI3OCIgd2lkdGg9Ijg2MCIgaGVpZ2h0PSIyNDUiIHJ4PSIyMiIgZmlsbD0iIzAzMTAwOCIgc3Ryb2tlPSIjMmY2ZjQ1Ii8+PHBhdGggZD0iTTE0MCAyODAgTDI0MCAxMzAgTDM2MCAyNTAgTDQ3MCAxNTAgTDU4NSAyNDUgTDcwMCAxMjUgTDg0MCAyNzUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzRkZjA3ZCIgc3Ryb2tlLXdpZHRoPSI0Ii8+PGcgZmlsbD0iIzBiMjQxNCIgc3Ryb2tlPSIjM2Q5YjVhIj48cmVjdCB4PSIxMzAiIHk9IjM1NSIgd2lkdGg9IjIxMCIgaGVpZ2h0PSIxNDAiIHJ4PSIxNiIvPjxyZWN0IHg9IjQwNyIgeT0iMzU1IiB3aWR0aD0iMjEwIiBoZWlnaHQ9IjE0MCIgcng9IjE2Ii8+PHJlY3QgeD0iNjg0IiB5PSIzNTUiIHdpZHRoPSIyMTAiIGhlaWdodD0iMTQwIiByeD0iMTYiLz48L2c+CjxwYXRoIGQ9Ik0wIDUzMCBMMTU1IDQ1NSBIODY5IEwxMDI0IDUzMCBWNTc2IEgwWiIgZmlsbD0iIzAyMDUwNCIgc3Ryb2tlPSIjMTczYzI1Ii8+Cjx0ZXh0IHg9IjQyIiB5PSI0NiIgZmlsbD0iIzM5ZmY3MyIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyMyIgZm9udC13ZWlnaHQ9IjcwMCI+RlJBQ1RVUkUgQ0lUWTwvdGV4dD4KPHRleHQgeD0iNDIiIHk9IjcwIiBmaWxsPSIjYjRkOWJkIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjEyIj5NQVRSSVggU0VTU0lPTiAvLyBMSVZFPC90ZXh0Pgo8dGV4dCB4PSI4MTIiIHk9IjU0OCIgZmlsbD0iIzM1Njg0NCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSI+TU5FTU9TWU5FIC8vIERFQ0sgTElOSzwvdGV4dD4KPC9zdmc+&quot;, &quot;archive&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iI2MwZmY3NSIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNjMGZmNzUiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxwYXRoIGQ9Ik02MCAxNTUgSDk2NCBWNTIwIEg2MCBaIiBmaWxsPSIjMDQxMDA5IiBzdHJva2U9IiMyZDZjNDAiLz48ZyBmaWxsPSIjMDcxNzBkIiBzdHJva2U9IiMzNzdmNGMiPjxyZWN0IHg9IjEwNSIgeT0iMjAwIiB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI1MCIgcng9IjIwIi8+PHJlY3QgeD0iMzkyIiB5PSIyMDAiIHdpZHRoPSIyNDAiIGhlaWdodD0iMjUwIiByeD0iMjAiLz48cmVjdCB4PSI2NzkiIHk9IjIwMCIgd2lkdGg9IjI0MCIgaGVpZ2h0PSIyNTAiIHJ4PSIyMCIvPjwvZz48ZyBmaWxsPSIjNjlmZjhkIj48Y2lyY2xlIGN4PSIyMjUiIGN5PSIyNTAiIHI9IjE0Ii8+PGNpcmNsZSBjeD0iNTEyIiBjeT0iMjUwIiByPSIxNCIvPjxjaXJjbGUgY3g9Ijc5OSIgY3k9IjI1MCIgcj0iMTQiLz48L2c+CjxwYXRoIGQ9Ik0wIDUzMCBMMTU1IDQ1NSBIODY5IEwxMDI0IDUzMCBWNTc2IEgwWiIgZmlsbD0iIzAyMDUwNCIgc3Ryb2tlPSIjMTczYzI1Ii8+Cjx0ZXh0IHg9IjQyIiB5PSI0NiIgZmlsbD0iI2MwZmY3NSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyMyIgZm9udC13ZWlnaHQ9IjcwMCI+SU1QT1NTSUJMRSBBUkNISVZFPC90ZXh0Pgo8dGV4dCB4PSI0MiIgeT0iNzAiIGZpbGw9IiNiNGQ5YmQiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTIiPkVDSE8gTUVNT1JZIFZBVUxUPC90ZXh0Pgo8dGV4dCB4PSI4MTIiIHk9IjU0OCIgZmlsbD0iIzM1Njg0NCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMSI+TU5FTU9TWU5FIC8vIERFQ0sgTElOSzwvdGV4dD4KPC9zdmc+&quot;, &quot;lab&quot;: &quot;data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjU3NiIgdmlld0JveD0iMCAwIDEwMjQgNTc2Ij4KPGRlZnM+CiA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzAyMDgwNSIvPjxzdG9wIG9mZnNldD0iLjU1IiBzdG9wLWNvbG9yPSIjMDcxNDBiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDEwMzAyIi8+PC9saW5lYXJHcmFkaWVudD4KIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iIzg2ZmZlMCIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM4NmZmZTAiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CiA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNNDAgMEgwVjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNjM4MjMiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIGZpbGw9InVybCgjYmcpIi8+PHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyaWQpIiBvcGFjaXR5PSIuNyIvPgo8ZWxsaXBzZSBjeD0iNTEyIiBjeT0iMjUwIiByeD0iNDgwIiByeT0iMjUwIiBmaWxsPSJ1cmwoI2dsb3cpIi8+CjxjaXJjbGUgY3g9IjUxMiIgY3k9IjIwOCIgcj0iMTUwIiBmaWxsPSIjMDMxMDA4IiBzdHJva2U9IiMyYjZjNDAiIHN0cm9rZS13aWR0aD0iMyIvPjxjaXJjbGUgY3g9IjUxMiIgY3k9IjIwOCIgcj0iMTEwIiBmaWxsPSJub25lIiBzdHJva2U9IiM0OWQzNmUiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWRhc2hhcnJheT0iMTggMTIiLz48cGF0aCBkPSJNNTEyIDExMCBMNTQ4IDIwNSBMNTEyIDE4NSBMNDc2IDIwNSBaIiBmaWxsPSIjNjdmNThhIi8+PGcgZmlsbD0iIzA2MTQwYiIgc3Ryb2tlPSIjMmY2ZDQyIj48cmVjdCB4PSI5MCIgeT0iMzcwIiB3aWR0aD0iMjUwIiBoZWlnaHQ9IjExNSIgcng9IjE0Ii8+PHJlY3QgeD0iMzg3IiB5PSIzNzAiIHdpZHRoPSIyNTAiIGhlaWdodD0iMTE1IiByeD0iMTQiLz48cmVjdCB4PSI2ODQiIHk9IjM3MCIgd2lkdGg9IjI1MCIgaGVpZ2h0PSIxMTUiIHJ4PSIxNCIvPjwvZz4KPHBhdGggZD0iTTAgNTMwIEwxNTUgNDU1IEg4NjkgTDEwMjQgNTMwIFY1NzYgSDBaIiBmaWxsPSIjMDIwNTA0IiBzdHJva2U9IiMxNzNjMjUiLz4KPHRleHQgeD0iNDIiIHk9IjQ2IiBmaWxsPSIjODZmZmUwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIzIiBmb250LXdlaWdodD0iNzAwIj5DT05TVFJVQ1QgTEFCPC90ZXh0Pgo8dGV4dCB4PSI0MiIgeT0iNzAiIGZpbGw9IiNiNGQ5YmQiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTIiPlJVTEUgVEVTVElORyAvIFBST0dSQU0gRk9SR0U8L3RleHQ+Cjx0ZXh0IHg9IjgxMiIgeT0iNTQ4IiBmaWxsPSIjMzU2ODQ0IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjExIj5NTkVNT1NZTkUgLy8gREVDSyBMSU5LPC90ZXh0Pgo8L3N2Zz4=&quot;};
+const G={step:0,view:&#x27;bridge&#x27;,intel:0,trace:0,quiz1:false,quiz2:false,done:{},ship:{hull:100,reactor:96,life:99,sensors:92},scan:0,power:35,trust:0,archive:false,lab:false};
 const steps=[
- [&#x27;bridge&#x27;,&#x27;CHECK THE IMPOSSIBLE SIGNAL&#x27;,&#x27;signal&#x27;],
- [&#x27;operator&#x27;,&#x27;TALK TO TANK&#x27;,&#x27;tank&#x27;],
- [&#x27;engineering&#x27;,&#x27;ROUTE POWER TO JACK BAY&#x27;,&#x27;power&#x27;],
- [&#x27;quarters&#x27;,&#x27;INSPECT THE FUTURE PHOTO&#x27;,&#x27;photo&#x27;],
+ [&#x27;bridge&#x27;,&#x27;SCAN THE IMPOSSIBLE SIGNAL&#x27;,&#x27;signal&#x27;],
+ [&#x27;operator&#x27;,&#x27;TALK TO TANK AND TRACE IT&#x27;,&#x27;tank&#x27;],
+ [&#x27;engineering&#x27;,&#x27;ROUTE 80% POWER TO JACK BAY&#x27;,&#x27;power&#x27;],
+ [&#x27;quarters&#x27;,&#x27;FIND THE FUTURE PHOTO&#x27;,&#x27;photo&#x27;],
  [&#x27;quiz&#x27;,&#x27;PASS THE JACK-IN QUIZ&#x27;,&#x27;quiz1&#x27;],
  [&#x27;jack&#x27;,&#x27;PLUG INTO THE MATRIX&#x27;,&#x27;plugin&#x27;],
  [&#x27;matrix&#x27;,&#x27;SCAN FRACTURE CITY&#x27;,&#x27;scan&#x27;],
  [&#x27;matrix&#x27;,&#x27;FIND THE ARCHIVE DOOR&#x27;,&#x27;archive&#x27;],
- [&#x27;archive&#x27;,&#x27;BUILD A CONTRADICTION PROOF&#x27;,&#x27;proof&#x27;],
+ [&#x27;archive&#x27;,&#x27;BUILD THE CONTRADICTION PROOF&#x27;,&#x27;proof&#x27;],
  [&#x27;quiz&#x27;,&#x27;PASS THE ARCHIVE QUIZ&#x27;,&#x27;quiz2&#x27;],
- [&#x27;lab&#x27;,&#x27;CREATE A REAL ANCHOR&#x27;,&#x27;anchor&#x27;],
- [&#x27;sandbox&#x27;,&#x27;TEST A REALITY RULE&#x27;,&#x27;gravity&#x27;],
- [&#x27;core&#x27;,&#x27;ENTER THE MIRROR CORE&#x27;,&#x27;coreenter&#x27;]
+ [&#x27;lab&#x27;,&#x27;CREATE A REAL ANCHOR&#x27;,&#x27;anchor&#x27;]
 ];
-const data={
- bridge:[&#x27;BRIDGE&#x27;,&#x27;Rook has isolated a carrier signal keyed to your biometric signature.&#x27;,&#x27;The signal should not exist yet.&#x27;],
- operator:[&#x27;TANK / OPERATOR PIT&#x27;,&#x27;Tank watches Matrix code stream across the monitors.&#x27;,&#x27;He is your operator and hardline home.&#x27;],
- engineering:[&#x27;ENGINEERING&#x27;,&#x27;The reactor hums under the deck.&#x27;,&#x27;Keep the real ship alive before trusting a simulated world.&#x27;],
- quarters:[&#x27;CREW QUARTERS&#x27;,&#x27;An empty bunk opens for you.&#x27;,&#x27;Inside is a future-dated photograph and an AFTERIMAGE transit card.&#x27;],
- jack:[&#x27;JACK BAY&#x27;,&#x27;The chair is armed and Tank has the route.&#x27;,&#x27;The ship is the physical place you must remember.&#x27;],
- quiz:[&#x27;QUIZ STATION&#x27;,&#x27;Short story checks protect the next chapter.&#x27;,&#x27;No trick questions and no hidden gates.&#x27;],
- matrix:[&#x27;FRACTURE CITY&#x27;,&#x27;A city block remembers decades of history even though its code is hours old.&#x27;,&#x27;Someone here remembers you.&#x27;],
- evidence:[&#x27;EVIDENCE ROOM&#x27;,&#x27;The crew pins impossible clues onto one wall.&#x27;,&#x27;Review the signal, photograph, and competing theories.&#x27;],
- crew:[&#x27;CREW DECK&#x27;,&#x27;Tank, Rook, Iris, and Nox are available between missions.&#x27;,&#x27;Crew conversations reveal different sides of the mystery.&#x27;],
- archive:[&#x27;IMPOSSIBLE ARCHIVE&#x27;,&#x27;Shelves hold memories of lives that were predicted and then deleted.&#x27;,&#x27;ECHO is hiding in the contradictions.&#x27;],
- lab:[&#x27;CONSTRUCT LAB&#x27;,&#x27;A safe white-room simulator lets you build Matrix tools.&#x27;,&#x27;Create anchors, paradoxes, and programs.&#x27;],
- sandbox:[&#x27;REALITY SANDBOX&#x27;,&#x27;This simulation is yours to modify.&#x27;,&#x27;Change rain, gravity, glitches, and spawned objects.&#x27;],
- district:[&#x27;AFTERIMAGE BLOCK&#x27;,&#x27;A persistent Matrix neighborhood can become your base.&#x27;,&#x27;Build a safehouse, relay, market, and private hardline.&#x27;],
- core:[&#x27;MIRROR CORE&#x27;,&#x27;Every possible city reflects back at you.&#x27;,&#x27;Choose the shape of the world after ECHO wakes.&#x27;]
+const D={
+ bridge:[&#x27;BRIDGE&#x27;,&#x27;You sit behind the Mnemosyne navigation console. Signal scopes, course projections, and ship telemetry surround the forward viewport.&#x27;],
+ operator:[&#x27;OPERATOR PIT&#x27;,&#x27;Tank sits below the bridge inside a waterfall of Matrix code. This is where hardlines are traced and jack sessions are watched.&#x27;],
+ engineering:[&#x27;ENGINEERING&#x27;,&#x27;Reactor load, life support, coolant, and the neural-link power bus are all exposed on one engineering console.&#x27;],
+ quarters:[&#x27;CREW QUARTERS&#x27;,&#x27;The crew deck is quieter. Personal effects, bunk records, and an evidence terminal sit beneath the ship hum.&#x27;],
+ jack:[&#x27;JACK BAY&#x27;,&#x27;Five neural chairs face a wall of green diagnostic screens. The main hardline waits behind the center chair.&#x27;],
+ quiz:[&#x27;QUIZ STATION&#x27;,&#x27;Short mission quizzes unlock dangerous transitions.&#x27;],
+ matrix:[&#x27;FRACTURE CITY&#x27;,&#x27;You are inside. Rain falls across a district whose memories are older than its code.&#x27;],
+ archive:[&#x27;IMPOSSIBLE ARCHIVE&#x27;,&#x27;Rows of predicted lives were stored here after they were rejected. ECHO is hidden somewhere inside them.&#x27;],
+ lab:[&#x27;CONSTRUCT LAB&#x27;,&#x27;A safe simulation chamber lets you test rules before using them in the live Matrix.&#x27;]
 };
-const A={
- bridge:[[&#x27;CHECK SIGNAL&#x27;,&#x27;signal&#x27;],[&#x27;VIEW COURSE&#x27;,&#x27;course&#x27;]],
- operator:[[&#x27;TALK TO TANK&#x27;,&#x27;tank&#x27;],[&#x27;TRACE HARDLINE&#x27;,&#x27;hardline&#x27;],[&#x27;COOL TRACE&#x27;,&#x27;cool&#x27;]],
- engineering:[[&#x27;CHECK REACTOR&#x27;,&#x27;reactor&#x27;],[&#x27;ROUTE POWER&#x27;,&#x27;power&#x27;],[&#x27;REPAIR HULL&#x27;,&#x27;repair&#x27;]],
- quarters:[[&#x27;INSPECT PHOTO&#x27;,&#x27;photo&#x27;],[&#x27;SEARCH BUNK&#x27;,&#x27;bunk&#x27;],[&#x27;REST&#x27;,&#x27;rest&#x27;]],
- jack:[[&#x27;CHECK CABLE&#x27;,&#x27;cable&#x27;],[&#x27;PLUG IN&#x27;,&#x27;plugin&#x27;]],
- matrix:[[&#x27;SCAN STREET&#x27;,&#x27;scan&#x27;],[&#x27;QUESTION RESIDENT&#x27;,&#x27;resident&#x27;],[&#x27;FIND ARCHIVE DOOR&#x27;,&#x27;archive&#x27;]],
- evidence:[[&#x27;REVIEW SIGNAL&#x27;,&#x27;evsignal&#x27;],[&#x27;REVIEW PHOTO&#x27;,&#x27;evphoto&#x27;],[&#x27;BUILD THEORY&#x27;,&#x27;theory&#x27;]],
- crew:[[&#x27;TALK TO TANK&#x27;,&#x27;ctank&#x27;],[&#x27;TALK TO ROOK&#x27;,&#x27;crook&#x27;],[&#x27;TALK TO NOX&#x27;,&#x27;cnox&#x27;]],
- archive:[[&#x27;OPEN MEMORY LOOM&#x27;,&#x27;loom&#x27;],[&#x27;BUILD PROOF&#x27;,&#x27;proof&#x27;],[&#x27;DECEIVE CURATOR&#x27;,&#x27;curator&#x27;]],
- lab:[[&#x27;CREATE REAL ANCHOR&#x27;,&#x27;anchor&#x27;],[&#x27;SEED PARADOX&#x27;,&#x27;paradox&#x27;],[&#x27;BUILD PROGRAM&#x27;,&#x27;program&#x27;]],
- sandbox:[[&#x27;TOGGLE RAIN&#x27;,&#x27;rain&#x27;],[&#x27;CHANGE GRAVITY&#x27;,&#x27;gravity&#x27;],[&#x27;GLITCH REALITY&#x27;,&#x27;glitch&#x27;],[&#x27;SPAWN OBJECT&#x27;,&#x27;spawn&#x27;]],
- district:[[&#x27;BUILD SAFEHOUSE&#x27;,&#x27;safehouse&#x27;],[&#x27;BUILD RELAY&#x27;,&#x27;relay&#x27;],[&#x27;PATROL&#x27;,&#x27;patrol&#x27;]],
- core:[[&#x27;ENTER CORE&#x27;,&#x27;coreenter&#x27;],[&#x27;OPEN DOOR ENDING&#x27;,&#x27;endopen&#x27;],[&#x27;BILLION SKIES&#x27;,&#x27;endskies&#x27;],[&#x27;THIRD CITY&#x27;,&#x27;endthird&#x27;]]
+const mainActs={
+ bridge:[[&#x27;SIGNAL SCAN&#x27;,&#x27;signal&#x27;],[&#x27;COURSE PLOT&#x27;,&#x27;course&#x27;],[&#x27;SENSOR PING&#x27;,&#x27;ping&#x27;]],
+ operator:[[&#x27;TALK TO TANK&#x27;,&#x27;tank&#x27;],[&#x27;TRACE HARDLINE&#x27;,&#x27;hardline&#x27;],[&#x27;DECODE PACKET&#x27;,&#x27;decode&#x27;]],
+ engineering:[[&#x27;ROUTE POWER&#x27;,&#x27;power&#x27;],[&#x27;COOL REACTOR&#x27;,&#x27;cool&#x27;],[&#x27;REPAIR HULL&#x27;,&#x27;repair&#x27;]],
+ quarters:[[&#x27;SEARCH BUNK&#x27;,&#x27;photo&#x27;],[&#x27;READ CREW LOG&#x27;,&#x27;log&#x27;],[&#x27;EVIDENCE BOARD&#x27;,&#x27;evidence&#x27;]],
+ jack:[[&#x27;CHECK CABLE&#x27;,&#x27;cable&#x27;],[&#x27;RUN JACK TEST&#x27;,&#x27;jacktest&#x27;],[&#x27;PLUG IN&#x27;,&#x27;plugin&#x27;]],
+ matrix:[[&#x27;SCAN STREET&#x27;,&#x27;scan&#x27;],[&#x27;QUESTION RESIDENT&#x27;,&#x27;resident&#x27;],[&#x27;FIND ARCHIVE&#x27;,&#x27;archive&#x27;]],
+ archive:[[&#x27;MEMORY LOOM&#x27;,&#x27;loom&#x27;],[&#x27;BUILD PROOF&#x27;,&#x27;proof&#x27;],[&#x27;DECEIVE CURATOR&#x27;,&#x27;curator&#x27;]],
+ lab:[[&#x27;REAL ANCHOR&#x27;,&#x27;anchor&#x27;],[&#x27;PARADOX SEED&#x27;,&#x27;paradox&#x27;],[&#x27;PROGRAM FORGE&#x27;,&#x27;program&#x27;]]
 };
-const msg={
- signal:&#x27;Signal verified: your biometric key plus a future timestamp.&#x27;,course:&#x27;Course points into abandoned machine space.&#x27;,
- tank:&#x27;Tank traces the destination to a Matrix district that should not exist.&#x27;,hardline:&#x27;Emergency hardline marked.&#x27;,
- cool:&#x27;Tank dumps trace through dead relays.&#x27;,reactor:&#x27;Reactor stable.&#x27;,power:&#x27;Jack Bay power routed.&#x27;,repair:&#x27;Hull partially repaired.&#x27;,
- photo:&#x27;The photograph shows Fracture City three years in the future.&#x27;,bunk:&#x27;You find an AFTERIMAGE transit card.&#x27;,rest:&#x27;You rest in the real world.&#x27;,
- cable:&#x27;Jack cable tested green.&#x27;,plugin:&#x27;Tank plugs you in. The ship disappears.&#x27;,
- scan:&#x27;Street code is hours old; resident memories are years old.&#x27;,resident:&#x27;A resident remembers meeting you before.&#x27;,
- archive:&#x27;A black ARCHIVE door appears where no interior should exist.&#x27;,evsignal:&#x27;Future checksum confirmed.&#x27;,evphoto:&#x27;Photo and signal share one code signature.&#x27;,
- theory:&#x27;Theory logged: the signal may be a closed causal loop.&#x27;,ctank:&#x27;Tank: “The ship is the part nobody gets to fake.”&#x27;,crook:&#x27;Rook: “The signal remembers us before we arrive.”&#x27;,
- cnox:&#x27;Nox: “A deleted possibility can still know it was deleted.”&#x27;,loom:&#x27;The Loom contains rejected predicted lives.&#x27;,
- proof:&#x27;Contradiction proof assembled. The Archive cannot explain its own witnesses.&#x27;,curator:&#x27;The Curator stalls between two valid histories.&#x27;,
- anchor:&#x27;Real Anchor created from ship, body, and independent witnesses.&#x27;,paradox:&#x27;Paradox Seed armed.&#x27;,program:&#x27;Program built: WITNESS CHAIN.&#x27;,
- rain:&#x27;Sandbox rain toggled.&#x27;,gravity:&#x27;Sandbox gravity changed.&#x27;,glitch:&#x27;Reality glitch intensity changed.&#x27;,spawn:&#x27;A fictional object was spawned.&#x27;,
- safehouse:&#x27;Safehouse upgraded.&#x27;,relay:&#x27;Signal relay built.&#x27;,patrol:&#x27;District patrol completed.&#x27;,
- coreenter:&#x27;ECHO opens the Mirror Core.&#x27;,endopen:&#x27;ENDING: THE OPEN DOOR — one imperfect shared world remains open.&#x27;,
- endskies:&#x27;ENDING: A BILLION SKIES — each consciousness may choose a private reality.&#x27;,
- endthird:&#x27;ENDING: THE THIRD CITY — humans, machines, and programs negotiate a common world.&#x27;
-};
-function $(id){return document.getElementById(id)}
-function current(){return steps[Math.min(G.step,steps.length-1)]}
+function $(x){return document.getElementById(x)} function cur(){return steps[Math.min(G.step,steps.length-1)]}
 function setNote(t){$(&#x27;note&#x27;).textContent=t}
-function startGame(){ $(&#x27;start&#x27;).style.display=&#x27;none&#x27;; G.view=&#x27;bridge&#x27;; render() }
+function startGame(){$(&#x27;start&#x27;).style.display=&#x27;none&#x27;;render()}
 function render(){
- const d=data[G.view]||data.bridge;
- $(&#x27;scene&#x27;).className=&#x27;scene&#x27;+([&#x27;matrix&#x27;,&#x27;archive&#x27;,&#x27;district&#x27;,&#x27;core&#x27;].includes(G.view)?&#x27; city&#x27;:&#x27;&#x27;);
- $(&#x27;kicker&#x27;).textContent=[&#x27;matrix&#x27;,&#x27;archive&#x27;,&#x27;district&#x27;,&#x27;core&#x27;].includes(G.view)?&#x27;MATRIX // &#x27;+d[0]:&#x27;MNEMOSYNE // &#x27;+d[0];
- $(&#x27;title&#x27;).textContent=d[0];$(&#x27;story&#x27;).textContent=d[1];
- $(&#x27;objective&#x27;).textContent=G.step&lt;steps.length?&#x27;OBJECTIVE: &#x27;+current()[1]:&#x27;MAIN STORY COMPLETE // Optional systems remain open.&#x27;;
- $(&#x27;bar&#x27;).style.width=Math.min(100,G.step/steps.length*100)+&#x27;%&#x27;;
- $(&#x27;stepchip&#x27;).textContent=&#x27;STEP &#x27;+Math.min(G.step+1,steps.length)+&#x27;/&#x27;+steps.length;$(&#x27;intel&#x27;).textContent=&#x27;INTEL &#x27;+G.intel;$(&#x27;trace&#x27;).textContent=&#x27;TRACE &#x27;+G.trace+&#x27;%&#x27;;$(&#x27;credits&#x27;).textContent=&#x27;CREDITS &#x27;+G.credits;
- renderActions();renderNav();renderSystems();
- $(&#x27;next&#x27;).textContent=G.step&lt;steps.length?&#x27;NEXT: &#x27;+current()[1]:&#x27;NEXT: FREE PLAY&#x27;;
- $(&#x27;next&#x27;).onclick=goNext;
+ const d=D[G.view]||D.bridge;
+ $(&#x27;scene&#x27;).src=IMG[G.view]||IMG.bridge;$(&#x27;kicker&#x27;).textContent=([&#x27;matrix&#x27;,&#x27;archive&#x27;,&#x27;lab&#x27;].includes(G.view)?&#x27;MATRIX LINK // &#x27;:&#x27;MNEMOSYNE // &#x27;)+d[0];$(&#x27;title&#x27;).textContent=d[0];$(&#x27;story&#x27;).textContent=d[1];
+ $(&#x27;objective&#x27;).textContent=G.step&lt;steps.length?&#x27;OBJECTIVE: &#x27;+cur()[1]:&#x27;MAIN CHAPTER COMPLETE // FREE EXPLORATION&#x27;;
+ $(&#x27;bar&#x27;).style.width=Math.min(100,G.step/steps.length*100)+&#x27;%&#x27;;$(&#x27;step&#x27;).textContent=&#x27;MISSION &#x27;+Math.min(G.step+1,steps.length)+&#x27;/&#x27;+steps.length;$(&#x27;intel&#x27;).textContent=&#x27;INTEL &#x27;+G.intel;$(&#x27;trace&#x27;).textContent=&#x27;TRACE &#x27;+G.trace+&#x27;%&#x27;;
+ renderActions();renderFeature();renderNav();renderReadout();
+ $(&#x27;next&#x27;).textContent=G.step&lt;steps.length?&#x27;NEXT: &#x27;+cur()[1]:&#x27;NEXT: FREE EXPLORE&#x27;;$(&#x27;next&#x27;).onclick=goNext;
 }
 function renderActions(){
- const box=$(&#x27;actions&#x27;);box.innerHTML=&#x27;&#x27;;
+ const p=$(&#x27;primary&#x27;);p.innerHTML=&#x27;&#x27;;const u=$(&#x27;utility&#x27;);u.innerHTML=&#x27;&#x27;;
  if(G.view===&#x27;quiz&#x27;){
-  const second=G.done.archive;
-  const q=second?&#x27;What makes a Real Anchor stronger?&#x27;:&#x27;What is the Mnemosyne while you are inside the Matrix?&#x27;;
-  const opts=second?[&#x27;More visual effects&#x27;,&#x27;Independent witnesses&#x27;,&#x27;Higher gravity&#x27;]:[&#x27;A scoreboard&#x27;,&#x27;Your physical anchor and route home&#x27;,&#x27;A decorative simulation&#x27;];
-  box.innerHTML=&#x27;&lt;div class=&quot;quiz&quot; style=&quot;grid-column:1/-1&quot;&gt;&lt;b&gt;&#x27;+q+&#x27;&lt;/b&gt;&#x27;+opts.map((x,i)=&gt;&#x27;&lt;button data-q=&quot;&#x27;+i+&#x27;&quot;&gt;&#x27;+x+&#x27;&lt;/button&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
-  box.querySelectorAll(&#x27;[data-q]&#x27;).forEach(b=&gt;b.onclick=()=&gt;answerQuiz(Number(b.dataset.q)));
-  return;
+   const second=G.done.archive;
+   const q=second?&#x27;What makes a Real Anchor stronger?&#x27;:&#x27;What is the Mnemosyne while you are jacked into the Matrix?&#x27;;
+   const opts=second?[&#x27;Higher graphics quality&#x27;,&#x27;Independent witnesses&#x27;,&#x27;More gravity&#x27;]:[&#x27;A scoreboard&#x27;,&#x27;Your physical anchor and route home&#x27;,&#x27;A decoration&#x27;];
+   p.innerHTML=&#x27;&lt;div class=&quot;quiz&quot; style=&quot;grid-column:1/-1&quot;&gt;&lt;b&gt;&#x27;+q+&#x27;&lt;/b&gt;&#x27;+opts.map((x,i)=&gt;&#x27;&lt;button data-q=&quot;&#x27;+i+&#x27;&quot;&gt;&#x27;+x+&#x27;&lt;/button&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+   p.querySelectorAll(&#x27;[data-q]&#x27;).forEach(b=&gt;b.onclick=()=&gt;quiz(+b.dataset.q));return;
  }
- (A[G.view]||[]).forEach(x=&gt;{const b=document.createElement(&#x27;button&#x27;);b.textContent=x[0]+(G.done[x[1]]?&#x27; ✓&#x27;:&#x27;&#x27;);b.onclick=()=&gt;act(x[1]);box.appendChild(b)})
+ (mainActs[G.view]||[]).forEach((x,i)=&gt;{const b=document.createElement(&#x27;button&#x27;);b.textContent=x[0]+(G.done[x[1]]?&#x27; ✓&#x27;:&#x27;&#x27;);b.onclick=()=&gt;act(x[1]);(i&lt;2?p:u).appendChild(b)})
+}
+function renderFeature(){
+ const f=$(&#x27;feature&#x27;);
+ if(G.view===&#x27;bridge&#x27;)f.innerHTML=&#x27;&lt;h3&gt;SIGNAL SCOPE&lt;/h3&gt;&lt;p&gt;Scan lock: &#x27;+G.scan+&#x27;%&lt;/p&gt;&lt;input id=&quot;scanRange&quot; type=&quot;range&quot; min=&quot;0&quot; max=&quot;100&quot; value=&quot;&#x27;+G.scan+&#x27;&quot;&gt;&lt;div class=&quot;terminal&quot;&gt;carrier://afterimage&lt;br&gt;checksum: FUTURE-KEY&lt;br&gt;origin: unresolved&lt;/div&gt;&#x27;;
+ else if(G.view===&#x27;operator&#x27;)f.innerHTML=&#x27;&lt;h3&gt;TANK // LIVE TRACE&lt;/h3&gt;&lt;div class=&quot;terminal&quot;&gt;TANK&amp;gt; route tree loaded&lt;br&gt;TANK&amp;gt; dead hardlines: 17&lt;br&gt;TANK&amp;gt; active echo: &#x27;+(G.done.tank?&#x27;LOCKED&#x27;:&#x27;SEARCHING&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+ else if(G.view===&#x27;engineering&#x27;)f.innerHTML=&#x27;&lt;h3&gt;JACK POWER BUS&lt;/h3&gt;&lt;p&gt;Power routed: &#x27;+G.power+&#x27;%&lt;/p&gt;&lt;input id=&quot;powerRange&quot; type=&quot;range&quot; min=&quot;0&quot; max=&quot;100&quot; value=&quot;&#x27;+G.power+&#x27;&quot;&gt;&lt;p&gt;Set to 80% or higher, then press ROUTE POWER.&lt;/p&gt;&#x27;;
+ else if(G.view===&#x27;quarters&#x27;)f.innerHTML=&#x27;&lt;h3&gt;EVIDENCE TERMINAL&lt;/h3&gt;&lt;div class=&quot;terminal&quot;&gt;BUNK 06: unassigned&lt;br&gt;photo timestamp: +3 years&lt;br&gt;transit token: AFTERIMAGE&lt;br&gt;crew trust: &#x27;+G.trust+&#x27;&lt;/div&gt;&#x27;;
+ else if(G.view===&#x27;jack&#x27;)f.innerHTML=&#x27;&lt;h3&gt;NEURAL LINK&lt;/h3&gt;&lt;p&gt;Cable: &#x27;+(G.done.cable?&#x27;GREEN&#x27;:&#x27;UNCHECKED&#x27;)+&#x27; // Matrix access: &#x27;+(G.quiz1?&#x27;AUTHORIZED&#x27;:&#x27;LOCKED&#x27;)+&#x27;&lt;/p&gt;&#x27;;
+ else if(G.view===&#x27;matrix&#x27;)f.innerHTML=&#x27;&lt;h3&gt;LIVE MATRIX TELEMETRY&lt;/h3&gt;&lt;div class=&quot;terminal&quot;&gt;district age: 11 hours&lt;br&gt;resident memory age: 14 years&lt;br&gt;agent process: dormant&lt;br&gt;trace: &#x27;+G.trace+&#x27;%&lt;/div&gt;&#x27;;
+ else if(G.view===&#x27;archive&#x27;)f.innerHTML=&#x27;&lt;h3&gt;ECHO MEMORY INDEX&lt;/h3&gt;&lt;div class=&quot;terminal&quot;&gt;predicted lives: 1,048,576&lt;br&gt;retained witnesses: 3&lt;br&gt;contradictions: &#x27;+(G.done.proof?&#x27;STABLE&#x27;:&#x27;UNRESOLVED&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+ else if(G.view===&#x27;lab&#x27;)f.innerHTML=&#x27;&lt;h3&gt;RULE TEST BENCH&lt;/h3&gt;&lt;p&gt;gravity = 1.0 // rain = enabled // witness chain = &#x27;+(G.done.anchor?&#x27;ACTIVE&#x27;:&#x27;OFFLINE&#x27;)+&#x27;&lt;/p&gt;&#x27;;
+ else f.innerHTML=&#x27;&#x27;;
+ const sr=$(&#x27;scanRange&#x27;);if(sr)sr.oninput=()=&gt;{G.scan=+sr.value;renderFeature()};
+ const pr=$(&#x27;powerRange&#x27;);if(pr)pr.oninput=()=&gt;{G.power=+pr.value;renderFeature()};
 }
 function renderNav(){
- const primary=[[&#x27;bridge&#x27;,&#x27;BRIDGE&#x27;],[&#x27;operator&#x27;,&#x27;TANK&#x27;],[&#x27;engineering&#x27;,&#x27;ENGINEERING&#x27;],[&#x27;quarters&#x27;,&#x27;QUARTERS&#x27;],[&#x27;jack&#x27;,&#x27;JACK BAY&#x27;],[&#x27;quiz&#x27;,&#x27;QUIZ&#x27;],[&#x27;matrix&#x27;,&#x27;MATRIX&#x27;]];
- const extra=[[&#x27;evidence&#x27;,&#x27;EVIDENCE&#x27;],[&#x27;crew&#x27;,&#x27;CREW&#x27;],[&#x27;archive&#x27;,&#x27;ARCHIVE&#x27;],[&#x27;lab&#x27;,&#x27;LAB&#x27;],[&#x27;sandbox&#x27;,&#x27;SANDBOX&#x27;],[&#x27;district&#x27;,&#x27;BLOCK&#x27;],[&#x27;core&#x27;,&#x27;CORE&#x27;]];
- $(&#x27;rooms&#x27;).innerHTML=&#x27;&#x27;;$(&#x27;extras&#x27;).innerHTML=&#x27;&#x27;;
- primary.forEach(x=&gt;navButton(x,$(&#x27;rooms&#x27;)));extra.forEach(x=&gt;navButton(x,$(&#x27;extras&#x27;)));
+ const rooms=[[&#x27;bridge&#x27;,&#x27;BRIDGE&#x27;],[&#x27;operator&#x27;,&#x27;TANK&#x27;],[&#x27;engineering&#x27;,&#x27;ENGINEERING&#x27;],[&#x27;quarters&#x27;,&#x27;QUARTERS&#x27;],[&#x27;jack&#x27;,&#x27;JACK BAY&#x27;]];
+ $(&#x27;rooms&#x27;).innerHTML=&#x27;&#x27;;rooms.forEach(x=&gt;nav(x,$(&#x27;rooms&#x27;),true));
+ const ex=[[&#x27;quiz&#x27;,&#x27;QUIZ&#x27;,true],[&#x27;matrix&#x27;,&#x27;MATRIX&#x27;,G.quiz1],[&#x27;archive&#x27;,&#x27;ARCHIVE&#x27;,G.archive],[&#x27;lab&#x27;,&#x27;LAB&#x27;,G.lab]];
+ $(&#x27;extras&#x27;).innerHTML=&#x27;&#x27;;ex.forEach(x=&gt;nav([x[0],x[1]],$(&#x27;extras&#x27;),x[2]));
 }
-function navButton(x,box){const b=document.createElement(&#x27;button&#x27;);b.textContent=x[1];b.className=G.view===x[0]?&#x27;on&#x27;:&#x27;&#x27;;b.disabled=!G.unlocked[x[0]];b.onclick=()=&gt;{G.view=x[0];render()};box.appendChild(b)}
-function renderSystems(){
- $(&#x27;systems&#x27;).innerHTML=Object.entries(G.ship).map(x=&gt;&#x27;&lt;div class=&quot;sys&quot;&gt;&lt;b&gt;&#x27;+x[1]+&#x27;%&lt;/b&gt;&#x27;+x[0].toUpperCase()+&#x27;&lt;/div&gt;&#x27;).join(&#x27;&#x27;);
-}
+function nav(x,box,on){const b=document.createElement(&#x27;button&#x27;);b.textContent=x[1];b.className=G.view===x[0]?&#x27;on&#x27;:&#x27;&#x27;;b.disabled=!on;b.onclick=()=&gt;{G.view=x[0];render()};box.appendChild(b)}
+function renderReadout(){$(&#x27;readout&#x27;).innerHTML=Object.entries(G.ship).map(x=&gt;&#x27;&lt;div class=&quot;meter&quot;&gt;&lt;b&gt;&#x27;+x[1]+&#x27;%&lt;/b&gt;&#x27;+x[0].toUpperCase()+&#x27;&lt;/div&gt;&#x27;).join(&#x27;&#x27;)}
 function goNext(){
- if(G.step&gt;=steps.length){G.unlocked.district=G.unlocked.sandbox=G.unlocked.evidence=G.unlocked.crew=true;setNote(&#x27;FREE PLAY OPEN. Explore any unlocked area.&#x27;);return render()}
- const [room,label,a]=current();G.view=room;
- if(a===&#x27;quiz1&#x27;||a===&#x27;quiz2&#x27;){render();return}
- act(a);
+ if(G.step&gt;=steps.length){setNote(&#x27;MAIN CHAPTER COMPLETE. Explore any unlocked area.&#x27;);return}
+ const [room,label,a]=cur();G.view=room;if(a===&#x27;quiz1&#x27;||a===&#x27;quiz2&#x27;){render();return}act(a);
 }
-function advance(a){if(G.step&lt;steps.length&amp;&amp;current()[2]===a)G.step++}
+function advance(a){if(G.step&lt;steps.length&amp;&amp;cur()[2]===a)G.step++}
 function act(a){
- if(a===&#x27;plugin&#x27;&amp;&amp;!G.quiz1){G.view=&#x27;quiz&#x27;;setNote(&#x27;PASS THE QUIZ BEFORE JACKING IN.&#x27;);return render()}
- if(a===&#x27;plugin&#x27;){G.unlocked.matrix=true;G.view=&#x27;matrix&#x27;}
- if(a===&#x27;archive&#x27;)G.unlocked.archive=true;
- if(a===&#x27;proof&#x27;){G.unlocked.lab=true;G.unlocked.crew=true}
- if(a===&#x27;anchor&#x27;){G.unlocked.sandbox=true;G.unlocked.district=true}
- if(a===&#x27;coreenter&#x27;)G.unlocked.core=true;
- if(a===&#x27;cool&#x27;||a===&#x27;rest&#x27;)G.trace=Math.max(0,G.trace-10);
- if([&#x27;scan&#x27;,&#x27;curator&#x27;,&#x27;paradox&#x27;,&#x27;patrol&#x27;].includes(a))G.trace=Math.min(100,G.trace+6);
- if(a===&#x27;repair&#x27;)G.ship.hull=Math.min(100,G.ship.hull+8);
- if(a===&#x27;patrol&#x27;)G.credits+=8;
- if(a===&#x27;safehouse&#x27;||a===&#x27;relay&#x27;)G.credits=Math.max(0,G.credits-5);
- if(a===&#x27;rain&#x27;)G.sandbox.rain=!G.sandbox.rain;
- if(a===&#x27;gravity&#x27;)G.sandbox.gravity=G.sandbox.gravity===1?.5:G.sandbox.gravity===.5?0:1;
- if(a===&#x27;glitch&#x27;)G.sandbox.glitch=(G.sandbox.glitch+1)%5;
- if(a===&#x27;spawn&#x27;)G.sandbox.objects++;
- G.done[a]=true;G.intel++;setNote(msg[a]||&#x27;Action complete.&#x27;);advance(a);
- if(G.step&lt;steps.length)G.view=current()[0];
- render();
+ if(a===&#x27;signal&#x27;)G.scan=100;
+ if(a===&#x27;tank&#x27;)G.trust++;
+ if(a===&#x27;power&#x27;&amp;&amp;G.power&lt;80){setNote(&#x27;ROUTE AT LEAST 80% POWER FIRST.&#x27;);return render()}
+ if(a===&#x27;plugin&#x27;&amp;&amp;!G.quiz1){G.view=&#x27;quiz&#x27;;setNote(&#x27;QUIZ REQUIRED BEFORE JACK-IN.&#x27;);return render()}
+ if(a===&#x27;plugin&#x27;)G.view=&#x27;matrix&#x27;;
+ if(a===&#x27;archive&#x27;)G.archive=true;
+ if(a===&#x27;proof&#x27;)G.lab=true;
+ if([&#x27;scan&#x27;,&#x27;curator&#x27;,&#x27;paradox&#x27;].includes(a))G.trace=Math.min(100,G.trace+6);
+ if(a===&#x27;cool&#x27;)G.ship.reactor=Math.min(100,G.ship.reactor+2);
+ if(a===&#x27;repair&#x27;)G.ship.hull=Math.min(100,G.ship.hull+5);
+ G.done[a]=true;G.intel++;
+ const M={signal:&#x27;Signal locked: your biometric key is coming from a future timestamp.&#x27;,course:&#x27;Course plotted through abandoned machine space.&#x27;,ping:&#x27;Sensors detect a repeating ghost carrier.&#x27;,
+ tank:&#x27;Tank: “I can trace the door. You decide whether we open it.”&#x27;,hardline:&#x27;Emergency hardline located.&#x27;,decode:&#x27;Packet contains memories with no matching person.&#x27;,
+ power:&#x27;Jack Bay receives stable neural-link power.&#x27;,cool:&#x27;Reactor coolant loop stabilized.&#x27;,repair:&#x27;Hull integrity improved.&#x27;,
+ photo:&#x27;Future photo recovered from the unassigned bunk.&#x27;,log:&#x27;Crew log mentions a city nobody has visited.&#x27;,evidence:&#x27;Evidence board updated.&#x27;,
+ cable:&#x27;Neural cable tested green.&#x27;,jacktest:&#x27;Simulated entry and emergency return both pass.&#x27;,plugin:&#x27;Jack-in successful. Fracture City loaded.&#x27;,
+ scan:&#x27;City scan complete: code is newer than its memories.&#x27;,resident:&#x27;Resident recognizes you from an impossible photograph.&#x27;,archive:&#x27;Archive door found and unlocked.&#x27;,
+ loom:&#x27;Memory Loom reveals rejected predicted lives.&#x27;,proof:&#x27;Contradiction proof assembled.&#x27;,curator:&#x27;Curator stalls between two valid histories.&#x27;,
+ anchor:&#x27;Real Anchor created from ship + body + witnesses.&#x27;,paradox:&#x27;Paradox Seed armed.&#x27;,program:&#x27;Program forged: WITNESS CHAIN.&#x27;};
+ setNote(M[a]||&#x27;Action complete.&#x27;);advance(a);if(G.step&lt;steps.length)G.view=cur()[0];render();
 }
-function answerQuiz(i){
+function quiz(i){
  const second=G.done.archive;
- if(i===1){
-  if(second){G.quiz2=true;G.unlocked.lab=true}else{G.quiz1=true;G.unlocked.matrix=true}
-  G.intel++;setNote(&#x27;CORRECT // NEXT ROUTE UNLOCKED.&#x27;);
-  if(G.step&lt;steps.length&amp;&amp;[&#x27;quiz1&#x27;,&#x27;quiz2&#x27;].includes(current()[2]))G.step++;
-  G.view=second?&#x27;lab&#x27;:&#x27;jack&#x27;;render();
- }else setNote(&#x27;TRY AGAIN // Review the story clue.&#x27;);
+ if(i===1){if(second)G.quiz2=true;else G.quiz1=true;G.intel++;setNote(&#x27;CORRECT // NEXT AREA UNLOCKED.&#x27;);if(G.step&lt;steps.length&amp;&amp;[&#x27;quiz1&#x27;,&#x27;quiz2&#x27;].includes(cur()[2]))G.step++;G.view=second?&#x27;lab&#x27;:&#x27;jack&#x27;;render()}
+ else setNote(&#x27;TRY AGAIN // The mission clue is visible in the current chapter.&#x27;);
 }
-$(&#x27;startBtn&#x27;).onclick=startGame;
-render();
+$(&#x27;startBtn&#x27;).onclick=startGame;render();
 &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
 
 <section id="oneScreenGame">
