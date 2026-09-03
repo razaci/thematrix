@@ -67,6 +67,19 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
 .bigDecision{padding:16px;border:1px solid #45785e;background:#0a1712;border-radius:14px;margin:9px 0}.bigDecision h3{font-size:15px;margin:0 0 6px}
 .pulse{animation:pulse 1.5s infinite}@keyframes pulse{50%{box-shadow:0 0 28px #5affaa66}}
 .toast{position:fixed;z-index:50;top:75px;left:50%;transform:translateX(-50%) translateY(-15px);background:#06130e;border:1px solid #3aff91;color:#baffd6;padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;max-width:88vw;font-size:12px}.toast.show{opacity:1;transform:translateX(-50%)}
+
+.dynamicStrip{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}
+.dyn{border:1px solid #1e5e43;background:#06110d;border-radius:10px;padding:9px;font-size:10px;color:#9ed7b9}
+.dyn b{display:block;color:#7dffb7;font-size:12px;margin-bottom:3px}
+.eventBox{border:1px solid #34654c;background:#081711;border-radius:12px;padding:11px;margin-top:9px}
+.eventBox.flash{animation:eventFlash .55s ease}
+@keyframes eventFlash{0%{box-shadow:0 0 0 #63ffad00}50%{box-shadow:0 0 30px #63ffad66}100%{box-shadow:0 0 0 #63ffad00}}
+.meterRow{display:grid;grid-template-columns:80px 1fr 42px;gap:8px;align-items:center;font-size:10px;margin:6px 0}
+.miniBar{height:7px;background:#0e251b;border-radius:999px;overflow:hidden}.miniBar>i{display:block;height:100%;background:#63ffad;width:50%;transition:.25s}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border:1px solid #285f46;border-radius:999px;margin:2px;font-size:10px;background:#08150f}
+.livePulse{animation:livePulse 1.2s infinite}@keyframes livePulse{50%{opacity:.48}}
+@media(max-width:620px){.dynamicStrip{grid-template-columns:1fr}}
+
 .footerNote{font-size:10px;color:#648574;text-align:center;padding:14px 4px}
 @media(max-width:620px){.grid{grid-template-columns:1fr}.hud{grid-template-columns:repeat(2,1fr)}.hero{min-height:265px}.choice{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}}
 </style>
@@ -92,7 +105,13 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
   <div class="card"><h3>Signal Diagnostic</h3><p>Triangulate the ghost transmission. Each scan raises Trace; correct frequencies reveal a hidden speaker.</p><div id="signalButtons"></div></div>
   <div class="card"><h3>Operator Console</h3><div class="log" id="consoleLog"></div><div class="console"><input id="cmd" placeholder="try: help, scan, who, wake"><button class="iconBtn" id="cmdGo">RUN</button></div></div>
  </div>
- <div class="card"><h3>Mission Thread</h3><p id="mission0">Find the correct signal frequency, then jack in.</p><span class="badge">Canvas rain</span><span class="badge">WebAudio</span><span class="badge">DOM console</span><span class="badge">Local save</span></div>
+ <div class="dynamicStrip">
+      <div class="dyn"><b id="deckSignal">SIGNAL 12%</b>ghost-carrier strength</div>
+      <div class="dyn"><b id="deckPower">POWER 84%</b>ship systems</div>
+      <div class="dyn"><b id="deckThreat">THREAT LOW</b>machine sweep</div>
+    </div>
+    <div class="eventBox" id="deckEvent"><b>LIVE SHIP EVENT</b><p id="deckEventText">The hull is quiet. Too quiet.</p><button class="action alt" id="deckReact">RESPOND</button></div>
+    <div class="card"><h3>Mission Thread</h3><p id="mission0">Find the correct signal frequency, then jack in.</p><span class="badge">Canvas rain</span><span class="badge">WebAudio</span><span class="badge">DOM console</span><span class="badge">Local save</span></div>
 </section>
 
 <section class="stage" id="stage1">
@@ -101,25 +120,49 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
   <div class="card"><h3>Reality Scanner</h3><p>Each district contains four objects. One violates the local rules. Scan it, then choose the anomaly before Trace reaches critical.</p><div id="sectorName" class="badge">SECTOR 1 / 5</div><div id="scannerGrid" class="cards" style="margin-top:8px"></div></div>
   <div class="card"><h3>Signal Reconstruction</h3><p>Correct anomaly picks recover memory fragments. Wrong picks raise Trace and distort the next district.</p><div class="log" id="scanLog"></div><div style="margin-top:8px"><span class="badge" id="scanScore">0 fragments</span><span class="badge" id="scanMistakes">0 errors</span></div></div>
  </div>
- <div class="card"><h3>Route Assembly</h3><p id="routeText">Recover all five fragments to reveal a hidden street that does not exist on any machine map.</p><div id="routeNodes" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px"></div></div>
+ <div class="dynamicStrip">
+      <div class="dyn"><b id="cityStability">STABILITY 72%</b>local reality</div>
+      <div class="dyn"><b id="citySweep">SWEEP 18%</b>pursuit process</div>
+      <div class="dyn"><b id="cityWeather">RAIN SHIFTING</b>simulation weather</div>
+    </div>
+    <div class="eventBox"><b>LIVE CITY ANOMALY</b><p id="cityEventText">A traffic light changes color when nobody looks at it.</p></div>
+    <div class="card"><h3>Route Assembly</h3><p id="routeText">Recover all five fragments to reveal a hidden street that does not exist on any machine map.</p><div id="routeNodes" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px"></div></div>
  <div class="choice"><button class="action alt" id="coolTrace">GHOST THE SCANNER (-8 TRACE)</button><button class="action warn" id="deepScan">DEEP SCAN (+INSIGHT, +6 TRACE)</button></div>
 </section>
 
 <section class="stage" id="stage2">
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwNzA4MGIiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzllNzhjIiBvcGFjaXR5PSIuNiI+CjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iMTgwIi8+PGNpcmNsZSBjeD0iNDUwIiBjeT0iMjUwIiByPSIxMzAiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjgwIi8+CjxwYXRoIGQ9Ik00NTAgNzB2MzYwTTI3MCAyNTBoMzYwTTMyMyAxMjNsMjU0IDI1NE01NzcgMTIzIDMyMyAzNzciLz4KPC9nPgo8ZyBmaWxsPSIjOWVmZmNiIj48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjIyIi8+PGNpcmNsZSBjeD0iMzIzIiBjeT0iMTIzIiByPSI5Ii8+PGNpcmNsZSBjeD0iNTc3IiBjeT0iMTIzIiByPSI5Ii8+PGNpcmNsZSBjeD0iMzIzIiBjeT0iMzc3IiByPSI5Ii8+PGNpcmNsZSBjeD0iNTc3IiBjeT0iMzc3IiByPSI5Ii8+PC9nPgo8dGV4dCB4PSI0NTAiIHk9IjQ2NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzYzZmZhZCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyMiI+VEhFIEFSQ0hJVkUgUkVNRU1CRVJTIFZFUlNJT05TIFRIQVQgTkVWRVIgSEFQUEVORUQ8L3RleHQ+Cjwvc3ZnPg=="><div class="heroText"><div class="kicker">CHAPTER III // THE IMPOSSIBLE ARCHIVE</div><h2>MEMORY IS A WEAPON</h2><p>You reach an archive built from discarded versions of the Matrix. An emergent program calling itself ECHO claims it was born from every choice the system predicted but humanity refused to make.</p></div></div>
  <div class="card"><h3>Interactive Fiction Node</h3><div class="storyNode"><p id="storyText"></p></div><div id="storyChoices" class="choice"></div></div>
- <div class="grid"><div class="card"><h3>Known Truths</h3><div id="truths"></div></div><div class="card"><h3>Psychological Profile</h3><p id="profile">The Archive is still measuring you.</p></div></div>
+ <div class="dynamicStrip">
+      <div class="dyn"><b id="archiveHeat">MEMORY HEAT 0%</b>archive instability</div>
+      <div class="dyn"><b id="echoTrust">ECHO TRUST 50%</b>dialogue response</div>
+      <div class="dyn"><b id="archiveDepth">DEPTH 1</b>narrative layer</div>
+    </div>
+    <div class="eventBox"><b>MEMORY BLEED</b><p id="archiveEventText">A memory from another timeline is trying to overwrite yours.</p><button class="action alt" id="archiveProbe">PROBE MEMORY</button></div>
+    <div class="grid"><div class="card"><h3>Known Truths</h3><div id="truths"></div></div><div class="card"><h3>Psychological Profile</h3><p id="profile">The Archive is still measuring you.</p></div></div>
 </section>
 
 <section class="stage" id="stage3">
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwODBhMDkiLz4KPGcgc3Ryb2tlPSIjNGRmZjllIiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTEyMCA0MDAgMjYwIDEwMGgzODBsMTQwIDMwMHoiIHN0cm9rZS13aWR0aD0iNCIvPgo8cGF0aCBkPSJNMjYwIDEwMCA0NTAgNDAwIDY0MCAxMDBNMTIwIDQwMGg2NjAiIG9wYWNpdHk9Ii43Ii8+CjxyZWN0IHg9IjM1NSIgeT0iMTg1IiB3aWR0aD0iMTkwIiBoZWlnaHQ9IjEzMCIgcng9IjE4IiBzdHJva2Utd2lkdGg9IjUiLz4KPC9nPgo8ZyBmaWxsPSIjNGRmZjllIj48cmVjdCB4PSIzOTAiIHk9IjIyMCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxOCIvPjxyZWN0IHg9IjM5MCIgeT0iMjYwIiB3aWR0aD0iODAiIGhlaWdodD0iMTgiLz48L2c+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYTlmZmQwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIyIj5DT05TVFJVQ1QgTEFCIC8vIFJVTEVTIEFSRSBNQVRFUklBTDwvdGV4dD4KPC9zdmc+"><div class="heroText"><div class="kicker">CHAPTER IV // CONSTRUCT LAB</div><h2>BUILD THE RULE THAT SAVES YOU</h2><p>To enter the Mirror Core, you must compile a three-program loadout. The order matters. Your earlier decisions alter which combinations work.</p></div></div>
  <div class="card"><h3>Program Capacity <span id="capLabel" class="badge">0 / 7</span></h3><div class="cards" id="programCards"></div><button class="action" id="compile">COMPILE LOADOUT</button><div class="log" id="compileLog"></div></div>
- <div class="card"><h3>Sequence Buffer</h3><div id="buffer">No programs loaded.</div></div>
+ <div class="dynamicStrip">
+      <div class="dyn"><b id="labEntropy">ENTROPY 8%</b>construct drift</div>
+      <div class="dyn"><b id="labCycles">CYCLES 0</b>compile attempts</div>
+      <div class="dyn"><b id="labBonus">SYNERGY 0</b>active bonus</div>
+    </div>
+    <div class="eventBox"><b>LIVE CONSTRUCT CONDITION</b><p id="labEventText">Gravity constant stable.</p><button class="action alt" id="rerollLab">REROLL CONDITION</button></div>
+    <div class="card"><h3>Sequence Buffer</h3><div id="buffer">No programs loaded.</div></div>
 </section>
 
 <section class="stage" id="stage4">
  <div class="hero"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPGRlZnM+PHJhZGlhbEdyYWRpZW50IGlkPSJyIj48c3RvcCBzdG9wLWNvbG9yPSIjMTAzOTI3Ii8+PHN0b3Agb2Zmc2V0PSIuNSIgc3RvcC1jb2xvcj0iIzA2MTQwZCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAwMCIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idXJsKCNyKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9IiM2MmZmYWMiPgo8Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjE5MCIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iNDUwIiBjeT0iMjUwIiByPSIxMzUiIHN0cm9rZS13aWR0aD0iNCIvPjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjI1MCIgcj0iNjUiIHN0cm9rZS13aWR0aD0iOCIvPgo8cGF0aCBkPSJNNDUwIDMwdjQ0ME0yMzAgMjUwaDQ0MCIgb3BhY2l0eT0iLjM1Ii8+CjwvZz4KPHBhdGggZD0iTTQxNSAyMjBxMzUtNjUgNzAgMHY3MHEtMzUgNTUtNzAgMHoiIGZpbGw9IiM1YmZmYWIiIG9wYWNpdHk9Ii45Ii8+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYjBmZmQ1IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjIyIj5NSVJST1IgQ09SRSAvLyBDSE9PU0UgV0hBVCBSRUFMSVRZIElTIEZPUjwvdGV4dD4KPC9zdmc+"><div class="heroText"><div class="kicker">CHAPTER V // MIRROR CORE</div><h2>THE SYSTEM ASKS<br>WHAT FREEDOM COSTS.</h2><p>ECHO has no army. It has a proposition: fork the Matrix into billions of private realities, one for every human desire. No shared world. No shared truth. No war—because no one would ever need to disagree again.</p></div></div>
- <div class="card"><h3>Adaptive Core</h3><p id="bossText">Compile a valid loadout to begin the final confrontation.</p><div id="bossActions"></div><div class="bar" style="height:9px;margin:12px 0"><div class="fill" id="echoBar" style="width:100%"></div></div><p id="bossStatus">ECHO coherence: 100%</p></div>
+ <div class="dynamicStrip">
+      <div class="dyn"><b id="corePhase">PHASE 1</b>adaptive argument</div>
+      <div class="dyn"><b id="corePressure">PRESSURE 0%</b>reality collapse</div>
+      <div class="dyn"><b id="coreEchoMode">MODE: OBSERVE</b>ECHO behavior</div>
+    </div>
+    <div class="eventBox"><b>CORE EVENT</b><p id="coreEventText">The room is copying your posture.</p></div>
+    <div class="card"><h3>Adaptive Core</h3><p id="bossText">Compile a valid loadout to begin the final confrontation.</p><div id="bossActions"></div><div class="bar" style="height:9px;margin:12px 0"><div class="fill" id="echoBar" style="width:100%"></div></div><p id="bossStatus">ECHO coherence: 100%</p></div>
  <div id="finalDecision"></div><div id="ending"></div>
 </section>
 </main>
@@ -135,7 +178,7 @@ const A={ship:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmc
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const fresh={stage:0,integrity:100,trace:0,insight:0,frags:0,signal:false,cityDone:false,archiveDone:false,constructDone:false,
- traits:{mercy:0,defiance:0,curiosity:0}, truths:[], storyNode:0, selected:[], echo:100, ending:null, sound:true};
+ traits:{mercy:0,defiance:0,curiosity:0}, truths:[], storyNode:0, selected:[], echo:100, ending:null, sound:true,dyn:{deckPower:84,deckSignal:12,deckThreat:8,cityStability:72,citySweep:18,archiveHeat:0,echoTrust:50,labEntropy:8,labCycles:0,corePressure:0,corePhase:1}};
 let G;
 try{G=Object.assign(structuredClone(fresh),JSON.parse(localStorage.getItem('matrixAfterimage')||'{}'))}catch(e){G=JSON.parse(JSON.stringify(fresh))}
 function save(){localStorage.setItem('matrixAfterimage',JSON.stringify(G))}
@@ -156,7 +199,7 @@ function canStage(i){return i===0||i<=G.stage}
 function go(i){
  if(!canStage(i)){toast('That sector is still encrypted.');return}
  $$('.stage').forEach((e,n)=>e.classList.toggle('active',n===i));
- window.scrollTo({top:0,behavior:'smooth'});renderNav();
+ window.scrollTo({top:0,behavior:'smooth'});renderNav();updateDynamicHUD();
  if(i===2)renderStory(); if(i===3)renderPrograms(); if(i===4)renderBoss();
 }
 function unlock(i){G.stage=Math.max(G.stage,i);updateHud();go(i);toast('SECTOR '+(i+1)+' UNLOCKED')}
@@ -172,7 +215,7 @@ const freqs=[87.3,101.1,144.0,303.3];
 $('#signalButtons').innerHTML=freqs.map(f=>`<button class="action alt sig" data-f="${f}">${f.toFixed(1)} MHz</button>`).join('');
 $$('.sig').forEach(b=>b.onclick=()=>{
  let f=+b.dataset.f;G.trace=clamp(G.trace+4,0,100);
- if(f===303.3){G.signal=true;G.insight+=1;log('LOCK: 303.3 MHz. Message decoded: "THE FUTURE IS LEAKING BACKWARD."');$('#mission0').textContent='Signal acquired. Jack in before the source moves.';toast('GHOST SIGNAL LOCKED')}
+ if(f===303.3){G.signal=true;G.insight+=1;G.dyn.deckSignal=clamp(G.dyn.deckSignal+30,0,100);log('LOCK: 303.3 MHz. Message decoded: "THE FUTURE IS LEAKING BACKWARD."');$('#mission0').textContent='Signal acquired. Jack in before the source moves.';toast('GHOST SIGNAL LOCKED')}
  else log(`Frequency ${f.toFixed(1)}: carrier noise / machine telemetry.`);
  updateHud();
 });
@@ -247,7 +290,7 @@ function pickAnomaly(i){
  buttons.forEach(b=>b.classList.add('scanned'));
  if(i===s.anomaly){
    buttons[i].classList.add('correct');
-   G.frags++;G.insight++;
+   G.frags++;G.insight++;G.dyn.cityStability=clamp(G.dyn.cityStability+4,0,100);
    scanLog(`MATCH: ${s.objects[i][0]} violates sector physics. Fragment ${G.frags}/5 recovered.`);
    toast('ANOMALY CONFIRMED');
    updateHud();renderRoute();
@@ -255,7 +298,7 @@ function pickAnomaly(i){
    else setTimeout(()=>{scanState.locked=false;renderScanner()},600);
  }else{
    buttons[i].classList.add('wrong');
-   G.trace=clamp(G.trace+12,0,100);G.integrity=clamp(G.integrity-4,0,100);scanState.errors++;
+   G.trace=clamp(G.trace+12,0,100);G.integrity=clamp(G.integrity-4,0,100);G.dyn.cityStability=clamp(G.dyn.cityStability-7,0,100);scanState.errors++;
    scanLog(`FALSE POSITIVE: ${s.objects[i][0]} is consistent. Pursuit Process learns your scan signature.`);
    updateHud();renderRoute();
    setTimeout(()=>{scanState.locked=false;renderScanner()},650);
@@ -288,7 +331,7 @@ function renderStory(){
  renderTruths();
 }
 function storyPick(c){
- let trait=c[1];G.traits[trait]++;G.insight++;if(!G.truths.includes(trait))G.truths.push(trait);
+ let trait=c[1];G.traits[trait]++;G.insight++;G.dyn.archiveHeat=clamp(G.dyn.archiveHeat+7,0,100);if(!G.truths.includes(trait))G.truths.push(trait);
  if(c[2]===99){G.archiveDone=true;unlock(3)} else {G.storyNode=c[2];updateHud();renderStory();beep(330+G.storyNode*55,.08)}
 }
 function renderTruths(){
@@ -321,7 +364,7 @@ function renderBuffer(){
  $('#buffer').innerHTML=G.selected.length?G.selected.map((id,i)=>`<span class="badge">${i+1}. ${programs.find(p=>p.id===id).n}</span>`).join(''):'No programs loaded.';
 }
 $('#compile').onclick=()=>{
- let cost=selectedCost(),e=$('#compileLog');
+ let cost=selectedCost(),e=$('#compileLog');G.dyn.labCycles++;G.dyn.labEntropy=clamp(G.dyn.labEntropy+5,0,100);updateDynamicHUD();
  if(G.selected.length!==3){e.innerHTML+='<div>ERROR: load exactly three programs.</div>';return}
  if(cost>7){e.innerHTML+='<div>CAPACITY OVERFLOW: maximum 7.</div>';return}
  const has=G.selected;
@@ -346,7 +389,7 @@ function attack(id){
  let base={blink:11,mirror:22,lacuna:16,zero:12,paradox:21,anchor:18}[id]||10;
  let dom=dominant(), bonus=(id==='lacuna'&&dom==='mercy')||(id==='paradox'&&dom==='defiance')||(id==='mirror'&&dom==='curiosity')?8:0;
  let penalty=G.trace>75?5:0, dmg=Math.max(7,base+bonus-penalty);
- G.echo=clamp(G.echo-dmg,0,100);G.integrity=clamp(G.integrity-(Math.random()*7+2),0,100);G.trace=clamp(G.trace+3,0,100);
+ G.echo=clamp(G.echo-dmg,0,100);G.integrity=clamp(G.integrity-(Math.random()*7+2),0,100);G.trace=clamp(G.trace+3,0,100);G.dyn.corePressure=clamp(100-G.echo+G.trace*.25,0,100);G.dyn.corePhase=G.echo>66?1:G.echo>33?2:3;
  $('#echoBar').style.width=G.echo+'%';$('#bossStatus').textContent='ECHO coherence: '+Math.round(G.echo)+'%';
  $('#bossText').textContent=G.echo>60?'ECHO predicts the move and spawns a version of you that chose differently.':G.echo>25?'The Core fractures. Thousands of private heavens flicker into existence, then collapse.':'ECHO is no longer arguing. It is asking you not to erase the possibility that created it.';
  updateHud();beep(180+G.echo*3,.1,'sawtooth');if(G.echo<=0)setTimeout(renderFinal,300)
@@ -370,6 +413,137 @@ function endGame(type){
  $('#finalDecision').innerHTML='';toast('ENDING RECORDED');
 }
 
+
+// CROSS-AREA DYNAMIC SYSTEMS
+const dynEvents={
+ deck:[
+  ['A machine ping brushes the hull.','mask'],
+  ['The ghost signal doubles for three seconds.','signal'],
+  ['Life-support briefly reports one extra passenger.','passenger'],
+  ['A dead console wakes up and types your callsign.','console']
+ ],
+ city:[
+  'Rain begins falling upward on one block.',
+  'Every pedestrian freezes for exactly 0.8 seconds.',
+  'A building texture repeats across three different streets.',
+  'A payphone rings from inside a sealed wall.',
+  'Your reflection turns before you do.'
+ ],
+ archive:[
+  'A childhood memory appears with the wrong sky.',
+  'A voice remembers a conversation you never had.',
+  'Your name disappears from one archived timeline.',
+  'A dead program claims it dreamed of you.',
+  'The Archive generates a door labeled TOMORROW.'
+ ],
+ lab:[
+  'Gravity constant drops to 0.82g.',
+  'All program costs flicker for one compile cycle.',
+  'Mirror surfaces begin lagging behind motion.',
+  'A duplicate program slot appears, then collapses.',
+  'Construct time advances four seconds without you.'
+ ],
+ core:[
+  'The room copies your posture.',
+  'ECHO answers a question you have not asked yet.',
+  'Three possible endings flicker across the walls.',
+  'Your compiled programs speak in different voices.',
+  'The Core temporarily removes the concept of distance.'
+ ]
+};
+
+function ensureDyn(){
+ G.dyn=Object.assign({deckPower:84,deckSignal:12,deckThreat:8,cityStability:72,citySweep:18,archiveHeat:0,echoTrust:50,labEntropy:8,labCycles:0,corePressure:0,corePhase:1},G.dyn||{});
+}
+ensureDyn();
+
+function flashBox(id){
+ const e=$(id); if(!e)return; e.classList.remove('flash'); void e.offsetWidth; e.classList.add('flash');
+}
+function updateDynamicHUD(){
+ ensureDyn();
+ if($('#deckSignal')) $('#deckSignal').textContent='SIGNAL '+Math.round(G.dyn.deckSignal)+'%';
+ if($('#deckPower')) $('#deckPower').textContent='POWER '+Math.round(G.dyn.deckPower)+'%';
+ if($('#deckThreat')) $('#deckThreat').textContent='THREAT '+(G.dyn.deckThreat>70?'CRITICAL':G.dyn.deckThreat>35?'RISING':'LOW');
+ if($('#cityStability')) $('#cityStability').textContent='STABILITY '+Math.round(G.dyn.cityStability)+'%';
+ if($('#citySweep')) $('#citySweep').textContent='SWEEP '+Math.round(G.dyn.citySweep)+'%';
+ if($('#archiveHeat')) $('#archiveHeat').textContent='MEMORY HEAT '+Math.round(G.dyn.archiveHeat)+'%';
+ if($('#echoTrust')) $('#echoTrust').textContent='ECHO TRUST '+Math.round(G.dyn.echoTrust)+'%';
+ if($('#archiveDepth')) $('#archiveDepth').textContent='DEPTH '+(1+Math.floor((G.storyNode||0)/2));
+ if($('#labEntropy')) $('#labEntropy').textContent='ENTROPY '+Math.round(G.dyn.labEntropy)+'%';
+ if($('#labCycles')) $('#labCycles').textContent='CYCLES '+G.dyn.labCycles;
+ if($('#labBonus')) $('#labBonus').textContent='SYNERGY '+Math.max(0,G.insight-Math.floor(G.trace/25));
+ if($('#corePressure')) $('#corePressure').textContent='PRESSURE '+Math.round(G.dyn.corePressure)+'%';
+ if($('#corePhase')) $('#corePhase').textContent='PHASE '+G.dyn.corePhase;
+ if($('#coreEchoMode')) $('#coreEchoMode').textContent='MODE: '+(G.echo<35?'PLEAD':G.echo<70?'COUNTER':'OBSERVE');
+ save();
+}
+function stageIndex(){return [...$$('.stage')].findIndex(s=>s.classList.contains('active'))}
+
+let dynTick=0;
+setInterval(()=>{
+ dynTick++;
+ const st=stageIndex();
+ ensureDyn();
+
+ if(st===0){
+   G.dyn.deckSignal=clamp(G.dyn.deckSignal+(G.signal?1.4:.3),0,100);
+   G.dyn.deckPower=clamp(G.dyn.deckPower+(Math.random()-.55)*2,45,100);
+   G.dyn.deckThreat=clamp(G.dyn.deckThreat+(G.trace/100)*1.5-Math.random()*.8,0,100);
+   if(dynTick%6===0){
+     const ev=dynEvents.deck[Math.floor(Math.random()*dynEvents.deck.length)];
+     $('#deckEventText').textContent=ev[0];$('#deckReact').dataset.kind=ev[1];flashBox('#deckEvent');
+   }
+ }
+ if(st===1){
+   G.dyn.citySweep=clamp(G.trace*.75+Math.random()*12,0,100);
+   G.dyn.cityStability=clamp(88-G.frags*4-G.dyn.citySweep*.2,20,100);
+   if(dynTick%5===0) $('#cityEventText').textContent=dynEvents.city[Math.floor(Math.random()*dynEvents.city.length)];
+   if($('#cityWeather')) $('#cityWeather').textContent=['RAIN SHIFTING','FOG LOOP','NEON DRIFT','STATIC WIND'][Math.floor(dynTick/3)%4];
+ }
+ if(st===2){
+   G.dyn.archiveHeat=clamp((G.storyNode||0)*12+G.insight*2+Math.random()*8,0,100);
+   G.dyn.echoTrust=clamp(50+G.traits.mercy*8+G.traits.curiosity*4-G.traits.defiance*5,0,100);
+   if(dynTick%5===0) $('#archiveEventText').textContent=dynEvents.archive[Math.floor(Math.random()*dynEvents.archive.length)];
+ }
+ if(st===3){
+   G.dyn.labEntropy=clamp(G.dyn.labEntropy+(Math.random()-.45)*3,0,100);
+   if(dynTick%5===0) $('#labEventText').textContent=dynEvents.lab[Math.floor(Math.random()*dynEvents.lab.length)];
+ }
+ if(st===4){
+   G.dyn.corePhase=G.echo>66?1:G.echo>33?2:3;
+   G.dyn.corePressure=clamp(100-G.echo+G.trace*.25,0,100);
+   if(dynTick%4===0) $('#coreEventText').textContent=dynEvents.core[Math.floor(Math.random()*dynEvents.core.length)];
+ }
+ updateDynamicHUD();
+},2200);
+
+$('#deckReact').onclick=()=>{
+ const k=$('#deckReact').dataset.kind||'mask';
+ if(k==='signal'){G.dyn.deckSignal=clamp(G.dyn.deckSignal+12,0,100);G.insight++;log('You amplify the burst and recover a temporal checksum.');}
+ else if(k==='passenger'){G.insight++;G.traits.curiosity++;log('The phantom passenger vanishes when queried. Seat 7 remains warm.');}
+ else if(k==='console'){G.trace=clamp(G.trace+4,0,100);log('The dead terminal prints: "YOU HAVE DONE THIS BEFORE."');}
+ else {G.dyn.deckThreat=clamp(G.dyn.deckThreat-18,0,100);G.trace=clamp(G.trace-4,0,100);log('Hull transponder rotated. Machine ping loses lock.');}
+ updateHud();updateDynamicHUD();toast('SHIP RESPONSE EXECUTED');
+};
+
+$('#archiveProbe').onclick=()=>{
+ const ev=dynEvents.archive[Math.floor(Math.random()*dynEvents.archive.length)];
+ G.insight++;G.dyn.archiveHeat=clamp(G.dyn.archiveHeat+12,0,100);
+ if(Math.random()>.5){G.traits.curiosity++;G.dyn.echoTrust=clamp(G.dyn.echoTrust+5,0,100)}
+ else {G.trace=clamp(G.trace+5,0,100)}
+ $('#archiveEventText').textContent='PROBED: '+ev;
+ updateHud();updateDynamicHUD();toast('MEMORY LAYER OPENED');
+};
+
+$('#rerollLab').onclick=()=>{
+ G.dyn.labEntropy=clamp(G.dyn.labEntropy+8,0,100);
+ $('#labEventText').textContent=dynEvents.lab[Math.floor(Math.random()*dynEvents.lab.length)];
+ if(G.dyn.labEntropy>70){G.trace=clamp(G.trace+5,0,100);toast('CONSTRUCT INSTABILITY RISING')}
+ else toast('CONDITION REROLLED');
+ updateHud();updateDynamicHUD();
+};
+
 // background matrix-like digital rain
 const r=$('#rain'),rc=r.getContext('2d');let drops=[],rw=0,rh=0;
 function rainResize(){let d=devicePixelRatio||1;rw=innerWidth;rh=innerHeight;r.width=rw*d;r.height=rh*d;rc.setTransform(d,0,0,d,0,0);drops=Array.from({length:Math.ceil(rw/18)},()=>Math.random()*rh/18)}
@@ -379,7 +553,7 @@ function rain(){
  requestAnimationFrame(rain)
 }
 rainResize();addEventListener('resize',rainResize);rain();
-$('#soundBtn').textContent='SND '+(G.sound?'ON':'OFF');updateHud();renderTruths();if(G.stage>=1)renderScanner();
+$('#soundBtn').textContent='SND '+(G.sound?'ON':'OFF');updateHud();updateDynamicHUD();renderTruths();if(G.stage>=1)renderScanner();
 })();
 </script>
 </body></html>
