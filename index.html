@@ -887,9 +887,165 @@ body.clean-wrap-mode #rainChamber{
   .cwActions,.cwAreaGrid,.cwSandbox{grid-template-columns:1fr}
 }
 
+
+/* ONE SCREEN PLAYABLE SHIP */
+#oneScreenGame{
+  max-width:960px;
+  margin:8px auto;
+  padding:8px;
+}
+.osFrame{
+  position:relative;
+  min-height:430px;
+  border:2px solid #385942;
+  border-radius:16px;
+  overflow:hidden;
+  background:#020503;
+}
+.osFrame img{
+  width:100%;
+  height:430px;
+  object-fit:cover;
+  display:block;
+  filter:brightness(.48) contrast(1.08) saturate(.82);
+}
+.osShade{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.22) 38%,rgba(0,0,0,.92));
+}
+.osHUD{
+  position:absolute;
+  top:8px;left:8px;right:8px;
+  z-index:4;
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+.osChip{
+  background:#041009dd;
+  border:1px solid #4c7157;
+  color:#e9ffef;
+  border-radius:999px;
+  padding:5px 8px;
+  font:9px monospace;
+}
+.osContent{
+  position:absolute;
+  left:12px;right:12px;bottom:12px;
+  z-index:4;color:#fff;
+}
+.osKicker{
+  font:10px monospace;
+  color:#d4f4dc;
+  letter-spacing:.1em;
+}
+.osContent h1,.osContent h2{
+  margin:.2rem 0 .35rem;
+}
+.osText{
+  font-size:13px;
+  line-height:1.45;
+  max-width:720px;
+}
+.osButtons{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin-top:9px;
+}
+.osButtons button,
+.osStart{
+  min-height:46px;
+  border-radius:9px;
+  border:1px solid #567c62;
+  background:#0d1b13;
+  color:#fff;
+  font-weight:900;
+}
+.osButtons button.primary,
+.osStart{
+  border:2px solid #ffd84d;
+  background:#ffd84d;
+  color:#171100;
+}
+.osButtons button:disabled{opacity:.35}
+.osStart{
+  width:100%;
+  min-height:54px;
+  font-size:15px;
+  margin-top:10px;
+}
+.osMini{
+  margin-top:8px;
+  background:#041009e8;
+  border:1px solid #456a51;
+  border-radius:9px;
+  padding:8px;
+  font:10px monospace;
+  color:#e9ffef;
+}
+.osQuiz button{
+  display:block;
+  width:100%;
+  min-height:44px;
+  margin-top:6px;
+  border-radius:8px;
+  border:1px solid #5a745f;
+  background:#111a14;
+  color:#fff;
+  font-weight:800;
+}
+.osRoomNav{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:5px;
+  margin-top:8px;
+}
+.osRoomNav button{
+  min-height:38px;
+  font-size:9px;
+  border-radius:8px;
+  background:#07140d;
+  border:1px solid #42664f;
+  color:#fff;
+}
+.osRoomNav button.active{border:2px solid #ffd84d}
+body.one-screen-only > *:not(#oneScreenGame):not(script):not(style){display:none!important}
+@media(max-width:700px){
+  #oneScreenGame{padding:4px}
+  .osFrame,.osFrame img{height:510px;min-height:510px}
+  .osButtons{grid-template-columns:1fr 1fr}
+  .osRoomNav{grid-template-columns:repeat(3,1fr)}
+}
+
 </style>
 </head>
 <body>
+
+<section id="oneScreenGame">
+  <div class="osFrame">
+    <img id="osImage" alt="Mnemosyne ship scene">
+    <div class="osShade"></div>
+
+    <div class="osHUD" id="osHUD">
+      <span class="osChip">MNEMOSYNE</span>
+      <span class="osChip" id="osDay">DAY 1</span>
+      <span class="osChip" id="osHull">HULL 100%</span>
+      <span class="osChip" id="osIntel">INTEL 0</span>
+    </div>
+
+    <div class="osContent">
+      <div class="osKicker" id="osKicker">MATRIX: AFTERIMAGE</div>
+      <h1 id="osTitle">THE MNEMOSYNE</h1>
+      <div class="osText" id="osText">You are aboard a resistance ship moving through machine space.</div>
+      <div class="osMini" id="osMini">Press START to enter the ship.</div>
+      <div class="osButtons" id="osButtons"></div>
+      <div class="osRoomNav" id="osRoomNav"></div>
+      <button type="button" class="osStart" id="osStart">START</button>
+    </div>
+  </div>
+</section>
+
 
 
 
@@ -3367,6 +3523,7 @@ document.addEventListener('click',e=>{
     btn.closest('#movieOpening') ||
     btn.closest('#storyHull') ||
     btn.closest('#cleanWrap') ||
+    btn.closest('#oneScreenGame') ||
     btn.id==='nextGuideBtn' ||
     btn.id==='hubBtn' ||
     btn.id==='soundBtn' ||
@@ -5220,6 +5377,228 @@ function bindCW(){
   renderCW();
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindCW,{once:true});else bindCW();
+
+
+const OS={
+ started:false,
+ view:'start',
+ day:1,
+ hull:100,
+ intel:0,
+ signalChecked:false,
+ tankTalk:false,
+ powerReady:false,
+ clueFound:false,
+ jackReady:false,
+ quizPassed:false,
+ matrixDone:false
+};
+
+const OS_VIEWS={
+ bridge:{
+  kicker:'SHIP // BRIDGE',
+  title:'BRIDGE',
+  text:'The bridge monitor is showing a signal keyed to your biometric signature.',
+  mini:'One strange packet. One route into machine space.',
+  actions:[
+   ['CHECK SIGNAL','signal'],
+   ['ASK FOR BRIEFING','brief'],
+   ['GO TO TANK','operator']
+  ]
+ },
+ operator:{
+  kicker:'SHIP // OPERATOR PIT',
+  title:'TANK',
+  text:'Tank watches falling Matrix code and keeps your hardline route open.',
+  mini:'Tank can trace the impossible signal or prepare your exit.',
+  actions:[
+   ['TALK TO TANK','talktank'],
+   ['TRACE HARDLINE','trace'],
+   ['GO TO JACK BAY','jack']
+  ]
+ },
+ engineering:{
+  kicker:'SHIP // ENGINEERING',
+  title:'ENGINEERING',
+  text:'The reactor powers everything—including the chair that sends you into the Matrix.',
+  mini:'Keep the real ship alive before entering a fake world.',
+  actions:[
+   ['CHECK REACTOR','reactor'],
+   ['ROUTE POWER','power'],
+   ['RETURN TO BRIDGE','bridge']
+  ]
+ },
+ quarters:{
+  kicker:'SHIP // CREW QUARTERS',
+  title:'CREW QUARTERS',
+  text:'An empty bunk opens when you walk past it. Inside is a photo of you dated three years from now.',
+  mini:'The photo shows a street you have never visited.',
+  actions:[
+   ['INSPECT PHOTO','photo'],
+   ['SEARCH BUNK','searchbunk'],
+   ['RETURN TO BRIDGE','bridge']
+  ]
+ },
+ jack:{
+  kicker:'SHIP // JACK BAY',
+  title:'JACK BAY',
+  text:'The chair is ready. Tank is waiting for your signal.',
+  mini:'You can only plug in safely once power and the hardline are ready.',
+  actions:[
+   ['CHECK CABLE','cable'],
+   ['PLUG IN','plugin'],
+   ['RETURN TO TANK','operator']
+  ]
+ },
+ quiz:{
+  kicker:'STORY CHECK',
+  title:'QUIZ',
+  text:'Before Tank sends you in, prove you understand what the ship is doing.',
+  mini:'What is the Mnemosyne while you are inside the Matrix?',
+  actions:[]
+ },
+ matrix:{
+  kicker:'MATRIX // FRACTURE CITY',
+  title:'THE STREET THAT SHOULD NOT EXIST',
+  text:'Rain falls on a city block that everyone remembers—but the ship says it was compiled this morning.',
+  mini:'Explore, investigate, and find the Archive door.',
+  actions:[
+   ['SCAN STREET','scan'],
+   ['QUESTION RESIDENT','resident'],
+   ['FIND ARCHIVE DOOR','archive'],
+   ['EXIT TO SHIP','operator']
+  ]
+ }
+};
+
+function osPool(){
+ return (typeof EMBEDDED_SCENES!=='undefined'?EMBEDDED_SCENES:[])
+ .concat(typeof EXTRA_STORY_SCENES!=='undefined'?EXTRA_STORY_SCENES:[]);
+}
+function osImgFor(v){
+ const map={start:0,bridge:2,operator:7,engineering:12,quarters:17,jack:22,quiz:27,matrix:34};
+ const p=osPool();return p.length?p[(map[v]||0)%p.length]:'';
+}
+function renderOS(){
+ document.body.classList.add('one-screen-only');
+ $('#osDay').textContent='DAY '+OS.day;
+ $('#osHull').textContent='HULL '+OS.hull+'%';
+ $('#osIntel').textContent='INTEL '+OS.intel;
+ if($('#osImage'))$('#osImage').src=osImgFor(OS.view);
+
+ if(!OS.started){
+   $('#osKicker').textContent='MATRIX: AFTERIMAGE';
+   $('#osTitle').textContent='THE MNEMOSYNE';
+   $('#osText').textContent='You are aboard a resistance ship moving through machine space. Talk to the crew, explore the ship, plug into the Matrix, and follow the mystery.';
+   $('#osMini').textContent='Press START. Everything happens on this one screen.';
+   $('#osButtons').innerHTML='';
+   $('#osRoomNav').innerHTML='';
+   $('#osStart').style.display='block';
+   return;
+ }
+ $('#osStart').style.display='none';
+
+ const d=OS_VIEWS[OS.view]||OS_VIEWS.bridge;
+ $('#osKicker').textContent=d.kicker;
+ $('#osTitle').textContent=d.title;
+ $('#osText').textContent=d.text;
+ $('#osMini').textContent=osMiniText();
+
+ if(OS.view==='quiz'){
+   $('#osButtons').innerHTML=`<div class="osQuiz" style="grid-column:1/-1">
+    <button type="button" data-os-quiz="0">A simulated scoreboard</button>
+    <button type="button" data-os-quiz="1">Your physical anchor and route home</button>
+    <button type="button" data-os-quiz="2">A decorative menu screen</button>
+   </div>`;
+   $$('[data-os-quiz]').forEach(b=>b.onclick=()=>answerOSQuiz(Number(b.dataset.osQuiz)));
+ } else {
+   $('#osButtons').innerHTML=d.actions.map(a=>`<button type="button" class="${a[1]==='plugin'?'primary':''}" data-os-act="${a[1]}">${a[0]}</button>`).join('');
+   $$('[data-os-act]').forEach(b=>b.onclick=()=>osAction(b.dataset.osAct));
+ }
+
+ const rooms=[
+  ['bridge','BRIDGE'],['operator','TANK'],['engineering','ENGINEERING'],
+  ['quarters','QUARTERS'],['jack','JACK BAY']
+ ];
+ $('#osRoomNav').innerHTML=rooms.map(r=>`<button type="button" data-os-room="${r[0]}" class="${OS.view===r[0]?'active':''}">${r[1]}</button>`).join('')+
+ `<button type="button" data-os-room="quiz">QUIZ</button>`+
+ `<button type="button" data-os-room="matrix" ${OS.quizPassed?'':'disabled'}>MATRIX</button>`;
+ $$('[data-os-room]').forEach(b=>b.onclick=()=>{if(!b.disabled){OS.view=b.dataset.osRoom;renderOS()}});
+}
+function osMiniText(){
+ if(OS.view==='bridge'){
+   if(!OS.signalChecked)return 'NEXT: Check the signal.';
+   if(!OS.tankTalk)return 'NEXT: Go talk to Tank.';
+   return 'Bridge ready. Explore the ship or prepare to plug in.';
+ }
+ if(OS.view==='operator'){
+   if(!OS.tankTalk)return 'NEXT: Talk to Tank.';
+   if(!OS.jackReady)return 'Tank: “Get power ready, then meet me in the Jack Bay.”';
+   return 'Hardline ready. You can take the quiz and plug in.';
+ }
+ if(OS.view==='engineering'){
+   return OS.powerReady?'Power routed. Jack Bay is ready.':'NEXT: Route power to the Jack Bay.';
+ }
+ if(OS.view==='quarters'){
+   return OS.clueFound?'Clue found: the future photo shows Fracture City.':'NEXT: Inspect the photo.';
+ }
+ if(OS.view==='jack'){
+   if(!OS.powerReady)return 'Engineering power is not ready.';
+   if(!OS.tankTalk)return 'Talk to Tank first.';
+   if(!OS.quizPassed)return 'Take the quiz before plugging in.';
+   return 'Everything is green. Press PLUG IN.';
+ }
+ if(OS.view==='quiz'){
+   return OS.quizPassed?'PASSED. Matrix access unlocked.':'Choose the correct answer.';
+ }
+ if(OS.view==='matrix'){
+   return OS.matrixDone?'Archive door found. You can exit back to Tank.':'Explore the street.';
+ }
+ return 'Explore the ship.';
+}
+function osAction(a){
+ if(['bridge','operator','engineering','quarters','jack'].includes(a)){OS.view=a;renderOS();return}
+ if(a==='signal'){OS.signalChecked=true;OS.intel++;OS.view='bridge'}
+ if(a==='brief'){OS.intel++;OS.view='bridge'}
+ if(a==='talktank'){OS.tankTalk=true;OS.intel++;OS.view='operator'}
+ if(a==='trace'){OS.jackReady=true;OS.intel++;OS.view='operator'}
+ if(a==='reactor'){OS.hull=Math.min(100,OS.hull+1);OS.view='engineering'}
+ if(a==='power'){OS.powerReady=true;OS.jackReady=true;OS.view='engineering'}
+ if(a==='photo'){OS.clueFound=true;OS.intel+=2;OS.view='quarters'}
+ if(a==='searchbunk'){OS.clueFound=true;OS.intel++;OS.view='quarters'}
+ if(a==='cable'){OS.jackReady=true;OS.view='jack'}
+ if(a==='plugin'){
+   if(!OS.powerReady){OS.view='engineering';renderOS();return}
+   if(!OS.tankTalk){OS.view='operator';renderOS();return}
+   if(!OS.quizPassed){OS.view='quiz';renderOS();return}
+   OS.view='matrix';renderOS();return
+ }
+ if(a==='scan'){OS.intel++;OS.view='matrix'}
+ if(a==='resident'){OS.intel++;OS.view='matrix'}
+ if(a==='archive'){OS.matrixDone=true;OS.intel+=2;OS.view='matrix'}
+ renderOS();
+}
+function answerOSQuiz(i){
+ if(i===1){
+   OS.quizPassed=true;
+   $('#osMini').textContent='PASSED // MATRIX ACCESS UNLOCKED';
+   OS.view='jack';
+ }else{
+   $('#osMini').textContent='Not quite. The ship is your physical anchor and route home.';
+ }
+ renderOS();
+}
+function startOS(){
+ OS.started=true;
+ OS.view='bridge';
+ renderOS();
+}
+function bindOS(){
+ document.body.classList.add('one-screen-only');
+ $('#osStart')?.addEventListener('click',startOS);
+ renderOS();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindOS,{once:true});else bindOS();
 
 </script>
 </body></html>
