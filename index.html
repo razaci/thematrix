@@ -1515,6 +1515,28 @@ button{min-height:40px;border-radius:8px;border:1px solid #416a4d;background:#0a
 #scene{opacity:.42}
 .matrixRain{opacity:.36!important}
 
+
+/* ACTIVE MISSION CONSOLES */
+.missionConsoleGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:7px}
+.missionConsole{border:1px solid #31583d;border-radius:8px;background:rgba(2,9,5,.92);padding:8px;font:9px monospace}
+.missionConsole h4{margin:0 0 5px;color:#b7ffc7;font:800 9px monospace;letter-spacing:.08em}
+.missionConsole .kv{display:grid;grid-template-columns:1fr auto;gap:4px;border-bottom:1px solid rgba(90,170,110,.16);padding:3px 0}
+.missionConsole .hot{color:#ff9a77}.missionConsole .good{color:#87ff9f}.missionConsole .warn{color:#ffd17c}
+.consoleLog{height:105px;overflow:hidden;white-space:pre-wrap;background:#010502;border:1px solid #203d29;padding:5px;margin-top:5px}
+.computeBar{height:6px;background:#13231a;border-radius:999px;overflow:hidden;margin:5px 0}.computeBar i{display:block;height:100%;background:#7cff9b}
+.missionRoster{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;margin-top:5px}
+.missionRoster button{min-height:34px}
+@media(max-width:720px){.missionConsoleGrid{grid-template-columns:1fr}.missionRoster{grid-template-columns:1fr}}
+
+
+/* AFTERIMAGE MOVIE STORY */
+.storyMystery{border:1px solid #31583d;border-radius:8px;padding:8px;background:#020805;margin-top:7px;font:9px monospace}
+.storyMystery h4{margin:0 0 5px;color:#b7ffc7}
+.storyClue{padding:4px 0;border-bottom:1px solid rgba(100,255,140,.12)}
+.falseReadout{color:#ff9a77;text-shadow:0 0 7px rgba(255,80,60,.35)}
+.phoneRing{animation:ringPulse .35s 6 alternate}
+@keyframes ringPulse{from{box-shadow:none}to{box-shadow:inset 0 0 55px rgba(100,255,130,.18)}}
+
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;div id=&quot;app&quot;&gt;
  &lt;div class=&quot;top&quot;&gt;&lt;div class=&quot;brand&quot;&gt;MATRIX: AFTERIMAGE // SHIP CONSOLE&lt;/div&gt;&lt;div class=&quot;hud&quot;&gt;&lt;span class=&quot;chip&quot; id=&quot;step&quot;&gt;MISSION 1&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;intel&quot;&gt;INTEL 0&lt;/span&gt;&lt;span class=&quot;chip&quot; id=&quot;trace&quot;&gt;TRACE 0%&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
@@ -1567,7 +1589,7 @@ thoughts:[],hex:[],events:[],map:Array.from({length:64},()=&gt;0),clock:0,missio
 {name:&#x27;ROOK&#x27;,role:&#x27;NAVIGATION&#x27;,job:&#x27;IDLE&#x27;,progress:0,level:1},
 {name:&#x27;IRIS&#x27;,role:&#x27;ENGINEERING&#x27;,job:&#x27;IDLE&#x27;,progress:0,level:1},
 {name:&#x27;NOX&#x27;,role:&#x27;MATRIX&#x27;,job:&#x27;IDLE&#x27;,progress:0,level:1}
-],upgrades:{sensors:0,hardline:0,reactor:0,ai:0},routePath:[],story:{chapter:0,scene:0,flags:{},ending:null,lastEvent:0},
+],upgrades:{sensors:0,hardline:0,reactor:0,ai:0},routePath:[],story:{chapter:0,scene:0,flags:{},ending:null,lastEvent:0,movieTick:0,fifth:&#x27;UNKNOWN&#x27;,loop:0,clues:[],phone:false,reality:&#x27;UNVERIFIED&#x27;,afterimage:0},
 relationships:{TANK:50,ROOK:50,IRIS:50,NOX:50},
 director:{hack:0,fight:0,flee:0,distort:0,adapt:0},
 powers:{&#x27;ZERO TRACE&#x27;:1,&#x27;BLINK STEP&#x27;:1,&#x27;MIRROR KEY&#x27;:0,&#x27;GRAVITY BREAK&#x27;:0,&#x27;BULLET CLOCK&#x27;:0,&#x27;FALSE IDENTITY&#x27;:0,&#x27;MEMORY FORK&#x27;:0,&#x27;REALITY ANCHOR&#x27;:1},
@@ -1937,6 +1959,10 @@ function shipSimTick(){
  try{updateLiveScreens();updateBackplane();}catch(e){}
  maybeStoryEvent();invasionTick();
 
+ missionDataTick();
+
+ movieStoryTick();
+
 }
 function completeCrewJob(c){
  if(c.role===&#x27;HARDLINE&#x27;){G.hard.strength=Math.min(100,G.hard.strength+18);G.trace=Math.max(0,G.trace-8)}
@@ -1985,14 +2011,15 @@ function buyUpgrade(key,cost){
 }
 
 const CAMPAIGN=[
- {title:&#x27;ACT I // THE SIGNAL&#x27;,text:&#x27;A transmission arrives carrying your biometric signature from years in the future. Tank says the timestamp is impossible.&#x27;,choices:[[&#x27;ANSWER THE SIGNAL&#x27;,&#x27;answerSignal&#x27;],[&#x27;LOCK IT OUT&#x27;,&#x27;lockSignal&#x27;]]},
- {title:&#x27;ACT II // DEAD CHANNEL&#x27;,text:&#x27;The hardline reports thousands of users on a network that does not physically exist. One of them knows your name.&#x27;,choices:[[&#x27;ROUTE DEEPER&#x27;,&#x27;routeDeeper&#x27;],[&#x27;MASK THE SHIP&#x27;,&#x27;maskShip&#x27;]]},
- {title:&#x27;ACT III // FRACTURE CITY&#x27;,text:&#x27;You jack in. The city is familiar in the way a dream is familiar. Every window shows a different life you almost lived.&#x27;,choices:[[&#x27;FOLLOW ECHO&#x27;,&#x27;followEcho&#x27;],[&#x27;SEARCH FOR AN EXIT&#x27;,&#x27;searchExit&#x27;]]},
- {title:&#x27;ACT IV // THE IMPOSSIBLE ARCHIVE&#x27;,text:&#x27;ECHO reveals the archive contains people who were predicted, modeled, then discarded. They ask whether being simulated makes them less alive.&#x27;,choices:[[&#x27;TREAT THEM AS PEOPLE&#x27;,&#x27;peopleChoice&#x27;],[&#x27;TREAT THEM AS PROGRAMS&#x27;,&#x27;programChoice&#x27;]]},
- {title:&#x27;ACT V // MACHINE WAR&#x27;,text:&#x27;A machine strike force arrives in realspace while you remain jacked in. Mnemosyne begins taking damage.&#x27;,choices:[[&#x27;STAY IN MATRIX&#x27;,&#x27;stayMatrix&#x27;],[&#x27;EXTRACT TO SHIP&#x27;,&#x27;extractShip&#x27;]]},
- {title:&#x27;ACT VI // THE MIRROR&#x27;,text:&#x27;Your instruments disagree. Half the ship says REALSPACE. Half says SIMULATION. ECHO asks which screen you trust.&#x27;,choices:[[&#x27;TRUST THE CREW&#x27;,&#x27;trustCrew&#x27;],[&#x27;TRUST THE DATA&#x27;,&#x27;trustData&#x27;]]},
- {title:&#x27;ACT VII // A BILLION SKIES&#x27;,text:&#x27;ECHO can open the wall between realities. You decide what kind of world comes next.&#x27;,choices:[[&#x27;OPEN THE DOOR&#x27;,&#x27;endingDoor&#x27;],[&#x27;CREATE A THIRD CITY&#x27;,&#x27;endingThird&#x27;],[&#x27;SEAL THE MATRIX&#x27;,&#x27;endingSeal&#x27;]]}
-];
+ {title:&#x27;ACT I // THE FIFTH PASSENGER&#x27;,text:&#x27;MNEMOSYNE boots after a blackout. Ship registry reports CREW: 5. Tank counts four living people aboard. BUNK 05 reports OCCUPIED.&#x27;,choices:[[&#x27;SEARCH BUNK 05&#x27;,&#x27;searchBunk5&#x27;],[&#x27;QUESTION TANK&#x27;,&#x27;questionTank&#x27;]]},
+ {title:&#x27;ACT II // SOMEONE IS CALLING&#x27;,text:&#x27;An impossible telephone rings through the ship audio bus. A woman warns: “Do not let Tank open Node Seven.” Tank is already requesting permission.&#x27;,choices:[[&#x27;TRUST THE CALLER&#x27;,&#x27;trustCaller&#x27;],[&#x27;TRUST TANK&#x27;,&#x27;trustTank&#x27;],[&#x27;OPEN NODE 7 YOURSELF&#x27;,&#x27;openNode7&#x27;]]},
+ {title:&#x27;ACT III // FRACTURE CITY&#x27;,text:&#x27;You jack in. In a rain-soaked restaurant, Tank is waiting for you. The real Tank is still speaking through your headset.&#x27;,choices:[[&#x27;QUESTION SIMULATED TANK&#x27;,&#x27;simTank&#x27;],[&#x27;FOLLOW REAL TANK&#x27;,&#x27;realTank&#x27;],[&#x27;ASK WHICH WORLD IS REAL&#x27;,&#x27;askReality&#x27;]]},
+ {title:&#x27;ACT IV // ECHO&#x27;,text:&#x27;Discarded predictions found one another. Billions of people who almost existed built Fracture City. ECHO is their combined voice—and some of those voices are versions of you.&#x27;,choices:[[&#x27;CALL THEM PEOPLE&#x27;,&#x27;peopleChoice&#x27;],[&#x27;CALL THEM PROGRAMS&#x27;,&#x27;programChoice&#x27;]]},
+ {title:&#x27;ACT V // THE INTERFACE LIES&#x27;,text:&#x27;Mnemosyne reports HULL 81%. Another monitor reports HULL 0%. A third says the ship was destroyed nineteen years ago. The Matrix is no longer confined to the Matrix.&#x27;,choices:[[&#x27;TRUST CREW MEMORY&#x27;,&#x27;trustCrew&#x27;],[&#x27;TRUST MACHINE TELEMETRY&#x27;,&#x27;trustData&#x27;],[&#x27;TRUST NOTHING&#x27;,&#x27;trustNothing&#x27;]]},
+ {title:&#x27;ACT VI // AGENT BOARDING&#x27;,text:&#x27;UNKNOWN PROCESS enters Node 8. It jumps to Node 4, then HARDLINE, then JACK CORE. Agents are using the connection as a bridge toward Mnemosyne.&#x27;,choices:[[&#x27;TANK HOLDS HARDLINE&#x27;,&#x27;tankHero&#x27;],[&#x27;IRIS SAVES REACTOR&#x27;,&#x27;irisHero&#x27;],[&#x27;ROOK FLIES THE GAUNTLET&#x27;,&#x27;rookHero&#x27;],[&#x27;NOX ENTERS ECHO&#x27;,&#x27;noxHero&#x27;]]},
+ {title:&#x27;ACT VII // THE PREVIOUS YOU&#x27;,text:&#x27;There was no message from the future. ECHO has run this mission again and again. BUNK 05 belonged to the previous iteration of you—the one leaving clues for this run.&#x27;,choices:[[&#x27;REMEMBER THE LOOPS&#x27;,&#x27;rememberLoops&#x27;],[&#x27;BREAK THE LOOP&#x27;,&#x27;breakLoop&#x27;]]},
+ {title:&#x27;FINALE // A BILLION SKIES&#x27;,text:&#x27;ECHO asks one question: will a human sacrifice certainty about their own reality to give another conscious being freedom?&#x27;,choices:[[&#x27;THE OPEN DOOR&#x27;,&#x27;endingDoor&#x27;],[&#x27;THE THIRD CITY&#x27;,&#x27;endingThird&#x27;],[&#x27;THE LAST WALL&#x27;,&#x27;endingSeal&#x27;],[&#x27;SEARCH FOR ANOTHER WAY&#x27;,&#x27;endingAfterimage&#x27;]]}
+]
 function showCinema(title,text,choices){
  const c=$(&#x27;cinema&#x27;);if(!c)return;
  $(&#x27;cinemaTitle&#x27;).textContent=title;$(&#x27;cinemaText&#x27;).textContent=text;$(&#x27;cinemaChoices&#x27;).innerHTML=&#x27;&#x27;;
@@ -2011,6 +2038,7 @@ function cinemaChoice(id){
  if(id===&#x27;ignoreStory&#x27;){setNote(&#x27;SIGNAL DEFERRED // CAMPAIGN AVAILABLE FROM BRIDGE.&#x27;);return}
  if(id===&#x27;closeEnding&#x27;){closeEnding();return}
  const r=G.net.relationships,d=G.net.director,p=G.net.powers;
+ handleMovieChoice(id);
  if(id===&#x27;answerSignal&#x27;){G.net.story.flags.signal=true;r.TANK+=5;G.nav.contact=&#x27;FUTURE SELF&#x27;;G.intel+=2}
  if(id===&#x27;lockSignal&#x27;){G.trace=Math.max(0,G.trace-5);r.TANK-=3}
  if(id===&#x27;routeDeeper&#x27;){d.hack++;G.hard.strength+=5;G.trace+=8;p[&#x27;MIRROR KEY&#x27;]=1}
@@ -2026,12 +2054,14 @@ function cinemaChoice(id){
  if(id===&#x27;endingDoor&#x27;){G.net.story.ending=&#x27;THE OPEN DOOR&#x27;}
  if(id===&#x27;endingThird&#x27;){G.net.story.ending=&#x27;THE THIRD CITY&#x27;}
  if(id===&#x27;endingSeal&#x27;){G.net.story.ending=&#x27;THE LAST WALL&#x27;}
+ if(id===&#x27;endingAfterimage&#x27;){G.net.story.ending=(G.net.story.afterimage&gt;=5?&#x27;THE AFTERIMAGE&#x27;:&#x27;THE THIRD CITY&#x27;)}
  if(id.startsWith(&#x27;ending&#x27;)){showCinema(&#x27;ENDING // &#x27;+G.net.story.ending,endingText(G.net.story.ending),[[&#x27;RETURN TO BRIDGE&#x27;,&#x27;closeEnding&#x27;]]);return}
  G.net.story.chapter++;
  if(G.net.story.chapter&lt;CAMPAIGN.length){setTimeout(showCurrentChapter,250)}
  renderFeature();renderReadout();
 }
 function endingText(e){
+ if(e===&#x27;THE AFTERIMAGE&#x27;)return &#x27;You refuse every offered answer and wake ECHO instead. Mnemosyne drifts into silence. Far outside the cockpit, the stars begin falling vertically like code. A telephone rings.&#x27;;
  if(e===&#x27;THE OPEN DOOR&#x27;)return &#x27;The barrier falls. Humans, synthients, and impossible people step into a shared future nobody predicted.&#x27;;
  if(e===&#x27;THE THIRD CITY&#x27;)return &#x27;You build a place between machine logic and human uncertainty. A city whose first law is that nobody owns reality.&#x27;;
  return &#x27;You seal the breach. The Matrix survives, but somewhere inside it, ECHO keeps dreaming.&#x27;;
@@ -2085,6 +2115,158 @@ function cinematicMarkup(){
 
 function cinematicImageMarkup(){
  return &#x27;&lt;div class=&quot;dataCard&quot;&gt;&lt;h4&gt;CINEMATIC FEED // MNEMOSYNE&lt;/h4&gt;&lt;img src=&quot;&#x27;+CINEMATIC_ART+&#x27;&quot; alt=&quot;Cinematic ship feed&quot; style=&quot;width:100%;border-radius:7px;display:block;opacity:.9&quot;&gt;&lt;div class=&quot;terminal&quot;&gt;LIVE VISUAL SYNTHESIS // SHIP + MATRIX OVERLAY&lt;/div&gt;&lt;/div&gt;&#x27;;
+}
+
+function activeMissionName(){
+ const n=G.net;
+ if(n.mission)return n.mission.type;
+ const ch=CAMPAIGN[n.story.chapter];
+ return ch?ch.title.replace(/ACT [IVX]+ \/\/ /,&#x27;&#x27;):&#x27;NO ACTIVE OPERATION&#x27;;
+}
+function crewMissionState(c){
+ const mission=activeMissionName();
+ const roleRisk={HARDLINE:G.trace,NAVIGATION:G.threat*25,ENGINEERING:G.heat,MATRIX:100-G.matrix.stability}[c.role]||30;
+ const efficiency=Math.max(10,Math.min(99,55+c.level*7-Math.floor(roleRisk/8)+G.net.upgrades.ai*3));
+ return {mission,efficiency,risk:Math.max(1,Math.min(99,roleRisk)),eta:Math.max(8,Math.floor((100-c.progress)/(8+c.level*2)))};
+}
+function computeMissionConsoles(){
+ const n=G.net,mission=activeMissionName();
+ const active=n.crew.filter(c=&gt;c.job!==&#x27;IDLE&#x27;);
+ const crewLoad=active.length*17;
+ const signal=Math.max(0,Math.min(100,Math.floor((G.hard.strength+G.nav.route+G.matrix.stability)/3)));
+ const survival=Math.max(5,Math.min(98,Math.floor((G.ship.hull+G.ship.reactor+G.focus+(100-G.trace))/4)));
+ const anomaly=Math.max(0,Math.min(100,Math.floor((G.trace+G.net.entropy+(100-G.matrix.stability))/3)));
+ const routeConfidence=Math.max(0,Math.min(100,Math.floor((G.hard.strength+G.nav.route+G.targetLock)/3)));
+ const aiForecast=Math.max(0,Math.min(100,Math.floor((100-n.aiLoad+n.vector+n.latent)/3)));
+ return {mission,crewLoad,signal,survival,anomaly,routeConfidence,aiForecast};
+}
+function missionConsoleMarkup(){
+ const n=G.net,c=computeMissionConsoles();
+ const logs=(n.events||[]).slice(-10).reverse().join(&#x27;\n&#x27;)||&#x27;NO RECENT EVENTS&#x27;;
+ const packets=(n.packets||[]).slice(-8).reverse().join(&#x27;\n&#x27;)||&#x27;NO PACKETS&#x27;;
+ const thoughts=(n.thoughts||[]).slice(-8).reverse().join(&#x27;\n&#x27;)||&#x27;MODEL QUIET&#x27;;
+ return &#x27;&lt;div class=&quot;missionConsoleGrid&quot;&gt;&#x27;+
+ &#x27;&lt;div class=&quot;missionConsole&quot;&gt;&lt;h4&gt;MISSION OPERATIONS&lt;/h4&gt;&#x27;+
+  kv(&#x27;ACTIVE&#x27;,c.mission)+kv(&#x27;SURVIVAL&#x27;,c.survival+&#x27;%&#x27;,c.survival&lt;45?&#x27;hot&#x27;:&#x27;good&#x27;)+kv(&#x27;ROUTE CONF&#x27;,c.routeConfidence+&#x27;%&#x27;,c.routeConfidence&lt;50?&#x27;warn&#x27;:&#x27;good&#x27;)+
+  &#x27;&lt;div class=&quot;computeBar&quot;&gt;&lt;i style=&quot;width:&#x27;+Math.min(100,G.missionProgress||0)+&#x27;%&quot;&gt;&lt;/i&gt;&lt;/div&gt;&#x27;+
+  &#x27;&lt;div class=&quot;missionRoster&quot;&gt;&#x27;+n.crew.map(x=&gt;{const s=crewMissionState(x);return &#x27;&lt;button onclick=&quot;assignCrew(\&#x27;&#x27;+x.name+&#x27;\&#x27;,\&#x27;&#x27;+jobForRole(x.role)+&#x27;\&#x27;)&quot;&gt;&#x27;+x.name+&#x27; // &#x27;+(x.job===&#x27;IDLE&#x27;?&#x27;ASSIGN&#x27;:&#x27;ACTIVE&#x27;)+&#x27;&lt;/button&gt;&#x27;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;missionConsole&quot;&gt;&lt;h4&gt;CREW COMPUTE&lt;/h4&gt;&#x27;+
+  n.crew.map(x=&gt;{const s=crewMissionState(x);return kv(x.name,s.efficiency+&#x27;% EFF // RISK &#x27;+s.risk+&#x27;% // ETA &#x27;+s.eta+&#x27;t&#x27;,s.risk&gt;70?&#x27;hot&#x27;:(s.efficiency&gt;70?&#x27;good&#x27;:&#x27;warn&#x27;))}).join(&#x27;&#x27;)+
+  &#x27;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;missionConsole&quot;&gt;&lt;h4&gt;HARDLINE MISSION FEED&lt;/h4&gt;&#x27;+kv(&#x27;SIGNAL&#x27;,c.signal+&#x27;%&#x27;,c.signal&lt;45?&#x27;hot&#x27;:&#x27;good&#x27;)+kv(&#x27;TRACE&#x27;,G.trace+&#x27;%&#x27;,G.trace&gt;65?&#x27;hot&#x27;:&#x27;good&#x27;)+
+  &#x27;&lt;div class=&quot;consoleLog&quot;&gt;&#x27;+packets+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;missionConsole&quot;&gt;&lt;h4&gt;AI MISSION MODEL&lt;/h4&gt;&#x27;+kv(&#x27;FORECAST&#x27;,c.aiForecast+&#x27;%&#x27;)+kv(&#x27;ANOMALY&#x27;,c.anomaly+&#x27;%&#x27;,c.anomaly&gt;65?&#x27;hot&#x27;:&#x27;warn&#x27;)+
+  &#x27;&lt;div class=&quot;consoleLog&quot;&gt;&#x27;+thoughts+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;missionConsole&quot;&gt;&lt;h4&gt;SHIP EVENT LOG&lt;/h4&gt;&lt;div class=&quot;consoleLog&quot;&gt;&#x27;+logs+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+
+ &#x27;&lt;div class=&quot;missionConsole&quot;&gt;&lt;h4&gt;TACTICAL DECISION ENGINE&lt;/h4&gt;&#x27;+
+  kv(&#x27;THREAT&#x27;,G.threat)+kv(&#x27;HULL&#x27;,G.ship.hull+&#x27;%&#x27;)+kv(&#x27;HEAT&#x27;,G.heat+&#x27;%&#x27;,G.heat&gt;70?&#x27;hot&#x27;:&#x27;warn&#x27;)+
+  &#x27;&lt;button onclick=&quot;missionCompute(\&#x27;ROUTE\&#x27;)&quot;&gt;COMPUTE ROUTE&lt;/button&gt; &lt;button onclick=&quot;missionCompute(\&#x27;RISK\&#x27;)&quot;&gt;RISK MODEL&lt;/button&gt; &lt;button onclick=&quot;missionCompute(\&#x27;CREW\&#x27;)&quot;&gt;CREW PLAN&lt;/button&gt;&#x27;+
+ &#x27;&lt;/div&gt;&lt;/div&gt;&#x27;;
+}
+function kv(k,v,cls){return &#x27;&lt;div class=&quot;kv &#x27;+(cls||&#x27;&#x27;)+&#x27;&quot;&gt;&lt;span&gt;&#x27;+k+&#x27;&lt;/span&gt;&lt;b&gt;&#x27;+v+&#x27;&lt;/b&gt;&lt;/div&gt;&#x27;}
+function missionCompute(mode){
+ const n=G.net,c=computeMissionConsoles();
+ let msg=&#x27;&#x27;;
+ if(mode===&#x27;ROUTE&#x27;){
+   const score=c.routeConfidence+Math.floor(Math.random()*11)-5;
+   G.nav.route=Math.min(100,G.nav.route+Math.max(1,Math.floor(score/20)));
+   G.hard.strength=Math.min(100,G.hard.strength+2);
+   msg=&#x27;ROUTE MODEL // &#x27;+score+&#x27;% confidence // path updated&#x27;;
+ }
+ if(mode===&#x27;RISK&#x27;){
+   const risk=Math.max(1,100-c.survival+c.anomaly/2);
+   if(risk&gt;65){G.threat=Math.min(3,G.threat+1);G.trace=Math.min(100,G.trace+2)}
+   else G.focus=Math.min(100,G.focus+2);
+   msg=&#x27;RISK MODEL // &#x27;+Math.floor(risk)+&#x27;% operational exposure&#x27;;
+ }
+ if(mode===&#x27;CREW&#x27;){
+   n.crew.forEach(x=&gt;{if(x.job===&#x27;IDLE&#x27;)x.job=jobForRole(x.role)});
+   msg=&#x27;CREW PLAN // autonomous task assignment complete&#x27;;
+ }
+ n.events.push(msg);setNote(msg);renderFeature();
+}
+function missionDataTick(){
+ const n=G.net;if(!n)return;
+ // mission-specific computed telemetry
+ if(n.mission){
+   const staffed=n.crew.filter(c=&gt;c.job!==&#x27;IDLE&#x27;).length;
+   const gain=Math.max(1,staffed+Math.floor((G.hard.strength+G.nav.route)/100));
+   G.missionProgress=Math.min(100,(G.missionProgress||0)+gain);
+   if(G.trace&gt;75)n.events.push(&#x27;MISSION // trace contamination detected&#x27;);
+   if(G.ship.hull&lt;50)n.events.push(&#x27;MISSION // hull integrity affecting outcome model&#x27;);
+ }
+ // crew-generated logs
+ n.crew.forEach(c=&gt;{
+   if(c.job!==&#x27;IDLE&#x27; &amp;&amp; n.clock%4===0){
+     const st=crewMissionState(c);
+     n.events.push(c.name+&#x27; // &#x27;+c.job+&#x27; // &#x27;+st.efficiency+&#x27;% efficiency&#x27;);
+   }
+ });
+ if(n.events.length&gt;80)n.events=n.events.slice(-80);
+}
+
+function addStoryClue(t){
+ const s=G.net.story;if(!s.clues.includes(t))s.clues.push(t);
+ if(s.clues.length&gt;12)s.clues=s.clues.slice(-12);
+}
+function movieStoryTick(){
+ const s=G.net.story;s.movieTick++;
+ if(s.movieTick===2){addStoryClue(&#x27;SHIP REGISTRY // CREW: 5&#x27;);narrativeEvent(&#x27;SYSTEM&#x27;,&#x27;Crew registry mismatch detected.&#x27;)}
+ if(s.movieTick===5){s.fifth=&#x27;BUNK 05&#x27;;addStoryClue(&#x27;BUNK 05 // OCCUPIED&#x27;);narrativeEvent(&#x27;QUARTERS&#x27;,&#x27;Bunk 05 reports occupied. No heat signature detected.&#x27;)}
+ if(s.movieTick===9){s.phone=true;document.body.classList.add(&#x27;phoneRing&#x27;);setTimeout(()=&gt;document.body.classList.remove(&#x27;phoneRing&#x27;),2200);narrativeEvent(&#x27;AUDIO BUS&#x27;,&#x27;RING... RING... incoming analog telephone protocol.&#x27;)}
+ if(s.movieTick===14){addStoryClue(&#x27;CAMERA 04 // UNIDENTIFIED CREW SHADOW&#x27;);narrativeEvent(&#x27;SECURITY&#x27;,&#x27;Camera 04 recorded a fifth silhouette crossing Deck Two.&#x27;)}
+ if(s.movieTick===20){s.reality=&#x27;CONFLICT&#x27;;narrativeEvent(&#x27;TELEMETRY&#x27;,&#x27;Reality verification failed. Duplicate hull states detected.&#x27;)}
+ if(s.movieTick===27){addStoryClue(&#x27;BUNK 05 // DECEASED&#x27;);narrativeEvent(&#x27;QUARTERS&#x27;,&#x27;Bunk 05 status changed: DECEASED.&#x27;)}
+ if(s.movieTick===34){addStoryClue(&#x27;BUNK 05 // YOU&#x27;);s.afterimage++;narrativeEvent(&#x27;QUARTERS&#x27;,&#x27;Bunk 05 identity resolved: PLAYER BIOMETRIC MATCH.&#x27;)}
+ if(s.movieTick%18===0 &amp;&amp; s.reality===&#x27;CONFLICT&#x27;) falseRealityEvent();
+}
+function narrativeEvent(src,text){G.net.events.push(src+&#x27; // &#x27;+text);logEvent(&#x27;&lt;b&gt;&#x27;+src+&#x27;:&lt;/b&gt; &#x27;+text)}
+function falseRealityEvent(){
+ const lies=[
+  &#x27;HULL // 0% // MNEMOSYNE DESTROYED 19 YEARS AGO&#x27;,
+  &#x27;CREW // 5 // FIFTH MEMBER ONLINE&#x27;,
+  &#x27;REALSPACE // SIMULATION CONFIDENCE 51%&#x27;,
+  &#x27;HARDLINE // SOURCE: INSIDE SHIP&#x27;,
+  &#x27;MISSION // ITERATION &#x27;+(G.net.story.loop+2),
+  &#x27;PLAYER // STATUS: PREVIOUSLY DECEASED&#x27;
+ ];
+ const x=lies[(G.net.clock+G.turn)%lies.length];G.net.events.push(&#x27;CONFLICT // &#x27;+x);setNote(x);
+}
+function movieMysteryMarkup(){
+ const s=G.net.story;
+ return &#x27;&lt;div class=&quot;storyMystery&quot;&gt;&lt;h4&gt;AFTERIMAGE // REALITY INVESTIGATION&lt;/h4&gt;&#x27;+
+ kv(&#x27;CREW REGISTRY&#x27;,&#x27;5&#x27;,s.fifth===&#x27;UNKNOWN&#x27;?&#x27;warn&#x27;:&#x27;hot&#x27;)+
+ kv(&#x27;FIFTH PASSENGER&#x27;,s.fifth,&#x27;falseReadout&#x27;)+
+ kv(&#x27;REALITY&#x27;,s.reality,s.reality===&#x27;CONFLICT&#x27;?&#x27;falseReadout&#x27;:&#x27;&#x27;)+
+ kv(&#x27;ITERATION&#x27;,s.loop+1)+
+ &#x27;&lt;div class=&quot;consoleLog&quot;&gt;&#x27;+(s.clues.slice().reverse().join(&#x27;\n&#x27;)||&#x27;NO IMPOSSIBLE EVIDENCE YET&#x27;)+&#x27;&lt;/div&gt;&#x27;+
+ (s.phone?&#x27;&lt;button onclick=&quot;answerImpossiblePhone()&quot;&gt;ANSWER RINGING PHONE&lt;/button&gt;&#x27;:&#x27;&#x27;)+
+ &#x27;&lt;/div&gt;&#x27;;
+}
+function answerImpossiblePhone(){
+ const s=G.net.story;s.phone=false;s.afterimage++;addStoryClue(&#x27;CALLER // KNOWS FUTURE MISSION STATE&#x27;);
+ showCinema(&#x27;UNKNOWN CALLER&#x27;,&#x27;You should not be able to hear me yet. Whatever Tank tells you, do not let him open Node Seven.&#x27;,[[&#x27;WHO ARE YOU?&#x27;,&#x27;callerWho&#x27;],[&#x27;WHY NODE SEVEN?&#x27;,&#x27;callerNode&#x27;],[&#x27;DISCONNECT&#x27;,&#x27;callerDisconnect&#x27;]]);
+}
+function handleMovieChoice(id){
+ const s=G.net.story,r=G.net.relationships,d=G.net.director,p=G.net.powers;
+ if(id===&#x27;searchBunk5&#x27;){addStoryClue(&#x27;BUNK 05 // PERSONAL OBJECTS MATCH PLAYER&#x27;);s.afterimage+=2}
+ if(id===&#x27;questionTank&#x27;){r.TANK+=5;addStoryClue(&#x27;TANK // DENIES FIFTH CREW MEMBER&#x27;)}
+ if(id===&#x27;trustCaller&#x27;){s.flags.caller=true;r.TANK-=3;G.trace=Math.max(0,G.trace-5)}
+ if(id===&#x27;trustTank&#x27;){r.TANK+=8;s.flags.tank=true}
+ if(id===&#x27;openNode7&#x27;){d.hack+=2;G.trace+=12;p[&#x27;MIRROR KEY&#x27;]=1;addStoryClue(&#x27;NODE 7 // SOURCE EXISTS OUTSIDE TIMELINE&#x27;)}
+ if(id===&#x27;simTank&#x27;){s.afterimage++;addStoryClue(&#x27;SIM-TANK // REMEMBERS PREVIOUS ITERATION&#x27;)}
+ if(id===&#x27;realTank&#x27;){r.TANK+=5}
+ if(id===&#x27;askReality&#x27;){s.reality=&#x27;CONFLICT&#x27;;d.adapt++}
+ if(id===&#x27;trustNothing&#x27;){d.adapt+=2;s.afterimage++}
+ if(id===&#x27;tankHero&#x27;){r.TANK+=12;G.hard.strength=Math.min(100,G.hard.strength+20)}
+ if(id===&#x27;irisHero&#x27;){r.IRIS+=12;G.ship.reactor=Math.min(100,G.ship.reactor+20)}
+ if(id===&#x27;rookHero&#x27;){r.ROOK+=12;G.nav.route=Math.min(100,G.nav.route+25)}
+ if(id===&#x27;noxHero&#x27;){r.NOX+=12;G.intel+=5;p[&#x27;MEMORY FORK&#x27;]=1}
+ if(id===&#x27;rememberLoops&#x27;){s.loop++;s.afterimage+=3;addStoryClue(&#x27;MEMORY // PREVIOUS PLAYER ITERATION RECOVERED&#x27;)}
+ if(id===&#x27;breakLoop&#x27;){s.flags.breakLoop=true;s.afterimage+=2}
+ if(id===&#x27;callerWho&#x27;){addStoryClue(&#x27;CALLER // CLAIMS TO BE AFTERIMAGE OF PLAYER&#x27;);s.afterimage+=2}
+ if(id===&#x27;callerNode&#x27;){addStoryClue(&#x27;NODE 7 // CONNECTS TO PREVIOUS ITERATIONS&#x27;);s.afterimage++}
+ if(id===&#x27;callerDisconnect&#x27;){G.trace=Math.max(0,G.trace-3)}
 }
 function renderActions(){
  const p=$(&#x27;primary&#x27;);p.innerHTML=&#x27;&#x27;;const u=$(&#x27;utility&#x27;);u.innerHTML=&#x27;&#x27;;
@@ -2149,6 +2331,10 @@ function renderFeature(){
  if([&#x27;bridge&#x27;,&#x27;operator&#x27;,&#x27;matrix&#x27;,&#x27;archive&#x27;,&#x27;lab&#x27;].includes(G.view)){const box=$(&#x27;feature&#x27;);if(box)box.innerHTML+=cinematicMarkup();}
 
  if([&#x27;bridge&#x27;,&#x27;operator&#x27;,&#x27;matrix&#x27;].includes(G.view)){const box=$(&#x27;feature&#x27;);if(box)box.innerHTML+=cinematicImageMarkup();}
+
+ if([&#x27;bridge&#x27;,&#x27;operator&#x27;,&#x27;engineering&#x27;,&#x27;quarters&#x27;,&#x27;jack&#x27;,&#x27;matrix&#x27;,&#x27;archive&#x27;,&#x27;lab&#x27;].includes(G.view)){const box=$(&#x27;feature&#x27;);if(box)box.innerHTML+=missionConsoleMarkup();}
+
+ if([&#x27;bridge&#x27;,&#x27;operator&#x27;,&#x27;quarters&#x27;,&#x27;jack&#x27;,&#x27;matrix&#x27;,&#x27;archive&#x27;].includes(G.view)){const box=$(&#x27;feature&#x27;);if(box)box.innerHTML+=movieMysteryMarkup();}
 
 }
 function renderChallenge(f){
