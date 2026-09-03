@@ -242,7 +242,7 @@ h1{font-size:15px;letter-spacing:.16em;margin:0;color:var(--green);white-space:n
   </div>
   <button class="startPrimary" id="startGameBtn" type="button">START THE CAMPAIGN</button>
   <button class="startSecondary" id="continueGameBtn" type="button">CONTINUE SAVED GAME</button>
-  <div class="startNote">First mission: tune the correct power frequency, enter the button sequence, then unlock the Signal Deck. If unsure, press the yellow ADVANCE NEXT button.</div>
+  <div class="startNote">First mission is a tutorial: the correct frequency and button sequence are shown. Unlock the Signal Deck, complete one quick procedure, then continue. Press the yellow ADVANCE NEXT button anytime.</div>
  </div>
 </div>
 <canvas id="rain"></canvas><div class="scanlines"></div><div class="toast" id="toast"></div>
@@ -1351,6 +1351,14 @@ const storySequences={
 };
 function storyKeyForStage(st){return ['deck','city','archive','lab','core'][st]||'deck'}
 
+
+const EASY_PROGRESS={
+ deck:{showFreq:true,showCode:true,penaltyTrace:1,penaltyIntegrity:0,microRequired:1},
+ city:{showFreq:true,showCode:false,penaltyTrace:2,penaltyIntegrity:0,microRequired:2},
+ archive:{showFreq:false,showCode:false,penaltyTrace:3,penaltyIntegrity:1,microRequired:2},
+ lab:{showFreq:false,showCode:false,penaltyTrace:3,penaltyIntegrity:1,microRequired:3},
+ core:{showFreq:false,showCode:false,penaltyTrace:4,penaltyIntegrity:1,microRequired:3}
+};
 const AREA_LOCKS={
  deck:{name:'MNEMOSYNE SIGNAL DECK',freq:['110.7','202.2','303.3','404.4'],correctFreq:'303.3',code:['△','○','□','△'],scene:0},
  city:{name:'FRACTURE CITY ACCESS',freq:['77.1','88.8','101.0','121.2'],correctFreq:'88.8',code:['N','E','S','W','N'],scene:10},
@@ -1392,7 +1400,7 @@ function renderAreaLock(key){
  let sel=G.lockFreq[key]||'—';
  box.innerHTML=`<div class="areaLock ${unlocked?'unlocked':'locked'}">
   <div class="lockTitle"><h3>${cfg.name}</h3><span class="lockState">${unlocked?'UNLOCKED':'LOCKED'}</span></div>
-  <div class="lockReadout">${unlocked?'ACCESS GRANTED. Proceed with mission systems.':'STEP 1 — Tune the correct power frequency.<br>STEP 2 — Enter the correct push-button sequence.<br>STEP 3 — Open the door.'}<br>FREQUENCY: ${sel}<br>CODE: ${(G.lockCode[key]||[]).join(' → ')||'—'}</div>
+  <div class="lockReadout">${unlocked?'ACCESS GRANTED. Proceed with mission systems.':'STEP 1 — Tune the power frequency.<br>STEP 2 — Enter the button sequence.<br>STEP 3 — Open the door.'}<br>FREQUENCY: ${sel}<br>CODE: ${(G.lockCode[key]||[]).join(' → ')||'—'}${!unlocked&&EASY_PROGRESS[key]?.showFreq?`<br><b>HINT — Frequency: ${cfg.correctFreq}</b>`:''}${!unlocked&&EASY_PROGRESS[key]?.showCode?`<br><b>HINT — Sequence: ${cfg.code.join(' → ')}</b>`:''}</div>
   ${unlocked?'':`<div class="freqRow">${cfg.freq.map(f=>`<button class="freqBtn ${G.lockFreq[key]===f?'active':''}" data-lockfreq="${key}|${f}">${f}</button>`).join('')}</div>
   <div class="codeRow">${[...new Set(cfg.code)].map(c=>`<button class="codeBtn" data-lockcode="${key}|${c}">${c}</button>`).join('')}<button class="codeBtn" data-lockclear="${key}">CLEAR</button></div>
   <button class="lockProceed" data-unlock="${key}">UNLOCK DOOR</button>`}
@@ -1407,9 +1415,12 @@ function attemptAreaUnlock(key){
  const freqOK=G.lockFreq[key]===cfg.correctFreq;
  const codeOK=JSON.stringify(G.lockCode[key]||[])===JSON.stringify(cfg.code);
  if(!freqOK||!codeOK){
-   G.trace=clamp(G.trace+5,0,100);G.integrity=clamp(G.integrity-2,0,100);
-   toast(!freqOK?'WRONG POWER FREQUENCY':'WRONG BUTTON SEQUENCE');
-   G.lockCode[key]=[];directorEvent(true);renderAreaLock(key);updateHud();return;
+   const ep=EASY_PROGRESS[key]||{penaltyTrace:3,penaltyIntegrity:1};
+   G.trace=clamp(G.trace+(ep.penaltyTrace||0),0,100);
+   G.integrity=clamp(G.integrity-(ep.penaltyIntegrity||0),0,100);
+   toast(!freqOK?'TRY ANOTHER FREQUENCY':'SEQUENCE RESET — TRY AGAIN');
+   G.lockCode[key]=[];
+   renderAreaLock(key);updateHud();return;
  }
  G.areaLocks[key]=true;G.insight++;G.code+=3;
  addEvidence(cfg.name+' unlocked using frequency '+cfg.correctFreq+'.');
@@ -1423,18 +1434,21 @@ function renderSceneGallery(key){
 function renderMicroTasks(key){
  const box=$('#microTasks_'+key);if(!box)return;
  if(!G.areaLocks[key]){box.innerHTML='';return}
- const tasks=MICRO_TASKS[key], idx=Math.min(G.microTasks[key]||0,tasks.length);
- if(idx>=tasks.length){
+ const tasks=MICRO_TASKS[key], required=(EASY_PROGRESS[key]?.microRequired||tasks.length), idx=Math.min(G.microTasks[key]||0,required);
+ if(idx>=required){
    box.innerHTML=`<div class="microTask done"><b>AREA PROCEDURES COMPLETE</b><br><small>All interactive system checks passed. Continue to the chapter objective.</small></div>`;return;
  }
  const t=tasks[idx], opts=[t[1],t[2],t[3]].sort(()=>Math.random()-.5);
- box.innerHTML=`<div class="microTask"><b>INTERACTIVE PROCEDURE ${idx+1}/3 — ${t[0]}</b><p>Choose the correct control.</p><div class="microGrid">${opts.map(o=>`<button class="microBtn" data-micro="${key}|${o}">${o}</button>`).join('')}</div></div>`;
+ box.innerHTML=`<div class="microTask"><b>INTERACTIVE PROCEDURE ${idx+1}/${required} — ${t[0]}</b><p>Choose the correct control.${key==='deck'?' Hint: use the first highlighted system response.':''}</p><div class="microGrid">${opts.map(o=>`<button class="microBtn" data-micro="${key}|${o}">${o}</button>`).join('')}</div></div>`;
  $$('[data-micro]').forEach(b=>b.onclick=()=>{let [k,o]=b.dataset.micro.split('|');attemptMicroTask(k,o)});
 }
 function attemptMicroTask(key,choice){
  const idx=G.microTasks[key]||0,t=MICRO_TASKS[key][idx];
  if(choice!==t[1]){
-   G.trace=clamp(G.trace+3,0,100);toast('INCORRECT CONTROL — SYSTEM RESISTS');directorEvent(true);updateHud();return;
+   const ep=EASY_PROGRESS[key]||{penaltyTrace:2};
+   G.trace=clamp(G.trace+Math.max(1,Math.floor((ep.penaltyTrace||2)/2)),0,100);
+   toast('TRY AGAIN — CORRECT CONTROL: '+t[1]);
+   updateHud();return;
  }
  G.microTasks[key]=idx+1;G.focus=clamp(G.focus+1,0,10);G.insight++;
  toast('PROCEDURE COMPLETE');renderMicroTasks(key);updateGuide();save();
@@ -1442,7 +1456,7 @@ function attemptMicroTask(key,choice){
 function renderAllAreaSystems(){
  ['deck','city','archive','lab','core'].forEach(k=>{renderAreaLock(k);renderSceneGallery(k);renderMicroTasks(k)})
 }
-function areaReady(key){return !!G.areaLocks[key] && (G.microTasks[key]||0)>=3}
+function areaReady(key){return !!G.areaLocks[key] && (G.microTasks[key]||0)>=(EASY_PROGRESS[key]?.microRequired||3)}
 
 function renderStoryCheckpoint(key){
  const box=$('#storyCheckpoint_'+key);if(!box)return;
@@ -1491,7 +1505,7 @@ function nextStep(){
  const st=currentStageNumber();
  if(st===0){
    if(!G.areaLocks.deck) return {text:'Unlock this area first: tune the correct power frequency, then enter the correct push-button sequence.',action:()=>$('#areaLock_deck').scrollIntoView({behavior:'smooth',block:'start'}),label:'UNLOCK AREA'};
-   if((G.microTasks.deck||0)<3) return {text:'Complete the required interactive system procedure before the story continues.',action:()=>$('#microTasks_deck').scrollIntoView({behavior:'smooth',block:'center'}),label:'RUN AREA PROCEDURE'};
+   if((G.microTasks.deck||0)<(EASY_PROGRESS.deck?.microRequired||3)) return {text:'Complete the required interactive system procedure before the story continues.',action:()=>$('#microTasks_deck').scrollIntoView({behavior:'smooth',block:'center'}),label:'RUN AREA PROCEDURE'};
    if(!G.storyPagesComplete.deck) return {text:'Start here: choose one of the yellow story responses at the top of this page. After choosing, press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_deck').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
    if(!G.signal)return {text:'Scan the four carrier frequencies and find the ghost signal.',action:()=>document.querySelectorAll('.sig')[3]?.scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW SIGNAL SCANNER'};
    if(!G.deckPowerDone)return {text:'Restore Emergency Power Routing. Set the relays to CORE / OFF / CORE.',action:()=>$('#powerNodes').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW POWER PUZZLE'};
@@ -1500,7 +1514,7 @@ function nextStep(){
  }
  if(st===1){
    if(!G.areaLocks.city) return {text:'Unlock this area first: tune the correct power frequency, then enter the correct push-button sequence.',action:()=>$('#areaLock_city').scrollIntoView({behavior:'smooth',block:'start'}),label:'UNLOCK AREA'};
-   if((G.microTasks.city||0)<3) return {text:'Complete the required interactive system procedure before the story continues.',action:()=>$('#microTasks_city').scrollIntoView({behavior:'smooth',block:'center'}),label:'RUN AREA PROCEDURE'};
+   if((G.microTasks.city||0)<(EASY_PROGRESS.city?.microRequired||3)) return {text:'Complete the required interactive system procedure before the story continues.',action:()=>$('#microTasks_city').scrollIntoView({behavior:'smooth',block:'center'}),label:'RUN AREA PROCEDURE'};
    if(!G.storyPagesComplete.city) return {text:'Start here: choose one of the yellow story responses at the top of this page. After choosing, press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_city').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
    if(!G.cityScanDone)return {text:`Find the anomaly in each district. ${G.frags}/5 fragments recovered.`,action:()=>$('#scannerGrid').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW REALITY SCANNER'};
    if(!G.cityAgentDone)return {text:'Identify the Pursuit Process hiding among the resident profiles.',action:()=>$('#agentProfiles').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW PROFILES'};
@@ -1510,7 +1524,7 @@ function nextStep(){
  }
  if(st===2){
    if(!G.areaLocks.archive) return {text:'Unlock this area first: tune the correct power frequency, then enter the correct push-button sequence.',action:()=>$('#areaLock_archive').scrollIntoView({behavior:'smooth',block:'start'}),label:'UNLOCK AREA'};
-   if((G.microTasks.archive||0)<3) return {text:'Complete the required interactive system procedure before the story continues.',action:()=>$('#microTasks_archive').scrollIntoView({behavior:'smooth',block:'center'}),label:'RUN AREA PROCEDURE'};
+   if((G.microTasks.archive||0)<(EASY_PROGRESS.archive?.microRequired||3)) return {text:'Complete the required interactive system procedure before the story continues.',action:()=>$('#microTasks_archive').scrollIntoView({behavior:'smooth',block:'center'}),label:'RUN AREA PROCEDURE'};
    if(!G.storyPagesComplete.archive) return {text:'Start here: choose one of the yellow story responses at the top of this page. After choosing, press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_archive').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
    if(!G.archiveStoryDone)return {text:'Continue the ECHO conversation until you receive the root credential.',action:()=>$('#storyChoices').scrollIntoView({behavior:'smooth',block:'center'}),label:'CONTINUE STORY'};
    if(G.archiveLoom<3)return {text:`Reconstruct the Memory Loom. ${G.archiveLoom}/3 memories restored.`,action:()=>$('#loomPuzzle').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW MEMORY LOOM'};
@@ -1520,7 +1534,7 @@ function nextStep(){
  }
  if(st===3){
    if(!G.areaLocks.lab) return {text:'Unlock this area first: tune the correct power frequency, then enter the correct push-button sequence.',action:()=>$('#areaLock_lab').scrollIntoView({behavior:'smooth',block:'start'}),label:'UNLOCK AREA'};
-   if((G.microTasks.lab||0)<3) return {text:'Complete the required interactive system procedure before the story continues.',action:()=>$('#microTasks_lab').scrollIntoView({behavior:'smooth',block:'center'}),label:'RUN AREA PROCEDURE'};
+   if((G.microTasks.lab||0)<(EASY_PROGRESS.lab?.microRequired||3)) return {text:'Complete the required interactive system procedure before the story continues.',action:()=>$('#microTasks_lab').scrollIntoView({behavior:'smooth',block:'center'}),label:'RUN AREA PROCEDURE'};
    if(!G.storyPagesComplete.lab) return {text:'Start here: choose one of the yellow story responses at the top of this page. After choosing, press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_lab').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
    if(!G.constructCompileDone)return {text:'Choose exactly three programs within 7 capacity and compile a valid synergistic loadout.',action:()=>$('#programCards').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW PROGRAM DECK'};
    if(!G.labCalDone)return {text:'Calibrate the Construct in the order BODY → TIME → EXIT.',action:()=>$('#calKeys').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW CALIBRATION'};
@@ -1530,7 +1544,7 @@ function nextStep(){
  }
  if(st===4){
    if(!G.areaLocks.core) return {text:'Unlock this area first: tune the correct power frequency, then enter the correct push-button sequence.',action:()=>$('#areaLock_core').scrollIntoView({behavior:'smooth',block:'start'}),label:'UNLOCK AREA'};
-   if((G.microTasks.core||0)<3) return {text:'Complete the required interactive system procedure before the story continues.',action:()=>$('#microTasks_core').scrollIntoView({behavior:'smooth',block:'center'}),label:'RUN AREA PROCEDURE'};
+   if((G.microTasks.core||0)<(EASY_PROGRESS.core?.microRequired||3)) return {text:'Complete the required interactive system procedure before the story continues.',action:()=>$('#microTasks_core').scrollIntoView({behavior:'smooth',block:'center'}),label:'RUN AREA PROCEDURE'};
    if(!G.storyPagesComplete.core) return {text:'Start here: choose one of the yellow story responses at the top of this page. After choosing, press ADVANCE STORY PAGE.',action:()=>$('#storyCheckpoint_core').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW STORY DECISION'};
    if(G.coreFirewalls<3)return {text:`Break Root Firewall layer ${G.coreFirewalls+1}/3 by choosing the strongest rule.`,action:()=>$('#firewallPuzzle').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW FIREWALL'};
    if(G.echo>0)return {text:`Attack ECHO with your compiled programs. Coherence remaining: ${Math.round(G.echo)}%.`,action:()=>$('#bossActions').scrollIntoView({behavior:'smooth',block:'center'}),label:'SHOW ECHO CONTROLS'};
